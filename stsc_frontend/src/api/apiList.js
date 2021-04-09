@@ -5,11 +5,17 @@ import axios from "./api"; // 倒入 api
  */
 
 // 单独导出
-const userList = {
+const commonApiList = {
+  vcode: () => {
+    return axios({
+      url: "/userservice/user/getCode",
+      method: "get",
+    });
+  },
+};
+const userApiList = {
   login: (data) => {
     return axios({
-
-      
       url: "/userservice/user/login",
       method: "post",
       data,
@@ -27,5 +33,6 @@ const userList = {
 // 默认全部倒出
 // 根绝需要进行
 export default {
-  userList,
+  userApiList,
+  commonApiList,
 };

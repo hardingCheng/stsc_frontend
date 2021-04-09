@@ -91,16 +91,14 @@ export default function $axios(options) {
     // response 拦截器
     instance.interceptors.response.use(
       (response) => {
-        let data;
+        let data = response.data;
         if (response.data == undefined) {
           data = response.request.responseText;
-        } else {
-          data = response.data;
         }
         // 根据返回的code值来做不同的处理（和后端约定）
-        switch (data.code) {
-          case "200":
-            data = JSON.parse(response.data);
+        switch (response.status) {
+          case 200:
+            data = JSON.parse(data);
             break;
           default:
         }

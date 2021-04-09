@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-      adsad
+
   </div>
 </template>
 
