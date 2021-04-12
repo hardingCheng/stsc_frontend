@@ -31,9 +31,9 @@ export default function $axios(options) {
       (config) => {
         // TODO: 1
         // 请求开始的时候可以结合 vuex 开启全屏的 loading 动画
-        // store.mutations.modGlobalLoding(store.state);
-
+        store.commit("modGlobalLoding");
         // TODO: 2
+
         /*
         这里说一下token，一般是在登录完成之后，将用户的token通过localStorage或者cookie存在本地，然后用户每次在进入页面的时候（即在main.js中），
         会首先从本地存储中读取token，如果token存在说明用户已经登陆过，则更新vuex中的token状态。然后，在每次请求接口的时候，
@@ -48,7 +48,12 @@ export default function $axios(options) {
         if (store.state.token) {
           config.headers["Authorization"] = store.state.token;
         } else {
-          // 重定向到登录页面
+          // 重新回到登录页面
+          if (window.location.hash === "#/login") {
+            return;
+          } else {
+            router.push({ path: "/login" });
+          }
         }
 
         // TODO: 3
@@ -66,15 +71,15 @@ export default function $axios(options) {
         // 请求错误时做些事(接口错误、超时等)
         // TODO: 4
         // 关闭loadding
-        // store.mutations.modGlobalLoding(store.state);
+        store.commit("modGlobalLoding");
         //  1.判断请求超时
         if (
           error.code === "ECONNABORTED" &&
           error.message.indexOf("timeout") !== -1
         ) {
-          // 重复请求一次return service.request(originalRequest);//例如再重复请求一次
-          //全局提醒  刷新？
-          Message.error(`请求超时`);
+          // 重复请求一次
+          // 全局提醒  刷新？
+          Message.error(`请求超时，刷新页面重新获取`);
         }
         //  2.需要重定向到错误页面
         const errorInfo = error.response;
@@ -95,7 +100,6 @@ export default function $axios(options) {
         if (response.data == undefined) {
           data = response.request.responseText;
         }
-        // 根据返回的code值来做不同的处理（和后端约定）
         switch (response.status) {
           case 200:
             data = JSON.parse(data);
@@ -158,9 +162,8 @@ export default function $axios(options) {
             default:
           }
         }
-        // 此处我使用的是 element UI 的提示组件
+        // 此处使用的是 element UI 的提示组件
         Message.error(`ERROR: ${err.message}`);
-        // return Promise.reject(err); // 返回接口返回的错误信息
       }
     );
 

@@ -1,12 +1,12 @@
 <template>
-  <div class="header">
-    Header
+  <div class="science-consulting">
+    ScienceConsulting
   </div>
 </template>
 
 <script>
 export default {
-  name: "Header"
+  name: "ScienceConsulting"
 };
 </script>
 

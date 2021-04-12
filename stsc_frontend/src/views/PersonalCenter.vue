@@ -1,12 +1,12 @@
 <template>
-  <div class="header">
-    Header
+  <div class="personal-center">
+    PersonalCenter
   </div>
 </template>
 
 <script>
 export default {
-  name: "Header"
+  name: "PersonalCenter"
 };
 </script>
 

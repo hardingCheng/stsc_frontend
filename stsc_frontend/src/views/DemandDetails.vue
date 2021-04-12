@@ -1,12 +1,12 @@
 <template>
-  <div class="header">
-    Header
+  <div class="demand-details">
+    DemandDetails
   </div>
 </template>
 
 <script>
 export default {
-  name: "Header"
+  name: "DemandDetails"
 };
 </script>
 

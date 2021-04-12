@@ -4,4 +4,8 @@
   </div>
 </template>
 
-<style lang="scss"></style>
+<style lang="scss">
+@import './styles/reset';
+@import './styles/base';
+</style>
+

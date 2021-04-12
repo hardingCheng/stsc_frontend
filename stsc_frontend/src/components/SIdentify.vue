@@ -25,8 +25,8 @@ export default {
       lineColorMax: 180,
       dotColorMin: 0,
       dotColorMax: 255,
-      contentWidth: 160,
-      contentHeight: 50
+      contentWidth: 150,
+      contentHeight: 40
     }
   },
   methods: {

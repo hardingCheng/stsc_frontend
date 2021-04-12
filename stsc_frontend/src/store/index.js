@@ -9,10 +9,15 @@ export default new Vuex.Store({
     golabelLoding: false,
   },
   mutations: {
-    modGlobalLoding(state) {
+    modGlobalLoding: (state) => {
       state.golabelLoding = !state.golabelLoding;
     },
   },
   actions: {},
+  getters: {
+    getToken: (state) => {
+      return state.token;
+    },
+  },
   modules: {},
 });

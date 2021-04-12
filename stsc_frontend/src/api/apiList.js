@@ -4,19 +4,20 @@ import axios from "./api"; // 倒入 api
  * 如果项目很大可以将 url 独立成文件，接口分成不同的模块
  */
 
-// 单独导出
+// 公共API
 const commonApiList = {
   vcode: () => {
     return axios({
-      url: "/userservice/user/getCode",
+      url: "/userservice/localuser/getCode",
       method: "get",
     });
   },
 };
+// 用户API
 const userApiList = {
   login: (data) => {
     return axios({
-      url: "/userservice/user/login",
+      url: "/userservice/localuser/login",
       method: "post",
       data,
     });
@@ -29,10 +30,27 @@ const userApiList = {
     });
   },
 };
-
+// 后台API
+const backstageApiList = {
+  login: (data) => {
+    return axios({
+      url: "/userservice/localuser/login",
+      method: "post",
+      data,
+    });
+  },
+  mock: (params) => {
+    return axios({
+      url: "/mock",
+      method: "get",
+      params,
+    });
+  },
+};
 // 默认全部倒出
 // 根绝需要进行
 export default {
   userApiList,
   commonApiList,
+  backstageApiList,
 };

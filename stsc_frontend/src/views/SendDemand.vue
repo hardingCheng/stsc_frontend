@@ -1,12 +1,12 @@
 <template>
-  <div class="header">
-    Header
+  <div class="send-demand">
+    SendDemand
   </div>
 </template>
 
 <script>
 export default {
-  name: "Header"
+  name: "SendDemand"
 };
 </script>
 
