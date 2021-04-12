@@ -10,7 +10,7 @@ response (响应)拦截器，例如：统一错误处理，页面重定向等
 import axios from "axios"; // 注意先安装哦
 import config from "./config.js"; // 倒入默认配置
 import qs from "qs"; // 序列化请求数据，视服务端的要求
-import { Message } from "element-ui"; //全局错误弹窗
+import { Message } from "element-ui"; // 全局错误弹窗
 import store from "../store";
 import router from "../router";
 export default function $axios(options) {
