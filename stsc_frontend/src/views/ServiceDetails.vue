@@ -1,6 +1,6 @@
 <template>
   <div class="service-details">
-
+    ServiceDetails
   </div>
 </template>
 
