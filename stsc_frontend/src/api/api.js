@@ -45,13 +45,13 @@ export default function $axios(options) {
 
         //带上 token , 可以结合 vuex 或者重 localStorage
         //前期先使用vuex 后期localStorage  方便拿取
-        if (store.state.token) {
+
+        // TODO: 有个小BUG
+        if (store.state.token ) {
           config.headers["Authorization"] = store.state.token;
         } else {
-          // 重新回到登录页面
-          if (window.location.hash === "#/login") {
-            return;
-          } else {
+          config.headers["Authorization"] = "";
+          if (["#/login","/signup"].includes(window.location.hash)) {
             router.push({ path: "/login" });
           }
         }
@@ -97,7 +97,7 @@ export default function $axios(options) {
     instance.interceptors.response.use(
       (response) => {
         let data = response.data;
-        if (response.data == undefined) {
+        if (response.data === undefined) {
           data = response.request.responseText;
         }
         switch (response.status) {
@@ -113,6 +113,7 @@ export default function $axios(options) {
         return data;
       },
       (err) => {
+        console.log(err)
         if (err && err.response) {
           switch (err.response.status) {
             case 400:

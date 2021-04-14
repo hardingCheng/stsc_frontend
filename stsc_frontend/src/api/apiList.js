@@ -8,7 +8,7 @@ import axios from "./api"; // 倒入 api
 const commonApiList = {
   vcode: () => {
     return axios({
-      url: "/userservice/localuser/getCode",
+      url: "/stcsp/localuser/getCode",
       method: "get",
     });
   },
@@ -17,7 +17,14 @@ const commonApiList = {
 const userApiList = {
   login: (data) => {
     return axios({
-      url: "/userservice/localuser/login",
+      url: "/stcsp/localuser/login",
+      method: "post",
+      data,
+    });
+  },
+  register: (data) => {
+    return axios({
+      url: "/stcsp/localuser/register",
       method: "post",
       data,
     });

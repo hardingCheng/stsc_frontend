@@ -1,16 +1,13 @@
 <template>
   <div>
-    <Header/>
+
   </div>
 </template>
 
 <script>
-import Header from '../components/Header'
+
 export default {
-  name: "Index",
-  components:{
-    Header
-  }
+  name: "Index"
 };
 </script>
 

@@ -2,6 +2,11 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import store from "../store/index"; //vuex
 import { Message } from "element-ui"; //全局错误弹窗
+// 解决ElementUI导航栏中的vue-router在3.0版本以上重复点菜单报错问题
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 Vue.use(VueRouter);
 const routes = [
   {
@@ -14,6 +19,7 @@ const routes = [
         path: "/index",
         name: "index",
         component: () => import("../views/Index.vue"),
+        meta: { requiresAuth: false },
       },
       {
         path: "/ld",
@@ -71,16 +77,19 @@ const routes = [
     path: "/login",
     name: "login",
     component: () => import("../views/Login.vue"),
+    meta: { requiresAuth: false },
   },
   {
-    path: "/register",
-    name: "register",
-    component: () => import("../views/Register.vue"),
+    path: "/signup",
+    name: "signup",
+    component: () => import("../views/SignUp"),
+    meta: { requiresAuth: false },
   },
   {
     path: "/error/:type",
     name: "error",
     component: () => import("../views/Error.vue"),
+    meta: { requiresAuth: false },
     props: true,
   },
   {
@@ -97,7 +106,7 @@ const router = new VueRouter({
 
 // 导航守卫  全局前置守卫
 // 路由元信息
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, fromss, next) => {
   const token = localStorage.getItem("token");
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     // 此路由需要身份验证，请检查是否已登录
