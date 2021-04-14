@@ -25,7 +25,7 @@ export default {
       lineColorMax: 180,
       dotColorMin: 0,
       dotColorMax: 255,
-      contentWidth: 150,
+      contentWidth: 140,
       contentHeight: 40
     }
   },
@@ -63,7 +63,7 @@ export default {
       ctx.font = this.randomNum(this.fontSizeMin, this.fontSizeMax) + 'px SimHei' //字体大小
       ctx.textBaseline = 'alphabetic' //基线对齐
       let x = (i + 1) * (this.contentWidth / (this.identifyCode.length + 1))
-      let y = this.randomNum(this.fontSizeMax, this.contentHeight - 5)
+      let y = this.randomNum(this.fontSizeMax, this.contentHeight - 15)
       var deg = this.randomNum(-45, 45)
       // 修改坐标原点和旋转角度
       ctx.translate(x, y)//移动不同位置  参数偏移量
@@ -93,6 +93,16 @@ export default {
         ctx.arc(this.randomNum(0, this.contentWidth), this.randomNum(0, this.contentHeight), 1, 0, 2 * Math.PI)
         ctx.fill() //通过填充路径的内容区域生成实心的图形。
       }
+    },
+    async getCode(){
+      let result = await this.$axios.commonApiList.vcode();
+      if (result) {
+        this.$store.commit('modFormCode',result.data.code)
+        this.drawPic(result.data.code)
+      }else {
+        this.$store.commit('modFormCode',"xwr5")
+        this.drawPic("xwr5")
+      }
     }
   },
   watch: {
@@ -101,8 +111,7 @@ export default {
     }
   },
   async mounted() {
-    let result = await this.$axios.commonApiList.vcode();
-    this.drawPic(result.data.code)
+    await this.getCode()
   }
 }
 </script>
