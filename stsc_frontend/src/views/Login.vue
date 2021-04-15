@@ -41,7 +41,7 @@ import SIdentify from "../components/SIdentify";
 import { validatorInput } from "../tools/verification/validata"
 export default {
   name: "Login",
-  components: {SIdentify},
+  components: { SIdentify },
   data() {
     return {
       form: {
