@@ -53,7 +53,7 @@ export default {
       this.$refs.sidentify.getCode()
     },
     async registerForm(){
-      const {errors,isValid} = validatorSignUpInput(this.form)
+      const { errors,isValid } = validatorSignUpInput(this.form)
       if(isValid) {
         const result = await this.$axios.userApiList.register({
           username:this.form.username,

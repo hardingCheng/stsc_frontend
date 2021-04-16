@@ -5,7 +5,7 @@
       <div class="login-verificationInfo">{{errors.errorlogin}}</div>
       <el-form-item label="账号" >
         <el-input type="text" placeholder="请输入账号" @input="errors.username =''" v-model="form.username"/>
-        <div class="el-form-item__error">{{ersrors.username}}</div>
+        <div class="el-form-item__error">{{errors.username}}</div>
       </el-form-item>
       <el-form-item label="密码" >
         <el-input type="password" placeholder="请输入密码" @input="errors.password =''" v-model="form.password"/>

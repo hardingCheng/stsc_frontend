@@ -1,4 +1,4 @@
-
+import axios from "../../api/apiList";
 const _ = require("lodash")
 const validator = require('validator');
 let errors = {}
@@ -6,7 +6,7 @@ let errors = {}
 export const validatorInput = (data) => {
     if (validator.isEmpty(data.username)) {
         errors.username = "请输入手机号"
-    }else if(validator.isMobilePhone(data.username)){
+    }else if(!/^1[3-9]\d{9}$/.test(data.username)){
         errors.username = "手机号格式错误"
     }
     if (validator.isEmpty(data.password)) {
@@ -25,7 +25,7 @@ export const validatorSignUpInput = (data) => {
     validatorInput(data)
     if (validator.isEmpty(data.passwordConfirm)) {
         errors.passwordConfirm = "请再次输入密码"
-    }else if(validator.equals(data.passwordConfirm,data.password)){
+    }else if(!validator.equals(data.passwordConfirm,data.password)){
         errors.passwordConfirm = "两次输入密码不一致"
     }
     return {
