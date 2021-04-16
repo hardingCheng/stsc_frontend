@@ -2,15 +2,18 @@
   <div>
     <Header/>
     <router-view />
+    <Footer/>
   </div>
 </template>
 
 <script>
+import Footer from "../components/Footer";
 import Header from '../components/Header'
 export default {
   name: "Home",
   components:{
-    Header
+    Header,
+    Footer
   },
   data(){
     return{

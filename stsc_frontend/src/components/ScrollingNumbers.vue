@@ -7,6 +7,7 @@
 <script>
 import countTo from 'vue-count-to';
 export default {
+  props:['startVal','endVal'],
   name: "ScrollingNumbers",
   components: {
     countTo
@@ -14,8 +15,8 @@ export default {
   data () {
     return {
       countObject:{
-        startVal: 0, // 想开始的价值
-        endVal: 2017, // 达到的价值
+        startVal: parseInt(this.startVal), // 想开始的价值
+        endVal: parseInt(this.endVal), // 达到的价值
         duration:3000,// 持续时间（毫秒）
         autoplay:true,// 自动播放时
         separator:',',//数字分隔 ，

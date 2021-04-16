@@ -43,6 +43,7 @@ import {
   Submenu,
   RadioGroup,
   RadioButton,
+  Card
 } from "element-ui";
 const element = {
   install: function (Vue) {
@@ -87,6 +88,7 @@ const element = {
     Vue.use(Submenu);
     Vue.use(RadioGroup);
     Vue.use(RadioButton);
+    Vue.use(Card)
     Vue.prototype.$message = Message;
     // Vue.prototype.$confirm = MessageBox.confirm;
     // Vue.prototype.$alert = MessageBox.alert;
