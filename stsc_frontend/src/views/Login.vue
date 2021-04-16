@@ -5,7 +5,7 @@
       <div class="login-verificationInfo">{{errors.errorlogin}}</div>
       <el-form-item label="账号" >
         <el-input type="text" placeholder="请输入账号" @input="errors.username =''" v-model="form.username"/>
-        <div class="el-form-item__error">{{errors.username}}</div>
+        <div class="el-form-item__error">{{ersrors.username}}</div>
       </el-form-item>
       <el-form-item label="密码" >
         <el-input type="password" placeholder="请输入密码" @input="errors.password =''" v-model="form.password"/>
@@ -20,7 +20,7 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" :disabled="isValid"  v-on:click="loginForm">登录</el-button>
-        <el-button type="primary" v-on:click="loginForm">重置</el-button>
+        <el-button type="primary" v-on:click="loginForm1">重置</el-button>
       </el-form-item>
     </el-form>
 
@@ -67,7 +67,11 @@ export default {
     },
     getNewCode(){
       this.$refs.sidentify.getCode()
+    },
+    loginForm1(){
+
     }
+
   }
 }
 </script>

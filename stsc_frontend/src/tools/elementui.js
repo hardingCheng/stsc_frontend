@@ -87,8 +87,7 @@ const element = {
     Vue.use(Submenu);
     Vue.use(RadioGroup);
     Vue.use(RadioButton);
-    //
-    // Vue.prototype.$message = Message;
+    Vue.prototype.$message = Message;
     // Vue.prototype.$confirm = MessageBox.confirm;
     // Vue.prototype.$alert = MessageBox.alert;
     // Vue.prototype.$notify = Notification;
