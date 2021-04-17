@@ -6,7 +6,7 @@ import "element-ui/lib/theme-chalk/index.css";
 import element from "./tools/elementui";
 import axios from "./api/apiList";
 import VueLazyload from 'vue-lazyload'
-
+import * as echarts from 'echarts'
 Vue.use(element);
 Vue.use(VueLazyload, {
   preLoad: 1.3,// 预加载高度比例
@@ -16,6 +16,7 @@ Vue.use(VueLazyload, {
 })
 Vue.config.productionTip = false;
 Vue.prototype.$axios = axios;
+Vue.prototype.$echarts = echarts;
 new Vue({
   router,
   store,

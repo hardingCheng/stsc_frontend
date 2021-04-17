@@ -19,7 +19,7 @@
        </div>
      </div>
     </div>
-    <div class="header-bottom">
+    <div class="header-bottom" id="header-bottom">
       <div class="container">
        <div class="header-main-nav">
          <el-row :gutter="20">
@@ -56,7 +56,20 @@
 
 <script>
 export default {
-  name: "Header"
+  name: "Header",
+  mounted() {
+    window.addEventListener('scroll', this.handleScroll)
+  },
+  methods: {
+    handleScroll() {
+      let scrollY = document.documentElement.scrollTop
+      if (scrollY > 250) {
+        document.getElementById('header-bottom').style.setProperty("background","#1794FF")
+      } else {
+        document.getElementById('header-bottom').style.setProperty("background","")
+      }
+    }
+  }
 };
 </script>
 

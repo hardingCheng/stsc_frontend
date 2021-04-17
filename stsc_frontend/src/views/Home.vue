@@ -1,6 +1,8 @@
 <template>
   <div>
-    <Header/>
+    <div class="header-nav">
+      <Header/>
+    </div>
     <router-view />
     <Footer/>
   </div>
@@ -27,5 +29,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+.header-nav {
+  position: fixed;
+  top: 0;
+  z-index:99999;
+  width: 100%;
+}
 </style>

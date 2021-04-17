@@ -188,6 +188,7 @@
             <div class="resource-service-space-main">
               <div class="resource-service-space-top clearfix">
                 <div class="title fl">资源服务空间</div>
+                <div id="chart" :style="{width: '400px', height: '400px',margin: '60px auto 0 auto'}"></div>
               </div>
             </div>
           </div>
@@ -329,6 +330,133 @@ export default {
     Swiper,
     SwiperSlide,
     ScrollingNumbers
+  },
+  mounted(){
+    this.drawLine();
+  },
+  methods: {
+    drawLine(){
+      // 基于准备好的dom，初始化echarts实例
+      console.log(123)
+      let myChart = this.$echarts.init(document.getElementById('chart'))
+      let msg = [
+        {
+          research: 1123,
+          biotechnology: 1434,
+          intellectual: 13241,
+          examinations: 13252,
+          service1: 12314,
+          service2: 154,
+          service3: 1234,
+          service4: 1545,
+        },
+        {
+          research: 12341,
+          biotechnology: 66,
+          intellectual: 16457,
+          examinations: 16525,
+          service1: 1213,
+          service2: 15774,
+          service3: 19446,
+          service4: 134,
+        },
+        {
+          examinations: 1,
+          service1: 1,
+          service2: 1,
+          service3: 1,
+          service4: 1,
+        },
+        {
+          research: 1,
+          biotechnology: 1,
+          intellectual: 1,
+          examinations: 1,
+          service1: 1,
+          service2: 1,
+          service3: 1,
+          service4: 1,
+        },
+        {
+          research: 1,
+          biotechnology: 1,
+          intellectual: 1,
+          examinations: 1,
+          service3: 1,
+          service4: 1,
+        },
+        {
+          research: 1,
+          biotechnology: 1,
+          intellectual: 1,
+          examinations: 1,
+          service1: 1,
+          service2: 1,
+          service3: 1,
+          service4: 1,
+        },
+      ];
+      let option = {
+        tooltip: {
+          trigger: "item",
+          formatter: function (params) {
+            var htmlStr = "<div>";
+            var span ='<span style="width: 10px;height: 10px;background-color: '+params.color+' ;border-radius: 50%;display: inline-block;margin-right: 5px;"></span>'
+            htmlStr+=(span+"数据来源:"+params.name+"<br/>");
+            htmlStr+=(span+"数据总条数:"+params.value+"条<br/>");
+            msg[params.dataIndex].research === undefined ? htmlStr+="":htmlStr += (span+"研究开发:" + msg[params.dataIndex].research + "条<br/>");
+            msg[params.dataIndex].biotechnology === undefined ? htmlStr+="":htmlStr += (span+"技术转移:" + msg[params.dataIndex].biotechnology + "条<br/>");
+            msg[params.dataIndex].intellectual === undefined ? htmlStr+="":htmlStr += (span+"知识产权:" + msg[params.dataIndex].intellectual + "条<br/>");
+            msg[params.dataIndex].examinations === undefined ? htmlStr+="":htmlStr += (span+"检验检测:" + msg[params.dataIndex].examinations + "条<br/>");
+            msg[params.dataIndex].service1 === undefined ? htmlStr+="":htmlStr += (span+"其他1:" + msg[params.dataIndex].service1 + "条<br/>");
+            msg[params.dataIndex].service2 === undefined ? htmlStr+="":htmlStr += (span+"其他2:" + msg[params.dataIndex].service2 + "条<br/>");
+            msg[params.dataIndex].service3 === undefined ? htmlStr+="":htmlStr += (span+"其他3:" + msg[params.dataIndex].service3 + "条<br/>");
+            msg[params.dataIndex].service4 === undefined ? htmlStr+="":htmlStr += (span+"其他4:" + msg[params.dataIndex].service4 + "条<br/>");
+            return htmlStr;
+          },
+        },
+        legend: {
+          top: "5%",
+          left: "center",
+        },
+        series: [
+          {
+            name: "数据来源",
+            type: "pie",
+            radius: ["40%", "70%"],
+            avoidLabelOverlap: false,
+            itemStyle: {
+              borderRadius: 10,
+              borderColor: "#fff",
+              borderWidth: 2,
+            },
+            label: {
+              show: false,
+              position: "center",
+            },
+            emphasis: {
+              label: {
+                show: true,
+                fontSize: "40",
+                fontWeight: "bold",
+              },
+            },
+            labelLine: {
+              show: false,
+            },
+            data: [
+              { value: 23133123, name: "知网" },
+              { value: 3424234, name: "陕西" },
+              { value: 3242252, name: "上海" },
+              { value: 4535353, name: "其他1" },
+              { value: 133144, name: "其他2" },
+            ],
+          },
+        ],
+      };
+      // 绘制图表
+      myChart.setOption(option)
+    }
   }
 };
 </script>

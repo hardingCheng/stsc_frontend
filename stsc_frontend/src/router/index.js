@@ -115,6 +115,7 @@ router.beforeEach((to, fromss, next) => {
       Message.error({
         message: `请先登录！登录后查看！`,
         duration: 1000,
+        offset:40
       });
       setTimeout(() => {
         next({

@@ -6,6 +6,7 @@
 
 <style lang="scss">
 @import './styles/reset';
+@import './styles/config';
 @import './styles/base';
 </style>
 

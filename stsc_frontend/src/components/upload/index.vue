@@ -98,10 +98,16 @@ export default {
       const isFileFormat = ["image/jpg","image/jpeg","image/png","application/pdf"].includes(file.type);
       const isLt10M = file.size / 1024 / 1024 < 1000;
       if (!isFileFormat) {
-        this.$message.error(file.name+'上传文件只能是 JPG,PNG,PDF 格式!');
+        this.$message.error({
+          message:file.name+'上传文件只能是 JPG,PNG,PDF 格式!',
+          offset:40
+        });
       }
       if (!isLt10M) {
-        this.$message.error(file.name+'上传文件大小不能超过 20MB!');
+        this.$message.error({
+          message:file.name+'上传文件大小不能超过 20MB!',
+          offset:40
+        });
       }
       return isFileFormat && isLt10M;
     },

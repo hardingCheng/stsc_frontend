@@ -79,7 +79,10 @@ export default function $axios(options) {
         ) {
           // 重复请求一次
           // 全局提醒  刷新？
-          Message.error(`请求超时，刷新页面重新获取`);
+          Message.error({
+            message:`请求超时，刷新页面重新获取`,
+            offset:40
+          });
         }
         //  2.需要重定向到错误页面
         const errorInfo = error.response;
@@ -163,8 +166,12 @@ export default function $axios(options) {
             default:
           }
         }
+
         // 此处使用的是 element UI 的提示组件
-        Message.error(`ERROR: ${err.message}`);
+        Message.error({
+          message:`ERROR: ${err.message}`,
+          offset:40
+        });
       }
     );
 
