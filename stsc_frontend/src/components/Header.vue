@@ -19,6 +19,9 @@
                </div>
              </el-col>
            </el-row>
+           <div class="header-login-nav-right-notification" v-if="notificationShow">
+             <message-notification class="myPanel"></message-notification>
+           </div>
          </div>
        </div>
      </div>
@@ -60,16 +63,19 @@
 
 <script>
 import store from "../store";
+import MessageNotification from "./MessageNotification";
 
 export default {
   name: "Header",
+  components: {MessageNotification},
   data(){
     return {
-
+      notificationShow:false,
     }
   },
   mounted() {
     this.handleHeader()
+    this.myPanel()
   },
   watch: {
     $route(to,from) {
@@ -80,7 +86,7 @@ export default {
         document.getElementById('header-bottom').style.setProperty("background","#1794FF")
         window.removeEventListener("scroll",this.handleScroll)
       }
-    }
+    },
   },
   methods: {
     handleClick(tab, event) {
@@ -102,6 +108,27 @@ export default {
         document.getElementById('header-bottom').style.setProperty("background","#1794FF")
         window.removeEventListener("scroll",this.handleScroll)
       }
+    },
+    myPanel(){
+      document.addEventListener('click', (e)=> {
+        if (e.target.className ==='el-icon-bell header-login-nav-i' || e.target.className ==='el-badge__content el-badge__content--undefined is-fixed'){
+          this.notificationShow = !this.notificationShow
+        }else {
+          let arr = Array.from(e.path);
+          let result = arr.filter((item,index) => {
+            if (item.classList){
+              let arr1 = Array.from(item.classList)
+              if( arr1.length !==0){
+                arr1 = Array.from(arr1)
+                return arr1.indexOf("myPanel") === 1
+              }
+            }
+          })
+          if(result.length === 0){
+            this.notificationShow = false
+          }
+        }
+      })
     }
   },
 };
@@ -112,7 +139,7 @@ export default {
 .header {
   position: fixed;
   top: 0;
-  z-index:99999;
+  z-index:1999;
   width: 100%;
   height: 110px;
   .header-top {
@@ -135,6 +162,12 @@ export default {
           }
           .header-login-nav-avatar {
             padding-top: 5px;
+          }
+          .header-login-nav-right-notification {
+            position: absolute;
+            top: 40px;
+            left: -120px;
+            z-index:9999;
           }
         }
       }

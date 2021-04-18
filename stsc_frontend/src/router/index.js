@@ -19,37 +19,36 @@ const routes = [
         path: "/index",
         name: "index",
         component: () => import("../views/Index.vue"),
-
       },
       {
         path: "/ld",
         name: "ld",
         component: () => import("../views/LookingDemand.vue"),
-
+        meta: { requiresAuth: true },
       },
       {
         path: "/ls",
         name: "ls",
         component: () => import("../views/LookingService.vue"),
-
+        meta: { requiresAuth: true },
       },
       {
         path: "/sc",
         name: "sc",
         component: () => import("../views/ScienceConsulting.vue"),
-
+        meta: { requiresAuth: true },
       },
       {
         path: "/pc",
         name: "pc",
         component: () => import("../views/PersonalCenter.vue"),
-
+        meta: { requiresAuth: true },
       },
       {
         path: "/sd",
         name: "sd",
         component: () => import("../views/SendDemand.vue"),
-
+        meta: { requiresAuth: true },
       },
       {
         path: "/ss",
