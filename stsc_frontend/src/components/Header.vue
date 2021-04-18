@@ -6,26 +6,30 @@
          <div class="header-login-nav-left fl">欢迎您的到来!</div>
          <div class="header-login-nav-right fr">
            <el-row :gutter="20">
-             <el-col :span="12"><div class="header-login-nav-info">
+             <el-col :span="12">
+               <div class="header-login-nav-info">
                <el-badge :value="12" class="item">
                  <i class="el-icon-bell header-login-nav-i"></i>
                </el-badge>
-             </div></el-col>
-             <el-col :span="12"><div class="header-login-nav-avatar">
-               <el-avatar size="small" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></el-avatar>
-             </div></el-col>
+             </div>
+             </el-col>
+             <el-col :span="12">
+               <div class="header-login-nav-avatar">
+                <el-avatar size="small" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></el-avatar>
+               </div>
+             </el-col>
            </el-row>
          </div>
        </div>
      </div>
     </div>
-    <div class="header-bottom" id="header-bottom">
+    <div class="header-bottom clearfix" id="header-bottom">
       <div class="container">
        <div class="header-main-nav">
          <el-row :gutter="20">
            <el-col :span="4">
              <div class="header-main-logo">
-              <router-link to="/login">LOGO</router-link>
+              <router-link to="/index">LOGO</router-link>
              </div>
            </el-col>
            <el-col :span="16">
@@ -55,46 +59,82 @@
 </template>
 
 <script>
+import store from "../store";
+
 export default {
   name: "Header",
+  data(){
+    return {
+
+    }
+  },
   mounted() {
-    window.addEventListener('scroll', this.handleScroll)
+    this.handleHeader()
+  },
+  watch: {
+    $route(to,from) {
+      if (to.name === 'index'){
+        document.getElementById('header-bottom').style.setProperty("background","transparent")
+        window.addEventListener("scroll",this.handleScroll)
+      }else {
+        document.getElementById('header-bottom').style.setProperty("background","#1794FF")
+        window.removeEventListener("scroll",this.handleScroll)
+      }
+    }
   },
   methods: {
+    handleClick(tab, event) {
+      console.log(tab, event);
+    },
     handleScroll() {
       let scrollY = document.documentElement.scrollTop
       if (scrollY > 250) {
         document.getElementById('header-bottom').style.setProperty("background","#1794FF")
       } else {
-        document.getElementById('header-bottom').style.setProperty("background","")
+        document.getElementById('header-bottom').style.setProperty("background","transparent")
+      }
+    },
+    handleHeader(){
+      if (this.$router.history.current.name === 'index'){
+        document.getElementById('header-bottom').style.setProperty("background","transparent")
+        window.addEventListener("scroll",this.handleScroll)
+      }else {
+        document.getElementById('header-bottom').style.setProperty("background","#1794FF")
+        window.removeEventListener("scroll",this.handleScroll)
       }
     }
-  }
+  },
 };
 </script>
 
 <style lang="scss" scoped>
+@import '../styles/mixin';
 .header {
+  position: fixed;
+  top: 0;
+  z-index:99999;
+  width: 100%;
+  height: 110px;
   .header-top {
-    width:100%;
-    height:40px;
+    @include wh(100%,40px);
     background: #FBFBFB;
-    overflow:hidden;
     .container {
       .header-login-nav {
         line-height:40px;
         .header-login-nav-left {
-          font-size: 14px;
-          font-family: PingFangSC-Regular, PingFang SC;
-          font-weight: 400;
-          color: #666666;
+          @include font-config(14px,'PingFangSC-Regular, PingFang SC',400,#666666)
         }
         .header-login-nav-right {
-          margin-top:5px;
+          position: relative;
+          height:40px;
           .header-login-nav-info {
             .header-login-nav-i {
+              padding-top: 5px;
               font-size: 25px;
             }
+          }
+          .header-login-nav-avatar {
+            padding-top: 5px;
           }
         }
       }
@@ -106,10 +146,7 @@ export default {
       .header-main-logo {
         a {
           line-height:70px;
-          font-size: 30px;
-          font-family: PingFangSC-Medium, PingFang SC;
-          font-weight: 500;
-          color: #FFFFFF;
+          @include font-config(30px,'PingFangSC-Regular, PingFang SC',500,#FFFFFF)
         }
       }
       .header-main-bar {
@@ -118,12 +155,10 @@ export default {
           justify-content:flex-end;
           li {
             height:69px;
-            line-height:70px;
+            line-height:69px;
             margin-left:59px;
-            font-size: 16px;
-            font-weight: 500;
-            color: #FFFFFF;
             cursor: pointer;
+            @include font-config(16px,'PingFangSC-Regular, PingFang SC',500,#FFFFFF);
             &:last-child{
               margin-right: 20px;
             }
@@ -141,13 +176,10 @@ export default {
             text-align: center;
             line-height:40px;
             box-sizing: border-box;
-            height: 40px;
-            width: 92px;
             border:1px solid #FFFFFF;
             cursor: pointer;
-            font-size: 16px;
-            font-weight: 400;
-            color: #FFFFFF;
+            @include wh(92px,40px);
+            @include font-config(16px,'PingFangSC-Regular, PingFang SC',400,#FFFFFF);
             &:first-child {
               margin-right: 10px;
             }
@@ -163,7 +195,7 @@ export default {
 }
 /deep/.el-badge__content.is-fixed {
   position: absolute;
-  top: 5px;
+  top: 8px;
   right: 15px;
   transform: translateY(-50%) translateX(100%);
 }

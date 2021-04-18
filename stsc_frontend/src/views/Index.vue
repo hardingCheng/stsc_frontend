@@ -337,7 +337,6 @@ export default {
   methods: {
     drawLine(){
       // 基于准备好的dom，初始化echarts实例
-      console.log(123)
       let myChart = this.$echarts.init(document.getElementById('chart'))
       let msg = [
         {
@@ -456,12 +455,13 @@ export default {
       };
       // 绘制图表
       myChart.setOption(option)
-    }
+    },
   }
 };
 </script>
 
 <style scoped lang="scss">
+@import '../styles/mixin';
 .index{
   .swiper-main {
     position:relative;
@@ -484,20 +484,14 @@ export default {
         .data-presentation-item {
           text-align: center;
           .data-presentation-item-title {
-            font-size: 18px;
-            font-family: PingFangSC-Regular, PingFang SC;
-            font-weight: 400;
-            color: #333333;
             line-height: 25px;
             margin-top: 20px;
+            @include font-config(18px,'PingFangSC-Medium, PingFang SC',400,#333333)
           }
           /deep/ .scrolling-numbers {
             margin-top: 10px;
             span {
-              font-size: 26px;
-              font-family: PingFangSC-Medium, PingFang SC;
-              font-weight: 500;
-              color: #1794FF;
+              @include font-config(26px,'PingFangSC-Medium, PingFang SC',500,#1794FF)
             }
           }
         }
@@ -513,23 +507,16 @@ export default {
         background: #FFF;
         .popular-recommendation-main-top {
           .title {
-            width: 96px;
-            height: 33px;
-            font-size: 24px;
-            font-weight: 500;
-            color: #333333;
-            line-height: 33px;
+            @include wh(96px,33px);
+            @include l-height(33px,33px);
+            @include font-config(24px,'PingFangSC-Medium, PingFang SC',500,#333333);
           }
           .nav span {
             margin-left:40px;
             margin-top: 14px;
-            width: 32px;
-            height: 22px;
-            font-size: 16px;
-            font-family: PingFangSC-Medium, PingFang SC;
-            font-weight: 500;
-            line-height: 22px;
             cursor: pointer;
+            @include wh(32px,22px);
+            @include font-config(16px,'PingFangSC-Medium, PingFang SC',500,"");
             &:hover {
               color: #1794FF;
             }
@@ -539,28 +526,20 @@ export default {
           margin:10px 0;
           .popular-recommendation-main-item {
             margin: 20px 0;
-            height:386px;
-            width:270px;
+            @include wh(270px,386px);
             .image {
               width:100%;
               display: block;
             }
             h2 {
-              font-size: 18px;
-              font-family: PingFangSC-Medium, PingFang SC;
-              font-weight: 500;
-              color: #333333;
+              @include font-config(18px,'PingFangSC-Medium, PingFang SC',500,#333333);
             }
             p{
               margin: 10px 0;
-              font-size: 14px;
-              font-family: PingFangSC-Regular, PingFang SC;
-              font-weight: 400;
-              color: #999999;
+              @include font-config(14px,'PingFangSC-Medium, PingFang SC',400,#999999);
             }
             /deep/ .el-card {
-              height:400px;
-              width:270px;
+              @include wh(270px,400px);
             }
 
           }
@@ -568,8 +547,7 @@ export default {
       }
     }
     .successful-cases {
-      height: 514px;
-      width: 610px;
+      @include wh(610px,514px);
       margin-top: 20px;
       .successful-cases-main{
         box-sizing: border-box;
@@ -578,24 +556,17 @@ export default {
         background: #FFF;
         .successful-cases-main-top {
           .title {
-            width: 96px;
-            height: 33px;
-            font-size: 24px;
-            font-family: PingFangSC-Medium, PingFang SC;
-            font-weight: 500;
-            color: #333333;
-            line-height: 33px;
+            @include wh(96px,33px);
+            @include l-height(33px,33px);
+            @include font-config(24px,'PingFangSC-Medium, PingFang SC',500,#333333);
           }
           .nav span {
             margin-left:40px;
             margin-top: 14px;
-            width: 32px;
-            height: 22px;
-            font-size: 16px;
-            font-family: PingFangSC-Medium, PingFang SC;
-            font-weight: 500;
-            line-height: 22px;
             cursor: pointer;
+            @include wh(32px,22px);
+            @include l-height(22px,22px);
+            @include font-config(22px,'PingFangSC-Medium, PingFang SC',500,"");
             &:hover {
               color: #1794FF;
             }
@@ -605,37 +576,27 @@ export default {
           margin:10px 0;
           .successful-cases-main-item {
             margin: 20px 0;
-            height:386px;
-            width:270px;
+            @include wh(270px,386px);
             .image {
               width:100%;
               display: block;
             }
             h2 {
-              font-size: 18px;
-              font-family: PingFangSC-Medium, PingFang SC;
-              font-weight: 500;
-              color: #333333;
+              @include font-config(18px,'PingFangSC-Medium, PingFang SC',500,#333333);
             }
             p{
               margin: 10px 0;
-              font-size: 14px;
-              font-family: PingFangSC-Regular, PingFang SC;
-              font-weight: 400;
-              color: #999999;
+              @include font-config(14px,'PingFangSC-Medium, PingFang SC',400,#999999);
             }
             /deep/ .el-card {
-              height:400px;
-              width:270px;
+              @include wh(270px,400px);
             }
-
           }
         }
       }
     }
     .resource-service-space {
-      height: 514px;
-      width: 570px;
+      @include wh(570px,514px);
       margin-top: 20px;
       .resource-service-space-main{
         box-sizing: border-box;
@@ -644,12 +605,8 @@ export default {
         background: #FFF;
         .resource-service-space-top {
           .title {
-            height: 33px;
-            font-size: 24px;
-            font-family: PingFangSC-Medium, PingFang SC;
-            font-weight: 500;
-            color: #333333;
-            line-height: 33px;
+            @include l-height(33px,33px);
+            @include font-config(24px,'PingFangSC-Medium, PingFang SC',400,#333333);
           }
         }
       }
@@ -664,24 +621,17 @@ export default {
         background: #FFF;
         .platform-news-main-top {
           .title {
-            width: 96px;
-            height: 33px;
-            font-size: 24px;
-            font-family: PingFangSC-Medium, PingFang SC;
-            font-weight: 500;
-            color: #333333;
-            line-height: 33px;
+            @include wh(96px,33px);
+            @include l-height(33px,33px);
+            @include font-config(24px,'PingFangSC-Medium, PingFang SC',500,#333333);
           }
           .nav span {
             margin-left:40px;
             margin-top: 14px;
-            width: 32px;
-            height: 22px;
-            font-size: 16px;
-            font-family: PingFangSC-Medium, PingFang SC;
-            font-weight: 500;
-            line-height: 22px;
             cursor: pointer;
+            @include wh(32px,22px);
+            @include l-height(22px,22px);
+            @include font-config(22px,'PingFangSC-Medium, PingFang SC',500,"");
             &:hover {
               color: #1794FF;
             }
@@ -691,35 +641,23 @@ export default {
           margin:10px 0;
           .platform-news-main-item {
             margin: 20px 0;
-            height:386px;
-            width:369px;
+            @include wh(369px,386px);
             .image {
-              width:369px;
-              height: 230px;
+              @include wh(369px,230px);
               display: block;
             }
             h2 {
-              font-size: 18px;
-              font-family: PingFangSC-Medium, PingFang SC;
-              font-weight: 500;
-              color: #333333;
+              @include font-config(18px,'PingFangSC-Medium, PingFang SC',500,#333333);
             }
             p{
               margin: 10px 0;
-              font-size: 14px;
-              font-family: PingFangSC-Regular, PingFang SC;
-              font-weight: 400;
-              color: #999999;
+              @include font-config(14px,'PingFangSC-Medium, PingFang SC',400,#999999);
               &:last-child{
-                font-size: 16px;
-                font-family: PingFangSC-Medium, PingFang SC;
-                font-weight: 500;
-                color: #1794FF;
+                @include font-config(16px,'PingFangSC-Medium, PingFang SC',500,#1794FF);
               }
             }
             /deep/ .el-card {
-              height:400px;
-              width:369px;
+              @include wh(369px,400px);
             }
 
           }
@@ -733,44 +671,37 @@ export default {
         overflow: hidden;
         .cooperative-partner-top-title{
           position: relative;
-          font-size: 34px;
-          font-weight: 500;
-          color: #0D244C;
           text-align: center;
           margin: 56px 0;
+          @include font-config(34px,'PingFangSC-Medium, PingFang SC',500,#0D244C);
           &::before{
             position: absolute;
             top: 25px;
             left: 430px;
             content: "";
-            width: 80px;
-            height: 2px;
             background: #D8D8D8;
+            @include wh(80px,2px);
           }
           &:after{
             position: absolute;
             top: 25px;
             right: 430px;
             content: "";
-            width: 80px;
-            height: 2px;
             background: #D8D8D8;
+            @include wh(80px,2px);
           }
         }
       }
       .cooperative-partner-ul {
-        display:flex;
-        justify-content:space-between;
-        flex-wrap: wrap;
+        @include flex(space-between,"",wrap);
         li {
           display:inline-block;
-          width: 217px;
-          height: 72px;
           background: #FFFFFF;
           border-radius: 2px;
           margin-bottom:20px;
           text-align: center;
           position: relative;
+          @include wh(217px,72px);
           img{
             position:absolute;
             left: 50%;

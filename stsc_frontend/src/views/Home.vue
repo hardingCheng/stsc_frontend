@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="header-nav">
+    <div class="header-nav clearfix">
       <Header/>
     </div>
     <router-view />
@@ -18,21 +18,13 @@ export default {
     Footer
   },
   data(){
-    return{
-      list:[]
-    }
+    return{}
   },
-  mounted() {
-
-  }
 };
 </script>
 
 <style scoped lang="scss">
 .header-nav {
-  position: fixed;
-  top: 0;
-  z-index:99999;
-  width: 100%;
+  height: 110px;
 }
 </style>

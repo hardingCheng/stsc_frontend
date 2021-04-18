@@ -7,7 +7,7 @@ export default new Vuex.Store({
   state: {
     token: "",
     golabelLoding: false,
-    formCode:''
+    formCode:'',
   },
   mutations: {
     modGlobalLoding: (state) => {
@@ -15,7 +15,7 @@ export default new Vuex.Store({
     },
     modFormCode: (state,payload) => {
       state.formCode = payload
-    }
+    },
   },
   actions: {},
   getters: {

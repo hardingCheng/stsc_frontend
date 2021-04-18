@@ -7,6 +7,8 @@ import element from "./tools/elementui";
 import axios from "./api/apiList";
 import VueLazyload from 'vue-lazyload'
 import * as echarts from 'echarts'
+import vueiInfinite from 'vue-infinite-scroll'
+Vue.use(vueiInfinite)
 Vue.use(element);
 Vue.use(VueLazyload, {
   preLoad: 1.3,// 预加载高度比例

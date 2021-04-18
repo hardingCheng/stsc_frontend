@@ -8,5 +8,6 @@
 @import './styles/reset';
 @import './styles/config';
 @import './styles/base';
+@import './styles/mixin';
 </style>
 

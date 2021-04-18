@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import store from "../store/index"; //vuex
+import store from "../store"; //vuex
 import { Message } from "element-ui"; //全局错误弹窗
 // 解决ElementUI导航栏中的vue-router在3.0版本以上重复点菜单报错问题
 const originalPush = VueRouter.prototype.push
@@ -19,37 +19,37 @@ const routes = [
         path: "/index",
         name: "index",
         component: () => import("../views/Index.vue"),
-        meta: { requiresAuth: false },
+
       },
       {
         path: "/ld",
         name: "ld",
         component: () => import("../views/LookingDemand.vue"),
-        meta: { requiresAuth: true },
+
       },
       {
         path: "/ls",
         name: "ls",
         component: () => import("../views/LookingService.vue"),
-        meta: { requiresAuth: true },
+
       },
       {
         path: "/sc",
         name: "sc",
         component: () => import("../views/ScienceConsulting.vue"),
-        meta: { requiresAuth: true },
+
       },
       {
         path: "/pc",
         name: "pc",
         component: () => import("../views/PersonalCenter.vue"),
-        meta: { requiresAuth: true },
+
       },
       {
         path: "/sd",
         name: "sd",
         component: () => import("../views/SendDemand.vue"),
-        meta: { requiresAuth: true },
+
       },
       {
         path: "/ss",
