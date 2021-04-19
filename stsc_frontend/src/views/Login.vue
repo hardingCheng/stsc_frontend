@@ -60,6 +60,7 @@ export default {
       const { errors, isValid } = validatorInput(this.form)
       if(isValid){
         // 发起请求
+        this.$store.commit("modTokenLogin",{})
         this.$router.push("/index")
       }else {
         this.errors = errors
@@ -69,9 +70,7 @@ export default {
       this.$refs.sidentify.getCode()
     },
     loginForm1(){
-
     }
-
   }
 }
 </script>

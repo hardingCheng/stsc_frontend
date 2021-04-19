@@ -1,8 +1,10 @@
 module.exports = {
   devServer: {
-    host: "localhost",
+    host: "0.0.0.0",
     port: 8080, // 端口号
     https: false, // https:{type:Boolean}
+    compress: true,
+    disableHostCheck: true, //webpack4.0 开启热更新
     open: true, // 配置自动启动浏览器
     hotOnly: true, // 热更新
     proxy: {
@@ -18,5 +20,8 @@ module.exports = {
     headers: {
       "Access-Control-Allow-Origin": "*",
     },
+  },
+  chainWebpack: (config) => {
+    config.resolve.symlinks(true) // 修复热更新失效
   },
 };
