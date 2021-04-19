@@ -4,7 +4,7 @@
      <div class="container">
        <div class="header-login-nav">
          <div class="header-login-nav-left fl">欢迎您的到来!</div>
-         <div class="header-login-nav-right fr">
+         <div class="header-login-nav-right fr" v-if="isLogin">
            <el-row :gutter="20">
              <el-col :span="12">
                <div class="header-login-nav-info">
@@ -15,13 +15,29 @@
              </el-col>
              <el-col :span="12">
                <div class="header-login-nav-avatar">
-                <el-avatar size="small" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></el-avatar>
+                 <el-dropdown @command="handleCommand">
+                   <el-avatar size="small" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></el-avatar>
+                   <el-dropdown-menu slot="dropdown">
+                     <el-dropdown-item command="pc">个人中心</el-dropdown-item>
+                     <el-dropdown-item command="quit">退出登录</el-dropdown-item>
+                   </el-dropdown-menu>
+                 </el-dropdown>
                </div>
              </el-col>
            </el-row>
            <div class="header-login-nav-right-notification" v-if="notificationShow">
              <message-notification class="myPanel"></message-notification>
            </div>
+         </div>
+         <div class="header-login-nav-right fr" v-else>
+           <el-row :gutter="20">
+             <el-col :span="12">
+                <router-link to="/signup">注册</router-link>
+             </el-col>
+             <el-col :span="12">
+               <router-link to="/login">登录</router-link>
+             </el-col>
+           </el-row>
          </div>
        </div>
      </div>
@@ -129,8 +145,20 @@ export default {
           }
         }
       })
+    },
+    handleCommand(command){
+      if(command === "pc") {
+        this.$router.push("/pc")
+      }else if(command === "quit"){
+        console.log("退出成功")
+      }
     }
   },
+  computed:{
+    isLogin(){
+      return this.$store.getters.getIsLogin
+    }
+  }
 };
 </script>
 
@@ -162,6 +190,14 @@ export default {
           }
           .header-login-nav-avatar {
             padding-top: 5px;
+            /deep/ .el-dropdown {
+              height:28px;
+            }
+            .header-login-nav-usermenu {
+              height:100px;
+              width:60px;
+              background:pink;
+            }
           }
           .header-login-nav-right-notification {
             position: absolute;

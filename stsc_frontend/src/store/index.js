@@ -8,6 +8,7 @@ export default new Vuex.Store({
     token: "",
     golabelLoding: false,
     formCode:'',
+    isLogin:true
   },
   mutations: {
     modGlobalLoding: (state) => {
@@ -15,6 +16,10 @@ export default new Vuex.Store({
     },
     modFormCode: (state,payload) => {
       state.formCode = payload
+    },
+    modTokenLogin: (state,payload) => {
+      state.token = "payload"
+      state.isLogin = true
     },
   },
   actions: {},
@@ -24,6 +29,9 @@ export default new Vuex.Store({
     },
     getFormCode: (state) => {
       return state.formCode
+    },
+    getIsLogin: (state) => {
+      return state.isLogin
     }
   },
   modules: {},

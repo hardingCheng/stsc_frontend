@@ -45,7 +45,10 @@ import {
   RadioButton,
   Card,
   Tabs,
-  TabPane
+  TabPane,
+  Dropdown,
+  DropdownMenu,
+  DropdownItem
 } from "element-ui";
 
 const element = {
@@ -94,6 +97,9 @@ const element = {
     Vue.use(Card)
     Vue.use(Tabs)
     Vue.use(TabPane)
+    Vue.use(Dropdown)
+    Vue.use(DropdownMenu)
+    Vue.use(DropdownItem)
     Vue.prototype.$message = Message;
     // Vue.prototype.$confirm = MessageBox.confirm;
     // Vue.prototype.$alert = MessageBox.alert;
