@@ -1,16 +1,16 @@
 <template>
-  <div class="demand-details">
-    <div class="container" ><P class="demand-details-category">首页 > 热门推荐 > 汽车摩擦片</P></div>
-    <div class="demand-details-div container">
-      <div class="demand-details-inner"><img src="../assets/staticImgs/cardetail.png" width="400px" height="400px"></div>
+  <div >
+    <div class="container" ><P class="details-category">首页 > 热门推荐 > 汽车摩擦片</P></div>
+    <div class="demand-details container">
+      <div class="demand-details-img"><img src="../assets/staticImgs/cardetail.png" width="400px" height="400px"></div>
       <div class="demand-details-inner-text">
         <div class="text-title">汽车摩擦片级进模具开发进汽车摩擦片级进模具开发进汽车摩擦片级进模具开发进模具开发进 进汽车摩擦片级进模具开发进汽车摩擦片级进</div>
         <div class="text-title-title">服务机构：<span class="text-service-text">机器人关键零部件先进制造与机器</span></div>
         <div class="text-title-title">单位所在地：<span class="text-service-text">陕西省西安市xxx街道</span></div>
         <div class="text-title-title">创造时间：<span class="text-service-text">2021年1月29日</span></div>
         <div >
-        <div class="text-title-title" >
-          <div>服务评分：</div>
+        <div class="text-title-title pf" >
+          <div class="pf fl">服务评分：</div>
           <div class="fl"><el-rate
             v-model="value"
             disabled
@@ -58,7 +58,7 @@ export default {
 </script>
 
 <style scoped>
-.demand-details-div {
+.demand-details {
   box-sizing: border-box;
   height: 440px;
   border: 1px solid #E7E7E7;
@@ -66,7 +66,7 @@ export default {
   margin:  20px auto 33px auto;
 
 }
-.demand-details-category{
+.details-category{
   width: 200px;
   height: 17px;
   font-size: 12px;
@@ -76,7 +76,7 @@ export default {
   line-height: 17px;
   margin-top: 20px;
 }
-.demand-details-inner{
+.demand-details-img{
   width: 400px;
   height: 400px;
   float:left;
@@ -108,6 +108,7 @@ export default {
   font-weight: 500;
   color: #333333;
   line-height: 25px;
+  display: inline-block;
 }
 
 .text-title-title{
@@ -169,6 +170,9 @@ export default {
 }
 
 .address{
+  display: inline-block;
+}
+.pf{
   display: inline-block;
 }
 </style>
