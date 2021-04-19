@@ -47,6 +47,7 @@ import {
   Tabs,
   TabPane
 } from "element-ui";
+
 const element = {
   install: function (Vue) {
     Vue.use(Select);
