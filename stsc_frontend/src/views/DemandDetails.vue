@@ -151,8 +151,6 @@ export default {
 }
 /deep/.el-rate__item{
   height: 16px;
-
-
 }
 .font{
   font-size: 18px;
