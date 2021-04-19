@@ -68,7 +68,7 @@ const routes = [
         path: "/ddetail/:id",
         name: "ddetail",
         component: () => import("../views/DemandDetails.vue"),
-        meta: { requiresAuth: true },
+        // meta: { requiresAuth: true },
         props: true,
       },
     ],
