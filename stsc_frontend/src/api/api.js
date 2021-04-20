@@ -47,8 +47,9 @@ export default function $axios(options) {
         //前期先使用vuex 后期localStorage  方便拿取
 
         // TODO: 有个小BUG
-        if (store.state.token ) {
-          config.headers["Authorization"] = store.state.token;
+        const userInfo = JSON.parse(localStorage.getItem("userInfo"))
+        if (store.state.token || userInfo.root.token) {
+          config.headers["Authorization"] = store.state.token || userInfo.root.token;
         } else {
           config.headers["Authorization"] = "";
           if (["#/login","/signup"].includes(window.location.hash)) {

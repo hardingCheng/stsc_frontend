@@ -21,8 +21,16 @@ export const validatorInput = (data) => {
     }
 }
 // signup
-export const validatorSignUpInput = (data) => {
+export const validatorSignUpInput =async function(data){
     validatorInput(data)
+    let username = data.username
+    let isExistUsername = await axios.userApiList.isExist({
+        username
+    })
+    console.log(isExistUsername)
+    if(isExistUsername.code === 20001) {
+        errors.username = "此账号已注册"
+    }
     if (validator.isEmpty(data.passwordConfirm)) {
         errors.passwordConfirm = "请再次输入密码"
     }else if(!validator.equals(data.passwordConfirm,data.password)){

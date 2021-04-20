@@ -16,7 +16,7 @@
              <el-col :span="12">
                <div class="header-login-nav-avatar">
                  <el-dropdown @command="handleCommand">
-                   <el-avatar size="small" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"></el-avatar>
+                   <el-avatar size="small" :src="userInfo.avatar ? userInfo.avatar:'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'"></el-avatar>
                    <el-dropdown-menu slot="dropdown">
                      <el-dropdown-item command="pc">个人中心</el-dropdown-item>
                      <el-dropdown-item command="quit">退出登录</el-dropdown-item>
@@ -150,13 +150,21 @@ export default {
       if(command === "pc") {
         this.$router.push("/pc")
       }else if(command === "quit"){
-        console.log("退出成功")
+        this.$store.commit("modTokenLogin",{
+          token:"",
+          isLogin:false,
+          userInfo:""
+        })
+        this.$router.push("/index")
       }
     }
   },
   computed:{
     isLogin(){
       return this.$store.getters.getIsLogin
+    },
+    userInfo(){
+      return this.$store.getters.getUserInfo
     }
   }
 };

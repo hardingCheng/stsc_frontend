@@ -29,28 +29,10 @@ const userApiList = {
       data,
     });
   },
-  mock: (params) => {
+  isExist: (params) => {
     return axios({
-      url: "/mock",
+      url: `/stcsp/user/isExist/${params.username}`,
       method: "get",
-      params,
-    });
-  },
-};
-// 后台API
-const backstageApiList = {
-  login: (data) => {
-    return axios({
-      url: "/stcsp/user/login",
-      method: "post",
-      data,
-    });
-  },
-  mock: (params) => {
-    return axios({
-      url: "/mock",
-      method: "get",
-      params,
     });
   },
 };
@@ -59,5 +41,4 @@ const backstageApiList = {
 export default {
   userApiList,
   commonApiList,
-  backstageApiList,
 };

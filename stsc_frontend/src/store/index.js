@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
-
+import createVuexAlong from 'vuex-along'
+import SecureAdapter from "vuex-along-secure-adapter";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -8,7 +9,8 @@ export default new Vuex.Store({
     token: "",
     golabelLoding: false,
     formCode:'',
-    isLogin:true
+    isLogin:false,
+    userInfo:{}
   },
   mutations: {
     modGlobalLoding: (state) => {
@@ -18,8 +20,9 @@ export default new Vuex.Store({
       state.formCode = payload
     },
     modTokenLogin: (state,payload) => {
-      state.token = "payload"
-      state.isLogin = true
+      state.token = payload.token
+      state.isLogin = payload.isLogin
+      state.userInfo = payload.userInfo
     },
   },
   actions: {},
@@ -32,7 +35,17 @@ export default new Vuex.Store({
     },
     getIsLogin: (state) => {
       return state.isLogin
+    },
+    getUserInfo: (state) => {
+      return state.userInfo
     }
   },
   modules: {},
+  plugins: [createVuexAlong({
+    // adapterOptions: SecureAdapter(),
+    name: "userInfo",
+    local: {
+      list: ["isLogin","userInfo","token"],
+    },
+  })]
 });
