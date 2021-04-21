@@ -48,7 +48,9 @@ import {
   TabPane,
   Dropdown,
   DropdownMenu,
-  DropdownItem
+  DropdownItem,
+  Breadcrumb,
+  BreadcrumbItem
 } from "element-ui";
 
 const element = {
@@ -100,6 +102,8 @@ const element = {
     Vue.use(Dropdown)
     Vue.use(DropdownMenu)
     Vue.use(DropdownItem)
+    Vue.use(Breadcrumb)
+    Vue.use(BreadcrumbItem)
     Vue.prototype.$message = Message;
     // Vue.prototype.$confirm = MessageBox.confirm;
     // Vue.prototype.$alert = MessageBox.alert;

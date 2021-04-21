@@ -25,6 +25,10 @@
             <el-button type="primary" v-on:click="loginForm1">重置</el-button>
           </el-form-item>
         </el-form>
+       <div class="login-other-action">
+         <span><router-link to="/signup">注册</router-link></span>
+         <span><router-link to="/index">忘记密码？</router-link></span>
+       </div>
       </div>
       <div class="login-box-bottom">
         <span>第三方登录</span>
@@ -158,6 +162,17 @@ export default {
         font-size: 14px;
         line-height: 1;
         margin-bottom: 10px;
+      }
+      .login-other-action {
+        position: absolute;
+        bottom:50px;
+        right:-20px;
+        span {
+          margin-left: 10px;
+          font-size: 14px;
+          font-weight: 400;
+          color: #1794FF;
+        }
       }
     }
     .login-box-bottom{

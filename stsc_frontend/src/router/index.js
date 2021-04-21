@@ -48,13 +48,13 @@ const routes = [
         path: "/sd",
         name: "sd",
         component: () => import("../views/SendDemand.vue"),
-        meta: { requiresAuth: true },
+        meta: { requiresAuth: false },
       },
       {
         path: "/ss",
         name: "ss",
         component: () => import("../views/SendService.vue"),
-        meta: { requiresAuth: true },
+        meta: { requiresAuth: false },
       },
       {
         path: "/sdetail/:id",
