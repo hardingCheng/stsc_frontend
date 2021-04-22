@@ -105,27 +105,27 @@ const router = new VueRouter({
 
 // 导航守卫  全局前置守卫
 // 路由元信息
-router.beforeEach((to, fromss, next) => {
-  const token = localStorage.getItem("token");
-  if (to.matched.some((record) => record.meta.requiresAuth)) {
-    // 此路由需要身份验证，请检查是否已登录
-    // 如果没有，请重定向到登录页。
-    if (to.name !== "login" && !store.state.token && !token) {
-      Message.error({
-        message: `请先登录！登录后查看！`,
-        duration: 1000,
-        offset:40
-      });
-      setTimeout(() => {
-        next({
-          path: "/login",
-        });
-      }, 2000);
-    } else {
-      next();
-    }
-  } else {
-    next(); // 确保一定要调用 next()
-  }
-});
+// router.beforeEach((to, fromss, next) => {
+//   const token = localStorage.getItem("token");
+//   if (to.matched.some((record) => record.meta.requiresAuth)) {
+//     // 此路由需要身份验证，请检查是否已登录
+//     // 如果没有，请重定向到登录页。
+//     if (to.name !== "login" && !store.state.token && !token) {
+//       Message.error({
+//         message: `请先登录！登录后查看！`,
+//         duration: 1000,
+//         offset:40
+//       });
+//       setTimeout(() => {
+//         next({
+//           path: "/login",
+//         });
+//       }, 2000);
+//     } else {
+//       next();
+//     }
+//   } else {
+//     next(); // 确保一定要调用 next()
+//   }
+// });
 export default router;
