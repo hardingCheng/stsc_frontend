@@ -54,11 +54,37 @@
               <div class="nav fr">
                 <span>服务</span>
                 <span>需求</span>
-                <span> > </span>
+                <span class="swiper-style swiper-button-next1"> > </span>
               </div>
             </div>
             <div class="popular-recommendation-main-bottom">
               <swiper class="swiper" :options="swiperOption2">
+                <swiper-slide>
+                  <div class="popular-recommendation-main-item">
+                    <el-card shadow="never" :body-style="{ padding: '0px' }">
+                      <img src="../assets/images/moju.png" class="image">
+                      <div style="padding: 14px;">
+                        <h2>汽车摩擦片级进模具开发进…</h2>
+                        <p>发布者：渭河精密传动有限公司</p>
+                        <p>类别：设计服务>工业设计>模具</p>
+                        <p>时间：2021年1月29日</p>
+                      </div>
+                    </el-card>
+                  </div>
+                </swiper-slide>
+                <swiper-slide>
+                  <div class="popular-recommendation-main-item">
+                    <el-card shadow="never" :body-style="{ padding: '0px' }">
+                      <img src="../assets/images/moju.png" class="image">
+                      <div style="padding: 14px;">
+                        <h2>汽车摩擦片级进模具开发进…</h2>
+                        <p>发布者：渭河精密传动有限公司</p>
+                        <p>类别：设计服务>工业设计>模具</p>
+                        <p>时间：2021年1月29日</p>
+                      </div>
+                    </el-card>
+                  </div>
+                </swiper-slide>
                 <swiper-slide>
                   <div class="popular-recommendation-main-item">
                     <el-card shadow="never" :body-style="{ padding: '0px' }">
@@ -123,7 +149,7 @@
               <div class="successful-cases-main-top clearfix">
                 <div class="title fl">成功案例</div>
                 <div class="nav fr">
-                  <span> > </span>
+                  <span class="swiper-style swiper-button-next2"> > </span>
                 </div>
               </div>
               <div class="successful-cases-main-bottom">
@@ -200,7 +226,7 @@
             <div class="platform-news-main-top clearfix">
               <div class="title fl">平台动态</div>
               <div class="nav fr">
-                <span> > </span>
+                <span class="swiper-style swiper-button-next4"> > </span>
               </div>
             </div>
             <div class="platform-news-main-bottom">
@@ -315,14 +341,26 @@ export default {
       swiperOption2: {
         slidesPerView: 4,
         spaceBetween: 10,
+        loop:true,
+        navigation: {
+          nextEl: '.swiper-button-next2',
+        }
       },
       swiperOption3: {
         slidesPerView: 2,
         spaceBetween: 10,
+        loop:true,
+        navigation: {
+          nextEl: '.swiper-button-next3',
+        }
       },
       swiperOption4: {
         slidesPerView: 3,
         spaceBetween: 20,
+        loop:true,
+        navigation: {
+          nextEl: '.swiper-button-next4',
+        }
       }
     }
   },
@@ -712,5 +750,9 @@ export default {
       }
     }
   }
+}
+.swiper-style {
+  outline:none;
+  box-shadow:none;
 }
 </style>

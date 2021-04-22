@@ -8,7 +8,7 @@ import axios from "./api"; // 倒入 api
 const commonApiList = {
   vcode: () => {
     return axios({
-      url: "/stcsp/user/getCode",
+      url: "/ph/stcsp/user/getCode",
       method: "get",
     });
   },
@@ -17,22 +17,47 @@ const commonApiList = {
 const userApiList = {
   login: (data) => {
     return axios({
-      url: "/stcsp/user/login",
+      url: "/ph/stcsp/user/login",
       method: "post",
       data,
     });
   },
   register: (data) => {
     return axios({
-      url: "/stcsp/user/register",
+      url: "/ph/stcsp/user/register",
       method: "post",
       data,
     });
   },
   isExist: (params) => {
     return axios({
-      url: `/stcsp/user/isExist/${params.username}`,
+      url: `/ph/stcsp/user/isExist/${params.username}`,
       method: "get",
+    });
+  },
+};
+const demandApiList = {
+  sendDemand: (data) => {
+    return axios({
+      url: "/bh/stcsp/requirement/releaseRequire",
+      method: "post",
+      data,
+    });
+  },
+};
+const serviceApiList = {
+  getCategory: (params) => {
+    return axios({
+      url: "/ph//stcsp/category/getCategory",
+      method: "get",
+      params
+    });
+  },
+  sendService: (data) => {
+    return axios({
+      url: "/bh/stcsp/serve/releaseServe",
+      method: "post",
+      data
     });
   },
 };
@@ -41,4 +66,6 @@ const userApiList = {
 export default {
   userApiList,
   commonApiList,
+  demandApiList,
+  serviceApiList
 };
