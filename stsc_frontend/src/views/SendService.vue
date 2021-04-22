@@ -173,8 +173,9 @@ export default {
         if (valid) {
           this.disabled = true
           if(this.fileList.length !== 0){
-            this.$refs.upload.submit();
+            await this.$refs.upload.submit();
           }else {
+            console.log(123)
             let result = await this.$axios.serviceApiList.sendService(this.form)
             if (result.code === 20000){
               this.$message({
@@ -190,9 +191,8 @@ export default {
       });
     },
     async handleSuccess(response, file, fileList) {
-      console.log(response)
       if (response.code === 20000 && response.data.url !== "") {
-        this.form.attachments = response.data.url
+        this.form.attachment = response.data.url
       }
     },
     handleRemove(file, fileList) {
