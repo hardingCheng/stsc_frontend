@@ -8,7 +8,7 @@ module.exports = {
     proxy: {
       // 配置多个跨域
       "/api": {
-        target: "http://192.168.31.185:8001", //跨域接口的地址
+        target: "http://192.168.31.136:8001", //跨域接口的地址
         changeOrigin: true,
         pathRewrite: {
           "^/api": "",

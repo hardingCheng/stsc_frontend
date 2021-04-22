@@ -29,11 +29,28 @@ const userApiList = {
       data,
     });
   },
-  mock: (params) => {
+  //根据ID查看服务详情
+  getServeDetail: (params) => {
     return axios({
-      url: "/mock",
+      url: `/stcsp/serve/getServiceDetailById/${params.id}`,
       method: "get",
       params,
+    });
+  },
+  //根据条件查找需求
+  getDemand: (data) => {
+    return axios({
+      url: `/stcsp/requirement/getRequiresByCondition/${data.page}/${data.limit}`,
+      method: "post",
+       data,
+    });
+  },
+  ////根据条件查找服务
+  getServe: (data) => {
+    return axios({
+      url: `/stcsp/serve/getServesByCondition/${data.page}/${data.limit}`,
+      method: "post",
+      data,
     });
   },
 };
