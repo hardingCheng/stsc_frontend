@@ -38,14 +38,14 @@ const userApiList = {
   //根据ID查看服务详情
   getServeDetail: (params) => {
     return axios({
-      url: `/stcsp/serve/getServiceDetailById/${params.id}`,
+      url: `/bh/stcsp/serve/getServiceDetailById/${params.id}`,
       method: "get",
     });
   },
   //根据条件查找需求
   getDemand: (data) => {
     return axios({
-      url: `/stcsp/requirement/getRequiresByCondition/${data.page}/${data.limit}`,
+      url: `/bh/stcsp/requirement/getRequiresByCondition/${data.page}/${data.limit}`,
       method: "post",
        data,
     });
@@ -53,7 +53,7 @@ const userApiList = {
   ////根据条件查找服务
   getServe: (data) => {
     return axios({
-      url: `/stcsp/serve/getServesByCondition/${data.page}/${data.limit}`,
+      url: `/bh/stcsp/serve/getServesByCondition/${data.page}/${data.limit}`,
       method: "post",
       data,
     });
