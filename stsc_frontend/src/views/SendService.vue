@@ -146,7 +146,7 @@ export default {
     }
   },
   async mounted() {
-     let result = await this.$axios.serviceApiList.getCategory({})
+     let result = await this.$axios.categoryControllerList.getCategory({})
      this.options = result.data.firstCategoryList
      this.options= JSON.parse(JSON.stringify(this.options).replace(/id/g,"value").replace(/name/g,"label"))
   },
@@ -154,7 +154,7 @@ export default {
     'form.attachment': {
       async handler (newName, oldName) {
         if (newName!==''){
-          let result = await this.$axios.serviceApiList.sendService(this.form)
+          let result = await this.$axios.serveControllerList.releaseServe(this.form)
           if (result.code === 20000){
             this.$message({
               message: '发布需求成功,请前往个人中心查看！',
@@ -176,7 +176,7 @@ export default {
             await this.$refs.upload.submit();
           }else {
             console.log(123)
-            let result = await this.$axios.serviceApiList.sendService(this.form)
+            let result = await this.$axios.serveControllerList.releaseServe(this.form)
             if (result.code === 20000){
               this.$message({
                 message: '发布服务成功,请前往个人中心查看！',

@@ -143,7 +143,7 @@ export default {
     'form.attachments': {
       async handler (newName, oldName) {
         if (newName!==''){
-          let result = await this.$axios.demandApiList.sendDemand(this.form)
+          let result = await this.$axios.requirementControllerList.releaseRequire(this.form)
           if (result.code === 20000){
             console.log(result)
             this.$message({
@@ -165,7 +165,7 @@ export default {
           if(this.fileList.length !== 0){
             this.$refs.upload.submit();
           }else {
-            let result =  await this.$axios.demandApiList.sendDemand(this.form)
+            let result =  await this.$axios.requirementControllerList.releaseRequire(this.form)
             if (result.code === 20000){
               console.log(result)
               this.$message({

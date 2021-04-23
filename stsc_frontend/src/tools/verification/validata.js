@@ -1,4 +1,4 @@
-import axios from "../../api/apiList";
+import axios from "../../api/request";
 const _ = require("lodash")
 const validator = require('validator');
 let errors = {}
@@ -24,7 +24,7 @@ export const validatorInput = (data) => {
 export const validatorSignUpInput =async function(data){
     validatorInput(data)
     let username = data.username
-    let isExistUsername = await axios.userApiList.isExist({
+    let isExistUsername = await axios.userControllerList.isExist({
         username
     })
     console.log(isExistUsername)

@@ -57,7 +57,7 @@ export default {
     };
   },
   async mounted () {
-    const detail_result = await this.$axios.userApiList.getServeDetail({
+    const detail_result = await this.$axios.serveControllerList.getServesDetailById({
       id:"12345678"
     })
     this.info = detail_result.data.serve

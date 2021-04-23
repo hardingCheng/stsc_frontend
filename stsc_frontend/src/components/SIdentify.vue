@@ -95,7 +95,7 @@ export default {
       }
     },
     async getCode(){
-      let result = await this.$axios.commonApiList.vcode();
+      let result = await this.$axios.userControllerList.getCode();
       if (result) {
         this.$store.commit('modFormCode',result.data.code)
         this.drawPic(result.data.code)

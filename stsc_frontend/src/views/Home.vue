@@ -3,7 +3,9 @@
     <div class="header-nav clearfix">
       <Header/>
     </div>
-    <router-view />
+    <transition name="fade">
+      <router-view />
+    </transition>
     <Footer/>
   </div>
 </template>
@@ -18,7 +20,9 @@ export default {
     Footer
   },
   data(){
-    return{}
+    return{
+
+    }
   },
 };
 </script>
@@ -26,5 +30,11 @@ export default {
 <style scoped lang="scss">
 .header-nav {
   height: 110px;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>
