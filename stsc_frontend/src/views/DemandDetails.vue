@@ -170,14 +170,6 @@ export default {
 .font{
   font-size: 18px;
 }
-.text-detials{
-  margin: 10px 20px;
-  font-size: 16px;
-  line-height: 24px;
-}
-.address{
-  display: inline-block;
-}
 .pf{
   display: inline-block;
   height: 20px;
