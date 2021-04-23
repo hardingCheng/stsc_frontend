@@ -38,7 +38,7 @@ const userApiList = {
   //根据ID查看服务详情
   getServeDetail: (params) => {
     return axios({
-      url: `/bh/stcsp/serve/getServiceDetailById/${params.id}`,
+      url: `/bh/stcsp/serve/getServesDetailById/${params.id}`,
       method: "get",
     });
   },

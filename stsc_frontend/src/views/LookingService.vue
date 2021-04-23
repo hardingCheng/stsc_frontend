@@ -43,12 +43,13 @@
 
       <!--分页-->
         <div class="container">
-        <el-pagination
-            background
-            layout="prev, pager, next"
-            :total="1000">
-        </el-pagination>
-      </div>
+          <el-pagination
+              background
+              layout="prev, pager, next"
+              :total="1000">
+          </el-pagination>
+        </div>
+
 
 
       </div>
@@ -58,21 +59,33 @@
 </template>
 
 <script>
+
+import {resolve} from "vue-count-to";
+import {reject} from "lodash";
+
 export default {
   name: "LookingService",
   data(){
     return{
+      list:null,   //请求回来填充表格的数据
+      // 默认显示第几页
+      Page:1,
+      limit:4,
+      pageTotal:20,
       serve:[]
     }
   },
+
   async mounted() {
     const serve_result = await this.$axios.userApiList.getServe({
       page:1,
       limit:4,
     })
-    this.serve=serve_result.data.rows
+    this.serve=serve_result.data.serveList.records
         console.log(this.serve)
-  }
+  },
+
+
 };
 </script>
 
