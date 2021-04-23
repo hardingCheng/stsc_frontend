@@ -54,7 +54,7 @@
               <div class="nav fr">
                 <span>服务</span>
                 <span>需求</span>
-                <span class="swiper-style swiper-button-next1"> > </span>
+                <span class="swiper-style swiper-button-next2"> > </span>
               </div>
             </div>
             <div class="popular-recommendation-main-bottom">
@@ -149,7 +149,7 @@
               <div class="successful-cases-main-top clearfix">
                 <div class="title fl">成功案例</div>
                 <div class="nav fr">
-                  <span class="swiper-style swiper-button-next2"> > </span>
+                  <span class="swiper-style swiper-button-next3"> > </span>
                 </div>
               </div>
               <div class="successful-cases-main-bottom">
