@@ -67,7 +67,7 @@ export default {
     async registerForm(){
       const { errors,isValid } = await validatorSignUpInput(this.form)
       if(isValid) {
-        const result = await this.$axios.userApiList.register({
+        const result = await this.$axios.userControllerList.register({
           username:this.form.username,
           password:this.form.password,
         });

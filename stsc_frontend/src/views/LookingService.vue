@@ -77,10 +77,10 @@ export default {
   },
 
   async mounted() {
-    const serve_result = await this.$axios.userApiList.getServe({
+    const serve_result = await this.$axios.serveControllerList.getServesByCondition({
       page:1,
       limit:4,
-    })
+    },{})
     this.serve=serve_result.data.serveList.records
         console.log(this.serve)
   },

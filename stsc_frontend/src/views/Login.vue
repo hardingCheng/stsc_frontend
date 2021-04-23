@@ -92,7 +92,7 @@ export default {
         // 发起请求
         // this.$store.commit("modTokenLogin",{})
         // this.$router.push("/index")
-        let result = await this.$axios.userApiList.login({
+        let result = await this.$axios.userControllerList.login({
           username:this.form.username,
           password:this.form.password
         })

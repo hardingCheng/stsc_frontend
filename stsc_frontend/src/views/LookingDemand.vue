@@ -67,12 +67,11 @@ export default {
     }
   },
     async mounted() {
-      const demand_result = await this.$axios.userApiList.getDemand({
+      const demand_result = await this.$axios.requirementControllerList.getRequiresByCondition({
         page:1,
         limit:4,
-      })
+      },{})
       this.demand=demand_result.data.requireList.records,
-      console.log(this.demand)
     }
 }
 </script>

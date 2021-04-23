@@ -4,7 +4,7 @@ import router from "./router";
 import store from "./store";
 import "element-ui/lib/theme-chalk/index.css";
 import element from "./tools/elementui";
-import axios from "./api/apiList";
+import axios from "./api/request";
 import VueLazyload from 'vue-lazyload'
 import * as echarts from 'echarts'
 import infiniteScroll from 'vue-infinite-scroll'
