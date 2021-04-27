@@ -28,7 +28,8 @@
           </div>
 
           <!--列表-->
-          <div class="demand-breviary " v-for="(item,index) in demand" :key="index"   >
+          <div v-for="(item,index) in demand" :key="index" >
+          <div class="demand-breviary "  v-if="index<4"   >
             <span >
             <div >
               <div class="fl"><img :src="item.image"  style="color: #5e6d82" class="demand-breviary-img" ></div>
@@ -43,14 +44,19 @@
             </div>
               </span>
           </div>
+          </div>
           <!--分页-->
-          <div class="container">
+          <div class="block">
             <el-pagination
                 background
-                layout="prev, pager, next"
-                :current-page="current"
-                :total="pages">
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page.sync="currentPage3"
+                :page-size="100"
+                layout="prev, pager, next,jumper"
+                :total="1000">
             </el-pagination>
+
           </div>
 
 
@@ -66,22 +72,33 @@ export default {
   name: "LookingDemand",
   data(){
     return{
-      pages:1,
+      pages:3,
       total:0,
-      current:1,
+      currentPage3:4,
+       limit1:4,
        demand:[],
+
     }
   },
     async mounted() {
       const demand_result = await this.$axios.requirementControllerList.getRequiresByCondition({
         page:1,
-        limit:10,
+        limit:4,
       },{})
           this.demand=demand_result.data.requireList.records,
           this.pages=demand_result.data.requireList.pages,
-          this.total=demand_result.data.requireList.current,
+          this.total=demand_result.data.requireList.size,
+              this.limit1=demand_result.data.requireList.total
           console.log(demand_result.data.requireList)
+    },
+  methods:{
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
     }
+  }
 }
 </script>
 
@@ -233,6 +250,10 @@ export default {
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
   color: #666666;
+}
+/deep/.el-input__inner{
+  width: 40px;
+  background: white;
 }
 
 </style>
