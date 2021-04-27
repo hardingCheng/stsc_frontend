@@ -71,7 +71,7 @@ export default {
         page:1,
         limit:4,
       },{})
-      this.demand=demand_result.data.requireList.records,
+      this.demand=demand_result.data.requireList.records
     }
 }
 </script>
