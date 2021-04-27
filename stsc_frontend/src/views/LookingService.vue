@@ -50,8 +50,6 @@
           </el-pagination>
         </div>
 
-
-
       </div>
       </el-col>
     </el-row>

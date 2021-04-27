@@ -28,7 +28,8 @@
           </div>
 
           <!--列表-->
-          <div class="demand-breviary " v-for="(item,index) in demand" :key="index">
+          <div class="demand-breviary " v-for="(item,index) in demand" :key="index"   >
+            <span >
             <div >
               <div class="fl"><img :src="item.image"  style="color: #5e6d82" class="demand-breviary-img" ></div>
               <div class=" breviary-title">需求企业:<span class="breviary-content">{{item.company}}</span></div>
@@ -40,13 +41,15 @@
               <el-button class="look-detail-button">查看详情</el-button>
               <el-button class="buy-button fr"><span class="buy-button-text">立即下单</span></el-button>
             </div>
+              </span>
           </div>
           <!--分页-->
           <div class="container">
             <el-pagination
                 background
                 layout="prev, pager, next"
-                :total="1000">
+                :current-page="current"
+                :total="pages">
             </el-pagination>
           </div>
 
@@ -61,18 +64,21 @@
 <script>
 export default {
   name: "LookingDemand",
-  data(){
-    return{
-    demand:[],
+  data() {
+    return {
+      pages: 1,
+      total: 0,
+      current: 1,
+      demand: [],
     }
   },
-    async mounted() {
-      const demand_result = await this.$axios.requirementControllerList.getRequiresByCondition({
-        page:1,
-        limit:4,
-      },{})
-      this.demand=demand_result.data.requireList.records
-    }
+  async mounted() {
+    const demand_result = await this.$axios.requirementControllerList.getRequiresByCondition({
+      page: 1,
+      limit: 10,
+    }, {})
+    this.demand = demand_result.data.requireList.records
+  }
 }
 </script>
 
