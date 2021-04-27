@@ -1,13 +1,24 @@
 <template>
   <div class="scrolling-numbers">
-    <countTo :startVal='countObject.startVal' :endVal='countObject.endVal' :duration='3000' :autoplay="countObject.autoplay"></countTo>
+    <countTo :startVal='countObject.startVal' :endVal='countObject.endVal' :suffix=" countObject.suffix" :duration='3000' :autoplay="countObject.autoplay"></countTo>
   </div>
 </template>
 
 <script>
 import countTo from 'vue-count-to';
 export default {
-  props:['startVal','endVal'],
+  props:{
+    startVal:{
+      type:String,
+    },
+    endVal:{
+      type:String,
+    },
+    suffix:{
+      type:String,
+      default:""
+    }
+  },
   name: "ScrollingNumbers",
   components: {
     countTo
@@ -21,7 +32,7 @@ export default {
         autoplay:true,// 自动播放时
         separator:',',//数字分隔 ，
         prefix:'',// 前缀
-        suffix:''// 后缀
+        suffix:this.suffix
       }
     }
   }

@@ -1,7 +1,7 @@
 <template>
   <div class="send-demand">
     <div class="container">
-      <div class="send-demand-breadcrumb">
+      <div class="breadcrumb">
         <el-breadcrumb separator-class="el-icon-arrow-right">
           <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
           <el-breadcrumb-item>发需求</el-breadcrumb-item>
@@ -13,70 +13,70 @@
       <div class="send-demand-form">
         <el-form ref="demandform" :model="form" :rules="rules" label-position="right" label-width="100px" @submit.native.prevent >
         <div class="form-main">
-          <div class="form-main-left">
-            <el-form-item label="需求名称：" prop="name">
-              <el-input v-model="form.name" placeholder="请填写需求名称"></el-input>
-            </el-form-item>
-            <el-form-item label="需求单位：" prop="company">
-              <el-input v-model="form.company" placeholder="请填写需求单位"></el-input>
-            </el-form-item>
-            <el-form-item label="预算价格：" prop="budget">
-              <el-input v-model="form.budget" placeholder="请填写预算价格(例：20万元)"></el-input>
-            </el-form-item>
-            <el-form-item label="项目背景：" prop="projectBackground">
-              <el-input type="textarea" v-model="form.projectBackground" placeholder="请填写项目背景"></el-input>
-            </el-form-item>
-            <el-form-item label="需求内容：" prop="content">
-              <el-input type="textarea" v-model="form.content" placeholder="请填写需求内容"></el-input>
-            </el-form-item>
-<!--            要进行修改的-->
-            <el-form-item label="上传附件：">
-              <el-upload
-                  class="upload-demo"
-                  ref="upload"
-                  action="/bh/stcsp/fileoss/upload"
-                  :on-preview="handlePreview"
-                  :on-remove="handleRemove"
-                  :on-success="handleSuccess"
-                  :file-list="fileList"
-                  :auto-upload="false"
-                  :on-change = "changeUpload"
-              >
-                <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-<!--                <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>-->
-<!--                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
-              </el-upload>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" :disabled="disabled" @click="onSubmit">立即发布</el-button>
-              <el-button>重置</el-button>
-            </el-form-item>
-          </div>
-          <div class="form-main-right">
-            <el-form-item label="联系人：" prop="contact">
-              <el-input v-model="form.contact" placeholder="请填写联系人"></el-input>
-            </el-form-item>
-            <el-form-item label="联系方式：" prop="telephone">
-              <el-input v-model="form.telephone" placeholder="请填写联系方式"></el-input>
-            </el-form-item>
-            <el-form-item label="联系地址：" prop="address">
-              <el-input v-model="form.address" placeholder="请填写联系地址"></el-input>
-            </el-form-item>
-            <el-form-item label="验收指标：" prop="standard">
-              <el-input type="textarea" v-model="form.standard" placeholder="请填写验收指标"></el-input>
-            </el-form-item>
-            <el-form-item label="需求时间：" prop="deadline">
-              <el-date-picker
-                  @change="handDate"
-                  v-model="deadlinetiem"
-                  type="daterange"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期"
-                  format="yyyy 年 MM 月 dd 日"
-                  value-format ="yyyy-MM-dd ">
-              </el-date-picker>
-            </el-form-item>
-          </div>
+          <span>需求基本信息</span>
+          <el-form-item label="需求名称：" prop="name">
+            <el-input v-model="form.name" placeholder="请填写需求名称"></el-input>
+          </el-form-item>
+          <el-form-item label="需求单位：" prop="company">
+            <el-input v-model="form.company" placeholder="请填写需求单位"></el-input>
+          </el-form-item>
+          <span>联系人信息</span>
+          <el-form-item label="联系人：" prop="contact">
+            <el-input v-model="form.contact" placeholder="请填写联系人"></el-input>
+          </el-form-item>
+          <el-form-item label="联系方式：" prop="telephone">
+            <el-input v-model="form.telephone" placeholder="请填写联系方式"></el-input>
+          </el-form-item>
+          <el-form-item label="联系地址：" prop="address">
+            <el-input v-model="form.address" placeholder="请填写联系地址"></el-input>
+          </el-form-item>
+          <span>需求预算及背景</span>
+          <el-form-item label="预算价格：" prop="budget">
+            <el-input v-model="form.budget" placeholder="请填写预算价格(例：20万元)"></el-input>
+          </el-form-item>
+          <el-form-item label="项目背景：" prop="projectBackground">
+            <el-input type="textarea" v-model="form.projectBackground" placeholder="请填写项目背景"></el-input>
+          </el-form-item>
+          <el-form-item label="需求内容：" prop="content">
+            <el-input type="textarea" v-model="form.content" placeholder="请填写需求内容"></el-input>
+          </el-form-item>
+          <el-form-item label="验收指标：" prop="standard">
+            <el-input type="textarea" v-model="form.standard" placeholder="请填写验收指标"></el-input>
+          </el-form-item>
+          <el-form-item label="需求时间：" prop="deadline">
+            <el-date-picker
+                @change="handDate"
+                v-model="deadlinetiem"
+                type="daterange"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                format="yyyy 年 MM 月 dd 日"
+                value-format ="yyyy-MM-dd ">
+            </el-date-picker>
+          </el-form-item>
+
+          <!--            要进行修改的-->
+          <el-form-item label="上传附件：">
+            <el-upload
+                class="upload-demo"
+                ref="upload"
+                action="/bh/stcsp/fileoss/upload"
+                :on-preview="handlePreview"
+                :on-remove="handleRemove"
+                :on-success="handleSuccess"
+                :file-list="fileList"
+                :auto-upload="false"
+                :on-change = "changeUpload"
+            >
+              <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+              <!--                <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>-->
+              <!--                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+            </el-upload>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" :disabled="disabled" @click="onSubmit">立即发布</el-button>
+            <el-button>重置</el-button>
+          </el-form-item>
         </div>
         </el-form>
       </div>
@@ -217,7 +217,7 @@ export default {
 <style lang="scss" scoped>
 .send-demand {
   .container {
-    .send-demand-breadcrumb {
+    .breadcrumb {
       /deep/ .el-breadcrumb {
         height:57px;
         line-height:57px;
@@ -248,19 +248,16 @@ export default {
     }
     .send-demand-form {
       .form-main {
-        display:flex;
-        justify-content:space-between;
-        .form-main-left {
-          width:480px;
+        width:60%;
+        span {
+          display:inline-block;
+          margin-bottom: 20px;
         }
-        .form-main-right {
+        .line {
+          margin-left:10px;
+        }
+        /deep/ .el-date-editor--daterange.el-input__inner{
           width:480px;
-          .line {
-            margin-left:10px;
-          }
-          /deep/ .el-date-editor--daterange.el-input__inner{
-            width:100%;
-          }
         }
         /deep/ .el-textarea .el-textarea__inner {
           height:127px;

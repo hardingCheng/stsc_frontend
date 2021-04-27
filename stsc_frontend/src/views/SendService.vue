@@ -1,7 +1,7 @@
 <template>
   <div class="send-service">
     <div class="container">
-      <div class="send-service-breadcrumb">
+      <div class="breadcrumb">
         <el-breadcrumb separator-class="el-icon-arrow-right">
           <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
           <el-breadcrumb-item>发服务</el-breadcrumb-item>
@@ -13,67 +13,67 @@
       <div class="send-service-form">
         <el-form ref="serviceform" :model="form" :rules="rules" label-position="right" label-width="100px" @submit.native.prevent >
           <div class="form-main">
-            <div class="form-main-left">
-              <el-form-item label="服务名称：" prop="name">
-                <el-input v-model="form.name" placeholder="请填写需求名称"></el-input>
-              </el-form-item>
-              <el-form-item label="单位名称：" prop="company">
-                <el-input v-model="form.company" placeholder="请填写需求单位"></el-input>
-              </el-form-item>
-              <el-form-item label="单位地址：" prop="address">
-                <el-input v-model="form.address"></el-input>
-              </el-form-item>
-              <el-form-item label="联系人：" prop="contact">
-                <el-input v-model="form.contact"></el-input>
-              </el-form-item>
-              <el-form-item label="联系方式：" prop="telephone">
-                <el-input v-model="form.telephone"></el-input>
-              </el-form-item>
-              <el-form-item label="服务价格：" prop="price">
-                <el-input v-model="form.price"></el-input>
-              </el-form-item>
-              <el-form-item label="服务工期：" prop="deadline">
-                <el-input v-model="form.deadline"></el-input>
-              </el-form-item>
-              <el-form-item label="所属分类：" prop="categoryId" >
-                <el-cascader :options="options"  v-model="category" clearable ></el-cascader>
-              </el-form-item>
-              <!--            要进行修改的-->
-              <el-form-item label="上传附件：">
-                <el-upload
-                    class="upload-demo"
-                    ref="upload"
-                    action="/bh/stcsp/fileoss/upload"
-                    :on-preview="handlePreview"
-                    :on-remove="handleRemove"
-                    :on-success="handleSuccess"
-                    :file-list="fileList"
-                    :on-change = "changeUpload"
-                    :auto-upload="false">
-                  <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-                  <!--                <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>-->
-                  <!--                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
-                </el-upload>
-              </el-form-item>
-              <el-form-item>
-                <el-button type="primary" @click="onSubmit">立即发布</el-button>
-                <el-button>重置</el-button>
-              </el-form-item>
-            </div>
-            <div class="form-main-right">
-              <el-form-item label="关键词：" prop="keywords">
-                <el-input v-model="form.keywords"></el-input>
-              </el-form-item>
-              <el-form-item label="企业简介：" prop="companyIntroduction">
-                <el-input type="textarea" v-model="form.companyIntroduction"></el-input>
-              </el-form-item>
-              <el-form-item label="服务简介：" prop="serviceDescription">
-                <el-input type="textarea" v-model="form.serviceDescription"></el-input>
-              </el-form-item>
-              <el-form-item label="专家简介：" prop="expertIntroduction">
-                <el-input type="textarea" v-model="form.expertIntroduction"></el-input>
-              </el-form-item>
-            </div>
+            <span>服务基本信息</span>
+            <el-form-item label="服务名称：" prop="name">
+              <el-input v-model="form.name" placeholder="请填写需求名称"></el-input>
+            </el-form-item>
+            <el-form-item label="单位名称：" prop="company">
+              <el-input v-model="form.company" placeholder="请填写需求单位"></el-input>
+            </el-form-item>
+            <el-form-item label="单位地址：" prop="address">
+              <el-input v-model="form.address"></el-input>
+            </el-form-item>
+            <span>联系人信息</span>
+            <el-form-item label="联系人：" prop="contact">
+              <el-input v-model="form.contact"></el-input>
+            </el-form-item>
+            <el-form-item label="联系方式：" prop="telephone">
+              <el-input v-model="form.telephone"></el-input>
+            </el-form-item>
+            <span>服务价格及介绍</span>
+            <el-form-item label="服务价格：" prop="price">
+              <el-input v-model="form.price"></el-input>
+            </el-form-item>
+            <el-form-item label="服务工期：" prop="deadline">
+              <el-input v-model="form.deadline"></el-input>
+            </el-form-item>
+            <el-form-item label="所属分类：" prop="categoryId" >
+              <el-cascader :options="options"  v-model="category" clearable ></el-cascader>
+            </el-form-item>
+            <!--            要进行修改的-->
+
+            <el-form-item label="关键词：" prop="keywords">
+              <el-input v-model="form.keywords"></el-input>
+            </el-form-item>
+            <el-form-item label="企业简介：" prop="companyIntroduction">
+              <el-input type="textarea" v-model="form.companyIntroduction"></el-input>
+            </el-form-item>
+            <el-form-item label="服务简介：" prop="serviceDescription">
+              <el-input type="textarea" v-model="form.serviceDescription"></el-input>
+            </el-form-item>
+            <el-form-item label="专家简介：" prop="expertIntroduction">
+              <el-input type="textarea" v-model="form.expertIntroduction"></el-input>
+            </el-form-item>
+            <el-form-item label="上传附件：">
+              <el-upload
+                  class="upload-demo"
+                  ref="upload"
+                  action="/bh/stcsp/fileoss/upload"
+                  :on-preview="handlePreview"
+                  :on-remove="handleRemove"
+                  :on-success="handleSuccess"
+                  :file-list="fileList"
+                  :on-change = "changeUpload"
+                  :auto-upload="false">
+                <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+                <!--                <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>-->
+                <!--                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+              </el-upload>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="onSubmit">立即发布</el-button>
+              <el-button>重置</el-button>
+            </el-form-item>
           </div>
         </el-form>
       </div>
@@ -211,7 +211,7 @@ export default {
 <style lang="scss" scoped>
 .send-service {
   .container {
-    .send-service-breadcrumb {
+    .breadcrumb {
       /deep/ .el-breadcrumb {
         height:57px;
         line-height:57px;
@@ -242,25 +242,19 @@ export default {
     }
     .send-service-form {
       .form-main {
-        display:flex;
-        justify-content:space-between;
-        .form-main-left {
-          width:480px;
-          /deep/ .el-date-editor--daterange.el-input__inner{
-            width:100%;
-          }
+        width:60%;
+        span {
+          display:inline-block;
+          margin-bottom: 20px;
         }
-        .form-main-right {
-          width:480px;
-          .line {
-            margin-left:10px;
-          }
+        .line {
+          margin-left:10px;
         }
         /deep/ .el-textarea .el-textarea__inner {
           height:127px;
         }
         /deep/ .el-cascader {
-          width:100%;
+          width:200px;
         }
       }
     }
