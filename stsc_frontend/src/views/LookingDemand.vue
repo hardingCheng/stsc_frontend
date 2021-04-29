@@ -23,309 +23,40 @@
           <div class="primary-classification">
             <dl>
               <dt>需求分类：</dt>
-              <dd>全部</dd>
-              <dd>研究开发</dd>
-              <dd>技术转移</dd>
-              <dd>检验检测</dd>
-              <dd>创业孵化</dd>
-              <dd>检验检测</dd>
-              <dd>知识产权</dd>
-              <dd>科技咨询</dd>
-              <dd>科技金融</dd>
-              <dd>科学普及</dd>
+              <dd @click="getDemandList(null)">全部</dd>
+              <dd v-for="(item) in getFirstCategoryList" @click="getSecendsList(item.id)" :key="item.id">{{item.name}}</dd>
             </dl>
           </div>
-          <div class="secondary-classification">
+          <div class="secondary-classification" v-if="getSecondCategoryList.length !== 0">
             <dl>
-              <dd>二级菜单</dd>
-              <dd>二级菜单</dd>
-              <dd>二级菜单</dd>
-              <dd>二级菜单</dd>
-              <dd>二级菜单</dd>
-              <dd>二级菜单</dd>
-              <dd>二级菜单</dd>
-              <dd>二级菜单</dd>
+              <dd v-for="(item) in getSecondCategoryList" @click="getDemandList(item.id)" :key="item.id">{{item.name}}</dd>
+            </dl>
+          </div>
+          <div class="secondary-classification" v-else>
+            <dl>
+              <dd >暂无二级分类</dd>
             </dl>
           </div>
         </div>
       </div>
       <div class="info-list">
-        <div class="info-list-main">
+        <div class="info-list-main" v-for="(item,index) in demandList" :key="index">
           <div class="container">
-            <div class="info-list-item">
+            <div class="info-list-item" v-for="(info,index) in item" :key="index">
               <img src="../assets/images/hotbg.png" alt="">
               <div class="enterprise-name">
-                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
+                <h1>{{info.name}}</h1>
               </div>
               <div class="enterprise-bottom">
-                <span>摩擦片、模具</span>
+                <span>{{info.keywords}}</span>
                 <div class="enterprise-bottom-operation">
-                  <span>西安 - 制造业</span>
-                  <span><a href="#">立即下单</a></span>
-                </div>
-              </div>
-            </div>
-            <div class="info-list-item">
-              <img src="../assets/images/hotbg.png" alt="">
-              <div class="enterprise-name">
-                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-              </div>
-              <div class="enterprise-bottom">
-                <span>摩擦片、模具</span>
-                <div class="enterprise-bottom-operation">
-                  <span>西安 - 制造业</span>
-                  <span><a href="#">立即下单</a></span>
-                </div>
-              </div>
-            </div>
-            <div class="info-list-item">
-              <img src="../assets/images/hotbg.png" alt="">
-              <div class="enterprise-name">
-                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-              </div>
-              <div class="enterprise-bottom">
-                <span>摩擦片、模具</span>
-                <div class="enterprise-bottom-operation">
-                  <span>西安 - 制造业</span>
-                  <span><a href="#">立即下单</a></span>
-                </div>
-              </div>
-            </div>
-            <div class="info-list-item">
-              <img src="../assets/images/hotbg.png" alt="">
-              <div class="enterprise-name">
-                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-              </div>
-              <div class="enterprise-bottom">
-                <span>摩擦片、模具</span>
-                <div class="enterprise-bottom-operation">
-                  <span>西安 - 制造业</span>
-                  <span><a href="#">立即下单</a></span>
-                </div>
-              </div>
-            </div>
-            <div class="info-list-item">
-              <img src="../assets/images/hotbg.png" alt="">
-              <div class="enterprise-name">
-                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-              </div>
-              <div class="enterprise-bottom">
-                <span>摩擦片、模具</span>
-                <div class="enterprise-bottom-operation">
-                  <span>西安 - 制造业</span>
+                  <span>{{ info.company }}</span>
                   <span><a href="#">立即下单</a></span>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="info-list-main">
-          <div class="container">
-            <div class="info-list-item">
-              <img src="../assets/images/hotbg.png" alt="">
-              <div class="enterprise-name">
-                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-              </div>
-              <div class="enterprise-bottom">
-                <span>摩擦片、模具</span>
-                <div class="enterprise-bottom-operation">
-                  <span>西安 - 制造业</span>
-                  <span><a href="#">立即下单</a></span>
-                </div>
-              </div>
-            </div>
-            <div class="info-list-item">
-              <img src="../assets/images/hotbg.png" alt="">
-              <div class="enterprise-name">
-                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-              </div>
-              <div class="enterprise-bottom">
-                <span>摩擦片、模具</span>
-                <div class="enterprise-bottom-operation">
-                  <span>西安 - 制造业</span>
-                  <span><a href="#">立即下单</a></span>
-                </div>
-              </div>
-            </div>
-            <div class="info-list-item">
-              <img src="../assets/images/hotbg.png" alt="">
-              <div class="enterprise-name">
-                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-              </div>
-              <div class="enterprise-bottom">
-                <span>摩擦片、模具</span>
-                <div class="enterprise-bottom-operation">
-                  <span>西安 - 制造业</span>
-                  <span><a href="#">立即下单</a></span>
-                </div>
-              </div>
-            </div>
-            <div class="info-list-item">
-              <img src="../assets/images/hotbg.png" alt="">
-              <div class="enterprise-name">
-                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-              </div>
-              <div class="enterprise-bottom">
-                <span>摩擦片、模具</span>
-                <div class="enterprise-bottom-operation">
-                  <span>西安 - 制造业</span>
-                  <span><a href="#">立即下单</a></span>
-                </div>
-              </div>
-            </div>
-            <div class="info-list-item">
-              <img src="../assets/images/hotbg.png" alt="">
-              <div class="enterprise-name">
-                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-              </div>
-              <div class="enterprise-bottom">
-                <span>摩擦片、模具</span>
-                <div class="enterprise-bottom-operation">
-                  <span>西安 - 制造业</span>
-                  <span><a href="#">立即下单</a></span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="info-list-main">
-          <div class="container">
-            <div class="info-list-item">
-              <img src="../assets/images/hotbg.png" alt="">
-              <div class="enterprise-name">
-                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-              </div>
-              <div class="enterprise-bottom">
-                <span>摩擦片、模具</span>
-                <div class="enterprise-bottom-operation">
-                  <span>西安 - 制造业</span>
-                  <span><a href="#">立即下单</a></span>
-                </div>
-              </div>
-            </div>
-            <div class="info-list-item">
-              <img src="../assets/images/hotbg.png" alt="">
-              <div class="enterprise-name">
-                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-              </div>
-              <div class="enterprise-bottom">
-                <span>摩擦片、模具</span>
-                <div class="enterprise-bottom-operation">
-                  <span>西安 - 制造业</span>
-                  <span><a href="#">立即下单</a></span>
-                </div>
-              </div>
-            </div>
-            <div class="info-list-item">
-              <img src="../assets/images/hotbg.png" alt="">
-              <div class="enterprise-name">
-                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-              </div>
-              <div class="enterprise-bottom">
-                <span>摩擦片、模具</span>
-                <div class="enterprise-bottom-operation">
-                  <span>西安 - 制造业</span>
-                  <span><a href="#">立即下单</a></span>
-                </div>
-              </div>
-            </div>
-            <div class="info-list-item">
-              <img src="../assets/images/hotbg.png" alt="">
-              <div class="enterprise-name">
-                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-              </div>
-              <div class="enterprise-bottom">
-                <span>摩擦片、模具</span>
-                <div class="enterprise-bottom-operation">
-                  <span>西安 - 制造业</span>
-                  <span><a href="#">立即下单</a></span>
-                </div>
-              </div>
-            </div>
-            <div class="info-list-item">
-              <img src="../assets/images/hotbg.png" alt="">
-              <div class="enterprise-name">
-                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-              </div>
-              <div class="enterprise-bottom">
-                <span>摩擦片、模具</span>
-                <div class="enterprise-bottom-operation">
-                  <span>西安 - 制造业</span>
-                  <span><a href="#">立即下单</a></span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="info-list-main">
-          <div class="container">
-            <div class="info-list-item">
-              <img src="../assets/images/hotbg.png" alt="">
-              <div class="enterprise-name">
-                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-              </div>
-              <div class="enterprise-bottom">
-                <span>摩擦片、模具</span>
-                <div class="enterprise-bottom-operation">
-                  <span>西安 - 制造业</span>
-                  <span><a href="#">立即下单</a></span>
-                </div>
-              </div>
-            </div>
-            <div class="info-list-item">
-              <img src="../assets/images/hotbg.png" alt="">
-              <div class="enterprise-name">
-                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-              </div>
-              <div class="enterprise-bottom">
-                <span>摩擦片、模具</span>
-                <div class="enterprise-bottom-operation">
-                  <span>西安 - 制造业</span>
-                  <span><a href="#">立即下单</a></span>
-                </div>
-              </div>
-            </div>
-            <div class="info-list-item">
-              <img src="../assets/images/hotbg.png" alt="">
-              <div class="enterprise-name">
-                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-              </div>
-              <div class="enterprise-bottom">
-                <span>摩擦片、模具</span>
-                <div class="enterprise-bottom-operation">
-                  <span>西安 - 制造业</span>
-                  <span><a href="#">立即下单</a></span>
-                </div>
-              </div>
-            </div>
-            <div class="info-list-item">
-              <img src="../assets/images/hotbg.png" alt="">
-              <div class="enterprise-name">
-                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-              </div>
-              <div class="enterprise-bottom">
-                <span>摩擦片、模具</span>
-                <div class="enterprise-bottom-operation">
-                  <span>西安 - 制造业</span>
-                  <span><a href="#">立即下单</a></span>
-                </div>
-              </div>
-            </div>
-            <div class="info-list-item">
-              <img src="../assets/images/hotbg.png" alt="">
-              <div class="enterprise-name">
-                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-              </div>
-              <div class="enterprise-bottom">
-                <span>摩擦片、模具</span>
-                <div class="enterprise-bottom-operation">
-                  <span>西安 - 制造业</span>
-                  <span><a href="#">立即下单</a></span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        </div  >
       </div>
       <div class="common-pagination">
         <div class="pagination">
@@ -344,11 +75,65 @@ export default {
   name: "LookingDemand",
   data() {
     return {
-      input2:''
+      input2:'',
+      getFirstCategoryList:[],
+      getSecondCategoryList:[],
+      demandList:[]
     }
   },
   async mounted() {
-
+    const categoryResust = await this.$axios.categoryControllerList.getFirstCategoryList({})
+    this.getFirstCategoryList = categoryResust.data.firstCategoryList
+    await this.getDemandList(null)
+  },
+  methods: {
+    async getSecendsList(id){
+      const secondsResult = await this.$axios.categoryControllerList.getSecondCategoryList({
+        firstId:id
+      })
+      this.getSecondCategoryList = secondsResult.data.secondCategoryList
+      this.getDemandList(id)
+    },
+    async getDemandList(id) {
+      if (id === null){
+        const demandBaseResult = await this.$axios.requirementControllerList.getRequiresByCondition({
+          page:1,
+          limit:15
+        },{
+        })
+        let len = demandBaseResult.data.requireList.records.length;
+        let n = 5; //假设每行显示4个
+        this.demandList = [];
+        if (len !== 0) {
+          let lineNum = len % n === 0 ? len / n : Math.floor((len / n) + 1);
+          this.demandList = [];
+          for (let i = 0; i < lineNum; i++) {
+            // slice() 方法返回一个从开始到结束（不包括结束）选择的数组的一部分浅拷贝到一个新数组对象。且原始数组不会被修改。
+            let temp = demandBaseResult.data.requireList.records.slice(i * n, i * n + n);
+            this.demandList.push(temp);
+          }
+        }
+      }else {
+        const demandBaseResult = await this.$axios.requirementControllerList.getRequiresByCondition({
+          page:1,
+          limit:15
+        },{
+          categoryId:id
+        })
+        let len = demandBaseResult.data.requireList.records.length;
+        let n = 5; //假设每行显示4个
+        this.demandList = [];
+        if (len !== 0) {
+          let lineNum = len % n === 0 ? len / n : Math.floor((len / n) + 1);
+          this.demandList = [];
+          for (let i = 0; i < lineNum; i++) {
+            // slice() 方法返回一个从开始到结束（不包括结束）选择的数组的一部分浅拷贝到一个新数组对象。且原始数组不会被修改。
+            let temp = demandBaseResult.data.requireList.records.slice(i * n, i * n + n);
+            this.demandList.push(temp);
+          }
+        }
+      }
+    },
   }
 }
 </script>
@@ -398,6 +183,7 @@ export default {
           float:left;
         }
         dd {
+          cursor: pointer;
           &:first-child {
             font-size: 14px;
             font-weight: 400;
@@ -417,6 +203,7 @@ export default {
           overflow: hidden;
         }
         dd {
+          cursor: pointer;
           margin:0 20px;
           float:left;
           font-size: 14px;
@@ -429,7 +216,7 @@ export default {
   .info-list-main {
     .container {
       display:flex;
-      justify-content: space-between;
+      justify-content: flex-start;
       .info-list-item {
         box-sizing: border-box;
         width:225px;
@@ -437,6 +224,10 @@ export default {
         border: 1px solid #E7E7E7;
         padding: 16px 22px;
         margin-bottom: 20px;
+        margin-right: 18px;
+        &:last-child {
+          margin-right: 0;
+        }
         &:hover {
           border: 1px solid #1794FF;
         }
@@ -445,6 +236,7 @@ export default {
           height:auto;
         }
         .enterprise-name {
+          height:45px;
           margin: 14px 0;
           h1 {
             font-size: 15px;
@@ -460,6 +252,8 @@ export default {
         }
         .enterprise-bottom {
           span {
+            display:inline-block;
+            height:17px;
             font-size: 12px;
             font-family: PingFangSC-Regular, PingFang SC;
             font-weight: 400;
@@ -471,10 +265,17 @@ export default {
           height:22px;
           line-height:22px;
           span:first-child {
+            width:108px;
             float: left;
             font-size: 12px;
             font-weight: 400;
             color: #666666;
+            word-break: break-all;
+            text-overflow: ellipsis;
+            display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
+            -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+            -webkit-line-clamp: 1; /** 显示的行数 **/
+            overflow: hidden;  /** 隐藏超出的内容 **/
           }
           span:last-child {
             float: right;
@@ -498,5 +299,8 @@ export default {
       transform:translate(-50%,-50%);
     }
   }
+}
+.active {
+ color:#1794FF
 }
 </style>
