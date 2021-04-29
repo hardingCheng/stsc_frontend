@@ -1,13 +1,11 @@
 <template>
-  <div class="personal-center">
-    PersonalCenter
-  </div>
+  <div>sda</div>
 </template>
 
 <script>
 export default {
   name: "PersonalCenter"
-};
+}
 </script>
 
 <style scoped>

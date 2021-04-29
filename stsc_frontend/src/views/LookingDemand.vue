@@ -1,70 +1,342 @@
 <template>
     <div class="looking-demand container">
-      <el-row :gutter="20"  class="container">
-        <el-col :span="12" :offset="6"><div class="grid-content bg-purple ">
-
-          <div class="search-demand ">
-            <div class="search-demand-div">
-              <div class="search-demand-text fl"><span class="text">找需求</span></div>
-              <div>
-                <el-input class="input fr" value="  请输入搜索信息" ></el-input>
+      <div class="breadcrumb">
+        <el-breadcrumb separator-class="el-icon-arrow-right">
+          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+          <el-breadcrumb-item>找需求</el-breadcrumb-item>
+        </el-breadcrumb>
+      </div>
+      <div class="common-head-classification">
+        <div class="common-head-classification-top">
+          <div class="common-head-classification-tab fl">
+            <a href="#">找需求</a>
+          </div>
+          <div class="common-head-classification-serach fr">
+            <el-input
+                placeholder="请输入内容"
+                prefix-icon="el-icon-search"
+                v-model="input2">
+            </el-input>
+          </div>
+        </div>
+        <div class="common-head-classification-bottom">
+          <div class="primary-classification">
+            <dl>
+              <dt>需求分类：</dt>
+              <dd>全部</dd>
+              <dd>研究开发</dd>
+              <dd>技术转移</dd>
+              <dd>检验检测</dd>
+              <dd>创业孵化</dd>
+              <dd>检验检测</dd>
+              <dd>知识产权</dd>
+              <dd>科技咨询</dd>
+              <dd>科技金融</dd>
+              <dd>科学普及</dd>
+            </dl>
+          </div>
+          <div class="secondary-classification">
+            <dl>
+              <dd>二级菜单</dd>
+              <dd>二级菜单</dd>
+              <dd>二级菜单</dd>
+              <dd>二级菜单</dd>
+              <dd>二级菜单</dd>
+              <dd>二级菜单</dd>
+              <dd>二级菜单</dd>
+              <dd>二级菜单</dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+      <div class="info-list">
+        <div class="info-list-main">
+          <div class="container">
+            <div class="info-list-item">
+              <img src="../assets/images/hotbg.png" alt="">
+              <div class="enterprise-name">
+                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
+              </div>
+              <div class="enterprise-bottom">
+                <span>摩擦片、模具</span>
+                <div class="enterprise-bottom-operation">
+                  <span>西安 - 制造业</span>
+                  <span><a href="#">立即下单</a></span>
+                </div>
               </div>
             </div>
-            <div class="demand-classify ">
-              <p class="fl classify">需求分类:</p>
-              <p class="fl classify-text">全部</p>
-              <p class="fl classify-text">研究开发</p>
-              <p class="fl classify-text">技术转移</p>
-              <p class="fl classify-text">检验检测</p>
-              <p class="fl classify-text">创业孵化</p>
-              <p class="fl classify-text">知识产权</p>
-              <p class="fl classify-text">科技咨询</p>
-              <p class="fl classify-text">科技金融</p>
-              <p class="fl classify-text">科学普及</p>
-
-
+            <div class="info-list-item">
+              <img src="../assets/images/hotbg.png" alt="">
+              <div class="enterprise-name">
+                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
+              </div>
+              <div class="enterprise-bottom">
+                <span>摩擦片、模具</span>
+                <div class="enterprise-bottom-operation">
+                  <span>西安 - 制造业</span>
+                  <span><a href="#">立即下单</a></span>
+                </div>
+              </div>
             </div>
-
-          </div>
-
-          <!--列表-->
-          <div v-for="(item,index) in demand" :key="index" >
-          <div class="demand-breviary "  v-if="index<4"   >
-            <span >
-            <div >
-              <div class="fl"><img :src="item.image"  style="color: #5e6d82" class="demand-breviary-img" ></div>
-              <div class=" breviary-title">需求企业:<span class="breviary-content">{{item.company}}</span></div>
-              <div class="breviary-title">工期：<span class="breviary-content">{{item.deadline}}天</span></div>
-              <div class=" breviary-title">企业类型：<span class="breviary-content">西安市</span></div>
-              <div class="breviary-title">单位所在地：<span class="breviary-content">{{item.address}}</span></div>
-              <div class="breviary-title">需求分类：<span class="breviary-content">制造业</span></div>
-              <div class=" breviary-title">关键字：<span class="breviary-content">{{item.keywords}}</span></div>
-              <el-button class="look-detail-button">查看详情</el-button>
-              <el-button class="buy-button fr"><span class="buy-button-text">立即下单</span></el-button>
+            <div class="info-list-item">
+              <img src="../assets/images/hotbg.png" alt="">
+              <div class="enterprise-name">
+                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
+              </div>
+              <div class="enterprise-bottom">
+                <span>摩擦片、模具</span>
+                <div class="enterprise-bottom-operation">
+                  <span>西安 - 制造业</span>
+                  <span><a href="#">立即下单</a></span>
+                </div>
+              </div>
             </div>
-              </span>
+            <div class="info-list-item">
+              <img src="../assets/images/hotbg.png" alt="">
+              <div class="enterprise-name">
+                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
+              </div>
+              <div class="enterprise-bottom">
+                <span>摩擦片、模具</span>
+                <div class="enterprise-bottom-operation">
+                  <span>西安 - 制造业</span>
+                  <span><a href="#">立即下单</a></span>
+                </div>
+              </div>
+            </div>
+            <div class="info-list-item">
+              <img src="../assets/images/hotbg.png" alt="">
+              <div class="enterprise-name">
+                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
+              </div>
+              <div class="enterprise-bottom">
+                <span>摩擦片、模具</span>
+                <div class="enterprise-bottom-operation">
+                  <span>西安 - 制造业</span>
+                  <span><a href="#">立即下单</a></span>
+                </div>
+              </div>
+            </div>
           </div>
+        <div class="info-list-main">
+          <div class="container">
+            <div class="info-list-item">
+              <img src="../assets/images/hotbg.png" alt="">
+              <div class="enterprise-name">
+                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
+              </div>
+              <div class="enterprise-bottom">
+                <span>摩擦片、模具</span>
+                <div class="enterprise-bottom-operation">
+                  <span>西安 - 制造业</span>
+                  <span><a href="#">立即下单</a></span>
+                </div>
+              </div>
+            </div>
+            <div class="info-list-item">
+              <img src="../assets/images/hotbg.png" alt="">
+              <div class="enterprise-name">
+                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
+              </div>
+              <div class="enterprise-bottom">
+                <span>摩擦片、模具</span>
+                <div class="enterprise-bottom-operation">
+                  <span>西安 - 制造业</span>
+                  <span><a href="#">立即下单</a></span>
+                </div>
+              </div>
+            </div>
+            <div class="info-list-item">
+              <img src="../assets/images/hotbg.png" alt="">
+              <div class="enterprise-name">
+                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
+              </div>
+              <div class="enterprise-bottom">
+                <span>摩擦片、模具</span>
+                <div class="enterprise-bottom-operation">
+                  <span>西安 - 制造业</span>
+                  <span><a href="#">立即下单</a></span>
+                </div>
+              </div>
+            </div>
+            <div class="info-list-item">
+              <img src="../assets/images/hotbg.png" alt="">
+              <div class="enterprise-name">
+                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
+              </div>
+              <div class="enterprise-bottom">
+                <span>摩擦片、模具</span>
+                <div class="enterprise-bottom-operation">
+                  <span>西安 - 制造业</span>
+                  <span><a href="#">立即下单</a></span>
+                </div>
+              </div>
+            </div>
+            <div class="info-list-item">
+              <img src="../assets/images/hotbg.png" alt="">
+              <div class="enterprise-name">
+                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
+              </div>
+              <div class="enterprise-bottom">
+                <span>摩擦片、模具</span>
+                <div class="enterprise-bottom-operation">
+                  <span>西安 - 制造业</span>
+                  <span><a href="#">立即下单</a></span>
+                </div>
+              </div>
+            </div>
           </div>
-          <!--分页-->
-          <div class="block">
-            <el-pagination
-                background
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page.sync="currentPage3"
-                :page-size="100"
-                layout="prev, pager, next,jumper"
-                :total="1000">
-            </el-pagination>
-
-          </div>
-
-
         </div>
-        </el-col>
-      </el-row>
+        <div class="info-list-main">
+          <div class="container">
+            <div class="info-list-item">
+              <img src="../assets/images/hotbg.png" alt="">
+              <div class="enterprise-name">
+                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
+              </div>
+              <div class="enterprise-bottom">
+                <span>摩擦片、模具</span>
+                <div class="enterprise-bottom-operation">
+                  <span>西安 - 制造业</span>
+                  <span><a href="#">立即下单</a></span>
+                </div>
+              </div>
+            </div>
+            <div class="info-list-item">
+              <img src="../assets/images/hotbg.png" alt="">
+              <div class="enterprise-name">
+                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
+              </div>
+              <div class="enterprise-bottom">
+                <span>摩擦片、模具</span>
+                <div class="enterprise-bottom-operation">
+                  <span>西安 - 制造业</span>
+                  <span><a href="#">立即下单</a></span>
+                </div>
+              </div>
+            </div>
+            <div class="info-list-item">
+              <img src="../assets/images/hotbg.png" alt="">
+              <div class="enterprise-name">
+                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
+              </div>
+              <div class="enterprise-bottom">
+                <span>摩擦片、模具</span>
+                <div class="enterprise-bottom-operation">
+                  <span>西安 - 制造业</span>
+                  <span><a href="#">立即下单</a></span>
+                </div>
+              </div>
+            </div>
+            <div class="info-list-item">
+              <img src="../assets/images/hotbg.png" alt="">
+              <div class="enterprise-name">
+                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
+              </div>
+              <div class="enterprise-bottom">
+                <span>摩擦片、模具</span>
+                <div class="enterprise-bottom-operation">
+                  <span>西安 - 制造业</span>
+                  <span><a href="#">立即下单</a></span>
+                </div>
+              </div>
+            </div>
+            <div class="info-list-item">
+              <img src="../assets/images/hotbg.png" alt="">
+              <div class="enterprise-name">
+                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
+              </div>
+              <div class="enterprise-bottom">
+                <span>摩擦片、模具</span>
+                <div class="enterprise-bottom-operation">
+                  <span>西安 - 制造业</span>
+                  <span><a href="#">立即下单</a></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="info-list-main">
+          <div class="container">
+            <div class="info-list-item">
+              <img src="../assets/images/hotbg.png" alt="">
+              <div class="enterprise-name">
+                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
+              </div>
+              <div class="enterprise-bottom">
+                <span>摩擦片、模具</span>
+                <div class="enterprise-bottom-operation">
+                  <span>西安 - 制造业</span>
+                  <span><a href="#">立即下单</a></span>
+                </div>
+              </div>
+            </div>
+            <div class="info-list-item">
+              <img src="../assets/images/hotbg.png" alt="">
+              <div class="enterprise-name">
+                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
+              </div>
+              <div class="enterprise-bottom">
+                <span>摩擦片、模具</span>
+                <div class="enterprise-bottom-operation">
+                  <span>西安 - 制造业</span>
+                  <span><a href="#">立即下单</a></span>
+                </div>
+              </div>
+            </div>
+            <div class="info-list-item">
+              <img src="../assets/images/hotbg.png" alt="">
+              <div class="enterprise-name">
+                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
+              </div>
+              <div class="enterprise-bottom">
+                <span>摩擦片、模具</span>
+                <div class="enterprise-bottom-operation">
+                  <span>西安 - 制造业</span>
+                  <span><a href="#">立即下单</a></span>
+                </div>
+              </div>
+            </div>
+            <div class="info-list-item">
+              <img src="../assets/images/hotbg.png" alt="">
+              <div class="enterprise-name">
+                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
+              </div>
+              <div class="enterprise-bottom">
+                <span>摩擦片、模具</span>
+                <div class="enterprise-bottom-operation">
+                  <span>西安 - 制造业</span>
+                  <span><a href="#">立即下单</a></span>
+                </div>
+              </div>
+            </div>
+            <div class="info-list-item">
+              <img src="../assets/images/hotbg.png" alt="">
+              <div class="enterprise-name">
+                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
+              </div>
+              <div class="enterprise-bottom">
+                <span>摩擦片、模具</span>
+                <div class="enterprise-bottom-operation">
+                  <span>西安 - 制造业</span>
+                  <span><a href="#">立即下单</a></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="common-pagination">
+        <div class="pagination">
+          <el-pagination
+              background
+              layout="prev, pager, next"
+              :total="1000">
+          </el-pagination>
+        </div>
+      </div>
     </div>
-
+    </div>
 </template>
 
 <script>
@@ -72,10 +344,7 @@ export default {
   name: "LookingDemand",
   data() {
     return {
-      pages: 1,
-      total: 0,
-      current: 1,
-      demand: [],
+      input2:''
     }
   },
   async mounted() {
@@ -98,128 +367,151 @@ export default {
 
 <style scoped lang="scss">
 @import '../styles/mixin';
-.looking-demand{
-  margin-top: 59px;
-  .grid-content {
-    @include wh(1200px,1350px);
-    margin-left: 0;
-    background: #FFFFFF;
+.looking-demand {
+  .breadcrumb {
+    /deep/ .el-breadcrumb {
+      height:57px;
+      line-height:57px;
+    }
   }
-  .bg-purple {
-    background: #FFFFFF;;
-    margin-left: 0;
-  }
-  .search-demand{
-    @include wh(1200px,141px);
+  .common-head-classification {
     background: #FFFFFF;
     border: 1px solid #E7E7E7;
-    .demand-classify{
-      padding: 37px 20px 37px;
+    margin-bottom: 20px;
+    .common-head-classification-top {
+      height: 50px;
+      background: #F1F1F1;
+      .common-head-classification-tab {
+        text-align: center;
+        line-height:50px;
+        a {
+          height:48px;
+          width: 120px;
+          display:block;
+          font-size: 18px;
+          font-weight: 500;
+          color: #1794FF;
+          background: #FFFFFF;
+          border-top: 2px solid #1794FF;
+        }
+      }
+      .common-head-classification-serach {
+        margin-right: 10px;
+        line-height:50px;
+      }
     }
-    .classify{
-      @include wh(70px,20px);
-      font-size: 14px;
-      font-family: PingFangSC-Regular, PingFang SC;
-      font-weight: 400;
-      color: #999999;
-      line-height: 20px;
-      margin-right: 28px;
-    }
-    .classify-text{
-      @include wh(56px,20px);
-      font-size: 14px;
-      font-family: PingFangSC-Regular, PingFang SC;
-      font-weight: 400;
-      color: #111111;
-      line-height: 20px;
-      margin-right: 28px;
+    .common-head-classification-bottom {
+      box-sizing: border-box;
+      height: 135px;
+      padding:30px 24px;
+      .primary-classification {
+        dt,dd{
+          margin-right:28px;
+          float:left;
+        }
+        dd {
+          &:first-child {
+            font-size: 14px;
+            font-weight: 400;
+            color: #1794FF;
+          }
+        }
+      }
+      .secondary-classification {
+        dl {
+          margin-top: 40px;
+          margin-left: 90px;
+          height:36px;
+          line-height:36px;
+          width: 90%;
+          background: #F8F8F8;
+          border-radius: 2px;
+          overflow: hidden;
+        }
+        dd {
+          margin:0 20px;
+          float:left;
+          font-size: 14px;
+          font-weight: 400;
+          color: #111111;
+        }
+      }
     }
   }
-  .search-demand-div{
-    @include wh(1199px,50px);
-    background: #F1F1F1;
-    display: inline-block;
-    .input{
-      @include wh(220px,32px);
-      background: #FFFFFF;
-      margin-top: 9px;
-      margin-bottom: 9px;
-      border-radius: 4px;
-      border: 1px solid #E7E7E7;
-    }
-    .search-demand-text{
-      @include wh(93px,50px);
-      text-align: center;
-      line-height: 50px;
-      background: #FFFFFF;
-    }
-
-    .text{
-      @include wh(54px,25px);
-      font-size: 18px;
-      font-family: PingFangSC-Medium, PingFang SC;
-      font-weight: 500;
-      color: #1794FF;
-      line-height: 25px;
+  .info-list-main {
+    .container {
+      display:flex;
+      justify-content: space-between;
+      .info-list-item {
+        box-sizing: border-box;
+        width:225px;
+        height: 330px;
+        border: 1px solid #E7E7E7;
+        padding: 16px 22px;
+        margin-bottom: 20px;
+        &:hover {
+          border: 1px solid #1794FF;
+        }
+        img {
+          width:100%;
+          height:auto;
+        }
+        .enterprise-name {
+          margin: 14px 0;
+          h1 {
+            font-size: 15px;
+            font-weight: 500;
+            color: #111111;
+            word-break: break-all;
+            text-overflow: ellipsis;
+            display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
+            -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+            -webkit-line-clamp: 2; /** 显示的行数 **/
+            overflow: hidden;  /** 隐藏超出的内容 **/
+          }
+        }
+        .enterprise-bottom {
+          span {
+            font-size: 12px;
+            font-family: PingFangSC-Regular, PingFang SC;
+            font-weight: 400;
+            color: #FF7C12;
+          }
+        }
+        .enterprise-bottom-operation {
+          overflow: hidden;
+          height:22px;
+          line-height:22px;
+          span:first-child {
+            float: left;
+            font-size: 12px;
+            font-weight: 400;
+            color: #666666;
+          }
+          span:last-child {
+            float: right;
+            font-size: 16px;
+            font-weight: 500;
+            a {
+              color: #1794FF;
+            }
+          }
+        }
+      }
     }
   }
-  .demand-breviary{
-    display: inline-block;
-    box-sizing: border-box;
-    @include wh(1200px,270px);
-    border-bottom:1px solid #E7E7E7 ;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    background: #FFFFFF;
-    .demand-breviary-img{
-      @include wh(240px,210px);
-      background-color: #ECECEC;
-      margin-right: 20px;
-    }
-    .breviary-title{
-      margin-top: 10px;
-      height: 20px;
-      font-size: 14px;
-      font-family: PingFangSC-Regular, PingFang SC;
-      font-weight: 400;
-      color: #666666;
-      line-height: 20px;
-      margin-top: 10px;
-    }
-    .breviary-content{
-      height: 20px;
-      font-size: 14px;
-      font-family: PingFangSC-Regular, PingFang SC;
-      font-weight: 400;
-      color: #111111;
-      line-height: 20px;
-    }
-    .look-detail-button{
-      margin-top: 20px;
-      @include wh(88px,30px);
-      background: #FFFFFF;
-      border-radius: 4px;
-      border: 1px solid #1794FF;
-      padding: 0;
-      color: #1794FF;
-    }
-    .buy-button{
-      @include wh(120px,50px);
-      margin-right: 50px;
-      background: #1794FF;
-      border-radius: 8px;
-      border: 1px solid #1794FF;
-    }
-    .buy-button-text{
-      @include wh(72px,25px);
-      font-size: 18px;
-      font-family: PingFangSC-Medium, PingFang SC;
-      font-weight: 500;
-      color: #FFFFFF;
-      line-height: 25px;
+  .common-pagination{
+    height:60px;
+    position:relative;
+    .pagination {
+      position:absolute;
+      top: 50%;
+      left: 50%;
+      transform:translate(-50%,-50%);
     }
   }
 }
+<<<<<<< HEAD
 /deep/.el-col-offset-6{
   margin-left: 0;
 }
@@ -250,4 +542,6 @@ export default {
   background: white;
 }
 
+=======
+>>>>>>> ac7aa67c4b6f98a639e85338ed7d50d7e26b1b13
 </style>
