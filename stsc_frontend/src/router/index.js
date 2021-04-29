@@ -41,8 +41,22 @@ const routes = [
       {
         path: "/pc",
         name: "pc",
-        component: () => import("../views/PersonalCenter.vue"),
+        component: () => import("../views/personal-center/PersonalCenter"),
         meta: { requiresAuth: true },
+        redirect: "/basicinfo",
+        children:[{
+          path: "/basicinfo",
+          name: "basicinfo",
+          component: () => import("../views/personal-center/basic-information/Index"),
+        },{
+          path: "/buyer",
+          name: "buyer",
+          component: () => import("../views/personal-center/buyer/Index"),
+        },{
+          path: "/seller",
+          name: "seller",
+          component: () => import("../views/personal-center/seller/Index"),
+        }]
       },
       {
         path: "/sd",
