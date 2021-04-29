@@ -32,7 +32,7 @@
       </div>
     </div>
 <!--    服务详情-->
-     <el-tabs v-model="activeName" type="card"  @tab-click="handleClick" class="serve-details-text-bottom container">
+     <el-tabs v-model="activeName" type="card"  @tab-click="handleClick" class="serve-details-text-bottom ">
        <!-- 服务描述数据获取-->
        <el-tab-pane label="服务描述" name="first" ><p class="tab">{{info.serviceDescription}}</p></el-tab-pane>
       <el-tab-pane label="成功案例" name="second" >成功案例</el-tab-pane>
@@ -107,6 +107,7 @@ export default {
 .serve-details-text-bottom{
   width: 1200px;
   height: 541px;
+  margin:  20px 330px 33px auto;
   border: 1px solid #E7E7E7;
 }
 

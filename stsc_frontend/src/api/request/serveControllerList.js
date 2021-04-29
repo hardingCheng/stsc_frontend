@@ -31,6 +31,14 @@ const serveControllerList = {
             method: "get",
         });
     },
+    getComment: (params) => {
+        return axios({
+            url: `/bh/stcsp/evaluation/getEvaluation/${params.page}/${params.limit}/${params.serveId}`,
+            method: "get",
+            data:params
+        });
+    },
+
     // 发布服务
     releaseServe: (data) => {
         return axios({

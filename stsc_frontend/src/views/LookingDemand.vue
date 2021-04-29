@@ -28,7 +28,8 @@
           </div>
 
           <!--列表-->
-          <div class="demand-breviary " v-for="(item,index) in demand" :key="index"   >
+          <div v-for="(item,index) in demand" :key="index" >
+          <div class="demand-breviary "  v-if="index<4"   >
             <span >
             <div >
               <div class="fl"><img :src="item.image"  style="color: #5e6d82" class="demand-breviary-img" ></div>
@@ -43,14 +44,19 @@
             </div>
               </span>
           </div>
+          </div>
           <!--分页-->
-          <div class="container">
+          <div class="block">
             <el-pagination
                 background
-                layout="prev, pager, next"
-                :current-page="current"
-                :total="pages">
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page.sync="currentPage3"
+                :page-size="100"
+                layout="prev, pager, next,jumper"
+                :total="1000">
             </el-pagination>
+
           </div>
 
 
@@ -78,6 +84,14 @@ export default {
       limit: 10,
     }, {})
     this.demand = demand_result.data.requireList.records
+  },
+  methods:{
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+    }
   }
 }
 </script>
@@ -230,6 +244,10 @@ export default {
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
   color: #666666;
+}
+/deep/.el-input__inner{
+  width: 40px;
+  background: white;
 }
 
 </style>
