@@ -3,9 +3,10 @@
     <div class="header-nav clearfix">
       <Header/>
     </div>
-    <transition name="fade">
-      <router-view />
-    </transition>
+<!--    <transition name="fade">-->
+<!--      <router-view />-->
+<!--    </transition>-->
+    <router-view />
     <Footer/>
   </div>
 </template>

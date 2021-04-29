@@ -143,9 +143,10 @@
               </div>
             </div>
           </div>
-          <div class="popular-recommendation-main">
+          <div class="info-list">
+           <div class="info-list-main">
             <div class="container">
-              <div class="popular-recommendation-item">
+              <div class="info-list-item">
                 <img src="../assets/images/hotbg.png" alt="">
                 <div class="enterprise-name">
                   <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
@@ -158,7 +159,7 @@
                   </div>
                 </div>
               </div>
-              <div class="popular-recommendation-item">
+              <div class="info-list-item">
                 <img src="../assets/images/hotbg.png" alt="">
                 <div class="enterprise-name">
                   <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
@@ -171,7 +172,7 @@
                   </div>
                 </div>
               </div>
-              <div class="popular-recommendation-item">
+              <div class="info-list-item">
                 <img src="../assets/images/hotbg.png" alt="">
                 <div class="enterprise-name">
                   <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
@@ -184,7 +185,7 @@
                   </div>
                 </div>
               </div>
-              <div class="popular-recommendation-item">
+              <div class="info-list-item">
                 <img src="../assets/images/hotbg.png" alt="">
                 <div class="enterprise-name">
                   <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
@@ -197,7 +198,7 @@
                   </div>
                 </div>
               </div>
-              <div class="popular-recommendation-item">
+              <div class="info-list-item">
                 <img src="../assets/images/hotbg.png" alt="">
                 <div class="enterprise-name">
                   <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
@@ -211,6 +212,7 @@
                 </div>
               </div>
             </div>
+          </div>
           </div>
       </div>
       <div class="successful-cases">
@@ -531,16 +533,21 @@ export default {
       }
     }
     .popular-recommendation {
-      .popular-recommendation-main {
+      .info-list-main {
         .container {
           display:flex;
-          justify-content: space-between;
-          .popular-recommendation-item {
+          justify-content: flex-start;
+          .info-list-item {
             box-sizing: border-box;
-            width:224px;
+            width:225px;
             height: 330px;
             border: 1px solid #E7E7E7;
             padding: 16px 22px;
+            margin-bottom: 20px;
+            margin-right: 18px;
+            &:last-child {
+              margin-right: 0;
+            }
             &:hover {
               border: 1px solid #1794FF;
             }
@@ -549,6 +556,7 @@ export default {
               height:auto;
             }
             .enterprise-name {
+              height:45px;
               margin: 14px 0;
               h1 {
                 font-size: 15px;
@@ -564,6 +572,8 @@ export default {
             }
             .enterprise-bottom {
               span {
+                display:inline-block;
+                height:17px;
                 font-size: 12px;
                 font-family: PingFangSC-Regular, PingFang SC;
                 font-weight: 400;
@@ -575,10 +585,17 @@ export default {
               height:22px;
               line-height:22px;
               span:first-child {
+                width:108px;
                 float: left;
                 font-size: 12px;
                 font-weight: 400;
                 color: #666666;
+                word-break: break-all;
+                text-overflow: ellipsis;
+                display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
+                -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+                -webkit-line-clamp: 1; /** 显示的行数 **/
+                overflow: hidden;  /** 隐藏超出的内容 **/
               }
               span:last-child {
                 float: right;
@@ -780,7 +797,6 @@ export default {
         }
       }
     }
-
   }
 }
 .public-switch {
