@@ -42,172 +42,30 @@
       </div>
     </div>
     <div class="info-list">
-      <div class="info-list-main">
+      <div class="info-list-main" v-for="(item,index) in demandList" :key="index">
         <div class="container">
-          <div class="info-list-item">
+          <div class="info-list-item" v-for="(info,index) in item" :key="index">
             <img src="../assets/images/hotbg.png" alt="">
             <div class="enterprise-name">
-              <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
+              <h1>{{ info.name }}</h1>
             </div>
             <div class="enterprise-bottom">
-              <span>摩擦片、模具</span>
+              <span>{{ info.keywords }}</span>
               <div class="enterprise-bottom-operation">
-                <span>西安 - 制造业</span>
-                <span><a href="#">立即下单</a></span>
-              </div>
-            </div>
-          </div>
-          <div class="info-list-item">
-            <img src="../assets/images/hotbg.png" alt="">
-            <div class="enterprise-name">
-              <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-            </div>
-            <div class="enterprise-bottom">
-              <span>摩擦片、模具</span>
-              <div class="enterprise-bottom-operation">
-                <span>西安 - 制造业</span>
-                <span><a href="#">立即下单</a></span>
-              </div>
-            </div>
-          </div>
-          <div class="info-list-item">
-            <img src="../assets/images/hotbg.png" alt="">
-            <div class="enterprise-name">
-              <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-            </div>
-            <div class="enterprise-bottom">
-              <span>摩擦片、模具</span>
-              <div class="enterprise-bottom-operation">
-                <span>西安 - 制造业</span>
-                <span><a href="#">立即下单</a></span>
-              </div>
-            </div>
-          </div>
-          <div class="info-list-item">
-            <img src="../assets/images/hotbg.png" alt="">
-            <div class="enterprise-name">
-              <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-            </div>
-            <div class="enterprise-bottom">
-              <span>摩擦片、模具</span>
-              <div class="enterprise-bottom-operation">
-                <span>西安 - 制造业</span>
-                <span><a href="#">立即下单</a></span>
-              </div>
-            </div>
-          </div>
-          <div class="info-list-item">
-            <img src="../assets/images/hotbg.png" alt="">
-            <div class="enterprise-name">
-              <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-            </div>
-            <div class="enterprise-bottom">
-              <span>摩擦片、模具</span>
-              <div class="enterprise-bottom-operation">
-                <span>西安 - 制造业</span>
+                <span>{{ info.company }}</span>
                 <span><a href="#">立即下单</a></span>
               </div>
             </div>
           </div>
         </div>
-        <div class="info-list-main">
-          <div class="container">
-            <div class="info-list-item">
-              <img src="../assets/images/hotbg.png" alt="">
-              <div class="enterprise-name">
-                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-              </div>
-              <div class="enterprise-bottom">
-                <span>摩擦片、模具</span>
-                <div class="enterprise-bottom-operation">
-                  <span>西安 - 制造业</span>
-                  <span><a href="#">立即下单</a></span>
-                </div>
-              </div>
-            </div>
-            <div class="info-list-item">
-              <img src="../assets/images/hotbg.png" alt="">
-              <div class="enterprise-name">
-                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-              </div>
-              <div class="enterprise-bottom">
-                <span>摩擦片、模具</span>
-                <div class="enterprise-bottom-operation">
-                  <span>西安 - 制造业</span>
-                  <span><a href="#">立即下单</a></span>
-                </div>
-              </div>
-            </div>
-            <div class="info-list-item">
-              <img src="../assets/images/hotbg.png" alt="">
-              <div class="enterprise-name">
-                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-              </div>
-              <div class="enterprise-bottom">
-                <span>摩擦片、模具</span>
-                <div class="enterprise-bottom-operation">
-                  <span>西安 - 制造业</span>
-                  <span><a href="#">立即下单</a></span>
-                </div>
-              </div>
-            </div>
-            <div class="info-list-item">
-              <img src="../assets/images/hotbg.png" alt="">
-              <div class="enterprise-name">
-                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-              </div>
-              <div class="enterprise-bottom">
-                <span>摩擦片、模具</span>
-                <div class="enterprise-bottom-operation">
-                  <span>西安 - 制造业</span>
-                  <span><a href="#">立即下单</a></span>
-                </div>
-              </div>
-            </div>
-            <div class="info-list-item">
-              <img src="../assets/images/hotbg.png" alt="">
-              <div class="enterprise-name">
-                <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-              </div>
-              <div class="enterprise-bottom">
-                <span>摩擦片、模具</span>
-                <div class="enterprise-bottom-operation">
-                  <span>西安 - 制造业</span>
-                  <span><a href="#">立即下单</a></span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="info-list-main">
-          =======
-          <div class="info-list-main" v-for="(item,index) in demandList" :key="index">
-            >>>>>>> front_xwc
-            <div class="container">
-              <div class="info-list-item" v-for="(info,index) in item" :key="index">
-                <img src="../assets/images/hotbg.png" alt="">
-                <div class="enterprise-name">
-                  <h1>{{ info.name }}</h1>
-                </div>
-                <div class="enterprise-bottom">
-                  <span>{{ info.keywords }}</span>
-                  <div class="enterprise-bottom-operation">
-                    <span>{{ info.company }}</span>
-                    <span><a href="#">立即下单</a></span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="common-pagination">
-          <div class="pagination">
-            <el-pagination
-                background
-                layout="prev, pager, next"
-                :total="1000">
-            </el-pagination>
-          </div>
+      </div>
+      <div class="common-pagination">
+        <div class="pagination">
+          <el-pagination
+              background
+              layout="prev, pager, next"
+              :total="1000">
+          </el-pagination>
         </div>
       </div>
     </div>
@@ -283,7 +141,6 @@ export default {
 
 <style scoped lang="scss">
 @import '../styles/mixin';
-
 .looking-demand {
   .breadcrumb {
     /deep/ .el-breadcrumb {
@@ -291,7 +148,6 @@ export default {
       line-height: 57px;
     }
   }
-
   .common-head-classification {
     background: #FFFFFF;
     border: 1px solid #E7E7E7;
@@ -469,71 +325,7 @@ export default {
     }
   }
 }
-
-<
-<
-<
-<
-<
-<
-<
-HEAD
-
-<
-<
-<
-<
-<
-<
-<
-HEAD
-/deep/ .el-col-offset-6 {
-  margin-left: 0;
-}
-
-/deep/ .el-tabs__content {
-  box-sizing: border-box;
-  @include wh(1200px, 100px);
-
-}
-
-/deep/ .el-input__inner {
-  @include wh(220px, 32px);
-  background: url("../assets/staticImgs/search.png") no-repeat left;
-  background-size: 17px 18px;
-}
-
-/deep/ .el-pagination {
-  width: 500px;
-  height: 28px;
-  margin: 30px auto;
-}
-
-/deep/ .number {
-  font-size: 14px;
-  font-family: PingFangSC-Regular, PingFang SC;
-  font-weight: 400;
-  color: #666666;
-}
-
-/deep/ .el-input__inner {
-  width: 40px;
-  background: white;
-}
-
-==
-==
-==
-=
-> > > > > > > ac7aa67c4b6f98a639e85338ed7d50d7e26b1b13
-
-==
-==
-==
-=
 .active {
   color: #1794FF
 }
-
-> > > > > > > front_xwc
 </style>
