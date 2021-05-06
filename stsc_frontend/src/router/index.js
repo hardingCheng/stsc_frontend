@@ -52,10 +52,46 @@ const routes = [
           path: "/buyer",
           name: "buyer",
           component: () => import("../views/personal-center/buyer/Index"),
+          redirect: "/buyer/realauth",
+          children:[{
+            path: "/buyer/mydemand",
+            name: "mydemand",
+            component: () => import("../views/personal-center/buyer/MyDemand"),
+          },{
+            path: "/buyer/mynews",
+            name: "mynews",
+            component: () => import("../views/personal-center/buyer/MyNews"),
+          },{
+            path: "/buyer/myorder",
+            name: "myorder",
+            component: () => import("../views/personal-center/buyer/MyOrder"),
+          },{
+            path: "/buyer/realauth",
+            name: "realauth",
+            component: () => import("../views/personal-center/buyer/RealAuthentication"),
+          }]
         },{
           path: "/seller",
           name: "seller",
           component: () => import("../views/personal-center/seller/Index"),
+          redirect: "/seller/realauth",
+          children:[{
+            path: "/seller/myservice",
+            name: "myservice",
+            component: () => import("../views/personal-center/seller/MyService"),
+          },{
+            path: "/seller/mynews",
+            name: "mynews",
+            component: () => import("../views/personal-center/seller/MyNews"),
+          },{
+            path: "/seller/myorder",
+            name: "myorder",
+            component: () => import("../views/personal-center/seller/MyOrder"),
+          },{
+            path: "/seller/realauth",
+            name: "realauth",
+            component: () => import("../views/personal-center/seller/RealAuthentication"),
+          }]
         }]
       },
       {

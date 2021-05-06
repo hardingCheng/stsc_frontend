@@ -1,12 +1,7 @@
 <template>
   <div class="send-demand">
     <div class="container">
-      <div class="breadcrumb">
-        <el-breadcrumb separator-class="el-icon-arrow-right">
-          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item>发需求</el-breadcrumb-item>
-        </el-breadcrumb>
-      </div>
+     <bread-crumb title="发需求"></bread-crumb>
       <div class="send-demand-title">
         <h1>免费发布需求</h1>
       </div>
@@ -85,8 +80,10 @@
 </template>
 
 <script>
+import BreadCrumb from "../components/BreadCrumb";
 export default {
   name: "SendDemand",
+  components: {BreadCrumb},
   data() {
     return {
       form: {
@@ -217,12 +214,6 @@ export default {
 <style lang="scss" scoped>
 .send-demand {
   .container {
-    .breadcrumb {
-      /deep/ .el-breadcrumb {
-        height:57px;
-        line-height:57px;
-      }
-    }
     .send-demand-title {
       position:relative;
       height: 50px;

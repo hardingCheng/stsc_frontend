@@ -1,5 +1,7 @@
 <template>
-
+  <div class="my-news">
+    我的消息
+  </div>
 </template>
 
 <script>
@@ -8,6 +10,8 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+.my-news {
+  width:100%;
+}
 </style>

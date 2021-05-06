@@ -1,5 +1,7 @@
 <template>
-
+  <div class="real-auth">
+    实名认证
+  </div>
 </template>
 
 <script>
