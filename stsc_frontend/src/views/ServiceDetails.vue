@@ -1,6 +1,6 @@
 <template>
-  <div class="ServiceDetails">
-    <div class="container" ><P class="details-category">首页 > 热门推荐 > {{ info.name }}</P></div>
+  <div class="ServiceDetails container ">
+    <div class="container" ><P class="details-category">首页 > 找服务 > {{ info.name }}</P></div>
     <div class="serve-details ">
       <div class="serve-details-img"><img src="../assets/staticImgs/cardetail.png" width="400px" height="400px"></div>
       <div class="serve-details-inner-text">
@@ -46,7 +46,7 @@
         <el-button><span class="font">立即下单</span></el-button>
       </div>
     </div>
-      <tabs
+      <Tabs
           :description="info.serviceDescription">
           <div class="evaluation-box">
             <div class="praise-of">
@@ -91,7 +91,16 @@
             </Evaluation>
             <div class="pagination-box"></div>
           </div>
-      </tabs>
+        <div class="common-pagination">
+          <div class="pagination">
+            <el-pagination
+                background
+                layout="prev, pager, next"
+                :total="1000">
+            </el-pagination>
+          </div>
+        </div>
+      </Tabs>
     <div class="see-and-see container">
       <span class="see-and-see-title">---看了又看---</span>
       <img src="../assets/staticImgs/seeandsee.png" height="160px" width="160px">
@@ -289,6 +298,16 @@ export default {
         background: antiquewhite;
       }
     }
+    .common-pagination{
+      height:60px;
+      position:relative;
+      .pagination {
+        position:absolute;
+        top: 50%;
+        left: 50%;
+        transform:translate(-50%,-50%);
+      }
+    }
     .tab{
       height: 800px;
       margin-left: 10px;
@@ -396,7 +415,7 @@ export default {
     height: 300px;
     float: right;
     position: absolute;
-    right:120px;
+    right:60px;
     top:60px;
     //overflow: visible;
     .see-and-see-title{
@@ -452,7 +471,6 @@ export default {
 /deep/.el-rate__item{
   height: 16px;
 }
-
 .tab{
   height: 800px;
   margin-left: 10px;

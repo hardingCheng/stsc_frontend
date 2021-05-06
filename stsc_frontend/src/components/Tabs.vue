@@ -1,7 +1,5 @@
 <template>
-  <!--    服务详情-->
   <el-tabs v-model="activeName" type="card"  @tab-click="handleClick" class="serve-details-text-bottom container">
-    <!-- 服务描述数据获取-->
     <el-tab-pane label="描述" name="first" class="tab"><p >{{description}}</p></el-tab-pane>
     <el-tab-pane label="成功案例" name="second" class="tab">{{ successCase }}</el-tab-pane>
     <el-tab-pane label="专业人才" name="third" class="tab">{{ professionalTalents }}</el-tab-pane>
