@@ -1,5 +1,7 @@
 <template>
-
+  <div class="my-service">
+    我的服务
+  </div>
 </template>
 
 <script>

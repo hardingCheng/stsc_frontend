@@ -1,12 +1,7 @@
 <template>
   <div class="send-service">
     <div class="container">
-      <div class="breadcrumb">
-        <el-breadcrumb separator-class="el-icon-arrow-right">
-          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item>发服务</el-breadcrumb-item>
-        </el-breadcrumb>
-      </div>
+     <bread-crumb title="发服务"></bread-crumb>
       <div class="send-service-title">
         <h1>免费发布服务</h1>
       </div>
@@ -82,8 +77,10 @@
 </template>
 
 <script>
+import BreadCrumb from "../components/BreadCrumb";
 export default {
   name: "SendService",
+  components: {BreadCrumb},
   data() {
     return {
       form: {
@@ -211,12 +208,6 @@ export default {
 <style lang="scss" scoped>
 .send-service {
   .container {
-    .breadcrumb {
-      /deep/ .el-breadcrumb {
-        height:57px;
-        line-height:57px;
-      }
-    }
     .send-service-title {
       position:relative;
       height: 50px;

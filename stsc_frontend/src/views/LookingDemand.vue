@@ -1,11 +1,6 @@
 <template>
   <div class="looking-demand container">
-    <div class="breadcrumb">
-      <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>找需求</el-breadcrumb-item>
-      </el-breadcrumb>
-    </div>
+   <bread-crumb title="找需求"></bread-crumb>
     <div class="common-head-classification">
       <div class="common-head-classification-top">
         <div class="common-head-classification-tab fl">
@@ -80,8 +75,10 @@
 </template>
 
 <script>
+import BreadCrumb from "../components/BreadCrumb";
 export default {
   name: "LookingDemand",
+  components: {BreadCrumb},
   data() {
     return {
       input2: '',
@@ -102,7 +99,7 @@ export default {
         firstId: id
       })
       this.getSecondCategoryList = secondsResult.data.secondCategoryList
-      this.getDemandList(id)
+      await this.getDemandList(id)
     },
     async getDemandList(id) {
       if (id === null) {
@@ -157,12 +154,6 @@ export default {
 @import '../styles/mixin';
 
 .looking-demand {
-  .breadcrumb {
-    /deep/ .el-breadcrumb {
-      height: 57px;
-      line-height: 57px;
-    }
-  }
   .common-head-classification {
     background: #FFFFFF;
     border: 1px solid #E7E7E7;

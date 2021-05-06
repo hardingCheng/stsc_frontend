@@ -1,11 +1,6 @@
 <template>
   <div class="looking-service container">
-    <div class="breadcrumb">
-      <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>找需求</el-breadcrumb-item>
-      </el-breadcrumb>
-    </div>
+   <bread-crumb title="找服务"></bread-crumb>
     <div class="common-head-classification">
       <div class="common-head-classification-top">
         <div class="common-head-classification-tab fl">
@@ -23,318 +18,58 @@
         <div class="primary-classification">
           <dl>
             <dt>服务分类：</dt>
-            <dd>全部</dd>
-            <dd>研究开发</dd>
-            <dd>技术转移</dd>
-            <dd>检验检测</dd>
-            <dd>创业孵化</dd>
-            <dd>检验检测</dd>
-            <dd>知识产权</dd>
-            <dd>科技咨询</dd>
-            <dd>科技金融</dd>
-            <dd>科学普及</dd>
+            <dd @click="getServiceList(null)">全部</dd>
+            <dd v-for="(item) in getFirstCategoryList" @click="getSecendsList(item.id)" :key="item.id">{{ item.name }}
+            </dd>
           </dl>
         </div>
-        <div class="secondary-classification">
+        <div class="secondary-classification" v-if="getSecondCategoryList.length !== 0">
           <dl>
-            <dd>二级菜单</dd>
-            <dd>二级菜单</dd>
-            <dd>二级菜单</dd>
-            <dd>二级菜单</dd>
-            <dd>二级菜单</dd>
-            <dd>二级菜单</dd>
-            <dd>二级菜单</dd>
-            <dd>二级菜单</dd>
+            <dd v-for="(item) in getSecondCategoryList" @click="getServiceList(item.id)" :key="item.id">{{ item.name }}
+            </dd>
+          </dl>
+        </div>
+        <div class="secondary-classification" v-else>
+          <dl>
+            <dd>暂无二级分类</dd>
           </dl>
         </div>
       </div>
     </div>
-    <div class="info-list">
-      <div class="info-list-main">
+    <div class="info-list" v-if="serviceList.length !== 0">
+      <div class="info-list-main" v-for="(item,index) in demandList" :key="index">
         <div class="container">
-          <div class="info-list-item">
+          <div class="info-list-item" v-for="(info,index) in item" :key="index">
             <img src="../assets/images/hotbg.png" alt="">
             <div class="enterprise-name">
-              <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
+              <h1>{{ info.name }}</h1>
             </div>
             <div class="enterprise-bottom">
-              <span>摩擦片、模具</span>
+              <span>{{ info.keywords }}</span>
               <div class="enterprise-bottom-operation">
-                <span>西安 - 制造业</span>
-                <span><a href="#">立即下单</a></span>
-              </div>
-            </div>
-          </div>
-          <div class="info-list-item">
-            <img src="../assets/images/hotbg.png" alt="">
-            <div class="enterprise-name">
-              <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-            </div>
-            <div class="enterprise-bottom">
-              <span>摩擦片、模具</span>
-              <div class="enterprise-bottom-operation">
-                <span>西安 - 制造业</span>
-                <span><a href="#">立即下单</a></span>
-              </div>
-            </div>
-          </div>
-          <div class="info-list-item">
-            <img src="../assets/images/hotbg.png" alt="">
-            <div class="enterprise-name">
-              <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-            </div>
-            <div class="enterprise-bottom">
-              <span>摩擦片、模具</span>
-              <div class="enterprise-bottom-operation">
-                <span>西安 - 制造业</span>
-                <span><a href="#">立即下单</a></span>
-              </div>
-            </div>
-          </div>
-          <div class="info-list-item">
-            <img src="../assets/images/hotbg.png" alt="">
-            <div class="enterprise-name">
-              <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-            </div>
-            <div class="enterprise-bottom">
-              <span>摩擦片、模具</span>
-              <div class="enterprise-bottom-operation">
-                <span>西安 - 制造业</span>
-                <span><a href="#">立即下单</a></span>
-              </div>
-            </div>
-          </div>
-          <div class="info-list-item">
-            <img src="../assets/images/hotbg.png" alt="">
-            <div class="enterprise-name">
-              <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-            </div>
-            <div class="enterprise-bottom">
-              <span>摩擦片、模具</span>
-              <div class="enterprise-bottom-operation">
-                <span>西安 - 制造业</span>
+                <span>{{ info.company }}</span>
                 <span><a href="#">立即下单</a></span>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="info-list-main">
-        <div class="container">
-          <div class="info-list-item">
-            <img src="../assets/images/hotbg.png" alt="">
-            <div class="enterprise-name">
-              <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-            </div>
-            <div class="enterprise-bottom">
-              <span>摩擦片、模具</span>
-              <div class="enterprise-bottom-operation">
-                <span>西安 - 制造业</span>
-                <span><a href="#">立即下单</a></span>
-              </div>
-            </div>
-          </div>
-          <div class="info-list-item">
-            <img src="../assets/images/hotbg.png" alt="">
-            <div class="enterprise-name">
-              <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-            </div>
-            <div class="enterprise-bottom">
-              <span>摩擦片、模具</span>
-              <div class="enterprise-bottom-operation">
-                <span>西安 - 制造业</span>
-                <span><a href="#">立即下单</a></span>
-              </div>
-            </div>
-          </div>
-          <div class="info-list-item">
-            <img src="../assets/images/hotbg.png" alt="">
-            <div class="enterprise-name">
-              <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-            </div>
-            <div class="enterprise-bottom">
-              <span>摩擦片、模具</span>
-              <div class="enterprise-bottom-operation">
-                <span>西安 - 制造业</span>
-                <span><a href="#">立即下单</a></span>
-              </div>
-            </div>
-          </div>
-          <div class="info-list-item">
-            <img src="../assets/images/hotbg.png" alt="">
-            <div class="enterprise-name">
-              <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-            </div>
-            <div class="enterprise-bottom">
-              <span>摩擦片、模具</span>
-              <div class="enterprise-bottom-operation">
-                <span>西安 - 制造业</span>
-                <span><a href="#">立即下单</a></span>
-              </div>
-            </div>
-          </div>
-          <div class="info-list-item">
-            <img src="../assets/images/hotbg.png" alt="">
-            <div class="enterprise-name">
-              <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-            </div>
-            <div class="enterprise-bottom">
-              <span>摩擦片、模具</span>
-              <div class="enterprise-bottom-operation">
-                <span>西安 - 制造业</span>
-                <span><a href="#">立即下单</a></span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="info-list-main">
-        <div class="container">
-          <div class="info-list-item">
-            <img src="../assets/images/hotbg.png" alt="">
-            <div class="enterprise-name">
-              <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-            </div>
-            <div class="enterprise-bottom">
-              <span>摩擦片、模具</span>
-              <div class="enterprise-bottom-operation">
-                <span>西安 - 制造业</span>
-                <span><a href="#">立即下单</a></span>
-              </div>
-            </div>
-          </div>
-          <div class="info-list-item">
-            <img src="../assets/images/hotbg.png" alt="">
-            <div class="enterprise-name">
-              <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-            </div>
-            <div class="enterprise-bottom">
-              <span>摩擦片、模具</span>
-              <div class="enterprise-bottom-operation">
-                <span>西安 - 制造业</span>
-                <span><a href="#">立即下单</a></span>
-              </div>
-            </div>
-          </div>
-          <div class="info-list-item">
-            <img src="../assets/images/hotbg.png" alt="">
-            <div class="enterprise-name">
-              <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-            </div>
-            <div class="enterprise-bottom">
-              <span>摩擦片、模具</span>
-              <div class="enterprise-bottom-operation">
-                <span>西安 - 制造业</span>
-                <span><a href="#">立即下单</a></span>
-              </div>
-            </div>
-          </div>
-          <div class="info-list-item">
-            <img src="../assets/images/hotbg.png" alt="">
-            <div class="enterprise-name">
-              <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-            </div>
-            <div class="enterprise-bottom">
-              <span>摩擦片、模具</span>
-              <div class="enterprise-bottom-operation">
-                <span>西安 - 制造业</span>
-                <span><a href="#">立即下单</a></span>
-              </div>
-            </div>
-          </div>
-          <div class="info-list-item">
-            <img src="../assets/images/hotbg.png" alt="">
-            <div class="enterprise-name">
-              <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-            </div>
-            <div class="enterprise-bottom">
-              <span>摩擦片、模具</span>
-              <div class="enterprise-bottom-operation">
-                <span>西安 - 制造业</span>
-                <span><a href="#">立即下单</a></span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="info-list-main">
-        <div class="container">
-          <div class="info-list-item">
-            <img src="../assets/images/hotbg.png" alt="">
-            <div class="enterprise-name">
-              <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-            </div>
-            <div class="enterprise-bottom">
-              <span>摩擦片、模具</span>
-              <div class="enterprise-bottom-operation">
-                <span>西安 - 制造业</span>
-                <span><a href="#">立即下单</a></span>
-              </div>
-            </div>
-          </div>
-          <div class="info-list-item">
-            <img src="../assets/images/hotbg.png" alt="">
-            <div class="enterprise-name">
-              <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-            </div>
-            <div class="enterprise-bottom">
-              <span>摩擦片、模具</span>
-              <div class="enterprise-bottom-operation">
-                <span>西安 - 制造业</span>
-                <span><a href="#">立即下单</a></span>
-              </div>
-            </div>
-          </div>
-          <div class="info-list-item">
-            <img src="../assets/images/hotbg.png" alt="">
-            <div class="enterprise-name">
-              <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-            </div>
-            <div class="enterprise-bottom">
-              <span>摩擦片、模具</span>
-              <div class="enterprise-bottom-operation">
-                <span>西安 - 制造业</span>
-                <span><a href="#">立即下单</a></span>
-              </div>
-            </div>
-          </div>
-          <div class="info-list-item">
-            <img src="../assets/images/hotbg.png" alt="">
-            <div class="enterprise-name">
-              <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-            </div>
-            <div class="enterprise-bottom">
-              <span>摩擦片、模具</span>
-              <div class="enterprise-bottom-operation">
-                <span>西安 - 制造业</span>
-                <span><a href="#">立即下单</a></span>
-              </div>
-            </div>
-          </div>
-          <div class="info-list-item">
-            <img src="../assets/images/hotbg.png" alt="">
-            <div class="enterprise-name">
-              <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-            </div>
-            <div class="enterprise-bottom">
-              <span>摩擦片、模具</span>
-              <div class="enterprise-bottom-operation">
-                <span>西安 - 制造业</span>
-                <span><a href="#">立即下单</a></span>
-              </div>
-            </div>
-          </div>
+      <div class="common-pagination">
+        <div class="pagination">
+          <el-pagination
+              background
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page.sync="currentPage1"
+              :page-size="100"
+              layout="total, prev, pager, next"
+              :total="1000">
+          </el-pagination>
         </div>
       </div>
     </div>
-    <div class="common-pagination">
-      <div class="pagination">
-        <el-pagination
-            background
-            layout="prev, pager, next"
-            :total="1000">
-        </el-pagination>
-      </div>
+    <div class="list-null" v-else>
+      当前暂无数据，请刷新重试。
     </div>
   </div>
 </template>
@@ -343,29 +78,79 @@
 
 import {resolve} from "vue-count-to";
 import {reject} from "lodash";
+import BreadCrumb from "../components/BreadCrumb";
 
 export default {
   name: "LookingService",
+  components: {BreadCrumb},
   data(){
     return{
-     input2:''
+      input2: '',
+      getFirstCategoryList: [],
+      getSecondCategoryList: [],
+      serviceList: [],
+      currentPage1: 2
     }
   },
   async mounted() {
-
+    const categoryResust = await this.$axios.categoryControllerList.getFirstCategoryList({})
+    this.getFirstCategoryList = categoryResust.data.firstCategoryList
+    await this.getServiceList(null)
   },
+  methods: {
+    async getServiceList(id){
+      if (id === null) {
+        const servciceBaseResult = await this.$axios.requirementControllerList.getRequiresByCondition({
+          page: 1,
+          limit: 15
+        }, {})
+        let len = servciceBaseResult.data.requireList.records.length;
+        let n = 5; //假设每行显示4个
+        this.serviceList = [];
+        if (len !== 0) {
+          let lineNum = len % n === 0 ? len / n : Math.floor((len / n) + 1);
+          this.serviceList = [];
+          for (let i = 0; i < lineNum; i++) {
+            // slice() 方法返回一个从开始到结束（不包括结束）选择的数组的一部分浅拷贝到一个新数组对象。且原始数组不会被修改。
+            let temp = servciceBaseResult.data.requireList.records.slice(i * n, i * n + n);
+            this.serviceList.push(temp);
+          }
+        }
+      } else {
+        const servciceBaseResult = await this.$axios.requirementControllerList.getRequiresByCondition({
+          page: 1,
+          limit: 15
+        }, {
+          categoryId: id
+        })
+        let len = servciceBaseResult.data.requireList.records.length;
+        let n = 5; //假设每行显示4个
+        this.serviceList = [];
+        if (len !== 0) {
+          let lineNum = len % n === 0 ? len / n : Math.floor((len / n) + 1);
+          this.serviceList = [];
+          for (let i = 0; i < lineNum; i++) {
+            // slice() 方法返回一个从开始到结束（不包括结束）选择的数组的一部分浅拷贝到一个新数组对象。且原始数组不会被修改。
+            let temp = servciceBaseResult.data.requireList.records.slice(i * n, i * n + n);
+            this.serviceList.push(temp);
+          }
+        }
+      }
+    },
+    async getSecendsList(id) {
+      const secondsResult = await this.$axios.categoryControllerList.getSecondCategoryList({
+        firstId: id
+      })
+      this.getSecondCategoryList = secondsResult.data.secondCategoryList
+      await this.getServiceList(id)
+    },
+  }
 };
 </script>
 
 <style scoped lang="scss">
 @import '../styles/mixin';
 .looking-service{
-  .breadcrumb {
-    /deep/ .el-breadcrumb {
-      height:57px;
-      line-height:57px;
-    }
-  }
   .common-head-classification {
     background: #FFFFFF;
     border: 1px solid #E7E7E7;
@@ -505,6 +290,9 @@ export default {
         }
       }
     }
+  }
+  .list-null {
+    height:340px;
   }
   .common-pagination{
     height:60px;

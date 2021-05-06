@@ -1,22 +1,17 @@
 <template>
   <div class="personal-center">
    <div class="container">
-     <div class="breadcrumb">
-       <el-breadcrumb separator-class="el-icon-arrow-right">
-         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-         <el-breadcrumb-item>个人中心</el-breadcrumb-item>
-       </el-breadcrumb>
-     </div>
+     <bread-crumb title="个人中心"></bread-crumb>
      <div class="common-head-classification">
        <div class="common-head-classification-top">
          <div class="common-head-classification-tab fl">
-           <router-link to="/buyer">我是买家</router-link>
+           <a @click="selecttab(1)" :class="[tabIndex === 1 ?'is_active':'']">我是买家</a>
          </div>
          <div class="common-head-classification-tab fl">
-           <router-link to="/seller">我是卖家</router-link>
+           <a @click="selecttab(2)" :class="[tabIndex === 2 ?'is_active':'']">我是卖家</a>
          </div>
          <div class="common-head-classification-tab fl">
-           <router-link to="/basicinfo">基本信息</router-link>
+           <a @click="selecttab(3)" :class="[tabIndex === 3 ?'is_active':'']">基本信息</a>
          </div>
        </div>
      </div>
@@ -26,20 +21,42 @@
 </template>
 
 <script>
+import BreadCrumb from "../../components/BreadCrumb";
 export default {
-  name: "PersonalCenter"
+  name: "PersonalCenter",
+  components: {BreadCrumb},
+  data() {
+    return {
+      tabIndex:3
+    }
+  },
+  methods:{
+    selecttab(index){
+      switch(index) {
+        case 1:
+          this.tabIndex=index
+          this.$router.push("/buyer")
+          break
+        case 2:
+          this.tabIndex=index
+          this.$router.push("/seller")
+          break
+        case 3:
+          this.tabIndex=index
+          this.$router.push("/basicinfo")
+          break
+        default:
+          this.$router.push("/basicinfo")
+          break
+      }
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 .personal-center {
   .container {
-    .breadcrumb {
-      /deep/ .el-breadcrumb {
-        height:57px;
-        line-height:57px;
-      }
-    }
     .common-head-classification {
       background: #FFFFFF;
       border: 1px solid #E7E7E7;
@@ -57,15 +74,17 @@ export default {
             font-size: 18px;
             color:#111111;
             font-weight: 400;
+            cursor: pointer;
           }
-          &:last-child a{
-            color: #1794FF;
-            background: #FFFFFF;
-            border-top: 2px solid #1794FF;
-          }
+
         }
       }
     }
   }
+}
+.is_active {
+  color: #1794FF !important;
+  background: #FFFFFF !important;
+  border-top: 2px solid #1794FF !important;
 }
 </style>
