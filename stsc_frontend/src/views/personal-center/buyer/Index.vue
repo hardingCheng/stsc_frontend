@@ -1,5 +1,7 @@
 <template>
+  <div class="buyer-index">
 
+  </div>
 </template>
 
 <script>
