@@ -41,7 +41,7 @@
         </div>
       </div>
     </div>
-    <div class="info-list">
+    <div class="info-list" v-if="demandList.length !== 0">
       <div class="info-list-main" v-for="(item,index) in demandList" :key="index">
         <div class="container">
           <div class="info-list-item" v-for="(info,index) in item" :key="index">
@@ -63,11 +63,18 @@
         <div class="pagination">
           <el-pagination
               background
-              layout="prev, pager, next"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page.sync="currentPage1"
+              :page-size="100"
+              layout="total, prev, pager, next"
               :total="1000">
           </el-pagination>
         </div>
       </div>
+    </div>
+    <div class="list-null" v-else>
+      当前暂无数据，请刷新重试。
     </div>
   </div>
 </template>
@@ -80,7 +87,8 @@ export default {
       input2: '',
       getFirstCategoryList: [],
       getSecondCategoryList: [],
-      demandList: []
+      demandList: [],
+      currentPage1: 2
     }
   },
   async mounted() {
@@ -134,6 +142,12 @@ export default {
           }
         }
       }
+    },
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
     }
   }
 }
@@ -141,6 +155,7 @@ export default {
 
 <style scoped lang="scss">
 @import '../styles/mixin';
+
 .looking-demand {
   .breadcrumb {
     /deep/ .el-breadcrumb {
@@ -224,95 +239,98 @@ export default {
       }
     }
   }
+  .info-list {
+    .info-list-main {
+      .container {
+        display: flex;
+        justify-content: flex-start;
 
-  .info-list-main {
-    .container {
-      display: flex;
-      justify-content: flex-start;
+        .info-list-item {
+          box-sizing: border-box;
+          width: 225px;
+          height: 330px;
+          border: 1px solid #E7E7E7;
+          padding: 16px 22px;
+          margin-bottom: 20px;
+          margin-right: 18px;
 
-      .info-list-item {
-        box-sizing: border-box;
-        width: 225px;
-        height: 330px;
-        border: 1px solid #E7E7E7;
-        padding: 16px 22px;
-        margin-bottom: 20px;
-        margin-right: 18px;
-
-        &:last-child {
-          margin-right: 0;
-        }
-
-        &:hover {
-          border: 1px solid #1794FF;
-        }
-
-        img {
-          width: 100%;
-          height: auto;
-        }
-
-        .enterprise-name {
-          height: 45px;
-          margin: 14px 0;
-
-          h1 {
-            font-size: 15px;
-            font-weight: 500;
-            color: #111111;
-            word-break: break-all;
-            text-overflow: ellipsis;
-            display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
-            -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
-            -webkit-line-clamp: 2; /** 显示的行数 **/
-            overflow: hidden; /** 隐藏超出的内容 **/
-          }
-        }
-
-        .enterprise-bottom {
-          span {
-            display: inline-block;
-            height: 17px;
-            font-size: 12px;
-            font-family: PingFangSC-Regular, PingFang SC;
-            font-weight: 400;
-            color: #FF7C12;
-          }
-        }
-
-        .enterprise-bottom-operation {
-          overflow: hidden;
-          height: 22px;
-          line-height: 22px;
-
-          span:first-child {
-            width: 108px;
-            float: left;
-            font-size: 12px;
-            font-weight: 400;
-            color: #666666;
-            word-break: break-all;
-            text-overflow: ellipsis;
-            display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
-            -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
-            -webkit-line-clamp: 1; /** 显示的行数 **/
-            overflow: hidden; /** 隐藏超出的内容 **/
+          &:last-child {
+            margin-right: 0;
           }
 
-          span:last-child {
-            float: right;
-            font-size: 16px;
-            font-weight: 500;
+          &:hover {
+            border: 1px solid #1794FF;
+          }
 
-            a {
-              color: #1794FF;
+          img {
+            width: 100%;
+            height: auto;
+          }
+
+          .enterprise-name {
+            height: 45px;
+            margin: 14px 0;
+
+            h1 {
+              font-size: 15px;
+              font-weight: 500;
+              color: #111111;
+              word-break: break-all;
+              text-overflow: ellipsis;
+              display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
+              -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+              -webkit-line-clamp: 2; /** 显示的行数 **/
+              overflow: hidden; /** 隐藏超出的内容 **/
+            }
+          }
+
+          .enterprise-bottom {
+            span {
+              display: inline-block;
+              height: 17px;
+              font-size: 12px;
+              font-family: PingFangSC-Regular, PingFang SC;
+              font-weight: 400;
+              color: #FF7C12;
+            }
+          }
+
+          .enterprise-bottom-operation {
+            overflow: hidden;
+            height: 22px;
+            line-height: 22px;
+
+            span:first-child {
+              width: 108px;
+              float: left;
+              font-size: 12px;
+              font-weight: 400;
+              color: #666666;
+              word-break: break-all;
+              text-overflow: ellipsis;
+              display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
+              -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+              -webkit-line-clamp: 1; /** 显示的行数 **/
+              overflow: hidden; /** 隐藏超出的内容 **/
+            }
+
+            span:last-child {
+              float: right;
+              font-size: 16px;
+              font-weight: 500;
+
+              a {
+                color: #1794FF;
+              }
             }
           }
         }
       }
     }
   }
-
+  .list-null {
+    height:340px;
+  }
   .common-pagination {
     height: 60px;
     position: relative;
@@ -325,6 +343,7 @@ export default {
     }
   }
 }
+
 .active {
   color: #1794FF
 }
