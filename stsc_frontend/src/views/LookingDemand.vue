@@ -511,7 +511,7 @@ export default {
     }
   }
 }
-<<<<<<< HEAD
+
 /deep/.el-col-offset-6{
   margin-left: 0;
 }
@@ -542,6 +542,5 @@ export default {
   background: white;
 }
 
-=======
->>>>>>> ac7aa67c4b6f98a639e85338ed7d50d7e26b1b13
+
 </style>
