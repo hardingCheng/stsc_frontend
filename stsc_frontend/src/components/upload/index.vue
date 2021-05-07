@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import comPdfShow from '../../components/comPdfShow';
+import comPdfShow from '../ComPdfShow';
 export default {
   name: "VueUpload",
   props: {

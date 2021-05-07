@@ -37,7 +37,7 @@
       </div>
     </div>
     <div class="info-list" v-if="serviceList.length !== 0">
-      <div class="info-list-main" v-for="(item,index) in demandList" :key="index">
+      <div class="info-list-main" v-for="(item,index) in serviceList" :key="index">
         <div class="container">
           <div class="info-list-item" v-for="(info,index) in item" :key="index">
             <img src="../assets/images/hotbg.png" alt="">
@@ -144,6 +144,12 @@ export default {
       this.getSecondCategoryList = secondsResult.data.secondCategoryList
       await this.getServiceList(id)
     },
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+    }
   }
 };
 </script>
