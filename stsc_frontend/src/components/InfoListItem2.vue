@@ -2,7 +2,7 @@
   <div class="info-list-item" v-if="info !== null">
     <div class="enterprise-top">
       <a @click="goDetail(detailurl)">
-        <img src="../assets/images/hotbg.png" alt="">
+        <img :src="imageSrc" alt="">
         <div class="enterprise-name">
           <h1>{{ info.name }}</h1>
         </div>
@@ -31,6 +31,15 @@ export default {
     goDetail(url){
       this.$router.push(url)
     }
+  },
+  computed:{
+    imageSrc:function (){
+      if (this.info.image){
+        return this.info.image
+      }else {
+        return 'https://z3.ax1x.com/2021/05/07/g39Qht.png'
+      }
+    }
   }
 }
 </script>
@@ -54,7 +63,7 @@ export default {
     a {
       img {
         width:100%;
-        height:auto;
+        height:179px;
       }
       .enterprise-name {
         height:45px;

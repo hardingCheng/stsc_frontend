@@ -26,6 +26,24 @@
               <el-input v-model="form.telephone"></el-input>
             </el-form-item>
             <span>服务价格及介绍</span>
+            <el-form-item label="上传图片：">
+              <el-upload
+                  class="upload-demo"
+                  ref="uploadimage"
+                  action="/bh/stcsp/fileoss/upload"
+                  :on-preview="handlePreview"
+                  :on-remove="handleRemove"
+                  :on-success="handleSuccess1"
+                  :file-list="fileList1"
+                  :auto-upload="false"
+                  list-type="picture"
+                  :on-change = "changeUpload1"
+              >
+                <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+                <!--                <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>-->
+                <!--                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+              </el-upload>
+            </el-form-item>
             <el-form-item label="服务价格：" prop="price">
               <el-input v-model="form.price"></el-input>
             </el-form-item>
@@ -33,7 +51,7 @@
               <el-input v-model="form.deadline"></el-input>
             </el-form-item>
             <el-form-item label="所属分类：" prop="categoryId" >
-              <el-cascader :options="options"  v-model="category" clearable ></el-cascader>
+              <el-cascader :options="options"  v-model="category" :props="{ checkStrictly: true }" clearable ></el-cascader>
             </el-form-item>
             <!--            要进行修改的-->
 
@@ -96,7 +114,8 @@ export default {
         expertIntroduction:'',
         keywords:'',
         categoryId:'',
-        attachment:''
+        attachment:'',
+        image:''
       },
       rules: {
         name: [
@@ -137,6 +156,7 @@ export default {
         ],
       },
       fileList: [],
+      fileList1: [],
       disabled:false,
       options: [],
       category:[]
@@ -148,31 +168,59 @@ export default {
      this.options= JSON.parse(JSON.stringify(this.options).replace(/id/g,"value").replace(/name/g,"label"))
   },
   watch: {
-    'form.attachment': {
-      async handler (newName, oldName) {
-        if (newName!==''){
-          let result = await this.$axios.serveControllerList.releaseServe(this.form)
-          if (result.code === 20000){
-            this.$message({
-              message: '发布需求成功,请前往个人中心查看！',
-              type: 'success'
-            });
-            await this.$router.push("/index")
+    form:{
+      async handler (newValue, oldName) {
+        if (this.fileList.length!==0&&this.fileList1.length!==0){
+          if (newValue.image!==''&&newValue.attachments!==''){
+            let result = await this.$axios.serveControllerList.releaseServe(this.form)
+            if (result.code === 20000){
+              this.$message({
+                message: '发布服务成功,请前往个人中心查看！',
+                type: 'success'
+              });
+              await this.$router.push("/index")
+            }
+          }
+        }else if (this.fileList.length!==0&&this.fileList1.length===0){
+          if (newValue.attachments!==''){
+            let result = await this.$axios.serveControllerList.releaseServe(this.form)
+            if (result.code === 20000){
+              this.$message({
+                message: '发布服务成功,请前往个人中心查看！',
+                type: 'success'
+              });
+              await this.$router.push("/index")
+            }
+          }
+        }else if(this.fileList.length===0&&this.fileList1.length!==0){
+          if (newValue.image!==''){
+            let result = await this.$axios.serveControllerList.releaseServe(this.form)
+            if (result.code === 20000){
+              this.$message({
+                message: '发布服务成功,请前往个人中心查看！',
+                type: 'success'
+              });
+              await this.$router.push("/index")
+            }
           }
         }
-      }
+      },
+      deep: true //对于对象设置为深度 监听
     }
   },
   methods: {
     async onSubmit() {
-      this.form.categoryId = this.category[2]
+      this.form.categoryId = this.category.toString();
       await this.$refs['serviceform'].validate(async (valid) => {
         if (valid) {
-          this.disabled = true
+          // this.disabled = true
+          if(this.fileList1.length !== 0){
+            this.$refs.uploadimage.submit();
+          }
           if(this.fileList.length !== 0){
-            await this.$refs.upload.submit();
-          }else {
-            console.log(123)
+            this.$refs.upload.submit();
+          }
+          if(this.fileList.length === 0 && this.fileList1.length === 0){
             let result = await this.$axios.serveControllerList.releaseServe(this.form)
             if (result.code === 20000){
               this.$message({
@@ -192,6 +240,11 @@ export default {
         this.form.attachment = response.data.url
       }
     },
+    async handleSuccess1(response, file, fileList) {
+      if (response.code === 20000 && response.data.url !== "") {
+        this.form.image = response.data.url
+      }
+    },
     handleRemove(file, fileList) {
       console.log(file, fileList);
     },
@@ -200,6 +253,9 @@ export default {
     },
     changeUpload(file,fileList){
       this.fileList = fileList;
+    },
+    changeUpload1(file,fileList){
+      this.fileList1 = fileList;
     }
   }
 };

@@ -49,7 +49,7 @@ export default {
     a {
       img {
         width:100%;
-        height:auto;
+        height:179px;
       }
       .enterprise-name {
         height:45px;

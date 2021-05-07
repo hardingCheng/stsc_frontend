@@ -34,7 +34,7 @@ const requirementControllerList = {
     releaseRequire: (data) => {
         return axios({
             url: `/bh/stcsp/requirement/releaseRequire`,
-            method: "delete",
+            method: "post",
             data
         });
     },

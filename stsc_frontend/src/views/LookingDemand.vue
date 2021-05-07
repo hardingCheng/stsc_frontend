@@ -76,7 +76,8 @@ export default {
       demandList: [],
       currentPage1: 1,
       requireList:[],
-      secondId:null
+      secondId:null,
+      firstId:null
     }
   },
   async mounted() {
@@ -86,6 +87,7 @@ export default {
   },
   methods: {
     async getSecendsList(id) {
+      this.firstId = id
       const secondsResult = await this.$axios.categoryControllerList.getSecondCategoryList({
         firstId: id
       })

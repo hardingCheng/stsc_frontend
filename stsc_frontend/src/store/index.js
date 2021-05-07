@@ -42,8 +42,8 @@ export default new Vuex.Store({
   },
   modules: {},
   plugins: [createVuexAlong({
-    // adapterOptions: SecureAdapter(),
-    name: "userInfo",
+    adapterOptions: SecureAdapter(),
+    name: "userInfo1",
     local: {
       list: ["isLogin","userInfo","token"],
     },

@@ -6,7 +6,7 @@
         <h1>免费发布需求</h1>
       </div>
       <div class="send-demand-form">
-        <el-form ref="demandform" :model="form" :rules="rules" label-position="right" label-width="100px" @submit.native.prevent >
+        <el-form ref="demandform" :model="form" :rules="rules"  label-position="right" label-width="100px" @submit.native.prevent >
         <div class="form-main">
           <span>需求基本信息</span>
           <el-form-item label="需求名称：" prop="name">
@@ -26,6 +26,25 @@
             <el-input v-model="form.address" placeholder="请填写联系地址"></el-input>
           </el-form-item>
           <span>需求预算及背景</span>
+<!--          需要修改 文件大小和类型-->
+          <el-form-item label="上传图片：">
+            <el-upload
+                class="upload-demo"
+                ref="uploadimage"
+                action="/bh/stcsp/fileoss/upload"
+                :on-preview="handlePreview"
+                :on-remove="handleRemove"
+                :on-success="handleSuccess1"
+                :file-list="fileList1"
+                :auto-upload="false"
+                list-type="picture"
+                :on-change = "changeUpload1"
+            >
+              <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+              <!--                <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>-->
+              <!--                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+            </el-upload>
+          </el-form-item>
           <el-form-item label="预算价格：" prop="budget">
             <el-input v-model="form.budget" placeholder="请填写预算价格(例：20万元)"></el-input>
           </el-form-item>
@@ -41,15 +60,13 @@
           <el-form-item label="需求时间：" prop="deadline">
             <el-date-picker
                 @change="handDate"
-                v-model="deadlinetiem"
-                type="daterange"
+                v-model="form.deadline"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
                 format="yyyy 年 MM 月 dd 日"
                 value-format ="yyyy-MM-dd ">
             </el-date-picker>
           </el-form-item>
-
           <!--            要进行修改的-->
           <el-form-item label="上传附件：">
             <el-upload
@@ -98,6 +115,7 @@ export default {
         standard: '',
         deadline: '',
         attachments: '',
+        image: ''
       },
       deadlinetiem:'',
       disabled:false,
@@ -133,24 +151,52 @@ export default {
           {required: true, message: '请输入需求期限', trigger: 'blur'}
         ],
       },
-      fileList: []
+      fileList: [],
+      fileList1: []
     }
   },
+  computed:{
+
+  },
   watch: {
-    'form.attachments': {
-      async handler (newName, oldName) {
-        if (newName!==''){
-          let result = await this.$axios.requirementControllerList.releaseRequire(this.form)
-          if (result.code === 20000){
-            console.log(result)
-            this.$message({
-              message: '发布需求成功,请前往个人中心查看！',
-              type: 'success'
-            });
-            await this.$router.push("/index")
+    form:{
+      async handler (newValue, oldName) {
+        if (this.fileList.length!==0&&this.fileList1.length!==0){
+          if (newValue.image!==''&&newValue.attachments!==''){
+            let result = await this.$axios.requirementControllerList.releaseRequire(this.form)
+            if (result.code === 20000){
+              this.$message({
+                message: '发布需求成功,请前往个人中心查看！',
+                type: 'success'
+              });
+              await this.$router.push("/index")
+            }
+          }
+        }else if (this.fileList.length!==0&&this.fileList1.length===0){
+          if (newValue.attachments!==''){
+            let result = await this.$axios.requirementControllerList.releaseRequire(this.form)
+            if (result.code === 20000){
+              this.$message({
+                message: '发布需求成功,请前往个人中心查看！',
+                type: 'success'
+              });
+              await this.$router.push("/index")
+            }
+          }
+        }else if(this.fileList.length===0&&this.fileList1.length!==0){
+          if (newValue.image!==''){
+            let result = await this.$axios.requirementControllerList.releaseRequire(this.form)
+            if (result.code === 20000){
+              this.$message({
+                message: '发布需求成功,请前往个人中心查看！',
+                type: 'success'
+              });
+              await this.$router.push("/index")
+            }
           }
         }
-      }
+      },
+      deep: true //对于对象设置为深度 监听
     }
   },
   methods: {
@@ -158,13 +204,16 @@ export default {
       await this.$refs['demandform'].validate(async (valid) => {
         if (valid) {
           // this.disabled = true
-          this.getDays(this.deadlinetiem[0],this.deadlinetiem[1])
+          // this.getDays(this.deadlinetiem[0],this.deadlinetiem[1])
+          if(this.fileList1.length !== 0){
+            this.$refs.uploadimage.submit();
+          }
           if(this.fileList.length !== 0){
             this.$refs.upload.submit();
-          }else {
+          }
+          if(this.fileList.length === 0 && this.fileList1.length === 0){
             let result =  await this.$axios.requirementControllerList.releaseRequire(this.form)
             if (result.code === 20000){
-              console.log(result)
               this.$message({
                 message: '发布需求成功,请前往个人中心查看！',
                 type: 'success'
@@ -180,6 +229,11 @@ export default {
     async handleSuccess(response, file, fileList) {
       if (response.code === 20000 && response.data.url !== "") {
         this.form.attachments = response.data.url
+      }
+    },
+    async handleSuccess1(response, file, fileList) {
+      if (response.code === 20000 && response.data.url !== "") {
+        this.form.image = response.data.url
       }
     },
     handleRemove(file, fileList) {
@@ -206,6 +260,9 @@ export default {
     },
     changeUpload(file,fileList){
       this.fileList = fileList;
+    },
+    changeUpload1(file,fileList){
+      this.fileList1 = fileList;
     }
   }
 }

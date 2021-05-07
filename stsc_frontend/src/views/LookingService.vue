@@ -39,19 +39,7 @@
     <div class="info-list" v-if="serviceList.length !== 0">
       <div class="info-list-main" v-for="(item,index) in serviceList" :key="index">
         <div class="container">
-          <div class="info-list-item" v-for="(info,index) in item" :key="index">
-            <img src="../assets/images/hotbg.png" alt="">
-            <div class="enterprise-name">
-              <h1>{{ info.name }}</h1>
-            </div>
-            <div class="enterprise-bottom">
-              <span>{{ info.keywords }}</span>
-              <div class="enterprise-bottom-operation">
-                <span>{{ info.company }}</span>
-                <span><a href="#">立即下单</a></span>
-              </div>
-            </div>
-          </div>
+          <info-list-item2 v-for="(info,index) in item" :key="index"  :info="info" :detailurl="'/sdetail/'+info.id"></info-list-item2>
         </div>
       </div>
       <div class="common-pagination">
@@ -61,9 +49,9 @@
               @size-change="handleSizeChange"
               @current-change="handleCurrentChange"
               :current-page.sync="currentPage1"
-              :page-size="100"
+              :page-size="15"
               layout="total, prev, pager, next"
-              :total="1000">
+              :total="serviceData.total">
           </el-pagination>
         </div>
       </div>
@@ -79,17 +67,21 @@
 import {resolve} from "vue-count-to";
 import {reject} from "lodash";
 import BreadCrumb from "../components/BreadCrumb";
+import InfoListItem2 from "../components/InfoListItem2";
 
 export default {
   name: "LookingService",
-  components: {BreadCrumb},
+  components: {InfoListItem2, BreadCrumb},
   data(){
     return{
       input2: '',
       getFirstCategoryList: [],
       getSecondCategoryList: [],
+      serviceData:[],
       serviceList: [],
-      currentPage1: 2
+      currentPage1: 1,
+      secondId:null,
+      firstId:null
     }
   },
   async mounted() {
@@ -99,12 +91,14 @@ export default {
   },
   methods: {
     async getServiceList(id){
+      this.secondId = id
       if (id === null) {
-        const servciceBaseResult = await this.$axios.requirementControllerList.getRequiresByCondition({
+        const servciceBaseResult = await this.$axios.serveControllerList.getServesByCondition({
           page: 1,
           limit: 15
         }, {})
-        let len = servciceBaseResult.data.requireList.records.length;
+        this.serviceData = servciceBaseResult.data.serveList
+        let len = servciceBaseResult.data.serveList.records.length;
         let n = 5; //假设每行显示4个
         this.serviceList = [];
         if (len !== 0) {
@@ -112,18 +106,19 @@ export default {
           this.serviceList = [];
           for (let i = 0; i < lineNum; i++) {
             // slice() 方法返回一个从开始到结束（不包括结束）选择的数组的一部分浅拷贝到一个新数组对象。且原始数组不会被修改。
-            let temp = servciceBaseResult.data.requireList.records.slice(i * n, i * n + n);
+            let temp = servciceBaseResult.data.serveList.records.slice(i * n, i * n + n);
             this.serviceList.push(temp);
           }
         }
       } else {
-        const servciceBaseResult = await this.$axios.requirementControllerList.getRequiresByCondition({
+        const servciceBaseResult = await this.$axios.serveControllerList.getServesByCondition({
           page: 1,
           limit: 15
         }, {
           categoryId: id
         })
-        let len = servciceBaseResult.data.requireList.records.length;
+        this.serviceData = servciceBaseResult.data.serveList
+        let len = servciceBaseResult.data.serveList.records.length;
         let n = 5; //假设每行显示4个
         this.serviceList = [];
         if (len !== 0) {
@@ -131,13 +126,14 @@ export default {
           this.serviceList = [];
           for (let i = 0; i < lineNum; i++) {
             // slice() 方法返回一个从开始到结束（不包括结束）选择的数组的一部分浅拷贝到一个新数组对象。且原始数组不会被修改。
-            let temp = servciceBaseResult.data.requireList.records.slice(i * n, i * n + n);
+            let temp = servciceBaseResult.data.serveList.records.slice(i * n, i * n + n);
             this.serviceList.push(temp);
           }
         }
       }
     },
     async getSecendsList(id) {
+      this.firstId = id
       const secondsResult = await this.$axios.categoryControllerList.getSecondCategoryList({
         firstId: id
       })
@@ -147,8 +143,12 @@ export default {
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
     },
-    handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+    async handleCurrentChange(val) {
+      if (this.secondId) {
+        await this.getServiceList(this.secondId)
+      }else {
+        await this.getServiceList(null)
+      }
     }
   }
 };

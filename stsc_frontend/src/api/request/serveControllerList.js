@@ -42,7 +42,7 @@ const serveControllerList = {
     // 发布服务
     releaseServe: (data) => {
         return axios({
-            url: `/bh/stcsp/serve/releaseServe`,
+            url: `/ph/stcsp/serve/releaseServe`,
             method: "post",
             data
         });
