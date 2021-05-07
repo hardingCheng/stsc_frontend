@@ -1,6 +1,6 @@
 <template>
   <div class="looking-demand container">
-   <bread-crumb title="找需求"></bread-crumb>
+   <bread-crumb :info="info"></bread-crumb>
     <div class="common-head-classification">
       <div class="common-head-classification-top">
         <div class="common-head-classification-tab fl">
@@ -77,7 +77,11 @@ export default {
       currentPage1: 1,
       requireList:[],
       secondId:null,
-      firstId:null
+      firstId:null,
+      info:[{
+        title:'找需求',
+        path:''
+      }]
     }
   },
   async mounted() {

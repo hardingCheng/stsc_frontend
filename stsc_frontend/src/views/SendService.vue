@@ -1,7 +1,7 @@
 <template>
   <div class="send-service">
     <div class="container">
-     <bread-crumb title="发服务"></bread-crumb>
+     <bread-crumb :info="info"></bread-crumb>
       <div class="send-service-title">
         <h1>免费发布服务</h1>
       </div>
@@ -45,7 +45,7 @@
               </el-upload>
             </el-form-item>
             <el-form-item label="服务价格：" prop="price">
-              <el-input v-model="form.price"></el-input>
+              <el-input-number v-model="form.price" :precision="2" :step="0.1" :max="10"></el-input-number>
             </el-form-item>
             <el-form-item label="服务工期：" prop="deadline">
               <el-input v-model="form.deadline"></el-input>
@@ -159,7 +159,11 @@ export default {
       fileList1: [],
       disabled:false,
       options: [],
-      category:[]
+      category:[],
+      info:[{
+        title:'发服务',
+        path:''
+      }]
     }
   },
   async mounted() {

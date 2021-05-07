@@ -1,7 +1,8 @@
 <template>
+<!--  发服务有BUG   就是那个监听的form修改导致自动提交-->
   <div class="send-demand">
     <div class="container">
-     <bread-crumb title="发需求"></bread-crumb>
+     <bread-crumb :info="info"></bread-crumb>
       <div class="send-demand-title">
         <h1>免费发布需求</h1>
       </div>
@@ -46,7 +47,7 @@
             </el-upload>
           </el-form-item>
           <el-form-item label="预算价格：" prop="budget">
-            <el-input v-model="form.budget" placeholder="请填写预算价格(例：20万元)"></el-input>
+            <el-input-number v-model="form.budget" :precision="2" :step="0.1" :max="10"></el-input-number>
           </el-form-item>
           <el-form-item label="项目背景：" prop="projectBackground">
             <el-input type="textarea" v-model="form.projectBackground" placeholder="请填写项目背景"></el-input>
@@ -59,10 +60,8 @@
           </el-form-item>
           <el-form-item label="需求时间：" prop="deadline">
             <el-date-picker
-                @change="handDate"
                 v-model="form.deadline"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
+                placeholder="选择需求结束日期"
                 format="yyyy 年 MM 月 dd 日"
                 value-format ="yyyy-MM-dd ">
             </el-date-picker>
@@ -106,7 +105,7 @@ export default {
       form: {
         name: '',
         company: '',
-        budget: '',
+        budget: 0,
         projectBackground: '',
         content: '',
         contact: '',
@@ -152,7 +151,11 @@ export default {
         ],
       },
       fileList: [],
-      fileList1: []
+      fileList1: [],
+      info:[{
+        title:'发需求',
+        path:''
+      }]
     }
   },
   computed:{
@@ -241,22 +244,6 @@ export default {
     },
     handlePreview(file) {
       console.log(file);
-    },
-    handDate(){
-      this.getDays(this.deadlinetiem[0],this.deadlinetiem[1])
-    },
-    getDays(date1 , date2){
-      let date1Str = date1.split("-");//将日期字符串分隔为数组,数组元素分别为年.月.日
-      //根据年 . 月 . 日的值创建Date对象
-      let date1Obj = new Date(date1Str[0],(date1Str[1]-1),date1Str[2]);
-      let date2Str = date2.split("-");
-      let date2Obj = new Date(date2Str[0],(date2Str[1]-1),date2Str[2]);
-      let t1 = date1Obj.getTime();
-      let t2 = date2Obj.getTime();
-      let dateTime = 1000*60*60*24; //每一天的毫秒数
-      let minusDays = Math.floor(((t2-t1)/dateTime));//计算出两个日期的天数差
-      let days = Math.abs(minusDays);//取绝对值
-      this.form.deadline =  days;
     },
     changeUpload(file,fileList){
       this.fileList = fileList;

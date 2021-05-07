@@ -1,6 +1,6 @@
 <template>
   <div class="looking-service container">
-   <bread-crumb title="找服务"></bread-crumb>
+   <bread-crumb :info="info"></bread-crumb>
     <div class="common-head-classification">
       <div class="common-head-classification-top">
         <div class="common-head-classification-tab fl">
@@ -81,7 +81,11 @@ export default {
       serviceList: [],
       currentPage1: 1,
       secondId:null,
-      firstId:null
+      firstId:null,
+      info:[{
+        title:'找服务',
+        path:''
+      }]
     }
   },
   async mounted() {
