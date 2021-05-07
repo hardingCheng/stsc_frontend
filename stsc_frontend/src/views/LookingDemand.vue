@@ -39,19 +39,7 @@
     <div class="info-list" v-if="demandList.length !== 0">
       <div class="info-list-main" v-for="(item,index) in demandList" :key="index">
         <div class="container">
-          <div class="info-list-item" v-for="(info,index) in item" :key="index">
-            <img src="../assets/images/hotbg.png" alt="">
-            <div class="enterprise-name">
-              <h1>{{ info.name }}</h1>
-            </div>
-            <div class="enterprise-bottom">
-              <span>{{ info.keywords }}</span>
-              <div class="enterprise-bottom-operation">
-                <span>{{ info.company }}</span>
-                <span><a href="#">立即下单</a></span>
-              </div>
-            </div>
-          </div>
+          <info-list-item2  v-for="(info,index) in item" :key="index"  :info="info" :detailurl="'/ddetail/'+info.id"></info-list-item2>
         </div>
       </div>
       <div class="common-pagination">
@@ -61,9 +49,9 @@
               @size-change="handleSizeChange"
               @current-change="handleCurrentChange"
               :current-page.sync="currentPage1"
-              :page-size="100"
+              :page-size="15"
               layout="total, prev, pager, next"
-              :total="1000">
+              :total="requireList.total">
           </el-pagination>
         </div>
       </div>
@@ -76,16 +64,19 @@
 
 <script>
 import BreadCrumb from "../components/BreadCrumb";
+import InfoListItem2 from "../components/InfoListItem2";
 export default {
   name: "LookingDemand",
-  components: {BreadCrumb},
+  components: {InfoListItem2, BreadCrumb},
   data() {
     return {
       input2: '',
       getFirstCategoryList: [],
       getSecondCategoryList: [],
       demandList: [],
-      currentPage1: 2
+      currentPage1: 1,
+      requireList:[],
+      secondId:null
     }
   },
   async mounted() {
@@ -102,11 +93,13 @@ export default {
       await this.getDemandList(id)
     },
     async getDemandList(id) {
+      this.secondId = id
       if (id === null) {
         const demandBaseResult = await this.$axios.requirementControllerList.getRequiresByCondition({
-          page: 1,
+          page: this.currentPage1,
           limit: 15
         }, {})
+        this.requireList = demandBaseResult.data.requireList;
         let len = demandBaseResult.data.requireList.records.length;
         let n = 5; //假设每行显示4个
         this.demandList = [];
@@ -121,11 +114,12 @@ export default {
         }
       } else {
         const demandBaseResult = await this.$axios.requirementControllerList.getRequiresByCondition({
-          page: 1,
+          page: this.currentPage1,
           limit: 15
         }, {
           categoryId: id
         })
+        this.requireList = demandBaseResult.data.requireList;
         let len = demandBaseResult.data.requireList.records.length;
         let n = 5; //假设每行显示4个
         this.demandList = [];
@@ -143,8 +137,12 @@ export default {
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
     },
-    handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+    async handleCurrentChange(val) {
+      if (this.secondId) {
+        await this.getDemandList(this.secondId)
+      }else {
+        await this.getDemandList(null)
+      }
     }
   }
 }

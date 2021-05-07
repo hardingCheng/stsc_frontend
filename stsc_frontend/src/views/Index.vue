@@ -132,13 +132,13 @@
               </div>
               <div class="public-switch-tab">
                 <div class="public-switch-tab-item">
-                  <span>全部</span>
+                  <a >全部</a>
                 </div>
                 <div class="public-switch-tab-item">
-                  <span>需求</span>
+                  <a >需求</a>
                 </div>
                 <div class="public-switch-tab-item">
-                  <span>服务</span>
+                  <a >服务</a>
                 </div>
               </div>
             </div>
@@ -146,71 +146,11 @@
           <div class="info-list">
            <div class="info-list-main">
             <div class="container">
-              <div class="info-list-item">
-                <img src="../assets/images/hotbg.png" alt="">
-                <div class="enterprise-name">
-                  <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-                </div>
-                <div class="enterprise-bottom">
-                  <span>摩擦片、模具</span>
-                  <div class="enterprise-bottom-operation">
-                    <span>西安 - 制造业</span>
-                    <span><a href="#">立即下单</a></span>
-                  </div>
-                </div>
-              </div>
-              <div class="info-list-item">
-                <img src="../assets/images/hotbg.png" alt="">
-                <div class="enterprise-name">
-                  <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-                </div>
-                <div class="enterprise-bottom">
-                  <span>摩擦片、模具</span>
-                  <div class="enterprise-bottom-operation">
-                    <span>西安 - 制造业</span>
-                    <span><a href="#">立即下单</a></span>
-                  </div>
-                </div>
-              </div>
-              <div class="info-list-item">
-                <img src="../assets/images/hotbg.png" alt="">
-                <div class="enterprise-name">
-                  <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-                </div>
-                <div class="enterprise-bottom">
-                  <span>摩擦片、模具</span>
-                  <div class="enterprise-bottom-operation">
-                    <span>西安 - 制造业</span>
-                    <span><a href="#">立即下单</a></span>
-                  </div>
-                </div>
-              </div>
-              <div class="info-list-item">
-                <img src="../assets/images/hotbg.png" alt="">
-                <div class="enterprise-name">
-                  <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-                </div>
-                <div class="enterprise-bottom">
-                  <span>摩擦片、模具</span>
-                  <div class="enterprise-bottom-operation">
-                    <span>西安 - 制造业</span>
-                    <span><a href="#">立即下单</a></span>
-                  </div>
-                </div>
-              </div>
-              <div class="info-list-item">
-                <img src="../assets/images/hotbg.png" alt="">
-                <div class="enterprise-name">
-                  <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
-                </div>
-                <div class="enterprise-bottom">
-                  <span>摩擦片、模具</span>
-                  <div class="enterprise-bottom-operation">
-                    <span>西安 - 制造业</span>
-                    <span><a href="#">立即下单</a></span>
-                  </div>
-                </div>
-              </div>
+              <info-list-item></info-list-item>
+              <info-list-item></info-list-item>
+              <info-list-item></info-list-item>
+              <info-list-item></info-list-item>
+              <info-list-item></info-list-item>
             </div>
           </div>
           </div>
@@ -224,16 +164,16 @@
             </div>
             <div class="public-switch-tab">
               <div class="public-switch-tab-item">
-                <span>研究开发</span>
+                <a>研究开发</a>
               </div>
               <div class="public-switch-tab-item">
-                <span>技术转移</span>
+                <a>技术转移</a>
               </div>
               <div class="public-switch-tab-item">
-                <span>知识产权</span>
+                <a>知识产权</a>
               </div>
               <div class="public-switch-tab-item">
-                <span>检验检测</span>
+                <a>检验检测</a>
               </div>
             </div>
           </div>
@@ -275,7 +215,7 @@
       <div class="platform-news">
         <div class="public-switch">
           <div class="container">
-            <div class="public-switch-title">成功案例</div>
+            <div class="public-switch-title">平台动态</div>
             <div class="public-switch-view-all">
               <a href="#">查看全部案例<span>></span></a>
             </div>
@@ -366,6 +306,7 @@
 import ScrollingNumbers from "../components/ScrollingNumbers";
 import {Swiper, SwiperSlide} from 'vue-awesome-swiper'
 import 'swiper/css/swiper.css'
+import InfoListItem from "../components/InfoListItem";
 
 export default {
   name: "Index",
@@ -397,6 +338,7 @@ export default {
     }
   },
   components: {
+    InfoListItem,
     Swiper,
     SwiperSlide,
     ScrollingNumbers
@@ -537,76 +479,6 @@ export default {
         .container {
           display:flex;
           justify-content: flex-start;
-          .info-list-item {
-            box-sizing: border-box;
-            width:225px;
-            height: 330px;
-            border: 1px solid #E7E7E7;
-            padding: 16px 22px;
-            margin-bottom: 20px;
-            margin-right: 18px;
-            &:last-child {
-              margin-right: 0;
-            }
-            &:hover {
-              border: 1px solid #1794FF;
-            }
-            img {
-              width:100%;
-              height:auto;
-            }
-            .enterprise-name {
-              height:45px;
-              margin: 14px 0;
-              h1 {
-                font-size: 15px;
-                font-weight: 500;
-                color: #111111;
-                word-break: break-all;
-                text-overflow: ellipsis;
-                display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
-                -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
-                -webkit-line-clamp: 2; /** 显示的行数 **/
-                overflow: hidden;  /** 隐藏超出的内容 **/
-              }
-            }
-            .enterprise-bottom {
-              span {
-                display:inline-block;
-                height:17px;
-                font-size: 12px;
-                font-family: PingFangSC-Regular, PingFang SC;
-                font-weight: 400;
-                color: #FF7C12;
-              }
-            }
-            .enterprise-bottom-operation {
-              overflow: hidden;
-              height:22px;
-              line-height:22px;
-              span:first-child {
-                width:108px;
-                float: left;
-                font-size: 12px;
-                font-weight: 400;
-                color: #666666;
-                word-break: break-all;
-                text-overflow: ellipsis;
-                display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
-                -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
-                -webkit-line-clamp: 1; /** 显示的行数 **/
-                overflow: hidden;  /** 隐藏超出的内容 **/
-              }
-              span:last-child {
-                float: right;
-                font-size: 16px;
-                font-weight: 500;
-                a {
-                  color: #1794FF;
-                }
-              }
-            }
-          }
         }
       }
     }
@@ -833,6 +705,12 @@ export default {
         font-size: 16px;
         font-weight: 400;
         color: #333333;
+        a {
+          display: block;
+          width: 100%;
+          height: 100%;
+          cursor: pointer;
+        }
         &:first-child {
           border-bottom: 2px solid #1794FF;
         }
