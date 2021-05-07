@@ -1,31 +1,26 @@
 <template>
-  <div class="each-evaluation">
-    <div>
-      <div class="avatar fl">
-        <div class="avatar-div">
-          <img :src="imgSrc" width="30px" height="30px" class="fl">
-          <span class="nickname  fl ">{{ nickName }}</span>
-        </div>
-
+  <div class="each-evaluation clearfix">
+    <div class="avatar fl">
+      <div class="avatar-div">
+        <img :src="imgSrc" width="30px" height="30px" class="fl">
+        <span class="nickname  fl ">{{ nickName }}</span>
       </div>
     </div>
-    <div >
-      <div class="star-div ">
-        <div class="each-star fl">
-          <el-rate
-              v-model="eachValue"
-              disabled
-              show-score
-              text-color="#ff9900"
-              score-template="{value}"
-          >
-          </el-rate>
-        </div>
-        <div class="each-text ">{{ evaluationText }}</div>
+    <div class="star-div fr">
+      <div class="each-star">
+        <el-rate
+            v-model="eachValue"
+            disabled
+            show-score
+            text-color="#ff9900"
+            score-template="{value}"
+        >
+        </el-rate>
       </div>
-
+      <div class="each-text ">{{ evaluationText }}</div>
       <div class="each-evaluation-data">{{ evaluationData }}</div>
     </div>
+
   </div>
 </template>
 
@@ -34,10 +29,9 @@ export default {
   name: "Evaluation",
   data() {
     return {
-      eachValue:3
     };
   },
-  props:["imgSrc","nickName","evaluationText","evaluationData"]
+  props:["imgSrc","nickName","evaluationText","evaluationData","eachValue"]
 }
 </script>
 
@@ -45,10 +39,9 @@ export default {
 @import '../styles/mixin';
 .each-evaluation{
   display: inline-block;
-  @include wh(951px,170px);
+  @include wh(951px,100%);
   border-bottom: 1px solid #E7E7E7;
   .avatar{
-    @include wh(200px,170px);
     .avatar-div{
       display: inline-block;
       margin-left: 30px;
@@ -68,7 +61,7 @@ export default {
     }
   }
   .star-div{
-    margin-left: 200px;
+    width: 800px;
     .each-star{
       display: flex;
       margin-top: 20px;

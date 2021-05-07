@@ -46,6 +46,14 @@ const requirementControllerList = {
             data
         });
     },
+    //获取评论列表
+    getCommentList:(params)=>{
+        return axios({
+            url:`/bh/stcsp/evaluation/getEvaluation/${params.page}/${params.limit}/${params.id}`,
+            method:"get",
+            date:params
+        })
+    }
 }
 export default requirementControllerList
 
