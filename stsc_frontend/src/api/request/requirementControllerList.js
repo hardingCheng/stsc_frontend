@@ -53,7 +53,15 @@ const requirementControllerList = {
             method:"get",
             date:params
         })
-    }
+    },
+    // 根据买家id查询该用户所有需求
+    getUser: (params) => {
+        return axios({
+            url: `/bh/stcsp/evaluation/getUsernameAvatarById/${params.id}`,
+            method: "get",
+            data:params
+        });
+    },
 }
 export default requirementControllerList
 
