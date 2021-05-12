@@ -12,7 +12,7 @@
         </div>
 
         <div class="evaluation">
-          <div class="fl"><span class="cumulative-evaluation">累计评价：</span><span class="cumulative-num">329</span></div>
+          <div class="fl"><span class="cumulative-evaluation">累计评价：</span><span class="cumulative-num">{{ info.evaluationAmount }}</span></div>
           <div>
             <div class=" serve-evaluation  fl">服务评分：</div>
             <div class="fl">
@@ -69,11 +69,12 @@
           <span class="allEvaluation">中评(10)</span>
           <span class="allEvaluation">差评(10)</span>
         </div>
+
         <Evaluation
-            v-for="(item,index) in commentListRequire.records" v-bind:key="index"
-            img-src=""
+            v-for="(item,index) in commentListRequire.records" :key="index"
+            :img-src=item.usernameAvatarVo.avatar
             :eachValue="item.star"
-            nick-name="小孙"
+            :nick-name="item.usernameAvatarVo.username"
             :evaluation-data=item.createTime
             :evaluation-text=item.content>
         </Evaluation>
@@ -87,7 +88,7 @@
               @size-change="handleSizeChange"
               @current-change="handleCurrentChange"
               :current-page.sync="currentPage"
-              :page-size="15"
+              :page-size="1"
               layout="total, prev, pager, next"
               :total="total">
           </el-pagination>
@@ -114,6 +115,7 @@ import Tabs from "../components/Tabs";
 
 export default {
   name: "ServiceDetails",
+  props:['id'],
   components: {Evaluation, Tabs},
   data() {
     return {
@@ -124,29 +126,33 @@ export default {
       evaluate: {},
       keywords: [],
       currentPage: 1,
-      total:1,
+      total:0,
 
       commentListRequire:[],//存放评论数据
 
     };
   },
   async mounted() {
-    const detail_result = await this.$axios.serveControllerList.getServesDetailById({
-      id: "12345678"
+     // await this.getData()
+      const detail_result = await this.$axios.serveControllerList.getServesDetailById({
+      id: this.id
     })
     const commentList = await  this.$axios.requirementControllerList.getCommentList({
       page:this.currentPage,
       limit:4,
       id:this.$route.params.id
     })
+
     this.commentListRequire=commentList.data.evaluationList
-    this.total=commentList.data.evaluationList.total
-    this.currentPage=commentList.data.evaluationList.current
-    console.log(commentList.data.evaluationList)
+     this.total=commentList.data.evaluationList.records.length;
+    console.log("获取的评价总数",this.total)
+     this.currentPage=commentList.data.evaluationList.current
+     console.log(commentList.data.evaluationList)
     console.log(this.evaluate)
     this.info = detail_result.data.serve
+    console.log("11",this.info)
     this.keywords = this.info.keywords.split('，')
-    console.log(this.info)
+
     this.value = parseInt(this.info.star)
     if (!this.value) {
       this.value = 0
@@ -154,11 +160,26 @@ export default {
   },
 
   methods: {
+    // async getData(i){
+    //   this.currentPage=i||this.currentPage;
+    //     const commentList = await  this.$axios.requirementControllerList.getCommentList({
+    //     page:this.currentPage,
+    //     limit:1,
+    //     id:this.$route.params.id
+    //   })
+    //   this.commentListRequire=commentList.data.evaluationList
+    //     console.log( this.commentListRequire)
+    //   this.total=commentList.data.evaluationList.records.length;
+    //   this.currentPage=commentList.data.evaluationList.current
+    //
+    // },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
+      this.size = val
     },
-    async  handleCurrentChange(val) {
+    async handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
+      // await this.getData(val)
     },
 
   },
@@ -268,64 +289,6 @@ export default {
         }
       }
 
-      //.each-evaluation {
-      //  display: inline-block;
-      //  @include wh(951px, 170px);
-      //  border-bottom: 1px solid #E7E7E7;
-      //
-      //  .avatar {
-      //    @include wh(200px, 170px);
-      //
-      //    .avatar-div {
-      //      display: inline-block;
-      //      margin-left: 30px;
-      //      margin-top: 20px;
-      //      height: 30px;
-      //      line-height: 30px;
-      //
-      //      .nickname {
-      //        display: block;
-      //        margin-left: 5px;
-      //        height: 30px;
-      //        line-height: 30px;
-      //        font-size: 12px;
-      //        font-weight: 400;
-      //        color: #666666;
-      //
-      //      }
-      //    }
-      //  }
-      //
-      //  .star-div {
-      //    margin-left: 200px;
-      //
-      //    .each-star {
-      //      display: flex;
-      //      margin-top: 20px;
-      //      padding: 0;
-      //      width: 800px;
-      //      margin-bottom: 10px;
-      //    }
-      //
-      //    .each-text {
-      //      font-size: 14px;
-      //      font-weight: 400;
-      //      color: #333333;
-      //      line-height: 22px;
-      //      padding: 5px;
-      //      margin-bottom: 15px;
-      //    }
-      //  }
-      //
-      //  .each-evaluation-data {
-      //    height: 22px;
-      //    font-size: 12px;
-      //    font-weight: 400;
-      //    color: #999999;
-      //    line-height: 22px;
-      //  }
-      //
-      //}
 
       .pagination-box {
         background: antiquewhite;

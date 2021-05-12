@@ -27,11 +27,20 @@
 <!--      <p class="des-title">需求描述</p>-->
 <!--      <p class="des_content">{{info.content}}</p>-->
 <!--    </div>-->
-    <el-tabs v-model="activeName" type="card"  @tab-click="handleClick" class="serve-details-text-bottom container">
+    <el-tabs v-model="activeName" type="card"   class="serve-details-text-bottom container">
       <el-tab-pane label="需求描述" name="first" class="tab"><p >{{info.content}}</p></el-tab-pane>
       <el-tab-pane label="项目背景" name="second" class="tab">{{ info.projectBackground }}</el-tab-pane>
       <el-tab-pane label="验收指标" name="third" class="tab">{{ info.standard }}</el-tab-pane>
-      <el-tab-pane label="附件" name="fourth" class="tab" ></el-tab-pane>
+      <el-tab-pane label="附件" name="fourth" class="tab" >
+      <div class="accessory ">
+        <img src="../assets/images/fileimg.png" class="file_img"/>
+        <p class="accessory_name">附件</p>
+        <a class="down" v-bind:href="info.attachments" >下载</a>
+      </div>
+
+
+
+      </el-tab-pane>
     </el-tabs>
 
     <div class="see-and-see container">
@@ -71,9 +80,33 @@ export default {
   },
 
   methods: {
-    handleClick(tab, event) {
-      console.log(tab, event);
+
+
+    downloadClick(row){
+      let entity = {
+        id: row.id,
+        filename: row.filename,
+      }
+      this.download(this.info.data,row)
+    },
+
+    // 下载文件
+    download (data,row) {
+      if (!data) {
+        return
+      }
+      let url = window.URL.createObjectURL(new Blob([data]))
+      let link = document.createElement('a')
+      link.style.display = 'none'
+      link.href = url
+      // 获取文件名
+      // download 属性定义了下载链接的地址而不是跳转路径
+      link.setAttribute('download', row.filename)
+      document.body.appendChild(link)
+      link.click()
     }
+
+
   },
 
 };
@@ -278,6 +311,23 @@ margin: 10px;
   height: 800px;
   margin-left: 10px;
   padding-top: 5px;
+  .accessory{
+    display: flex;
+   align-items: center;
+    margin-left: 30px;
+    .file_img{
+      height: 50px;
+    }
+    .accessory_name{
+      display: inline-block;
+      width: 400px;
+      margin-left: 20px;
+
+    }
+    .down{
+
+    }
+  }
 }
 
 /deep/ .el-tabs__header {
