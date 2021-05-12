@@ -6,10 +6,13 @@
 
 <script>
 export default {
-  name: "RealAuthentication"
+  name: "RealAuthentication",
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.real-auth{
+
+}
 
 </style>

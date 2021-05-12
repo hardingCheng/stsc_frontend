@@ -13,6 +13,8 @@ import {
   CheckboxButton,
   CheckboxGroup,
   Cascader,
+  Collapse,
+  CollapseItem,
   Switch,
   Slider,
   TimeSelect,
@@ -69,6 +71,8 @@ const element = {
     Vue.use(CheckboxButton);
     Vue.use(CheckboxGroup);
     Vue.use(Cascader);
+    Vue.use(Collapse);
+    Vue.use(CollapseItem)
     Vue.use(Switch);
     Vue.use(Slider);
     Vue.use(TimePicker);
