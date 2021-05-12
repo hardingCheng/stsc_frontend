@@ -32,9 +32,9 @@
             <el-upload
                 class="upload-demo"
                 ref="uploadimage"
-                action="/bh/stcsp/fileoss/upload"
+                action="/ph/stcsp/fileoss/upload"
                 :on-preview="handlePreview"
-                :on-remove="handleRemove"
+                :on-remove="handleRemove1"
                 :on-success="handleSuccess1"
                 :file-list="fileList1"
                 :auto-upload="false"
@@ -47,7 +47,7 @@
             </el-upload>
           </el-form-item>
           <el-form-item label="预算价格：" prop="budget">
-            <el-input-number v-model="form.budget" :precision="2" :step="0.1" :max="10"></el-input-number>
+            <el-input-number v-model="form.budget" :precision="2" :step="0.1" :max="10"></el-input-number>  万
           </el-form-item>
           <el-form-item label="项目背景：" prop="projectBackground">
             <el-input type="textarea" v-model="form.projectBackground" placeholder="请填写项目背景"></el-input>
@@ -71,21 +71,20 @@
             <el-upload
                 class="upload-demo"
                 ref="upload"
-                action="/bh/stcsp/fileoss/upload"
+                action="/ph/stcsp/fileoss/upload"
                 :on-preview="handlePreview"
-                :on-remove="handleRemove"
+                :on-remove="handleRemove2"
                 :on-success="handleSuccess"
                 :file-list="fileList"
                 :auto-upload="false"
                 :on-change = "changeUpload"
             >
               <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-              <!--                <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>-->
-              <!--                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
             </el-upload>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" :disabled="disabled" @click="onSubmit">立即发布</el-button>
+            <el-button type="primary" :disabled="disabled" @click="onSubmit" v-if="!id">立即发布</el-button>
+            <el-button type="primary" :disabled="disabled" @click="onUpdate" v-else>立即更新</el-button>
             <el-button>重置</el-button>
           </el-form-item>
         </div>
@@ -98,6 +97,7 @@
 <script>
 import BreadCrumb from "../components/BreadCrumb";
 export default {
+  props:['id'],
   name: "SendDemand",
   components: {BreadCrumb},
   data() {
@@ -159,7 +159,6 @@ export default {
     }
   },
   computed:{
-
   },
   watch: {
     form:{
@@ -200,6 +199,36 @@ export default {
         }
       },
       deep: true //对于对象设置为深度 监听
+    },
+    $route(to,from){
+      if(to.path === '/sd'){
+        this.form = {
+          name: '',
+          company: '',
+          budget: 0,
+          projectBackground: '',
+          content: '',
+          contact: '',
+          telephone: '',
+          address: '',
+          standard: '',
+          deadline: '',
+          attachments: '',
+          image: ''
+        }
+        this.fileList = []
+        this.fileList1 = []
+      }
+    },
+    fileList1:{
+      async handler (newValue, oldName) {
+        this.$refs.upload.submit();
+      }
+    },
+    fileList:{
+      async handler (newValue, oldName) {
+        this.$refs.uploadimage.submit();
+      }
     }
   },
   methods: {
@@ -239,8 +268,23 @@ export default {
         this.form.image = response.data.url
       }
     },
-    handleRemove(file, fileList) {
-      console.log(file, fileList);
+    async handleRemove1(file, fileList) {
+      let result = await this.$axios.ossControllerList.delFile({
+        filename:file.name
+      })
+      this.fileList = fileList
+    },
+    async handleRemove2(file, fileList) {
+      let result = await this.$axios.ossControllerList.delFile({
+        filename:file.name
+      })
+      this.fileList1 = fileList
+    },
+    async onUpdate(){
+      let result =  await this.$axios.requirementControllerList.updateRequireById(this.form)
+      if (result.code === 20000){
+        await this.$router.push("/buyer/mydemand")
+      }
     },
     handlePreview(file) {
       console.log(file);
@@ -250,6 +294,29 @@ export default {
     },
     changeUpload1(file,fileList){
       this.fileList1 = fileList;
+    },
+
+  },
+  async mounted(){
+    if (this.id) {
+      let result = await this.$axios.requirementControllerList.getRequireDetailById({
+        id:this.id
+      })
+      this.form = result.data.requirement
+      if (result.data.requirement.attachments){
+        let urlArr = result.data.requirement.attachments.split('/').slice(-1)[0]
+        this.fileList.push({
+          name:urlArr,
+          url:result.data.requirement.attachments
+        })
+      }
+      if (result.data.requirement.image){
+        let urlArr = result.data.requirement.image.split('/').slice(-1)[0]
+        this.fileList1.push({
+          name:urlArr,
+          url:result.data.requirement.image
+        })
+      }
     }
   }
 }

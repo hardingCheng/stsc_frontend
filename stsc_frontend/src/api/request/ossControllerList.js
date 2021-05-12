@@ -2,5 +2,12 @@
 import axios from "../api";
 
 const uploadUrl = '/ph/stcsp/fileoss/upload';
-
-export default uploadUrl
+const ossControllerList = {
+    delFile: (data) => {
+        return axios({
+            url: `/ph/stcsp/fileoss/delfile/${data.filename}`,
+            method: "delete",
+        });
+    },
+}
+export default ossControllerList

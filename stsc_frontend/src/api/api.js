@@ -49,9 +49,9 @@ export default function $axios(options) {
         // TODO: 有个小BUG
         // const userInfo = JSON.parse(localStorage.getItem("userInfo1"))
         if (store.state.token) {
-          config.headers["Authorization"] = store.state.token ;
+          config.headers["token"] = store.state.token ;
         } else {
-          config.headers["Authorization"] = "";
+          config.headers["token"] = "";
           if (["#/login","/signup"].includes(window.location.hash)) {
             router.push({ path: "/login" });
           }

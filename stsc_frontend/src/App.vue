@@ -17,8 +17,6 @@ export default {
       differTime = new Date().getTime() - beginTime;
       if (differTime <= 5) {
         window.clearVuexAlong(true,false)
-      } else {
-        console.log("这是刷新");
       }
     };
 

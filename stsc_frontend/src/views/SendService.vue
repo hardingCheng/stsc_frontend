@@ -45,7 +45,7 @@
               </el-upload>
             </el-form-item>
             <el-form-item label="服务价格：" prop="price">
-              <el-input-number v-model="form.price" :precision="2" :step="0.1" :max="10"></el-input-number>
+              <el-input-number v-model="form.price" :precision="2" :step="0.1" :max="10"></el-input-number> 万
             </el-form-item>
             <el-form-item label="服务工期：" prop="deadline">
               <el-input v-model="form.deadline"></el-input>

@@ -145,7 +145,6 @@ export default {
     },
     messageClear(clearTab,e){
       e.preventDefault()
-      console.log(clearTab)
       switch (clearTab){
         case 1:
           this.messageObj.notice = 0

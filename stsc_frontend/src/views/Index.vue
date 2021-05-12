@@ -64,62 +64,111 @@
           <div class="container">
             <div class="service-category-title">服务类别</div>
             <div class="service-category-tab">
-              <div class="service-category-tab-item">
-                <img src="../assets/images/serviceimage/service1.png" alt="">
-                <span>研究开发</span>
+              <div class="service-category-tab-item" :class="[sindex === 1?'tab-active':'']">
+                <a @click="servicecategory(1)">
+                  <img src="../assets/images/serviceimage/service1.png" alt="">
+                  <span>研究开发</span>
+                </a>
               </div>
-              <div class="service-category-tab-item">
-                <img src="../assets/images/serviceimage/service2.png" alt="">
-                <span>技术转移</span>
+              <div class="service-category-tab-item" :class="[sindex === 2?'tab-active':'']">
+                <a @click="servicecategory(2)">
+                  <img src="../assets/images/serviceimage/service2.png" alt="">
+                  <span>技术转移</span>
+                </a>
               </div>
-              <div class="service-category-tab-item">
-                <img src="../assets/images/serviceimage/service3.png" alt="">
-                <span>知识产权</span>
+              <div class="service-category-tab-item" :class="[sindex === 3?'tab-active':'']">
+                <a @click="servicecategory(3)">
+                  <img src="../assets/images/serviceimage/service3.png" alt="">
+                  <span>知识产权</span>
+                </a>
               </div>
-              <div class="service-category-tab-item">
-                <img src="../assets/images/serviceimage/service4.png" alt="">
-                <span>检验检测</span>
+              <div class="service-category-tab-item" :class="[sindex === 4?'tab-active':'']">
+                <a @click="servicecategory(4)">
+                  <img src="../assets/images/serviceimage/service4.png" alt="">
+                  <span>检验检测</span>
+                </a>
               </div>
             </div>
           </div>
         </div>
         <div class="service-category-bottom">
           <div class="container">
-            <div class="service-category-bottom-item">
-              <dl>
-                <dt>研究开发</dt>
-                <dd>研究开发</dd>
-                <dd>研究开发</dd>
-                <dd>研究开发</dd>
-                <dd>研究开发</dd>
-                <dd>研究开发</dd>
-                <dd>研究开发</dd>
-              </dl>
-            </div>
-            <div class="service-category-bottom-item">
-              <dl>
-                <dt>研究开发</dt>
-                <dd>研究开发</dd>
-                <dd>研究开发</dd>
-                <dd>研究开发</dd>
-                <dd>研究开发</dd>
-                <dd>研究开发</dd>
-                <dd>研究开发</dd>
-                <dd>研究开发</dd>
-                <dd>研究开发</dd>
-              </dl>
-            </div>
-            <div class="service-category-bottom-item">
-              <dl>
-                <dt>研究开发</dt>
-                <dd>研究开发</dd>
-                <dd>研究开发</dd>
-                <dd>研究开发</dd>
-                <dd>研究开发</dd>
-                <dd>研究开发</dd>
-                <dd>研究开发</dd>
-              </dl>
-            </div>
+            <div class="service-category-info" v-if="sindex === 1">
+              <div class="service-category-bottom-item">
+                <dl>
+                  <dt>研究开发</dt>
+                  <dd>研究开发</dd>
+                  <dd>研究开发</dd>
+                  <dd>研究开发</dd>
+                  <dd>研究开发</dd>
+                  <dd>研究开发</dd>
+                  <dd>研究开发</dd>
+                </dl>
+              </div>
+              <div class="service-category-bottom-item">
+                <dl>
+                  <dt>研究开发</dt>
+                  <dd>研究开发</dd>
+                  <dd>研究开发</dd>
+                  <dd>研究开发</dd>
+                  <dd>研究开发</dd>
+                  <dd>研究开发</dd>
+                  <dd>研究开发</dd>
+                  <dd>研究开发</dd>
+                  <dd>研究开发</dd>
+                </dl>
+              </div>
+              <div class="service-category-bottom-item">
+                <dl>
+                  <dt>研究开发</dt>
+                  <dd>研究开发</dd>
+                  <dd>研究开发</dd>
+                  <dd>研究开发</dd>
+                  <dd>研究开发</dd>
+                  <dd>研究开发</dd>
+                  <dd>研究开发</dd>
+                </dl>
+              </div>
+            </div >
+            <div class="service-category-info" v-if="sindex === 2">
+              <div class="service-category-bottom-item">
+                <dl>
+                  <dt>技术转移</dt>
+                  <dd>技术转移</dd>
+                  <dd>技术转移</dd>
+                  <dd>技术转移</dd>
+                  <dd>技术转移</dd>
+                  <dd>技术转移</dd>
+                  <dd>技术转移</dd>
+                </dl>
+              </div>
+            </div >
+            <div class="service-category-info" v-if="sindex === 3">
+              <div class="service-category-bottom-item">
+                <dl>
+                  <dt>知识产权</dt>
+                  <dd>知识产权</dd>
+                  <dd>知识产权</dd>
+                  <dd>知识产权</dd>
+                  <dd>知识产权</dd>
+                  <dd>知识产权</dd>
+                  <dd>知识产权</dd>
+                </dl>
+              </div>
+            </div >
+            <div class="service-category-info" v-if="sindex === 4">
+              <div class="service-category-bottom-item">
+                <dl>
+                  <dt>检验检测</dt>
+                  <dd>检验检测</dd>
+                  <dd>检验检测</dd>
+                  <dd>检验检测</dd>
+                  <dd>检验检测</dd>
+                  <dd>检验检测</dd>
+                  <dd>检验检测</dd>
+                </dl>
+              </div>
+            </div >
           </div>
         </div>
       </div>
@@ -131,28 +180,37 @@
                 <a href="#">查看全部<span>></span></a>
               </div>
               <div class="public-switch-tab">
-                <div class="public-switch-tab-item">
-                  <a >全部</a>
+                <div class="public-switch-tab-item" :class="[pindex === 1?'tab-active':'']">
+                  <a @click="popularrecommendation(1)">全部</a>
                 </div>
-                <div class="public-switch-tab-item">
-                  <a >需求</a>
+                <div class="public-switch-tab-item" :class="[pindex === 2?'tab-active':'']">
+                  <a @click="popularrecommendation(2)">需求</a>
                 </div>
-                <div class="public-switch-tab-item">
-                  <a >服务</a>
+                <div class="public-switch-tab-item" :class="[pindex === 3?'tab-active':'']">
+                  <a @click="popularrecommendation(3)">服务</a>
                 </div>
               </div>
             </div>
           </div>
-          <div class="info-list">
-           <div class="info-list-main">
+          <div class="info-list" ref="plist">
             <div class="container">
-              <info-list-item></info-list-item>
-              <info-list-item></info-list-item>
-              <info-list-item></info-list-item>
-              <info-list-item></info-list-item>
-              <info-list-item></info-list-item>
+              <div class="info-list-main" v-if="pindex === 1">
+                <info-list-item></info-list-item>
+                <info-list-item></info-list-item>
+                <info-list-item></info-list-item>
+                <info-list-item></info-list-item>
+                <info-list-item></info-list-item>
+              </div>
+              <div class="info-list-main" v-if="pindex === 2">
+                <info-list-item></info-list-item>
+              </div>
+              <div class="info-list-main" v-if="pindex === 3">
+                <info-list-item></info-list-item>
+                <info-list-item></info-list-item>
+                <info-list-item></info-list-item>
+
+              </div>
             </div>
-          </div>
           </div>
       </div>
       <div class="successful-cases">
@@ -162,8 +220,9 @@
             <div class="public-switch-view-all">
               <a href="#">查看全部案例<span>></span></a>
             </div>
+<!--            需要修改-->
             <div class="public-switch-tab">
-              <div class="public-switch-tab-item">
+              <div class="public-switch-tab-item tab-active">
                 <a>研究开发</a>
               </div>
               <div class="public-switch-tab-item">
@@ -334,7 +393,9 @@ export default {
           el: '.swiper-pagination'
         }
       },
-      value:4
+      value:4,
+      pindex:1,
+      sindex:1
     }
   },
   components: {
@@ -347,7 +408,12 @@ export default {
 
   },
   methods: {
-
+    popularrecommendation(index){
+      this.pindex = index
+    },
+    servicecategory(index){
+      this.sindex = index
+    }
   }
 };
 </script>
@@ -428,19 +494,19 @@ export default {
             text-align: center;
             width:220px;
             padding-bottom:10px;
-            img {
-              display:block;
-              margin: 10px auto;
-              width: 60px;
-              height: 60px;
-            }
-            span {
-              font-size: 16px;
-              font-weight: 400;
-              color: #333333;
-            }
-            &:first-child {
-              border-bottom: 2px solid #1794FF;
+            a {
+              img {
+                display:block;
+                margin: 10px auto;
+                width: 60px;
+                height: 60px;
+              }
+              span {
+                font-size: 16px;
+                font-weight: 400;
+                color: #333333;
+              }
+              cursor: pointer;
             }
           }
         }
@@ -450,33 +516,36 @@ export default {
         width:100%;
         background: #F6F6F6;
         .container {
-          height:100%;
-          display:flex;
-          justify-content: center;
-          .service-category-bottom-item {
-            width:360px;
-            dl {
-              dt {
-                margin: 30px 0;
-                font-size: 16px;
-                font-weight: 400;
-                color: #333333;
-              }
-              dd {
-                float:left;
-                font-size: 14px;
-                font-weight: 400;
-                color: #999999;
-                margin: 0 20px 10px 0;
+          .service-category-info{
+            height:100%;
+            display:flex;
+            justify-content: flex-start;
+            .service-category-bottom-item {
+              flex:1;
+              dl {
+                dt {
+                  margin: 30px 0;
+                  font-size: 16px;
+                  font-weight: 400;
+                  color: #333333;
+                }
+                dd {
+                  float:left;
+                  font-size: 14px;
+                  font-weight: 400;
+                  color: #999999;
+                  margin: 0 20px 10px 0;
+                }
               }
             }
           }
+
         }
       }
     }
     .popular-recommendation {
-      .info-list-main {
-        .container {
+      .container {
+        .info-list-main {
           display:flex;
           justify-content: flex-start;
         }
@@ -711,12 +780,12 @@ export default {
           height: 100%;
           cursor: pointer;
         }
-        &:first-child {
-          border-bottom: 2px solid #1794FF;
-        }
       }
     }
   }
+}
+.tab-active {
+  border-bottom: 2px solid #1794FF;
 }
 .swiper-style {
   outline: none;

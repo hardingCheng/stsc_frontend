@@ -89,9 +89,9 @@ export default {
     }
   },
   async mounted() {
+    await this.getServiceList(null)
     const categoryResust = await this.$axios.categoryControllerList.getFirstCategoryList({})
     this.getFirstCategoryList = categoryResust.data.firstCategoryList
-    await this.getServiceList(null)
   },
   methods: {
     async getServiceList(id){

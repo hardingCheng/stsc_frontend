@@ -15,7 +15,7 @@ const requirementControllerList = {
             method: "get",
         });
     },
-    // 根据买家id查询该用户所有需求
+    // 通过需求ID查看需求详情
     getRequireDetailById: (params) => {
         return axios({
             url: `/bh/stcsp/requirement/getRequireDetailById/${params.id}`,
@@ -39,9 +39,9 @@ const requirementControllerList = {
         });
     },
     // 修改需求
-    updateRequireById: (params,data) => {
+    updateRequireById: (data) => {
         return axios({
-            url: `/bh/stcsp/requirement/updateRequireById/${params.id}`,
+            url: `/bh/stcsp/requirement/updateRequireById/`,
             method: "post",
             data
         });

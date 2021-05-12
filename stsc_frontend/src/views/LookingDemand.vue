@@ -85,9 +85,9 @@ export default {
     }
   },
   async mounted() {
+    await this.getDemandList(null)
     const categoryResust = await this.$axios.categoryControllerList.getFirstCategoryList({})
     this.getFirstCategoryList = categoryResust.data.firstCategoryList
-    await this.getDemandList(null)
   },
   methods: {
     async getSecendsList(id) {

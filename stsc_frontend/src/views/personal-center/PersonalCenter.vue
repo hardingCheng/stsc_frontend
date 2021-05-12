@@ -30,6 +30,28 @@ export default {
       tabIndex:3
     }
   },
+  watch: {
+    $route: {
+      handler(to,from) {
+        switch(to.path){
+          case '/seller/realauth':
+            this.tabIndex = 2
+            break;
+          case '/buyer/realauth':
+            this.tabIndex = 1
+            break;
+          case '/basicinfo':
+            this.tabIndex = 3
+            break;
+          default:
+            this.tabIndex = 3
+            break;
+        }
+      },
+      // deep:true,
+      // immediate: true
+    }
+  },
   methods:{
     selecttab(index){
       switch(index) {

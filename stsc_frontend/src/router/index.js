@@ -101,6 +101,13 @@ const routes = [
         meta: { requiresAuth: false },
       },
       {
+        path: "/sd/:id",
+        name: "sd",
+        component: () => import("../views/SendDemand.vue"),
+        meta: { requiresAuth: false },
+        props: true,
+      },
+      {
         path: "/ss",
         name: "ss",
         component: () => import("../views/SendService.vue"),
