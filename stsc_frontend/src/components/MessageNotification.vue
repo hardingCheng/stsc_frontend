@@ -80,7 +80,7 @@
                 </el-col>
                 <el-col :span="20">
                   <div class="message-notification-tab-content-item-right">
-                    <h4>蒂姆·库克回复了你的邮件蒂姆·库克回复了你的邮件</h4>
+                    <h4>{{message_text}}</h4>
                     <p>2019-05-08 14:33:18</p>
                   </div>
                 </el-col>
@@ -105,6 +105,7 @@
 <script>
 export default {
   name: "MessageNotification",
+  props:["message_text"],
   data () {
     return {
       count: 0,

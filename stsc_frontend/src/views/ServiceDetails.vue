@@ -95,7 +95,7 @@
         </div>
       </div>
     </Tabs>
-    <div class="see-and-see container">
+    <div class="see-and-see container ">
       <span class="see-and-see-title">---看了又看---</span>
       <img src="../assets/staticImgs/seeandsee.png" height="160px" width="160px">
       <div class="see-detail-div"><span class="see-detail">机器人关键零部件先进制造</span></div>
@@ -105,7 +105,9 @@
       <div class="see-detail-div"><span class="see-detail">机器人关键零部件先进制造</span></div>
       <img src="../assets/staticImgs/seeandsee.png" height="160px" width="160px">
       <div class="see-detail-div"><span class="see-detail">机器人关键零部件先进制造</span></div>
+
     </div>
+
   </div>
 </template>
 
@@ -127,7 +129,6 @@ export default {
       keywords: [],
       currentPage: 1,
       total:0,
-
       commentListRequire:[],//存放评论数据
 
     };
@@ -189,10 +190,9 @@ export default {
 
 <style scoped lang="scss">
 @import '../styles/mixin';
-
 .ServiceDetails {
+
   font-family: PingFangSC-Regular, PingFang SC;
-  position: relative;
 
   .details-category {
     height: 17px;
@@ -428,8 +428,8 @@ export default {
 
   .see-and-see {
     width: 160px;
-    height: 300px;
     float: right;
+
     position: absolute;
     right: 60px;
     top: 60px;
