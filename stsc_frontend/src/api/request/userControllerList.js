@@ -5,7 +5,7 @@ const userControllerList = {
     // 用户实名认证接口
     authAccount: (data) => {
         return axios({
-            url: "/ph/stcsp/user/authAccount",
+            url: "/ph/stcsp/realinfo/authAccount",
             method: "post",
             data
         });
@@ -13,9 +13,8 @@ const userControllerList = {
     // 根据id删除本用户信息
     del: (data) => {
         return axios({
-            url: "/ph/stcsp/user/authAccount",
+            url: `/ph/stcsp/user/del/${data.id}`,
             method: "delete",
-            data
         });
     },
     // 获取验证码

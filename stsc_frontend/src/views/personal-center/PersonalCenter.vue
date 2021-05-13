@@ -30,20 +30,30 @@ export default {
       tabIndex:3
     }
   },
+  beforeMount() {
+    switch(this.$route.path.split("/")[1]){
+      case 'seller':
+        this.tabIndex = 2
+        break;
+      case 'buyer':
+        this.tabIndex = 1
+        break;
+      case 'basicinfo':
+        this.tabIndex = 3
+        break;
+    }
+  },
   watch: {
     $route: {
       handler(to,from) {
-        switch(to.path){
-          case '/seller/realauth':
+        switch(to.path.split("/")[1]){
+          case 'seller':
             this.tabIndex = 2
             break;
-          case '/buyer/realauth':
+          case 'buyer':
             this.tabIndex = 1
             break;
-          case '/basicinfo':
-            this.tabIndex = 3
-            break;
-          default:
+          case 'basicinfo':
             this.tabIndex = 3
             break;
         }

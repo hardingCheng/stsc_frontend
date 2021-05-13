@@ -8,6 +8,7 @@ import ossControllerList from "./ossControllerList";
 import userControllerList from "./userControllerList";
 import requirementControllerList from "./requirementControllerList";
 import serveControllerList from "./serveControllerList";
+import orderControllerList from "./orderControllerList";
 
 export default {
     adminControllerList,
@@ -15,5 +16,6 @@ export default {
     ossControllerList,
     userControllerList,
     requirementControllerList,
-    serveControllerList
+    serveControllerList,
+    orderControllerList
 }
