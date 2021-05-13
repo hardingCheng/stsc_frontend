@@ -9,14 +9,14 @@
       <div class="send-demand-form">
         <el-form ref="demandform" :model="form" :rules="rules"  label-position="right" label-width="100px" @submit.native.prevent >
         <div class="form-main">
-          <span>需求基本信息</span>
+          <span class="form-group-title">需求基本信息</span>
           <el-form-item label="需求名称：" prop="name">
             <el-input v-model="form.name" placeholder="请填写需求名称"></el-input>
           </el-form-item>
           <el-form-item label="需求单位：" prop="company">
             <el-input v-model="form.company" placeholder="请填写需求单位"></el-input>
           </el-form-item>
-          <span>联系人信息</span>
+          <span class="form-group-title">联系人信息</span>
           <el-form-item label="联系人：" prop="contact">
             <el-input v-model="form.contact" placeholder="请填写联系人"></el-input>
           </el-form-item>
@@ -26,7 +26,7 @@
           <el-form-item label="联系地址：" prop="address">
             <el-input v-model="form.address" placeholder="请填写联系地址"></el-input>
           </el-form-item>
-          <span>需求预算及背景</span>
+          <span class="form-group-title">需求预算及背景</span>
 <!--          需要修改 文件大小和类型-->
           <el-form-item label="上传图片：">
             <el-upload
@@ -351,7 +351,7 @@ export default {
     .send-demand-form {
       .form-main {
         width:60%;
-        span {
+        .form-group-title {
           display:inline-block;
           margin-bottom: 20px;
         }

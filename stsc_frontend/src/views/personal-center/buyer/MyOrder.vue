@@ -1,6 +1,6 @@
 <template>
   <div class="my-order">
-    <div class="public-order-info">
+    <div class="public-order-info" >
       <div class="public-order-info-item">
         <div class="public-order-info-item-top">
           <ul class="public-order-info-item-top-detail">
@@ -26,10 +26,7 @@
           </div>
           <div class="info-menu">
             <ul>
-              <li>订单详情</li>
-              <li>查看进度</li>
-              <li>查看合同</li>
-              <li>卖家信息</li>
+              <li><router-link to="/buyer/orderdetail">订单详情</router-link></li>
             </ul>
           </div>
           <div class="info-evaluate">
@@ -63,9 +60,39 @@
           <div class="info-menu">
             <ul>
               <li>订单详情</li>
-              <li>查看进度</li>
-              <li>查看合同</li>
-              <li>卖家信息</li>
+            </ul>
+          </div>
+          <div class="info-evaluate">
+            <span>评价</span>
+          </div>
+        </div>
+      </div>
+      <div class="public-order-info-item">
+        <div class="public-order-info-item-top">
+          <ul class="public-order-info-item-top-detail">
+            <li>2021年03月19日</li>
+            <li>订单号：<span>202103190038473543</span></li>
+            <li>服务商：<span>五福上平台</span></li>
+          </ul>
+        </div>
+        <div class="public-order-info-item-bottom">
+          <div class="info-image">
+            <img src="http://n.sinaimg.cn/photo/34/w1089h545/20210416/4bde-knvsnuf5803625.jpg" alt="">
+          </div>
+          <div class="info-detail">
+            <h2>服务标题服务标题服务标题服务标题服务标题服服务标题服务标题服务标题服务标题服务标题</h2>
+            <p>服务标题服务标题服务标题服务标题服务标题服服务标题服务标题服务标题服务标题服务标题</p>
+            <el-tag>标签一</el-tag>
+            <el-tag>标签一</el-tag>
+            <el-tag>标签一</el-tag>
+            <el-tag>标签一</el-tag>
+          </div>
+          <div class="info-price">
+            <span>￥19305.56</span>
+          </div>
+          <div class="info-menu">
+            <ul>
+              <li>订单详情</li>
             </ul>
           </div>
           <div class="info-evaluate">
@@ -74,12 +101,41 @@
         </div>
       </div>
     </div>
+    <div class="public-order-info-null" v-if="false">
+      当前暂无数据，请刷新重试。
+    </div>
+    <div class="common-pagination" >
+      <div class="pagination">
+        <el-pagination
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page.sync="currentPage1"
+            :page-size="2"
+            layout="total, prev, pager, next"
+            :total="100">
+        </el-pagination>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "MyOrder"
+  name: "MyOrder",
+  data(){
+    return {
+      currentPage1:1
+    }
+  },
+  methods: {
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange(val) {
+      console.log(val)
+    },
+  }
 }
 </script>
 
@@ -127,23 +183,29 @@ export default {
           flex: 4;
           margin-left:20px;
           text-align: left;
-          word-break: break-all;
-          text-overflow: ellipsis;
-          display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
-          -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
-          -webkit-line-clamp: 2; /** 显示的行数 **/
-          overflow: hidden;  /** 隐藏超出的内容 **/
           h2{
             margin-bottom: 25px;
             font-size: 16px;
             font-weight: 400;
             color: #111111;
+            word-break: break-all;
+            text-overflow: ellipsis;
+            display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
+            -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+            -webkit-line-clamp: 2; /** 显示的行数 **/
+            overflow: hidden;  /** 隐藏超出的内容 **/
           }
           p {
             margin-bottom: 25px;
             font-size: 14px;
             font-weight: 400;
             color: #999999;
+            word-break: break-all;
+            text-overflow: ellipsis;
+            display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
+            -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+            -webkit-line-clamp: 2; /** 显示的行数 **/
+            overflow: hidden;  /** 隐藏超出的内容 **/
           }
           /deep/ .el-tag {
             margin-right: 15px;
@@ -163,6 +225,11 @@ export default {
             flex-direction: column;
             justify-content:space-around;
             align-items: center;
+            li {
+              a {
+                color:#000;
+              }
+            }
           }
           &:after {
             content:"";
@@ -185,6 +252,20 @@ export default {
         }
       }
     }
+  }
+}
+.public-order-info-null {
+  height:500px;
+}
+.common-pagination {
+  height: 60px;
+  position: relative;
+
+  .pagination {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 }
 </style>

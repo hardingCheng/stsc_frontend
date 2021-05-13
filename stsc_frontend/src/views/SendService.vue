@@ -8,7 +8,7 @@
       <div class="send-service-form">
         <el-form ref="serviceform" :model="form" :rules="rules" label-position="right" label-width="100px" @submit.native.prevent >
           <div class="form-main">
-            <span>服务基本信息</span>
+            <span class="form-group-title">服务基本信息</span>
             <el-form-item label="服务名称：" prop="name">
               <el-input v-model="form.name" placeholder="请填写需求名称"></el-input>
             </el-form-item>
@@ -18,14 +18,14 @@
             <el-form-item label="单位地址：" prop="address">
               <el-input v-model="form.address"></el-input>
             </el-form-item>
-            <span>联系人信息</span>
+            <span class="form-group-title">联系人信息</span>
             <el-form-item label="联系人：" prop="contact">
               <el-input v-model="form.contact"></el-input>
             </el-form-item>
             <el-form-item label="联系方式：" prop="telephone">
               <el-input v-model="form.telephone"></el-input>
             </el-form-item>
-            <span>服务价格及介绍</span>
+            <span class="form-group-title">服务价格及介绍</span>
             <el-form-item label="上传图片：">
               <el-upload
                   class="upload-demo"
@@ -56,7 +56,26 @@
             <!--            要进行修改的-->
 
             <el-form-item label="关键词：" prop="keywords">
-              <el-input v-model="form.keywords"></el-input>
+<!--              <el-input v-model="form.keywords"></el-input>-->
+              <el-tag
+                  :key="tag"
+                  v-for="tag in dynamicTags"
+                  closable
+                  :disable-transitions="false"
+                  @close="handleClose(tag)">
+                {{tag}}
+              </el-tag>
+              <el-input
+                  class="input-new-tag"
+                  v-if="inputVisible"
+                  v-model="inputValue"
+                  ref="saveTagInput"
+                  size="small"
+                  @keyup.enter.native="handleInputConfirm"
+                  @blur="handleInputConfirm"
+              >
+              </el-input>
+              <el-button v-else class="button-new-tag" size="small" @click="showInput">+ 关键字</el-button>
             </el-form-item>
             <el-form-item label="企业简介：" prop="companyIntroduction">
               <el-input type="textarea" v-model="form.companyIntroduction"></el-input>
@@ -148,9 +167,9 @@ export default {
         expertIntroduction: [
           {required: true, message: '请输入专家简介', trigger: 'blur'},
         ],
-        keywords: [
-          {required: true, message: '请输入关键词', trigger: 'blur'},
-        ],
+        // keywords: [
+        //   {required: true, message: '请输入关键词', trigger: 'blur'},
+        // ],
         categoryId: [
           {required: true, message: '请输入所属分类', trigger: 'blur'},
         ],
@@ -163,7 +182,10 @@ export default {
       info:[{
         title:'发服务',
         path:''
-      }]
+      }],
+      dynamicTags: [],
+      inputVisible: false,
+      inputValue: ''
     }
   },
   async mounted() {
@@ -260,6 +282,26 @@ export default {
     },
     changeUpload1(file,fileList){
       this.fileList1 = fileList;
+    },
+    handleClose(tag) {
+      this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+    },
+
+    showInput() {
+      this.inputVisible = true;
+      this.$nextTick(_ => {
+        this.$refs.saveTagInput.$refs.input.focus();
+      });
+    },
+
+    handleInputConfirm() {
+      let inputValue = this.inputValue;
+      if (inputValue) {
+        this.dynamicTags.push(inputValue);
+        this.form.keywords = this.dynamicTags.toString()
+      }
+      this.inputVisible = false;
+      this.inputValue = '';
     }
   }
 };
@@ -294,7 +336,7 @@ export default {
     .send-service-form {
       .form-main {
         width:60%;
-        span {
+        .form-group-title {
           display:inline-block;
           margin-bottom: 20px;
         }
@@ -310,5 +352,23 @@ export default {
       }
     }
   }
+}
+///deep/ .el-tag {
+//  margin-bottom: 0;
+//}
+.el-tag + .el-tag {
+  margin-left: 10px;
+}
+.button-new-tag {
+  margin-left: 10px;
+  height: 32px;
+  line-height: 30px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.input-new-tag {
+  width: 90px;
+  margin-left: 10px;
+  //vertical-align: bottom;
 }
 </style>

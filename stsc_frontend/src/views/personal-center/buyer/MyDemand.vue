@@ -1,23 +1,24 @@
 <template>
   <div class="my-demand" >
     <div class="public-info-list" v-if="infoList.records.length !== 0" :class="[infoList.records.length<3 ?'public-info-list-null':'']">
-      <div class="public-info-list-item" v-for="(item) in infoList.records" :key="item.id">
-        <div class="info-img fl">
-          <img src="http://n.sinaimg.cn/news/crawl/117/w550h367/20210311/8edb-kmeeius6993674.jpg" alt="">
-        </div>
-        <div class="info-details fl">
-          <ul class="details">
-            <li>需求名称：<span>{{item.name}}</span></li>
-            <li>截止时间：<span>{{item.deadline}}</span></li>
-            <li>需求状态：<span class="audit-status">{{ item.releaseStatus | modStatus }}</span></li>
-          </ul>
-          <el-button type="primary" size="small"  plain @click="infoDetail(item.id)">详细信息</el-button>
-        </div>
-        <div class="info-operation">
-          <el-button type="primary" @click="modDemandInfo(item.id)">修改</el-button>
-          <el-button type="primary" @click="deleteDemandInfo(item.id)">撤销</el-button>
-        </div>
-      </div>
+<!--      <div class="public-info-list-item" v-for="(item) in infoList.records" :key="item.id">-->
+<!--        <div class="info-img fl">-->
+<!--          <img src="http://n.sinaimg.cn/news/crawl/117/w550h367/20210311/8edb-kmeeius6993674.jpg" alt="">-->
+<!--        </div>-->
+<!--        <div class="info-details fl">-->
+<!--          <ul class="details">-->
+<!--            <li>需求名称：<span>{{item.name}}</span></li>-->
+<!--            <li>截止时间：<span>{{item.deadline}}</span></li>-->
+<!--            <li>需求状态：<span class="audit-status">{{ item.releaseStatus | modStatus }}</span></li>-->
+<!--          </ul>-->
+<!--          <el-button type="primary" size="small"  plain @click="infoDetail(item.id)">详细信息</el-button>-->
+<!--        </div>-->
+<!--        <div class="info-operation">-->
+<!--          <el-button type="primary" @click="modDemandInfo(item.id)">修改</el-button>-->
+<!--          <el-button type="primary" @click="deleteDemandInfo(item.id)">撤销</el-button>-->
+<!--        </div>-->
+<!--      </div>-->
+      <my-public-info-list :infoList="infoList.records" @modInfo="modInfo" @deleteInfo="deleteInfo" @infoDetail="infoDetail"></my-public-info-list>
     </div>
     <div class="public-info-list-null" v-else>
       当前暂无数据，请刷新重试。
@@ -40,8 +41,10 @@
 
 <script>
 
+import MyPublicInfoList from "../../../components/MyPublicInfoList";
 export default {
   name: "MyDemand",
+  components: {MyPublicInfoList},
   data(){
     return {
       currentPage1:1,
@@ -55,7 +58,7 @@ export default {
     let result = await this.$axios.requirementControllerList.getAllRequiresByUserId({
       buyerId:userInfo.id,
       page:1,
-      limit:15
+      limit:3
     })
     this.infoList = result.data.requireList
   },
@@ -64,20 +67,21 @@ export default {
       console.log(`每页 ${val} 条`);
     },
     async handleCurrentChange(val) {
+      let userInfo = this.$store.getters.getUserInfo
       let result = await this.$axios.requirementControllerList.getAllRequiresByUserId({
         buyerId:userInfo.id,
         page:val,
-        limit:15
+        limit:3
       })
       this.infoList = result.data.requireList
     },
     async infoDetail(id){
       await this.$router.push(`/ddetail/${id}`)
     },
-    modDemandInfo(id){
-      this.$router.push(`/sd/${id}`)
+    async modInfo(id){
+      await this.$router.push(`/sd/${id}`)
     },
-    async deleteDemandInfo(id){
+    async deleteInfo(id){
       let result = await this.$axios.requirementControllerList.deleteRequireById({
         id
       })

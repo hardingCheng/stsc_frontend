@@ -12,7 +12,7 @@
       <span>{{ info.keywords }}</span>
       <div class="enterprise-bottom-operation">
         <span>{{ info.company }}</span>
-        <span><a href="#">立即下单</a></span>
+        <span><a @click="smallOrder">立即下单</a></span>
       </div>
     </div>
   </div>
@@ -30,6 +30,13 @@ export default {
   methods: {
     goDetail(url){
       this.$router.push(url)
+    },
+    async smallOrder(){
+      let result = await this.$axios.orderControllerList.createOrder({
+        serveId:this.info.id,
+        type:0
+      })
+      console.log(result)
     }
   },
   computed:{
@@ -115,6 +122,7 @@ export default {
       font-size: 16px;
       font-weight: 500;
       a {
+        cursor:pointer;
         color: #1794FF;
       }
     }

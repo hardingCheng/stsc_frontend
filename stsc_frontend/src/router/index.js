@@ -51,25 +51,53 @@ const routes = [
         },{
           path: "/buyer",
           name: "buyer",
-          component: () => import("../views/personal-center/buyer/Index"),
-          redirect: "/buyer/realauth",
+          component: () => import("../views/personal-center/buyer/Home"),
+          redirect: "/buyer/index",
           children:[{
-            path: "/buyer/mydemand",
-            name: "mydemand",
-            component: () => import("../views/personal-center/buyer/MyDemand"),
-          },{
-            path: "/buyer/mynews",
-            name: "mynews",
-            component: () => import("../views/personal-center/buyer/MyNews"),
-          },{
-            path: "/buyer/myorder",
-            name: "myorder",
-            component: () => import("../views/personal-center/buyer/MyOrder"),
-          },{
-            path: "/buyer/realauth",
-            name: "realauth",
-            component: () => import("../views/personal-center/buyer/RealAuthentication"),
-          }]
+            path: "/buyer/index",
+            name: "index",
+            component: () => import("../views/personal-center/buyer/Index"),
+            redirect: "/buyer/realauth",
+            children: [{
+              path: "/buyer/mydemand",
+              name: "mydemand",
+              component: () => import("../views/personal-center/buyer/MyDemand"),
+            },{
+              path: "/buyer/mynews",
+              name: "mynews",
+              component: () => import("../views/personal-center/buyer/MyNews"),
+            },{
+              path: "/buyer/myorder",
+              name: "myorder",
+              component: () => import("../views/personal-center/buyer/MyOrder"),
+            },{
+              path: "/buyer/realauth",
+              name: "realauth",
+              component: () => import("../views/personal-center/buyer/RealAuthentication"),
+            }],
+          }, {
+            path: "/buyer/orderdetail",
+            name: "orderdetail",
+            component: () => import("../views/personal-center/buyer/order-details/Index"),
+            redirect: "/buyer/orderdetail/waitingcommunication",
+            children:[{
+              path: "/buyer/orderdetail/inprogress/:orderid",
+              name: "inprogress",
+              component: () => import("../views/personal-center/buyer/order-details/InProgress"),
+            },{
+              path: "/buyer/orderdetail/serviceacceptance/:orderid",
+              name: "serviceacceptance",
+              component: () => import("../views/personal-center/buyer/order-details/ServiceAcceptance"),
+            },{
+              path: "/buyer/orderdetail/serviceevaluation/:orderid",
+              name: "serviceevaluation",
+              component: () => import("../views/personal-center/buyer/order-details/ServiceEvaluation"),
+            },{
+              path: "/buyer/orderdetail/waitingcommunication/:orderid",
+              name: "waitingcommunication",
+              component: () => import("../views/personal-center/buyer/order-details/WaitingCommunication"),
+            }]
+          }],
         },{
           path: "/seller",
           name: "seller",
