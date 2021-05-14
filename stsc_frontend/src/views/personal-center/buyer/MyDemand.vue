@@ -36,11 +36,11 @@
         </el-pagination>
       </div>
     </div>
+
   </div>
 </template>
 
 <script>
-
 import MyPublicInfoList from "../../../components/MyPublicInfoList";
 export default {
   name: "MyDemand",
