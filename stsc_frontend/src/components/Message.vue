@@ -11,9 +11,18 @@
       <el-collapse v-model="activeNames" @change="handleChange">
         <el-collapse-item  name="1">
           <template slot="title">
-          <slot name="inform_title"></slot>
+          <slot name="inform_title1"></slot>
           </template>
-          <slot name="inform"></slot>
+          <slot name="inform1"></slot>
+          <el-button class="delete" type="primary" @click="delete_message" >删除</el-button>
+        </el-collapse-item>
+
+        <el-collapse-item  name="2">
+          <template slot="title">
+          <slot name="inform_title2"></slot>
+          </template>
+          <slot name="inform2"></slot>
+
           <el-button class="delete" type="primary" @click="delete_message" >删除</el-button>
         </el-collapse-item>
 
@@ -65,6 +74,9 @@ export default {
     };
   },
   methods: {
+    delete_message(){
+      console.log("删除成功")
+    },
     handleClick(tab, event) {
       console.log(tab, event);
     },
@@ -77,6 +89,7 @@ export default {
 
 <style scoped lang="scss">
 .message{
+  height: 500px;
   .delete_message{
     margin-right: 100px;
     float: right;
