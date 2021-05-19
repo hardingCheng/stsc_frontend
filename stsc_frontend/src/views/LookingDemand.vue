@@ -1,6 +1,6 @@
 <template>
   <div class="looking-demand container">
-   <bread-crumb :info="info"></bread-crumb>
+    <bread-crumb :info="info"></bread-crumb>
     <div class="common-head-classification">
       <div class="common-head-classification-top">
         <div class="common-head-classification-tab fl">
@@ -150,7 +150,7 @@ export default {
         await this.getDemandList(null)
       }
     }
-  }
+  },
 }
 </script>
 

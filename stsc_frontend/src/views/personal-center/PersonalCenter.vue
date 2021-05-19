@@ -1,7 +1,7 @@
 <template>
   <div class="personal-center">
    <div class="container">
-     <bread-crumb title="个人中心"></bread-crumb>
+     <bread-crumb></bread-crumb>
      <div class="common-head-classification">
        <div class="common-head-classification-top">
          <div class="common-head-classification-tab fl">
