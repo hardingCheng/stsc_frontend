@@ -54,6 +54,8 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   Link,
+  Steps,
+  Step
 } from "element-ui";
 
 const element = {
@@ -111,6 +113,8 @@ const element = {
     Vue.use(BreadcrumbItem)
     Vue.use(Link)
     Vue.use(Dialog)
+    Vue.use(Steps)
+    Vue.use(Step)
     Vue.prototype.$message = Message;
     // Vue.prototype.$confirm = MessageBox.confirm;
     // Vue.prototype.$alert = MessageBox.alert;

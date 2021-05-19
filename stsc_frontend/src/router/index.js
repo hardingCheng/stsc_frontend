@@ -117,12 +117,12 @@ const routes = [
                 requiresAuth: true,
                 name: "我是买家实名认证"
               },
-            }],
+            }]
           }, {
             path: "/buyer/orderdetail",
             name: "orderdetail",
             component: () => import("../views/personal-center/buyer/order-details/Index"),
-            redirect: "/buyer/orderdetail/waitingcommunication",
+            redirect: "/buyer/orderdetail/waitingcommunication/1",
             children:[{
               path: "/buyer/orderdetail/inprogress/:orderid",
               name: "inprogress",
@@ -140,6 +140,14 @@ const routes = [
               name: "waitingcommunication",
               component: () => import("../views/personal-center/buyer/order-details/WaitingCommunication"),
             }]
+          },{
+            path: "/buyer/mydemand/:id",
+            name: "mydemand",
+            component: () => import("../views/personal-center/buyer/MyDemandDetails"),
+            meta: {
+              requiresAuth: true,
+              name: "我的需求详情"
+            },
           }],
         },{
           path: "/seller",
