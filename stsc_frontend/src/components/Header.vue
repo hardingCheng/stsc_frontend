@@ -89,18 +89,20 @@ export default {
       notificationShow:false,
     }
   },
-  mounted() {
-    this.handleHeader()
+  async mounted() {
+    await this.handleHeader()
     this.myPanel()
   },
   watch: {
     $route(to,from) {
       if (to.name === 'index'){
+        console.log(1231)
         document.getElementById('header-bottom').style.setProperty("background","transparent")
         window.addEventListener("scroll",this.handleScroll)
       }else {
-        document.getElementById('header-bottom').style.setProperty("background","#1794FF")
+        console.log(123)
         window.removeEventListener("scroll",this.handleScroll)
+        document.getElementById('header-bottom').style.setProperty("background","#1794FF")
       }
     },
   },
@@ -110,10 +112,12 @@ export default {
     },
     handleScroll() {
       let scrollY = document.documentElement.scrollTop
-      if (scrollY > 250) {
-        document.getElementById('header-bottom').style.setProperty("background","#1794FF")
-      } else {
-        document.getElementById('header-bottom').style.setProperty("background","transparent")
+      if (this.$router.history.current.name === 'index'){
+        if (scrollY > 250) {
+          document.getElementById('header-bottom').style.setProperty("background","#1794FF")
+        } else {
+          document.getElementById('header-bottom').style.setProperty("background","transparent")
+        }
       }
     },
     handleHeader(){
@@ -121,8 +125,8 @@ export default {
         document.getElementById('header-bottom').style.setProperty("background","transparent")
         window.addEventListener("scroll",this.handleScroll)
       }else {
-        document.getElementById('header-bottom').style.setProperty("background","#1794FF")
         window.removeEventListener("scroll",this.handleScroll)
+        document.getElementById('header-bottom').style.setProperty("background","#1794FF")
       }
     },
     myPanel(){

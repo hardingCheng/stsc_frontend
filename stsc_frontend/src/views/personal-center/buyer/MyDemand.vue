@@ -76,7 +76,7 @@ export default {
       this.infoList = result.data.requireList
     },
     async infoDetail(id){
-      await this.$router.push(`/ddetail/${id}`)
+      await this.$router.push(`/buyer/mydemand/${id}`)
     },
     async modInfo(id){
       await this.$router.push(`/sd/${id}`)

@@ -75,8 +75,8 @@ export default {
   data() {
     return {
       form: {
-        username: '',
-        password: '',
+        username: '15230631400',
+        password: '123456',
         verificationCode: ''
       },
       // 对话框显示和隐藏
@@ -87,7 +87,7 @@ export default {
     }
   },
   mounted() {
-    if (this.$route.query){
+    if (Object.keys(this.$route.query).length !== 0){
       this.jumpRouting = this.$route.query
     }
   },
@@ -102,14 +102,17 @@ export default {
           username:this.form.username,
           password:this.form.password
         })
-        console.log(result)
         if (result.code === 20000) {
           this.$store.commit("modTokenLogin",{
             userInfo:result.data.user,
             token:result.data.token,
             isLogin:true
           });
-          await this.$router.push(this.jumpRouting)
+          if (this.jumpRouting) {
+            await this.$router.push(this.jumpRouting?.url)
+          }else {
+            await this.$router.push('/index')
+          }
         }
       }else {
         this.errors = errors

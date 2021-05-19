@@ -2,10 +2,10 @@
   <div class="order-details-index">
     <div class="order-detail-progress">
       <ul class="navs">　　　
-        <li class="active">待沟通</li>　
-        <li>进行中</li>　
-        <li>服务验收</li>　　
-        <li>服务评价</li>
+        <li class="active">合同上传</li>　
+        <li class="active">进行中</li>　
+        <li >服务验收</li>　　
+        <li >服务评价</li>
       </ul>
     </div>
     <div class="order-detail-progress-main">
