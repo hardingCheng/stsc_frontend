@@ -512,7 +512,8 @@ export default {
         }
       }
       .service-category-bottom {
-        height:250px;
+        box-sizing: border-box;
+        padding:0 0 30px 0;
         width:100%;
         background: #F6F6F6;
         .container {

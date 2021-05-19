@@ -82,7 +82,13 @@ export default {
       // 对话框显示和隐藏
       dialogVisible: false,
       errors:{},
-      isValid:false
+      isValid:false,
+      jumpRouting:''
+    }
+  },
+  mounted() {
+    if (this.$route.query){
+      this.jumpRouting = this.$route.query
     }
   },
   methods: {
@@ -103,7 +109,7 @@ export default {
             token:result.data.token,
             isLogin:true
           });
-          await this.$router.push("/index")
+          await this.$router.push(this.jumpRouting)
         }
       }else {
         this.errors = errors
