@@ -38,8 +38,6 @@
         <a class="down" v-bind:href="info.attachments" >下载</a>
       </div>
 
-
-
       </el-tab-pane>
     </el-tabs>
 
