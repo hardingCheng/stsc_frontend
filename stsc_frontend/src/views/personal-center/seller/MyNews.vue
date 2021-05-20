@@ -1,19 +1,11 @@
 <template>
   <div class="my-news">
     <Message
-    :indexss_inform="['','']"
-    :indexss_no_manage="['','']"
-    :indexss_other="['','','']"
+        :indexss_inform=this.message_list_all
+        :indexss_no_read=this.message_list_no
 
     >
-      <div slot="inform_title1" class="inform_title"><span class="">系统通知</span><span class="data">2021-4-20</span></div>
-      <div slot="inform1">您的2021400236789订单已经通过审核</div>
 
-      <div slot="no_manage_title" class="inform_title"><span class="">待办111</span><span class="data">2021-5-20</span></div>
-      <div slot="no_manage">222222222</div>
-
-      <div slot="other_title" class="inform_title"><span class="">其他11</span><span class="data">2021-5-20</span></div>
-      <div slot="other">44444444</div>
     </Message>
   </div>
 </template>
@@ -22,7 +14,59 @@
 import Message from "../../../components/Message";
 export default {
   name: "MyNews",
-  components:{Message}
+  components:{Message},
+  data() {
+    return {
+      message_list_no:[],//存放未读消息
+      message_list_have:[],//存放已读消息
+      message_list:[],//存放消息列表
+      message_list_all:[],
+      message_total:0,//获取消息总数
+      is_read:1,//消息已读未读
+      activeName: 'first',
+      activeNames: ['']
+
+    };
+  },
+  async mounted() {
+    await this.getMessageList()
+  },
+  methods: {
+    async getMessageList() {
+      const message_result =  await  this.$axios.requirementControllerList.getMessage({
+        id: this.$store.getters.getUserInfo.id,
+        page: 1,
+        limit: 4,
+      })
+      this.message_total = message_result.data.count//获取消息总数
+      this.message_list = message_result.data.messageList.records//获取消息列表
+      this.is_read = message_result.data.messageList.records.isRead
+      let i = 0, j = 0, n = 0, k = 0
+      while (this.message_list[i]) {
+        this.message_list_all[k++] = this.message_list[i]
+        if (!this.message_list[i].isRead) {
+          this.message_list_no[j++] = this.message_list[i]
+          console.log('if', this.message_list_no[0])
+        } else {
+          this.message_list_have[n++] = this.message_list[i]
+          console.log('else', this.message_list_have)
+        }
+        i++
+      }
+      console.log("是否有读", this.message_list_no[0])
+      console.log(message_result.data)
+      console.log(this.message_total)
+      console.log("消息列表", this.message_list)
+      console.log('111', this.message_list_no)
+    },
+
+    handleClick(tab, event) {
+      console.log(tab, event);
+    },
+    handleChange(val) {
+      console.log(val);
+    }
+  }
 }
 </script>
 

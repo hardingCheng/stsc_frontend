@@ -55,7 +55,7 @@ import {
   BreadcrumbItem,
   Link,
   Steps,
-  Step
+  Step,
 } from "element-ui";
 
 const element = {

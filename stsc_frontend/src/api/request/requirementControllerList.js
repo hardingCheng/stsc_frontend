@@ -54,10 +54,26 @@ const requirementControllerList = {
             date:params
         })
     },
-    // 根据买家id查询该用户所有需求
+    // 根据买家id查询该用户
     getUser: (params) => {
         return axios({
             url: `/bh/stcsp/evaluation/getUsernameAvatarById/${params.id}`,
+            method: "get",
+            data:params
+        });
+    },
+    //查询用户消息
+    getMessage: (params) => {
+        return axios({
+            url: `/bh/stcsp/message/getMessageByUserId/${params.id}/${params.page}/${params.limit}`,
+            method: "post",
+            data:params
+        });
+    },
+    //根据ID删除消息
+    deleteMessageById: (params) => {
+        return axios({
+            url: `/bh//stcsp/message/deleteMessage/${params.id}`,
             method: "get",
             data:params
         });
