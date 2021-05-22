@@ -1,12 +1,12 @@
 <template>
   <div class="my-order">
-    <div class="public-order-info" >
-      <div class="public-order-info-item">
+    <div class="public-order-info" v-if="orderList.length !== 0" :class="[orderList.length<3 ?'public-order-info-null':'']">
+      <div class="public-order-info-item" v-for="(item,index) in orderList" :key="index">
         <div class="public-order-info-item-top">
           <ul class="public-order-info-item-top-detail">
-            <li>2021年03月19日</li>
-            <li>订单号：<span>202103190038473543</span></li>
-            <li>服务商：<span>五福上平台</span></li>
+            <li>{{item.createTime}}</li>
+            <li>订单号：<span>{{item.orderId}}</span></li>
+            <li>服务商：<span>{{item.sellerName}}</span></li>
           </ul>
         </div>
         <div class="public-order-info-item-bottom">
@@ -14,19 +14,17 @@
             <img src="http://n.sinaimg.cn/photo/34/w1089h545/20210416/4bde-knvsnuf5803625.jpg" alt="">
           </div>
           <div class="info-detail">
-            <h2>服务标题服务标题服务标题服务标题服务标题服服务标题服务标题服务标题服务标题服务标题</h2>
-            <p>服务标题服务标题服务标题服务标题服务标题服服务标题服务标题服务标题服务标题服务标题</p>
-            <el-tag>标签一</el-tag>
-            <el-tag>标签一</el-tag>
-            <el-tag>标签一</el-tag>
-            <el-tag>标签一</el-tag>
+            <h2>{{item.orderName}}</h2>
+            <p>{{item.description}}</p>
+            <el-tag v-for="(itemde,index) in item.keywords === null?[]:item.keywords.split(',')" :key="index">{{itemde}}</el-tag>
           </div>
-          <div class="info-price">
-            <span>￥19305.56</span>
+          <div class="info-price-status">
+            <span>{{item.price === null ? '' :'￥'+item.price}}</span>
+            <span>{{item.orderStatus | modStatus}}</span>
           </div>
           <div class="info-menu">
             <ul>
-              <li><router-link to="/buyer/orderdetail">订单详情</router-link></li>
+              <li><a @click="getOrderDetail(item.id,item.orderType)">订单详情</a></li>
             </ul>
           </div>
           <div class="info-evaluate">
@@ -34,86 +32,20 @@
           </div>
         </div>
       </div>
-      <div class="public-order-info-item">
-        <div class="public-order-info-item-top">
-          <ul class="public-order-info-item-top-detail">
-            <li>2021年03月19日</li>
-            <li>订单号：<span>202103190038473543</span></li>
-            <li>服务商：<span>五福上平台</span></li>
-          </ul>
-        </div>
-        <div class="public-order-info-item-bottom">
-          <div class="info-image">
-            <img src="http://n.sinaimg.cn/photo/34/w1089h545/20210416/4bde-knvsnuf5803625.jpg" alt="">
-          </div>
-          <div class="info-detail">
-            <h2>服务标题服务标题服务标题服务标题服务标题服服务标题服务标题服务标题服务标题服务标题</h2>
-            <p>服务标题服务标题服务标题服务标题服务标题服服务标题服务标题服务标题服务标题服务标题</p>
-            <el-tag>标签一</el-tag>
-            <el-tag>标签一</el-tag>
-            <el-tag>标签一</el-tag>
-            <el-tag>标签一</el-tag>
-          </div>
-          <div class="info-price">
-            <span>￥19305.56</span>
-          </div>
-          <div class="info-menu">
-            <ul>
-              <li>订单详情</li>
-            </ul>
-          </div>
-          <div class="info-evaluate">
-            <span>评价</span>
-          </div>
-        </div>
-      </div>
-      <div class="public-order-info-item">
-        <div class="public-order-info-item-top">
-          <ul class="public-order-info-item-top-detail">
-            <li>2021年03月19日</li>
-            <li>订单号：<span>202103190038473543</span></li>
-            <li>服务商：<span>五福上平台</span></li>
-          </ul>
-        </div>
-        <div class="public-order-info-item-bottom">
-          <div class="info-image">
-            <img src="http://n.sinaimg.cn/photo/34/w1089h545/20210416/4bde-knvsnuf5803625.jpg" alt="">
-          </div>
-          <div class="info-detail">
-            <h2>服务标题服务标题服务标题服务标题服务标题服服务标题服务标题服务标题服务标题服务标题</h2>
-            <p>服务标题服务标题服务标题服务标题服务标题服服务标题服务标题服务标题服务标题服务标题</p>
-            <el-tag>标签一</el-tag>
-            <el-tag>标签一</el-tag>
-            <el-tag>标签一</el-tag>
-            <el-tag>标签一</el-tag>
-          </div>
-          <div class="info-price">
-            <span>￥19305.56</span>
-          </div>
-          <div class="info-menu">
-            <ul>
-              <li>订单详情</li>
-            </ul>
-          </div>
-          <div class="info-evaluate">
-            <span>评价</span>
-          </div>
-        </div>
-      </div>
     </div>
-    <div class="public-order-info-null" v-if="false">
+    <div class="public-order-info-null" v-else>
       当前暂无数据，请刷新重试。
     </div>
-    <div class="common-pagination" >
+    <div class="common-pagination" v-if="orderList.length !== 0">
       <div class="pagination">
         <el-pagination
             background
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
             :current-page.sync="currentPage1"
-            :page-size="2"
+            :page-size="4"
             layout="total, prev, pager, next"
-            :total="100">
+            :total="pageInfo.total">
         </el-pagination>
       </div>
     </div>
@@ -125,17 +57,51 @@ export default {
   name: "MyOrder",
   data(){
     return {
-      currentPage1:1
+      currentPage1:1,
+      orderList:[],
+      pageInfo:{
+        total:0,
+      }
     }
   },
   methods: {
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
     },
-    handleCurrentChange(val) {
-      console.log(val)
+    async handleCurrentChange(val) {
+      let result = await this.$axios.orderControllerList.getOrderListForBuyer({
+        page:val
+      })
+      this.pageInfo.total = result?.data?.total
+      this.orderList = result?.data?.orderList
     },
-  }
+    getOrderDetail(id,orderType){
+      this.$router.push(`/buyer/orderdetail/waitingcommunication/${id}/${orderType}`)
+    }
+  },
+  async mounted() {
+    let result = await this.$axios.orderControllerList.getOrderListForBuyer({
+      page:1
+    })
+    this.pageInfo.total = result?.data?.total
+    this.orderList = result?.data?.orderList
+  },
+  filters:{
+    modStatus(value){
+      switch(parseInt(value)) {
+        case 1:
+          return '待沟通'
+        case 2:
+          return '进行中'
+        case 3:
+          return '已验收'
+        case 4:
+          return '已验收'
+        default:
+          return '待沟通'
+      }
+    }
+  },
 }
 </script>
 
@@ -184,6 +150,7 @@ export default {
           margin-left:20px;
           text-align: left;
           h2{
+            height:44px;
             margin-bottom: 25px;
             font-size: 16px;
             font-weight: 400;
@@ -196,6 +163,7 @@ export default {
             overflow: hidden;  /** 隐藏超出的内容 **/
           }
           p {
+            height:40px;
             margin-bottom: 25px;
             font-size: 14px;
             font-weight: 400;
@@ -211,9 +179,16 @@ export default {
             margin-right: 15px;
           }
         }
-        .info-price {
+        .info-price-status {
           flex: 1;
           color: #FF3617;
+          display:flex;
+          flex-direction: column;
+          justify-content: space-around;
+          span {
+            display:inline-block;
+            width:100%;
+          }
         }
         .info-menu {
           flex: 1;
@@ -227,6 +202,7 @@ export default {
             align-items: center;
             li {
               a {
+                cursor: pointer;
                 color:#000;
               }
             }

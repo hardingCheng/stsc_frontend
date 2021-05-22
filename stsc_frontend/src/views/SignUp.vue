@@ -71,7 +71,6 @@ export default {
           username:this.form.username,
           password:this.form.password,
         });
-        console.log(result)
         if (result.code === 20000) {
           await this.$router.push("/login")
         }else {

@@ -10,7 +10,7 @@
             router>
           <el-menu-item index="1" route="/seller/realauth">
             <i class="el-icon-location"></i>
-            <span>实名认证</span>
+            <span>资质认证</span>
           </el-menu-item>
           <el-menu-item index="2" route="/seller/myservice">
             <i class="el-icon-menu"></i>
