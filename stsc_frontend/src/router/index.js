@@ -28,7 +28,6 @@ const routes = [
         name: "ld",
         component: () => import("../views/LookingDemand.vue"),
         meta: {
-          requiresAuth: true,
           name: "找需求 "
         },
       },
@@ -37,7 +36,6 @@ const routes = [
         name: "ls",
         component: () => import("../views/LookingService.vue"),
         meta: {
-          requiresAuth: true,
           name: "找服务 "
         },
       },
@@ -87,7 +85,7 @@ const routes = [
             redirect: "/buyer/realauth",
             children: [{
               path: "/buyer/mydemand",
-              name: "mydemand",
+              name: "buyermydemand",
               component: () => import("../views/personal-center/buyer/MyDemand"),
               meta: {
                 requiresAuth: true,
@@ -95,7 +93,7 @@ const routes = [
               },
             },{
               path: "/buyer/mynews",
-              name: "mynews",
+              name: "buyermynews",
               component: () => import("../views/personal-center/buyer/MyNews"),
               meta: {
                 requiresAuth: true,
@@ -103,7 +101,7 @@ const routes = [
               },
             },{
               path: "/buyer/myorder",
-              name: "myorder",
+              name: "buyermyorder",
               component: () => import("../views/personal-center/buyer/MyOrder"),
               meta: {
                 requiresAuth: true,
@@ -111,34 +109,38 @@ const routes = [
               },
             },{
               path: "/buyer/realauth",
-              name: "realauth",
+              name: "buyerrealauth",
               component: () => import("../views/personal-center/buyer/RealAuthentication"),
               meta: {
                 requiresAuth: true,
                 name: "我是买家实名认证"
               },
             }]
-          }, {
+          },{
             path: "/buyer/orderdetail",
-            name: "orderdetail",
+            name: "buyerorderdetail",
             component: () => import("../views/personal-center/buyer/order-details/Index"),
-            redirect: "/buyer/orderdetail/waitingcommunication/1",
+            redirect: "/buyer/orderdetail/waitingcommunication/1/1",
             children:[{
-              path: "/buyer/orderdetail/inprogress/:orderid",
-              name: "inprogress",
+              path: "/buyer/orderdetail/inprogress/:orderid/:type",
+              name: "buyerinprogress",
               component: () => import("../views/personal-center/buyer/order-details/InProgress"),
+              props: true,
             },{
-              path: "/buyer/orderdetail/serviceacceptance/:orderid",
-              name: "serviceacceptance",
+              path: "/buyer/orderdetail/serviceacceptance/:orderid/:type",
+              name: "buyerserviceacceptance",
               component: () => import("../views/personal-center/buyer/order-details/ServiceAcceptance"),
+              props: true,
             },{
-              path: "/buyer/orderdetail/serviceevaluation/:orderid",
-              name: "serviceevaluation",
+              path: "/buyer/orderdetail/serviceevaluation/:orderid/:type",
+              name: "buyerserviceevaluation",
               component: () => import("../views/personal-center/buyer/order-details/ServiceEvaluation"),
+              props: true,
             },{
-              path: "/buyer/orderdetail/waitingcommunication/:orderid",
-              name: "waitingcommunication",
+              path: "/buyer/orderdetail/waitingcommunication/:orderid/:type",
+              name: "buyerwaitingcommunication",
               component: () => import("../views/personal-center/buyer/order-details/WaitingCommunication"),
+              props: true,
             }]
           },{
             path: "/buyer/mydemand/:id",
@@ -148,6 +150,7 @@ const routes = [
               requiresAuth: true,
               name: "我的需求详情"
             },
+            props: true,
           }],
         },{
           path: "/seller",
@@ -160,7 +163,7 @@ const routes = [
           redirect: "/seller/realauth",
           children:[{
             path: "/seller/myservice",
-            name: "myservice",
+            name: "sellermyservice",
             component: () => import("../views/personal-center/seller/MyService"),
             meta: {
               requiresAuth: true,
@@ -168,28 +171,54 @@ const routes = [
             },
           },{
             path: "/seller/mynews",
-            name: "mynews",
+            name: "sellermynews",
             component: () => import("../views/personal-center/seller/MyNews"),
             meta: {
               requiresAuth: true,
               name: "我的消息"
             },
           },{
-            path: "/seller/myorder",
-            name: "myorder",
-            component: () => import("../views/personal-center/seller/MyOrder"),
-            meta: {
-              requiresAuth: true,
-              name: "我的订单"
-            },
-          },{
             path: "/seller/realauth",
-            name: "realauth",
+            name: "sellerrealauth",
             component: () => import("../views/personal-center/seller/RealAuthentication"),
             meta: {
               requiresAuth: true,
               name: "我是卖家实名认证"
             },
+          },{
+            path: "/seller/myorder",
+            name: "sellermyorder",
+            component: () => import("../views/personal-center/seller/MyOrder"),
+            meta: {
+              requiresAuth: true,
+              name: "我的订单"
+            }
+          }]
+        },{
+          path: "/seller/orderdetail",
+          name: "sellerorderdetail",
+          component: () => import("../views/personal-center/seller/order-details/Index"),
+          redirect: "/seller/orderdetail/waitingcommunication/1/1",
+          children:[{
+            path: "/seller/orderdetail/inprogress/:orderid/:type",
+            name: "sellerinprogress",
+            component: () => import("../views/personal-center/seller/order-details/InProgress"),
+            props: true,
+          },{
+            path: "/seller/orderdetail/serviceacceptance/:orderid/:type",
+            name: "sellerserviceacceptance",
+            component: () => import("../views/personal-center/seller/order-details/ServiceAcceptance"),
+            props: true,
+          },{
+            path: "/seller/orderdetail/serviceevaluation/:orderid/:type",
+            name: "sellerserviceevaluation",
+            component: () => import("../views/personal-center/seller/order-details/ServiceEvaluation"),
+            props: true,
+          },{
+            path: "/seller/orderdetail/waitingcommunication/:orderid/:type",
+            name: "sellerwaitingcommunication",
+            component: () => import("../views/personal-center/seller/order-details/WaitingCommunication"),
+            props: true,
           }]
         }]
       },
@@ -208,7 +237,7 @@ const routes = [
         component: () => import("../views/SendDemand.vue"),
         meta: {
           requiresAuth: true,
-          name: "找需求"
+          name: "修改需求"
         },
         props: true,
       },
@@ -220,6 +249,16 @@ const routes = [
           requiresAuth: true,
           name: "找服务"
         },
+      },
+      {
+        path: "/ss/:id",
+        name: "ss",
+        component: () => import("../views/SendService.vue"),
+        meta: {
+          requiresAuth: true,
+          name: "修改服务"
+        },
+        props: true,
       },
       {
         path: "/sdetail/:id",

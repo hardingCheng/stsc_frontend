@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0e5f32"],{9753:function(e,n,t){"use strict";t.r(n);var a=function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("div",{staticClass:"service-evaluation"})},i=[],r={props:["orderid","type"],name:"ServiceEvaluation"},s=r,c=t("2877"),o=Object(c["a"])(s,a,i,!1,null,"173e3d53",null);n["default"]=o.exports}}]);
+//# sourceMappingURL=chunk-2d0e5f32.87927274.js.map

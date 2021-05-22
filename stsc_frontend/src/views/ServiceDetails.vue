@@ -134,7 +134,6 @@ export default {
     };
   },
   async mounted() {
-     // await this.getData()
       const detail_result = await this.$axios.serveControllerList.getServesDetailById({
       id: this.id
     })

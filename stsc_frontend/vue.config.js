@@ -33,5 +33,6 @@ module.exports = {
     config.resolve.symlinks(true) // 修复热更新失效
   },
 
-  publicPath: './'
+  publicPath: './',
+  outputDir: 'webproject'
 };

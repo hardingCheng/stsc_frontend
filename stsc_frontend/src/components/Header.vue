@@ -96,11 +96,9 @@ export default {
   watch: {
     $route(to,from) {
       if (to.name === 'index'){
-        console.log(1231)
         document.getElementById('header-bottom').style.setProperty("background","transparent")
         window.addEventListener("scroll",this.handleScroll)
       }else {
-        console.log(123)
         window.removeEventListener("scroll",this.handleScroll)
         document.getElementById('header-bottom').style.setProperty("background","#1794FF")
       }
@@ -233,11 +231,10 @@ export default {
       .header-main-bar {
         .header-main-bar-tab {
           display: flex;
-          justify-content:flex-end;
+          justify-content:space-around;
           li {
             height:69px;
             line-height:69px;
-            margin-left:59px;
             cursor: pointer;
             @include font-config(16px,'PingFangSC-Regular, PingFang SC',500,#FFFFFF);
             &:last-child{

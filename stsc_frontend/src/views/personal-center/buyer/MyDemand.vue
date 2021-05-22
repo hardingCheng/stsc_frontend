@@ -18,7 +18,8 @@
 <!--          <el-button type="primary" @click="deleteDemandInfo(item.id)">撤销</el-button>-->
 <!--        </div>-->
 <!--      </div>-->
-      <my-public-info-list :infoList="infoList.records" @modInfo="modInfo" @deleteInfo="deleteInfo" @infoDetail="infoDetail"></my-public-info-list>
+      <my-public-info-list :infoList="infoList.records" @modInfo="modInfo" @deleteInfo="deleteInfo" @infoDetail="infoDetail" :type="1">
+      </my-public-info-list>
     </div>
     <div class="public-info-list-null" v-else>
       当前暂无数据，请刷新重试。

@@ -12,8 +12,8 @@ const serveControllerList = {
     // 根据卖家ID查询该卖家的所有需求
     getAllServesByUserId: (params) => {
         return axios({
-            url: `/bh/stcsp/serve/getAllServesByUserId/${params.userId}/${params.page}/${params.limit}`,
-            method: "delete",
+            url: `/bh/stcsp/serve/getAllServesByUserId/${params.sellerId}/${params.page}/${params.limit}`,
+            method: "get",
         });
     },
     // 根据条件查找服务
@@ -42,7 +42,7 @@ const serveControllerList = {
     // 发布服务
     releaseServe: (data) => {
         return axios({
-            url: `/ph/stcsp/serve/releaseServe`,
+            url: `/bh/stcsp/serve/releaseServe`,
             method: "post",
             data
         });

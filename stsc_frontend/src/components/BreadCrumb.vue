@@ -47,7 +47,7 @@ export default {
   watch: {
     $route: {
       handler(to,from) {
-        console.log(to,from)
+
       },
       // deep:true,
       immediate: true

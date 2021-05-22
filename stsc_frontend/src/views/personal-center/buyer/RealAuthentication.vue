@@ -1,6 +1,6 @@
 <template>
   <div class="real-auth">
-    <div class="real-auth-main">
+    <div class="real-auth-main" v-if="!realInfo.realConfirm">
       <el-form :label-position="labelPosition" ref="authForm" label-width="100px" :model="formLabelAlign" :rules="rules">
         <el-form-item label="真实姓名:" prop="_name">
           <el-input v-model="formLabelAlign._name" ></el-input>
@@ -14,8 +14,12 @@
         </el-form-item>
       </el-form>
     </div>
-    <div class="real-auth-success">
+    <div class="real-auth-success" v-else>
       实名认证成功! 仅可实名认证一次！
+      <ul>
+        <li>认证姓名：<span>{{realInfo.realname}}</span></li>
+        <li>身份证号：<span>{{realInfo.idCard}}</span></li>
+      </ul>
     </div>
   </div>
 </template>
@@ -39,7 +43,13 @@ export default {
         _id: [
           { required: true, message: '请填写身份证号', trigger: 'change' }
         ],
-      }
+      },
+      realInfo:{
+        idCard:'',
+        realname:'',
+        realConfirm:false
+      },
+
     }
   },
   methods:{
@@ -52,7 +62,7 @@ export default {
            realName: this.formLabelAlign._name
          })
           if (result.code === 20000){
-
+            await this.getAuthInfo()
           }else {
             this.$message({
               type:'error',
@@ -60,14 +70,26 @@ export default {
             })
           }
         } else {
-          console.log('error submit!!');
           return false;
         }
       });
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
+    },
+    async getAuthInfo(){
+      let result = await this.$axios.userControllerList.getAuthInfo()
+      if (result.code === 20000 && result.data?.idCard){
+        this.realInfo = result.data
+        this.realInfo.realConfirm = true
+      }
     }
+  },
+  async mounted() {
+
+  },
+  async created(){
+    await this.getAuthInfo()
   }
 }
 </script>
@@ -80,6 +102,14 @@ export default {
   padding:30px;
   .real-auth-success {
     color: #6DBA14;
+    ul {
+      li {
+        margin: 40px;
+        span {
+          letter-spacing:3px
+        }
+      }
+    }
   }
 }
 </style>

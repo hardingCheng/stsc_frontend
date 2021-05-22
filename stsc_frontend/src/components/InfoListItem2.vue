@@ -36,7 +36,9 @@ export default {
         serveId:this.info.id,
         type:0
       })
-      console.log(result)
+      if (result.code === 20000){
+        await this.$router.push('/buyer/myorder')
+      }
     }
   },
   computed:{
