@@ -11,20 +11,55 @@
     <div class="service-acceptance-report">
       <span>验收报告：</span>
       <ul>
-        <li><el-button type="text">验收报告1</el-button></li>
-        <li><el-button type="text">验收报告2</el-button></li>
-        <li><el-button type="text">验收报告3</el-button></li>
+        <li v-for="(item,index) in  acceptanceUploadFleList" :key="index"><el-button type="text" @click="pdfShow(item.fileUrl)">{{item.fileName}}</el-button></li>
       </ul>
     </div>
    <div class="service-acceptance-operation">
      <el-button type="primary">确认验收</el-button>
    </div>
+
   </div>
 </template>
 
 <script>
 export default {
-  name: "ServiceAcceptance"
+  props:['orderid','type'],
+  name: "ServiceAcceptance",
+  data(){
+    return {
+      acceptanceUploadFleList:[]
+    }
+  },
+  methods:{
+    pdfShow(fileUrl){
+      window.open('/pdf/web/viewer.html?file=' + fileUrl);
+    },
+    async getAcceptanceUploadFle(){
+      let result = await this.$axios.orderControllerList.getAcceptanceUploadFle({
+        orderId:this.orderid
+      })
+      if (result.code === 20000){
+        result.data.fileurls.split(',').slice(0,-1).map((item) => {
+          this.acceptanceUploadFleList.push({
+            fileName:item.split('/').slice(-1)[0].split('_').slice(1).toString(),
+            fileUrl:item
+          })
+        })
+      }
+    },
+    async getOrderInfo(){
+      let result = await this.$axios.orderControllerList.getOrderInfo({
+        orderId:this.orderid
+      })
+      if (result.code === 20000){
+        console.log(result)
+      }
+    }
+  },
+  async mounted(){
+    await this.getAcceptanceUploadFle()
+    await this.getOrderInfo()
+  }
 }
 </script>
 

@@ -32,7 +32,7 @@
                   ref="uploadimage"
                   action="/bh/stcsp/fileoss/upload"
                   :on-preview="handlePreview"
-                  :on-remove="handleRemove"
+                  :on-remove="handleRemove1"
                   :on-success="handleSuccess1"
                   :file-list="fileList1"
                   :auto-upload="false"
@@ -103,7 +103,8 @@
               </el-upload>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="onSubmit">立即发布</el-button>
+              <el-button type="primary" @click="onSubmit" v-if="!id">立即发布</el-button>
+              <el-button type="primary" @click="onUpdate" v-else>立即更新</el-button>
               <el-button>重置</el-button>
             </el-form-item>
           </div>
@@ -116,6 +117,7 @@
 <script>
 import BreadCrumb from "../components/BreadCrumb";
 export default {
+  props:['id'],
   name: "SendService",
   components: {BreadCrumb},
   data() {
@@ -185,48 +187,111 @@ export default {
       }],
       dynamicTags: [],
       inputVisible: false,
-      inputValue: ''
+      inputValue: '',
+      fileRemoveList:[],
+      filerReadyUploadList: [],
+      filerReadyUploadList1: [],
+      updateStatus:false,
     }
   },
   async mounted() {
      let result = await this.$axios.categoryControllerList.getCategory({})
      this.options = result.data.firstCategoryList
      this.options= JSON.parse(JSON.stringify(this.options).replace(/id/g,"value").replace(/name/g,"label"))
+    if (this.id) {
+      let result = await this.$axios.serveControllerList.getServesDetailById({
+        id:this.id
+      })
+      this.form = result.data.serve
+      this.category = result.data.serve.categoryId.split(',')
+      this.dynamicTags = result.data.serve.keywords.split(',')
+      if (result.data.serve.attachment){
+        let urlArr = result.data.serve.attachment.split('/').slice(-1)[0]
+        this.fileList.push({
+          name:urlArr,
+          url:result.data.serve.attachment
+        })
+      }
+      if (result.data.serve.image){
+        let urlArr = result.data.serve.image.split('/').slice(-1)[0]
+        this.fileList1.push({
+          name:urlArr,
+          url:result.data.serve.image
+        })
+      }
+    }
   },
   watch: {
     form:{
       async handler (newValue, oldName) {
-        if (this.fileList.length!==0&&this.fileList1.length!==0){
-          if (newValue.image!==''&&newValue.attachments!==''){
-            let result = await this.$axios.serveControllerList.releaseServe(this.form)
-            if (result.code === 20000){
-              this.$message({
-                message: '发布服务成功,请前往个人中心查看！',
-                type: 'success'
-              });
-              await this.$router.push("/index")
+        if(!this.updateStatus){
+          if (this.filerReadyUploadList1.length!==0&&this.filerReadyUploadList.length!==0){
+            if (newValue.image!==''&&newValue.attachment!==''){
+              let result = await this.$axios.serveControllerList.releaseServe(this.form)
+              if (result.code === 20000){
+                this.$message({
+                  message: '发布服务成功,请前往个人中心查看！',
+                  type: 'success'
+                });
+                await this.$router.push("/index")
+              }
+            }
+          }else if (this.filerReadyUploadList.length!==0&&this.filerReadyUploadList1.length===0){
+            if (newValue.attachment!==''){
+              let result = await this.$axios.serveControllerList.releaseServe(this.form)
+              if (result.code === 20000){
+                this.$message({
+                  message: '发布服务成功,请前往个人中心查看！',
+                  type: 'success'
+                });
+                await this.$router.push("/index")
+              }
+            }
+          }else if(this.filerReadyUploadList.length===0&&this.filerReadyUploadList1.length!==0){
+            if (newValue.image!==''){
+              let result = await this.$axios.serveControllerList.releaseServe(this.form)
+              if (result.code === 20000){
+                this.$message({
+                  message: '发布服务成功,请前往个人中心查看！',
+                  type: 'success'
+                });
+                await this.$router.push("/index")
+              }
             }
           }
-        }else if (this.fileList.length!==0&&this.fileList1.length===0){
-          if (newValue.attachments!==''){
-            let result = await this.$axios.serveControllerList.releaseServe(this.form)
-            if (result.code === 20000){
-              this.$message({
-                message: '发布服务成功,请前往个人中心查看！',
-                type: 'success'
-              });
-              await this.$router.push("/index")
+        }else {
+          if (this.filerReadyUploadList1.length!==0&&this.filerReadyUploadList.length!==0){
+            if (newValue.image!==''&&newValue.attachment!==''){
+              let result =  await this.$axios.requirementControllerList.updateRequireById(this.form)
+              if (result.code === 20000){
+                this.$message({
+                  message: '修改服务成功,请前往个人中心查看！',
+                  type: 'success'
+                });
+                await this.$router.push("/seller/myservice")
+              }
             }
-          }
-        }else if(this.fileList.length===0&&this.fileList1.length!==0){
-          if (newValue.image!==''){
-            let result = await this.$axios.serveControllerList.releaseServe(this.form)
-            if (result.code === 20000){
-              this.$message({
-                message: '发布服务成功,请前往个人中心查看！',
-                type: 'success'
-              });
-              await this.$router.push("/index")
+          }else if (this.filerReadyUploadList.length!==0&&this.filerReadyUploadList1.length===0){
+            if (newValue.attachment!==''){
+              let result =  await this.$axios.requirementControllerList.updateRequireById(this.form)
+              if (result.code === 20000){
+                this.$message({
+                  message: '修改服务成功,请前往个人中心查看！',
+                  type: 'success'
+                });
+                await this.$router.push("/seller/myservice")
+              }
+            }
+          }else if(this.filerReadyUploadList.length===0&&this.filerReadyUploadList1.length!==0){
+            if (newValue.image!==''){
+              let result =  await this.$axios.requirementControllerList.updateRequireById(this.form)
+              if (result.code === 20000){
+                this.$message({
+                  message: '修改服务成功,请前往个人中心查看！',
+                  type: 'success'
+                });
+                await this.$router.push("/seller/myservice")
+              }
             }
           }
         }
@@ -240,13 +305,13 @@ export default {
       await this.$refs['serviceform'].validate(async (valid) => {
         if (valid) {
           // this.disabled = true
-          if(this.fileList1.length !== 0){
+          if(this.filerReadyUploadList1.length !== 0){
             this.$refs.uploadimage.submit();
           }
-          if(this.fileList.length !== 0){
+          if(this.filerReadyUploadList.length !== 0){
             this.$refs.upload.submit();
           }
-          if(this.fileList.length === 0 && this.fileList1.length === 0){
+          if(this.filerReadyUploadList1.length === 0 && this.filerReadyUploadList.length === 0){
             let result = await this.$axios.serveControllerList.releaseServe(this.form)
             if (result.code === 20000){
               this.$message({
@@ -272,16 +337,30 @@ export default {
       }
     },
     handleRemove(file, fileList) {
-      console.log(file, fileList);
+      if (file?.status !== 'ready'){
+        this.fileRemoveList.push(file)
+      }
+      this.fileList = fileList
+    },
+    handleRemove1(file, fileList) {
+      if (file?.status !== 'ready'){
+        this.fileRemoveList.push(file)
+      }
+      this.fileList1 = fileList
     },
     handlePreview(file) {
       console.log(file);
     },
     changeUpload(file,fileList){
-      this.fileList = fileList;
+      if(file.status === "ready") {
+        // this.filerReadyUploadList.push(file)
+      }
     },
     changeUpload1(file,fileList){
-      this.fileList1 = fileList;
+      if(file.status === "ready") {
+        this.filerReadyUploadList1.push(file)
+      }
+
     },
     handleClose(tag) {
       this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
@@ -302,7 +381,30 @@ export default {
       }
       this.inputVisible = false;
       this.inputValue = '';
-    }
+    },
+    async onUpdate(){
+      this.updateStatus = true
+      if (this.fileRemoveList.length !== 0){
+        await this.fileRemoveList.map(async(item)=>{
+          let result = await this.$axios.ossControllerList.delFile({
+            filename:item.name
+          })
+        })
+      }
+      if(this.filerReadyUploadList1.length !== 0){
+        await this.$refs.uploadimage.submit();
+      }
+      if(this.filerReadyUploadList.length !== 0){
+        await this.$refs.upload.submit();
+      }
+      if (this.filerReadyUploadList1.length === 0 && this.filerReadyUploadList.length === 0){
+        let result =  await this.$axios.requirementControllerList.updateRequireById(this.form)
+        if (result.code === 20000){
+          await this.$router.push("/seller/myservice")
+        }
+      }
+
+    },
   }
 };
 </script>
