@@ -26,13 +26,12 @@ props:['id'],
       is_read:1,//消息已读未读
       activeName: 'first',
       activeNames: ['']
-
     };
   },
 
   async mounted() {
      await this.getMessageList()
-    await this.deleteMessageById()
+     await this.deleteMessageById()
   },
   methods: {
     async getMessageList() {
@@ -63,10 +62,13 @@ props:['id'],
       console.log('111', this.message_list_no)
     },
     async deleteMessageById(){
+      for (let i=0;i<this.message_list.length;i++){
       const messageById_result =  await  this.$axios.requirementControllerList.deleteMessageById({
-        id: this.message_list.id,
+        id: this.message_list[i].id,
       })
-      console.log("122212",this.message_list)
+        console.log("122212",this.message_list[i].id)
+      }
+
     },
 
     handleClick(tab, event) {
