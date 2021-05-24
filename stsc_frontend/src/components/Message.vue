@@ -66,6 +66,7 @@ export default {
       this.no_read.splice(val, this.no_read.length)
       this.indexs_inform.splice(val, this.indexs_inform.length)
     },
+    //删除一条消息
     delete_inform1(val) {
 
       this.indexs_inform.splice(val, 1)
