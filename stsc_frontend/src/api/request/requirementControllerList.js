@@ -73,11 +73,27 @@ const requirementControllerList = {
     //根据ID删除消息
     deleteMessageById: (params) => {
         return axios({
-            url: `/bh//stcsp/message/deleteMessage/${params.id}`,
+            url: `/bh/stcsp/message/deleteMessage/${params.id}`,
+            method: "delete",
+        });
+    },
+    //根据ID查询未读消息
+    lookMessageById: (params) => {
+        return axios({
+            url: `/bh/stcsp/message/getMessageByUserId/${params.id}/${params.page}/${params.limit}/${params.isRead}`,
+            method: "POST",
+            data:params
+        });
+    },
+    //消息状态变更
+    changeMessageState: (params) => {
+        return axios({
+            url: `/bh/stcsp/message/changeStatus/${params.messageId}`,
             method: "get",
             data:params
         });
     },
+
 }
 export default requirementControllerList
 

@@ -4,46 +4,40 @@
     <el-tabs v-model="activeName" @tab-click="handleClick">
 
       <el-tab-pane name="first">
-        <template slot="label">全部({{ indexs_inform.length }})</template>
+        <template slot="label">全部({{ indexss_inform.length }})</template>
         <!--      折叠面板-->
 
         <el-collapse v-model="activeNames" @change="handleChange">
-          <el-collapse-item :name="index" v-for="(item,index) in indexs_inform" v-bind:key="index">
+          <el-collapse-item :name="index" v-for="(item,index) in indexss_inform" v-bind:key="index">
             <template slot="title">
               <span style="width: 500px"> {{ item.title }}</span><span
                 style="margin-left: 250px">{{ item.createTime }}</span>
             </template>
             <p>{{ item.content }}</p>
-            <el-button class="delete" type="primary" @click="delete_inform1(index)">删除</el-button>
+            <el-button class="delete" type="primary" @click="delete_inform1(index,item.id)">删除</el-button>
           </el-collapse-item>
-
-
         </el-collapse>
+        <slot name="page_1"></slot>
       </el-tab-pane>
 
       <el-tab-pane name="second">
         <template slot="label">
-          未读({{ no_read.length }})
+          未读({{ indexss_no_read.length }})
         </template>
-
         <el-collapse v-model="activeNames" @change="handleChange">
-          <el-collapse-item :name="index" v-for="(item,index) in no_read" v-bind:key="index">
+          <el-collapse-item :name="index" v-for="(item,index) in indexss_no_read" v-bind:key="index">
             <template slot="title">
               <span style="width: 500px"> {{ item.title }}</span><span
                 style="margin-left: 250px">{{ item.createTime }}</span>
               <slot name="no_manage_title"></slot>
             </template>
             <p>{{ item.content }}</p>
-            <el-button class="delete" type="primary" @click="delete_no_manage(index)">删除</el-button>
+            <el-button class="delete" type="primary" @click="have_manage(index,item.id)">已读</el-button>
           </el-collapse-item>
         </el-collapse>
+        <slot name="page_2"></slot>
       </el-tab-pane>
 
-      <el-tab-pane name="fourth" disabled>
-        <template slot="label">
-          <el-link slot="label_title4" type="primary" class="delete_message" @click="delete_message()">清空已读消息</el-link>
-        </template>
-      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -51,36 +45,48 @@
 export default {
   // indexss_inform通知内容
   // indexss_no_manage待办内容
-  props: ["indexss_inform", "indexss_no_read",],
+  props: ["indexss_inform", "indexss_no_read"],
   name: "Message",
   data() {
     return {
+
       activeName: 'first',
       activeNames: [''],
-      indexs_inform: this.indexss_inform,//父组件的值
-      no_read: this.indexss_no_read,//父组件的值
     };
   },
   methods: {
     delete_message(val) {
-      this.no_read.splice(val, this.no_read.length)
-      this.indexs_inform.splice(val, this.indexs_inform.length)
+      this.indexss_no_read.splice(val, this.indexss_no_read.length)
     },
     //删除一条消息
-    delete_inform1(val) {
-
-      this.indexs_inform.splice(val, 1)
-      this.no_read.splice(val, 1)
+    async delete_inform1(val, delete_val) {
+      this.$parent.delete_inform1(delete_val);//调用父组件的方法
+      this.indexss_inform.splice(val, 1)
+      this.indexss_no_read.splice(val, 1)
     },
-    delete_no_manage(val) {
-      this.no_read.splice(val, 1)
+    //改变消息状态
+    async change_message_state(val){
+      this.$parent.change_message_state(val);
+    },
+
+    //改变消息状态
+    async have_manage(val, delete_val) {
+      // await this.$axios.requirementControllerList.deleteMessageById({
+      //   id: delete_val
+      // })
+      console.log("已读",delete_val)
+      await this.change_message_state(delete_val)
+      this.indexss_no_read.splice(val, 1)
     },
 
     handleClick(tab, event) {
-      console.log(tab, event);
+      console.log("handleClick", tab, event);
+
     },
-    handleChange(val) {
+   async handleChange(val) {
       console.log('点击的第几个折叠面板 ', val);
+
+
     }
   }
 }
@@ -88,8 +94,6 @@ export default {
 
 <style scoped lang="scss">
 .message {
-  height: 500px;
-
   .delete_message {
     display: block;
     margin-left: 625px;
