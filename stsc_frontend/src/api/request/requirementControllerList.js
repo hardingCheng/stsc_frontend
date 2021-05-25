@@ -23,9 +23,9 @@ const requirementControllerList = {
         });
     },
     // 根据条件查找需求
-    getRequiresByCondition: (params,data) => {
+    getRequireSubRequire: (params,data) => {
         return axios({
-            url: `/bh/stcsp/requirement/getRequiresByCondition/${params.page}/${params.limit}`,
+            url: `/bh/stcsp/requirement/getRequireSubRequire/${params.page}/${params.limit}`,
             method: "post",
             data
         });

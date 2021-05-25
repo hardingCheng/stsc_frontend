@@ -18,14 +18,14 @@
         <div class="primary-classification">
           <dl>
             <dt>需求分类：</dt>
-            <dd @click="getDemandList(null)">全部</dd>
+            <dd @click="getFirstDemandList(null)">全部</dd>
             <dd v-for="(item) in getFirstCategoryList" @click="getSecendsList(item.id)" :key="item.id">{{ item.name }}
             </dd>
           </dl>
         </div>
         <div class="secondary-classification" v-if="getSecondCategoryList.length !== 0">
           <dl>
-            <dd v-for="(item) in getSecondCategoryList" @click="getDemandList(item.id)" :key="item.id">{{ item.name }}
+            <dd v-for="(item) in getSecondCategoryList" @click="getSecendDemandList(item.id)" :key="item.id">{{ item.name }}
             </dd>
           </dl>
         </div>
@@ -85,7 +85,7 @@ export default {
     }
   },
   async mounted() {
-    await this.getDemandList(null)
+    await this.getFirstDemandList(null)
     const categoryResust = await this.$axios.categoryControllerList.getFirstCategoryList({})
     this.getFirstCategoryList = categoryResust.data.firstCategoryList
   },
@@ -96,7 +96,7 @@ export default {
         firstId: id
       })
       this.getSecondCategoryList = secondsResult.data.secondCategoryList
-      await this.getDemandList(id)
+      await this.getFirstDemandList(this.firstId)
     },
     async setOrderImmediately(value){
       let result = await this.$axios.orderControllerList.createOrder({
@@ -107,15 +107,14 @@ export default {
         await this.$router.push('/seller/myorder')
       }
     },
-    async getDemandList(id) {
-      this.secondId = id
+    async getFirstDemandList(id) {
       if (id === null) {
-        const demandBaseResult = await this.$axios.requirementControllerList.getRequiresByCondition({
+        const demandBaseResult = await this.$axios.requirementControllerList.getRequireSubRequire({
           page: this.currentPage1,
           limit: 15
         }, {})
-        this.requireList = demandBaseResult.data.requireList;
-        let len = demandBaseResult.data.requireList.records.length;
+        this.requireList = demandBaseResult.data.requirementList;
+        let len = demandBaseResult.data.requirementList.records.length;
         let n = 5; //假设每行显示4个
         this.demandList = [];
         if (len !== 0) {
@@ -123,19 +122,29 @@ export default {
           this.demandList = [];
           for (let i = 0; i < lineNum; i++) {
             // slice() 方法返回一个从开始到结束（不包括结束）选择的数组的一部分浅拷贝到一个新数组对象。且原始数组不会被修改。
-            let temp = demandBaseResult.data.requireList.records.slice(i * n, i * n + n);
+            let temp = demandBaseResult.data.requirementList.records.slice(i * n, i * n + n);
             this.demandList.push(temp);
           }
         }
       } else {
-        const demandBaseResult = await this.$axios.requirementControllerList.getRequiresByCondition({
-          page: this.currentPage1,
-          limit: 15
-        }, {
-          categoryId: id
-        })
-        this.requireList = demandBaseResult.data.requireList;
-        let len = demandBaseResult.data.requireList.records.length;
+        let demandBaseResult
+        if(this.secondId){
+          demandBaseResult = await this.$axios.requirementControllerList.getRequireSubRequire({
+            page: this.currentPage1,
+            limit: 15
+          }, {
+            categoryId: this.firstId+','+this.secondId
+          })
+        }else{
+          demandBaseResult = await this.$axios.requirementControllerList.getRequireSubRequire({
+            page: this.currentPage1,
+            limit: 15
+          }, {
+            categoryId: id,
+          })
+        }
+        this.requireList = demandBaseResult.data.requirementList;
+        let len = demandBaseResult.data.requirementList.records.length;
         let n = 5; //假设每行显示4个
         this.demandList = [];
         if (len !== 0) {
@@ -143,9 +152,30 @@ export default {
           this.demandList = [];
           for (let i = 0; i < lineNum; i++) {
             // slice() 方法返回一个从开始到结束（不包括结束）选择的数组的一部分浅拷贝到一个新数组对象。且原始数组不会被修改。
-            let temp = demandBaseResult.data.requireList.records.slice(i * n, i * n + n);
+            let temp = demandBaseResult.data.requirementList.records.slice(i * n, i * n + n);
             this.demandList.push(temp);
           }
+        }
+      }
+    },
+    async getSecendDemandList(id) {
+      let demandBaseResult = await this.$axios.requirementControllerList.getRequireSubRequire({
+        page: this.currentPage1,
+        limit: 15
+      }, {
+        categoryId: this.firstId+','+id
+      })
+      this.requireList = demandBaseResult.data.requirementList;
+      let len = demandBaseResult.data.requirementList.records.length;
+      let n = 5; //假设每行显示4个
+      this.demandList = [];
+      if (len !== 0) {
+        let lineNum = len % n === 0 ? len / n : Math.floor((len / n) + 1);
+        this.demandList = [];
+        for (let i = 0; i < lineNum; i++) {
+          // slice() 方法返回一个从开始到结束（不包括结束）选择的数组的一部分浅拷贝到一个新数组对象。且原始数组不会被修改。
+          let temp = demandBaseResult.data.requirementList.records.slice(i * n, i * n + n);
+          this.demandList.push(temp);
         }
       }
     },

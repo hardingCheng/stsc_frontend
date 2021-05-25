@@ -18,14 +18,14 @@
         <div class="primary-classification">
           <dl>
             <dt>服务分类：</dt>
-            <dd @click="getServiceList(null)">全部</dd>
+            <dd @click="getFirstServiceList(null)">全部</dd>
             <dd v-for="(item) in getFirstCategoryList" @click="getSecendsList(item.id)" :key="item.id">{{ item.name }}
             </dd>
           </dl>
         </div>
         <div class="secondary-classification" v-if="getSecondCategoryList.length !== 0">
           <dl>
-            <dd v-for="(item) in getSecondCategoryList" @click="getServiceList(item.id)" :key="item.id">{{ item.name }}
+            <dd v-for="(item) in getSecondCategoryList" @click="getSecondServiceList(item.id)" :key="item.id">{{ item.name }}
             </dd>
           </dl>
         </div>
@@ -89,18 +89,27 @@ export default {
     }
   },
   async mounted() {
-    await this.getServiceList(null)
+    await this.getFirstServiceList(null)
     const categoryResust = await this.$axios.categoryControllerList.getFirstCategoryList({})
     this.getFirstCategoryList = categoryResust.data.firstCategoryList
   },
   methods: {
-    async getServiceList(id){
-      this.secondId = id
+    async getSecendsList(id) {
+      this.firstId = id
+      const secondsResult = await this.$axios.categoryControllerList.getSecondCategoryList({
+        firstId: id
+      })
+      this.getSecondCategoryList = secondsResult.data.secondCategoryList
+      await this.getFirstServiceList(this.firstId)
+    },
+    async getFirstServiceList(id){
       if (id === null) {
         const servciceBaseResult = await this.$axios.serveControllerList.getServesByCondition({
           page: 1,
           limit: 15
-        }, {})
+        }, {
+          status: 1
+        })
         this.serviceData = servciceBaseResult.data.serveList
         let len = servciceBaseResult.data.serveList.records.length;
         let n = 5; //假设每行显示4个
@@ -119,7 +128,8 @@ export default {
           page: 1,
           limit: 15
         }, {
-          categoryId: id
+          categoryId: id,
+          status: 1
         })
         this.serviceData = servciceBaseResult.data.serveList
         let len = servciceBaseResult.data.serveList.records.length;
@@ -136,6 +146,28 @@ export default {
         }
       }
     },
+    async getSecondServiceList(id){
+      const servciceBaseResult = await this.$axios.serveControllerList.getServesByCondition({
+        page: 1,
+        limit: 15
+      }, {
+        categoryId:this.firstId+','+id,
+        status: 1
+      })
+      this.serviceData = servciceBaseResult.data.serveList
+      let len = servciceBaseResult.data.serveList.records.length;
+      let n = 5; //假设每行显示4个
+      this.serviceList = [];
+      if (len !== 0) {
+        let lineNum = len % n === 0 ? len / n : Math.floor((len / n) + 1);
+        this.serviceList = [];
+        for (let i = 0; i < lineNum; i++) {
+          // slice() 方法返回一个从开始到结束（不包括结束）选择的数组的一部分浅拷贝到一个新数组对象。且原始数组不会被修改。
+          let temp = servciceBaseResult.data.serveList.records.slice(i * n, i * n + n);
+          this.serviceList.push(temp);
+        }
+      }
+    },
     async setOrderImmediately(value){
       let result = await this.$axios.orderControllerList.createOrder({
         serveId:value,
@@ -144,14 +176,6 @@ export default {
       if (result.code === 20000){
         await this.$router.push('/buyer/myorder')
       }
-    },
-    async getSecendsList(id) {
-      this.firstId = id
-      const secondsResult = await this.$axios.categoryControllerList.getSecondCategoryList({
-        firstId: id
-      })
-      this.getSecondCategoryList = secondsResult.data.secondCategoryList
-      await this.getServiceList(id)
     },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
