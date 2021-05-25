@@ -101,20 +101,6 @@ export default {
       }
     },
   },
-  filters:{
-    modStatus(value){
-      switch(parseInt(value)) {
-        case 0:
-          return '未审核'
-        case 1:
-          return '审核通过'
-        case 2:
-          return '审核未通过'
-        default:
-          return '未审核'
-      }
-    }
-  }
 }
 </script>
 

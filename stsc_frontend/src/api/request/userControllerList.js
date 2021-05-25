@@ -98,6 +98,13 @@ const userControllerList = {
             url: "/ph/stcsp/user/getAuthInfo",
             method: "get",
         });
+    },
+    // 获取用户信息
+    getUserInfo(data){
+        return axios({
+            url: "/ph/stcsp/user/info",
+            method: "get",
+        });
     }
 }
 export default userControllerList

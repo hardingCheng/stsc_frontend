@@ -47,7 +47,7 @@
             </el-upload>
           </el-form-item>
           <el-form-item label="预算价格：" prop="budget">
-            <el-input-number v-model="form.budget" :precision="2" :step="0.1" :max="10"></el-input-number>  万
+            <el-input-number v-model="form.budget" :precision="2" :step="0.1" :max="1000"></el-input-number>  万
           </el-form-item>
           <el-form-item label="项目背景：" prop="projectBackground">
             <el-input type="textarea" v-model="form.projectBackground" placeholder="请填写项目背景"></el-input>

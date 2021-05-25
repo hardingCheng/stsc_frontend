@@ -4,24 +4,24 @@
       <div class="basic-information-main-top">
         <div class="title">
           <h3>基本信息</h3>
-          <span><a href="#">编辑</a></span>
+          <span><a @click="centerDialogVisible = true">编辑</a></span>
         </div>
         <div class="info">
           <div class="info-left">
             <div class="user-avr">
-              <img src="https://tenfei02.cfp.cn/creative/vcg/veer/800water/veer-317742976.jpg" alt="">
+              <img :src="userInfo.avatar?userInfo.avatar:'https://tenfei02.cfp.cn/creative/vcg/veer/800water/veer-317742976.jpg'" alt="">
             </div>
             <div class="user-name">
               <span>您好</span>
-              <span>刘欣欣</span>
+              <span>{{userInfo.realname}}</span>
             </div>
           </div>
           <div class="info-right">
            <ul>
-             <li>账户昵称：<span>你猜我叫什么</span></li>
-             <li>联系方式：<span>18500570001</span></li>
+             <li>账户昵称：<span>{{userInfo.username}}</span></li>
+             <li>联系方式：<span>{{userInfo.telephone}}</span></li>
              <li>性别：<span>男</span></li>
-             <li>邮箱：<span>19500570001@163.com</span></li>
+             <li>邮箱：<span>{{userInfo.email?userInfo.email:'暂无信息'}}</span></li>
            </ul>
           </div>
         </div>
@@ -34,8 +34,13 @@
             </div>
             <div class="authentication-info">
               <div class="check">
-                <p><i class="el-icon-circle-check"></i><span>您已经成功的完成实名认证</span></p>
-                <p>技术加密，保障您的账号信息安全，查看<a href="#">个人信息</a></p>
+                <p v-if="userInfo.isRealNameCertification === 1"><i class="el-icon-circle-check"></i><span>您已经成功的完成实名认证</span></p>
+                <p v-else><i class="el-icon-circle-close"></i><span><router-link to="/buyer/realauth">您未完成完成实名认证</router-link></span></p>
+                <p>技术加密，保障您的账号信息安全。</p>
+              </div>
+              <div class="check">
+                <p v-if="userInfo.isQualification === 1"><i class="el-icon-circle-check"></i><span>您已经成功的完成实名认证</span></p>
+                <p v-else><i class="el-icon-circle-close"></i><span><router-link to="/seller/realauth">您未完成资质认证</router-link></span></p>
               </div>
             </div>
           </div>
@@ -45,9 +50,9 @@
             </div>
             <div class="other-info">
               <ul>
-                <li>职称：<span>你猜我叫什么</span></li>
-                <li>单位：<span>单位名称单位名称</span></li>
-                <li>个人介绍：<span>单位名称单位名称</span></li>
+                <li>职称：<span>{{userInfo.title?userInfo.title:'暂无信息'}}</span></li>
+                <li>单位：<span>{{userInfo.company?userInfo.company:'暂无信息'}}</span></li>
+                <li>个人介绍：<span>{{userInfo.introduction?userInfo.introduction:'暂无信息'}}</span></li>
               </ul>
             </div>
           </div>
@@ -59,20 +64,105 @@
           <div class="safe-info">
             <ul>
               <li>账号安全等级：<span></span><span>较高</span></li>
-              <li>手机绑定：<span>165****7365</span><span><a href="#">编辑</a></span></li>
-              <li>邮箱绑定：<span>195****0001@163.com</span><span><a href="#">编辑</a></span></li>
-              <li>登录密码：<span>已设置</span><span><a href="#">编辑</a></span></li>
+              <li>手机绑定：<span>{{userInfo.telephone?userInfo.telephone:'进行绑定'}}</span></li>
+              <li>邮箱绑定：<span>{{userInfo.email?userInfo.email:'请进行绑定'}}</span></li>
+              <li>登录密码：<span>已设置</span></li>
             </ul>
           </div>
         </div>
       </div>
+    </div>
+    <div class="basic-information-dialog">
+      <el-dialog
+          title="提示"
+          :visible.sync="centerDialogVisible"
+          width="30%"
+          center>
+        <el-form  label-width="80px" :model="userInfo">
+<!--          <el-form-item label="用户名">-->
+<!--            <el-input v-model="userInfo.username"></el-input>-->
+<!--          </el-form-item>-->
+          <el-form-item label="头像">
+            <el-upload
+                ref="avatarUpload"
+                class="avatar-uploader"
+                action="/ph/stcsp/fileoss/upload"
+                :show-file-list="false"
+                :on-success="handleAvatarSuccess"
+                :on-change="beforeAvatarUpload"
+                :auto-upload="false"
+            >
+              <img v-if="imageUrl" :src="imageUrl" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+          </el-form-item>
+          <el-form-item label="性别">
+            <el-radio-group v-model="userInfo.gender">
+              <el-radio :label="1">男</el-radio>
+              <el-radio :label="2">女</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="简介">
+            <el-input
+                type="textarea"
+                :rows="4"
+                placeholder="请输入内容"
+                v-model="userInfo.introduction">
+            </el-input>
+          </el-form-item>
+          <el-form-item label="邮箱">
+            <el-input v-model="userInfo.email"></el-input>
+          </el-form-item>
+          <el-form-item label="职称">
+            <el-input v-model="userInfo.title"></el-input>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+    <el-button @click="centerDialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="updateInfo">确 定</el-button>
+  </span>
+      </el-dialog>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Index"
+  name: "Index",
+  data(){
+    return {
+      userInfo:{},
+      centerDialogVisible: false,
+      imageUrl: '',
+    }
+  },
+  async mounted(){
+    let result = await this.$axios.userControllerList.getUserInfo()
+    this.userInfo = result.data.user
+  },
+  methods: {
+    async handleAvatarSuccess(response, file) {
+      if (response.code === 20000){
+        this.userInfo.avatar = response.data.url
+        let result = await this.$axios.userControllerList.updateInfo(this.userInfo)
+        console.log(result)
+      }
+      //this.imageUrl = URL.createObjectURL(file.raw);
+    },
+    beforeAvatarUpload(file) {
+      this.imageUrl = URL.createObjectURL(file.raw);
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!');
+      }
+      return isLt2M;
+    },
+    async updateInfo(){
+      this.centerDialogVisible = false
+      await this.$refs.avatarUpload.submit()
+    }
+  }
 }
 </script>
 
@@ -169,7 +259,9 @@ export default {
             box-shadow: 0px 2px 4px 3px rgba(225, 225, 225, 0.5);
             border-radius: 4px;
             .authentication-info {
+              display: flex;
               .check {
+                flex: 1;
                 p{
                   margin-bottom: 15px;
                   font-size: 14px;
@@ -186,6 +278,10 @@ export default {
                     .el-icon-circle-check {
                       font-size:30px;
                       color: #6DBA14;
+                    }
+                    .el-icon-circle-close {
+                      font-size:30px;
+                      color: red;
                     }
                     span {
                       position:absolute;
@@ -207,13 +303,10 @@ export default {
             border-radius: 4px;
             ul {
               li {
-                margin-bottom:25px;
+                margin-bottom:10px;
                 font-size: 14px;
                 font-weight: 400;
                 color: #666666;
-                span {
-                  margin-left:50px;
-                }
               }
             }
           }
@@ -256,10 +349,6 @@ export default {
                 }
                 &:nth-child(n+2) span:last-child {
                   margin-left:0px;
-                  float:right;
-                }
-                &:last-child>span:last-child{
-                  margin-left:0px;
                 }
                 &:last-child>span:first-child{
                   color: #6DBA14;
@@ -270,7 +359,6 @@ export default {
         }
       }
     }
-
     .title {
       height:25px;
       line-height:25px;
@@ -288,6 +376,31 @@ export default {
           font-weight: 400;
           color: #1794FF;
         }
+      }
+    }
+    .basic-information-dialog {
+      /deep/ .avatar-uploader .el-upload {
+        border: 1px dashed #d9d9d9;
+        border-radius: 100%;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+      }
+      /deep/ .avatar-uploader .el-upload:hover {
+        border-color: #409EFF;
+      }
+      .avatar-uploader-icon {
+        font-size: 28px;
+        color: #8c939d;
+        width: 100px;
+        height: 100px;
+        line-height: 100px;
+        text-align: center;
+      }
+      .avatar {
+        width: 100px;
+        height: 100px;
+        display: block;
       }
     }
   }
