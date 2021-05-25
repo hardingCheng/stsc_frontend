@@ -148,6 +148,7 @@ const routes = [
               requiresAuth: true,
               name: "我的需求详情"
             },
+            props: true,
           }],
         },{
           path: "/seller",

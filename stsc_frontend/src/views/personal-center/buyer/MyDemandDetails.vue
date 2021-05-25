@@ -1,23 +1,23 @@
 <template>
   <div class="my_demand_details container">
     <div class="my_demand-details container ">
-      <div class="my_demand-details-img"><img src="" width="400px" height="400px"></div>
+      <div class="my_demand-details-img"><img :src="this.info.image" width="400px" height="400px"></div>
       <div class="my_demand-details-inner-text">
-        <div class="my_demand-title">xxxx</div>
+        <div class="my_demand-title">{{ this.info.name }}</div>
         <div class="mechanism-classification">
-          <div class="text-title-title">需求机构：<span class="text-service-text">xxxxx</span></div>
+          <div class="text-title-title">需求机构：<span class="text-service-text">{{ this.info.company }}</span></div>
           <!--          <div class="text-title-title ">服务类别：<span class="text-service-text">设计服务>工业服务</span></div>-->
         </div>
         <!--        <div class="text-title-title">单位所在地：<span class="text-service-text">{{ info.address }}</span></div>-->
-        <div class="text-title-title">创造时间：<span class="text-service-text">xxxx</span></div>
-        <div class="text-title-title">联系人：<span class="text-service-text">xxxx</span></div>
-        <div class="text-title-title">手机号：<span class="text-service-text">xxxxx</span></div>
+        <div class="text-title-title">创造时间：<span class="text-service-text">{{ this.info.createTime }}</span></div>
+        <div class="text-title-title">联系人：<span class="text-service-text">{{ this.info.contact }}</span></div>
+        <div class="text-title-title">手机号：<span class="text-service-text">{{  this.info.telephone }}</span></div>
 
         <div class="address">
-          <div class="text-title-title ">联系地址：<span class="text-service-text ">xxxxx</span></div>
+          <div class="text-title-title ">联系地址：<span class="text-service-text ">{{  this.info.address }}</span></div>
         </div>
-        <div class="text-title-title ">电子邮箱：<span class="text-service-text">xxxxx</span></div>
-        <el-button><span class="font">立即下单</span></el-button>
+<!--        <div class="text-title-title ">电子邮箱：<span class="text-service-text">xxxxx</span></div>-->
+
       </div>
       <div></div>
     </div>
@@ -26,94 +26,93 @@
     <!--      <p class="des_content">{{info.content}}</p>-->
     <!--    </div>-->
     <el-tabs v-model="activeName" type="card" class="serve-details-text-bottom container">
-      <el-tab-pane label="需求描述" name="first" class="tab"><p>xxxx</p></el-tab-pane>
-      <el-tab-pane label="项目背景" name="second" class="tab">xxx</el-tab-pane>
+      <el-tab-pane label="需求描述" name="first" class="tab"><div class="indicators_text"><p class="p_text">{{ this.info.content}}</p></div></el-tab-pane>
+      <el-tab-pane label="项目背景" name="second" class="tab"><div class="indicators_text"><p class="p_text">{{ this.info.projectBackground}}</p></div></el-tab-pane>
       <el-tab-pane label="验收指标" name="third" class="tab">
-        <div class="indicators">
-          <div class="indicators_text"><p class="p_text">1、手臂应承载能力大、刚性好、自重轻
-            手臂的刚性直接影响到手臂抓取工件时动作的平稳性、运动的速度和定位精度。如刚性差则会引起手臂在垂直平面内的弯曲变形和水平面内侧向扭转变形，手臂就要产生振动，或动作时
-            工件卡死无法工作。为此，手臂一般都采用刚性较好的导向杆来加大手臂的刚度，各支承、连接件的刚性也要有一定的要求，以保证能承受所需要的驱动力。</p></div>
-          <div class="recommend">
-            <h3 style="margin-bottom: 20px">推荐服务商</h3>
-            <span style="margin-bottom: 50px">推荐策略</span>
-            <el-select v-model="value" placeholder="请选择" class="strategy">
-              <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-              </el-option>
-            </el-select>
-            <div class="children_demand"  v-for="(items,index) in item" v-bind:key="index">
-              <span class="children_demand_title">拆弹机器人专利信息检索</span>
-              <div style="display: inline-block;">
-                <div class="company ">
-                  <el-radio-group v-model="company_radio[index]" @change="changeVal" >
-                    <div class="company_list"  >
-                      <el-radio :label="3"  >公司公司公司公司公司公司</el-radio>
-                    </div>
-                    <div class="company_list">
-                      <el-radio :label="6"  >公司公司公公司公司司公司</el-radio>
-                    </div>
-                    <div class="company_list">
-                      <el-radio :label="9">公司公公司公司公司司公司公司</el-radio>
-                    </div>
-                  </el-radio-group>
-                </div>
-
-
-              </div>
-            </div>
-
-          </div>
-          <div class="grab">
-            <h3 style="margin-bottom: 20px">抢单商家</h3>
-            <div class="grab_name" v-for="(items,index) in grab_item" v-bind:key="index">
-              <div class="grab_title">拆弹机器人专利信息检索</div>
-              <div class="grab_content">
-                <div class="company ">
-                  <el-radio-group v-model="grab_radio[index]">
-                    <div class="grab_company_list">
-                      <el-radio :label="1">公司公司公司公司公司公司</el-radio>
-                    </div>
-                    <div class="grab_company_list">
-                      <el-radio :label="2">公司公司公公司公司司公司</el-radio>
-                    </div>
-                    <div class="grab_company_list">
-                      <el-radio :label="3">公司公公司公司公司司公司公司</el-radio>
-                    </div>
-                    <div class="grab_company_list">
-                      <el-radio :label="4">公司公公司公司公司司公司公司</el-radio>
-                    </div>
-                    <div class="grab_company_list">
-                      <el-radio :label="5">公司公公司公司公司司公司公司</el-radio>
-                    </div>
-
-                  </el-radio-group>
-                </div>
-
-
-
-              </div>
-            </div>
-          </div>
-          <div class="submit">
-            <el-button><span class="font">提交</span></el-button>
-          </div>
-        </div>
+        <div class="indicators_text"><p class="p_text">1、手臂应承载能力大、刚性好、自重轻
+          手臂的刚性直接影响到手臂抓取工件时动作的平稳性、运动的速度和定位精度。如刚性差则会引起手臂在垂直平面内的弯曲变形和水平面内侧向扭转变形，手臂就要产生振动，或动作时
+          工件卡死无法工作。为此，手臂一般都采用刚性较好的导向杆来加大手臂的刚度，各支承、连接件的刚性也要有一定的要求，以保证能承受所需要的驱动力。</p></div>
 
       </el-tab-pane>
       <el-tab-pane label="附件" name="fourth" class="tab">
         <div class="accessory ">
           <img src="" class="file_img"/>
           <p class="accessory_name">附件</p>
-          <a class="down" href="">下载</a>
+          <a class="down" :href="this.info.attachments">下载</a>
         </div>
 
       </el-tab-pane>
     </el-tabs>
 
+    <div class="indicators">
+      <div class="recommend">
+        <h3 style="margin-bottom: 20px">推荐服务商</h3>
+        <span style="margin-bottom: 50px">推荐策略</span>
+        <el-select v-model="value" placeholder="请选择" class="strategy">
+          <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+          </el-option>
+        </el-select>
+        <div class="children_demand"  v-for="(items,index) in item" v-bind:key="index">
+          <span class="children_demand_title">拆弹机器人专利信息检索</span>
+          <div style="display: inline-block;">
+            <div class="company ">
+              <el-radio-group v-model="company_radio[index]" @change="changeVal" >
+                <div class="company_list"  >
+                  <el-radio :label="3"  >公司公司公司公司公司公司</el-radio>
+                </div>
+                <div class="company_list">
+                  <el-radio :label="6"  >公司公司公公司公司司公司</el-radio>
+                </div>
+                <div class="company_list">
+                  <el-radio :label="9">公司公公司公司公司司公司公司</el-radio>
+                </div>
+              </el-radio-group>
+            </div>
 
+
+          </div>
+        </div>
+
+      </div>
+      <div class="grab">
+        <h3 style="margin-bottom: 20px">抢单商家</h3>
+        <div class="grab_name" v-for="(items,index) in grab_item" v-bind:key="index">
+          <div class="grab_title">拆弹机器人专利信息检索</div>
+          <div class="grab_content">
+            <div class="company ">
+              <el-radio-group v-model="grab_radio[index]">
+                <div class="grab_company_list">
+                  <el-radio :label="1">公司公司公司公司公司公司</el-radio>
+                </div>
+                <div class="grab_company_list">
+                  <el-radio :label="2">公司公司公公司公司司公司</el-radio>
+                </div>
+                <div class="grab_company_list">
+                  <el-radio :label="3">公司公公司公司公司司公司公司</el-radio>
+                </div>
+                <div class="grab_company_list">
+                  <el-radio :label="4">公司公公司公司公司司公司公司</el-radio>
+                </div>
+                <div class="grab_company_list">
+                  <el-radio :label="5">公司公公司公司公司司公司公司</el-radio>
+                </div>
+
+              </el-radio-group>
+            </div>
+
+
+
+          </div>
+        </div>
+      </div>
+      <div class="submit">
+        <el-button><span class="font">提交</span></el-button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -129,7 +128,6 @@ export default {
       grab_radio:['1','1','1'],//抢单商家
       activeName: 'first',
       info: {},
-
       item: ["", "", ""],//推荐商家
       grab_item: ["", "", ""],
       options: [{
@@ -153,8 +151,9 @@ export default {
       id: this.id
     })
     this.info = detail_result.data.requirement
+    console.log(this.id)
     console.log(this.info)
-    this.value = parseInt(this.info.star)
+
   },
 
   methods: {
@@ -210,7 +209,88 @@ export default {
 
   font-family: PingFangSC-Regular, PingFang SC;
   position: relative;
+  .indicators_text {
+    border: 1px solid #E7E7E7;
+    padding: 19px;
 
+    .p_text {
+      font-size: 14px;
+      color: #4E4E4E;
+      line-height: 24px;
+    }
+  }
+  .indicators {
+    .recommend {
+      border: 1px solid #E7E7E7;
+      margin-top: 20px;
+      padding: 20px;
+
+      .strategy {
+        width: 110px;
+        height: 20px;
+        margin-left: 15px;
+        margin-bottom: 50px;
+      }
+
+      .children_demand {
+        margin: 20px 20px 20px 0;
+
+        .children_demand_title {
+          width: 600px;
+          margin-right: 20px;
+          margin-top: 0;
+
+        }
+
+        .company {
+          display: inline-block;
+          width: 600px;
+
+          .company_list {
+            width: 200px;
+            display: inline-block;
+
+
+          }
+
+        }
+      }
+    }
+
+    .grab {
+      padding: 20px;
+      border: 1px solid #E7E7E7;
+      margin-top: 20px;
+
+      .grab_name {
+        position: relative; /*定位*/
+        margin: 20px 20px 20px 0;
+
+        .grab_title {
+          display: inline-block;
+          margin-right: 20px;
+          height: 50px;
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%); /*定位*/
+        }
+
+        .grab_content {
+          display: inline-block;
+          margin-left: 200px;
+          padding-top: 10px;
+        }
+      }
+    }
+
+    .submit {
+      display: flex;
+      /*项目位于容器的中心*/
+      justify-content: center;
+      /*元素位于容器的中心。弹性盒子元素在该行的侧轴（纵轴）上居中放置。（如果该行的尺寸小于弹性盒子元素的尺寸，则会向两个方向溢出相同的长度）。*/
+      align-items: center;
+    }
+  }
   .serve-details-text-bottom {
     width: 1200px;
     margin: 50px 330px 33px auto;
@@ -220,89 +300,7 @@ export default {
       margin-left: 10px;
       padding-top: 5px;
 
-      .indicators {
-        .indicators_text {
-          border: 1px solid #E7E7E7;
-          padding: 19px;
 
-          .p_text {
-            font-size: 14px;
-            color: #4E4E4E;
-            line-height: 24px;
-          }
-        }
-
-        .recommend {
-          border: 1px solid #E7E7E7;
-          margin-top: 20px;
-          padding: 20px;
-
-          .strategy {
-            width: 110px;
-            height: 20px;
-            margin-left: 15px;
-            margin-bottom: 50px;
-          }
-
-          .children_demand {
-            margin: 20px 20px 20px 0;
-
-            .children_demand_title {
-              width: 600px;
-              margin-right: 20px;
-              margin-top: 0;
-
-            }
-
-            .company {
-              display: inline-block;
-              width: 600px;
-
-              .company_list {
-                width: 200px;
-                display: inline-block;
-
-
-              }
-
-            }
-          }
-        }
-
-        .grab {
-          padding: 20px;
-          border: 1px solid #E7E7E7;
-          margin-top: 20px;
-
-          .grab_name {
-            position: relative; /*定位*/
-            margin: 20px 20px 20px 0;
-
-            .grab_title {
-              display: inline-block;
-              margin-right: 20px;
-              height: 50px;
-              position: absolute;
-              top: 50%;
-              transform: translateY(-50%); /*定位*/
-            }
-
-            .grab_content {
-              display: inline-block;
-              margin-left: 200px;
-              padding-top: 10px;
-            }
-          }
-        }
-
-        .submit {
-          display: flex;
-          /*项目位于容器的中心*/
-          justify-content: center;
-          /*元素位于容器的中心。弹性盒子元素在该行的侧轴（纵轴）上居中放置。（如果该行的尺寸小于弹性盒子元素的尺寸，则会向两个方向溢出相同的长度）。*/
-          align-items: center;
-        }
-      }
     }
   }
 
