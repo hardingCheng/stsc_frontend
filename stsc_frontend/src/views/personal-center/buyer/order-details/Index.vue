@@ -1,11 +1,12 @@
 <template>
   <div class="order-details-index">
     <div class="order-detail-progress">
-      <ul class="navs">　　　
-        <li class="active">合同上传</li>　
-        <li class="active">进行中</li>　
-        <li >服务验收</li>　　
-        <li >服务评价</li>
+      <ul class="navs">
+<!--        此处需要判断切换-->
+        <li :class="[routerIndex === 0?'active':'']"><a @click="routerJump(0)">合同上传</a></li>　
+        <li :class="[routerIndex === 1?'active':'']"><a @click="routerJump(1)">进行中</a></li>　
+        <li :class="[routerIndex === 2?'active':'']"><a @click="routerJump(2)">服务验收</a></li>　　
+        <li :class="[routerIndex === 3?'active':'']"><a @click="routerJump(3)">服务评价</a></li>
       </ul>
     </div>
     <div class="order-detail-progress-main">
@@ -16,7 +17,57 @@
 
 <script>
 export default {
-  name: "Index"
+  name: "Index",
+  data(){
+    return {
+      orderid:'',
+      routerIndex:0
+    }
+  },
+  mounted() {
+    this.orderid = this.$route.params.orderid
+    this.type = this.$route.params.type
+  },
+  watch: {
+    $route: {
+      handler(to,from) {
+        switch(to.name) {
+          case 'buyerwaitingcommunication':
+            this.routerIndex = 0
+            break
+          case 'buyerinprogress':
+            this.routerIndex = 1
+            break
+          case 'buyerserviceacceptance':
+            this.routerIndex = 2
+            break
+          case 'buyerserviceevaluation':
+            this.routerIndex = 3
+            break
+        }
+      },
+      deep:true,
+      immediate: true
+    }
+  },
+  methods: {
+    routerJump(index){
+      switch(index) {
+        case 0:
+          this.$router.push(`/buyer/orderdetail/waitingcommunication/${this.orderid}/${this.type}`)
+          break
+        case 1:
+          this.$router.push(`/buyer/orderdetail/inprogress/${this.orderid}/${this.type}`)
+          break
+        case 2:
+          this.$router.push(`/buyer/orderdetail/serviceacceptance/${this.orderid}/${this.type}`)
+          break
+        case 3:
+          this.$router.push(`/buyer/orderdetail/serviceevaluation/${this.orderid}/${this.type}`)
+          break
+      }
+    }
+  }
 }
 </script>
 
@@ -41,6 +92,9 @@ export default {
         color: #fff;
         position: relative;
         margin-right: 10px;
+        a {
+          cursor: pointer;
+        }
         &:after {
           content: '';
           display: block;

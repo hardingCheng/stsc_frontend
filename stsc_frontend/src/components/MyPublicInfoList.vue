@@ -5,10 +5,15 @@
         <img src="http://n.sinaimg.cn/news/crawl/117/w550h367/20210311/8edb-kmeeius6993674.jpg" alt="">
       </div>
       <div class="info-details fl">
-        <ul class="details">
+        <ul class="details" v-if="type === 1">
           <li>需求名称：<span>{{item.name}}</span></li>
           <li>截止时间：<span>{{item.deadline}}</span></li>
-          <li>需求状态：<span class="audit-status">{{ item.releaseStatus | modStatus }}</span></li>
+          <li>需求状态：<span class="audit-status">{{ item.status | modStatus }}</span></li>
+        </ul>
+        <ul class="details" v-else>
+          <li>服务名称：<span>{{item.name}}</span></li>
+          <li>服务类别：<span>{{item.price}}</span></li>
+          <li>服务状态：<span class="audit-status">{{ item.releaseStatus | modStatus }}</span></li>
         </ul>
         <el-button type="primary" size="small"  plain @click="infoDetail(item.id)">详细信息</el-button>
       </div>
@@ -22,7 +27,7 @@
 
 <script>
 export default {
-  props:['infoList'],
+  props:['infoList','type'],
   name: "MyPublicInfoList",
   data(){
     return {
@@ -38,6 +43,14 @@ export default {
           return '审核通过'
         case 2:
           return '审核未通过'
+        case 3:
+          return '已分发'
+        case 4:
+          return '已拆分'
+        case 5:
+          return '服务商匹配完成'
+        case 6:
+          return '生成订单'
         default:
           return '未审核'
       }

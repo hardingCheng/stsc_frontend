@@ -5,7 +5,7 @@ const userControllerList = {
     // 用户实名认证接口
     authAccount: (data) => {
         return axios({
-            url: "/ph/stcsp/realinfo/authAccount",
+            url: "/ph/stcsp/user/authAccount",
             method: "post",
             data
         });
@@ -92,5 +92,19 @@ const userControllerList = {
             data,
         });
     },
+    // 是否认证
+    getAuthInfo(data){
+        return axios({
+            url: "/ph/stcsp/user/getAuthInfo",
+            method: "get",
+        });
+    },
+    // 获取用户信息
+    getUserInfo(data){
+        return axios({
+            url: "/ph/stcsp/user/info",
+            method: "get",
+        });
+    }
 }
 export default userControllerList

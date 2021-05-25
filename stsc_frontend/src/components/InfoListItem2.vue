@@ -32,11 +32,7 @@ export default {
       this.$router.push(url)
     },
     async smallOrder(){
-      let result = await this.$axios.orderControllerList.createOrder({
-        serveId:this.info.id,
-        type:0
-      })
-      console.log(result)
+      this.$emit('orderImmediately',this.info.id)
     }
   },
   computed:{

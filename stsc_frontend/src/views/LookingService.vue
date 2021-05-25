@@ -39,7 +39,7 @@
     <div class="info-list" v-if="serviceList.length !== 0">
       <div class="info-list-main" v-for="(item,index) in serviceList" :key="index">
         <div class="container">
-          <info-list-item2 v-for="(info,index) in item" :key="index"  :info="info" :detailurl="'/sdetail/'+info.id"></info-list-item2>
+          <info-list-item2 v-for="(info,index) in item" :key="index"  :info="info" :detailurl="'/sdetail/'+info.id"  @orderImmediately="setOrderImmediately"></info-list-item2>
         </div>
       </div>
       <div class="common-pagination">
@@ -134,6 +134,15 @@ export default {
             this.serviceList.push(temp);
           }
         }
+      }
+    },
+    async setOrderImmediately(value){
+      let result = await this.$axios.orderControllerList.createOrder({
+        serveId:value,
+        type:0
+      })
+      if (result.code === 20000){
+        await this.$router.push('/buyer/myorder')
       }
     },
     async getSecendsList(id) {

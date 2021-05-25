@@ -47,7 +47,7 @@
             </el-upload>
           </el-form-item>
           <el-form-item label="预算价格：" prop="budget">
-            <el-input-number v-model="form.budget" :precision="2" :step="0.1" :max="10"></el-input-number>  万
+            <el-input-number v-model="form.budget" :precision="2" :step="0.1" :max="1000"></el-input-number>  万
           </el-form-item>
           <el-form-item label="项目背景：" prop="projectBackground">
             <el-input type="textarea" v-model="form.projectBackground" placeholder="请填写项目背景"></el-input>
@@ -73,7 +73,7 @@
                 ref="upload"
                 action="/ph/stcsp/fileoss/upload"
                 :on-preview="handlePreview"
-                :on-remove="handleRemove2"
+                :on-remove="handleRemove"
                 :on-success="handleSuccess"
                 :file-list="fileList"
                 :auto-upload="false"
@@ -103,15 +103,15 @@ export default {
   data() {
     return {
       form: {
-        name: '',
-        company: '',
-        budget: 0,
-        projectBackground: '',
-        content: '',
-        contact: '',
-        telephone: '',
-        address: '',
-        standard: '',
+        name: '4',
+        company: '4',
+        budget: 4,
+        projectBackground: '4',
+        content: '4',
+        contact: '4',
+        telephone: '4',
+        address: '4',
+        standard: '4',
         deadline: '',
         attachments: '',
         image: ''
@@ -155,7 +155,11 @@ export default {
       info:[{
         title:'发需求',
         path:''
-      }]
+      }],
+      fileRemoveList:[],
+      filerReadyUploadList: [],
+      filerReadyUploadList1: [],
+      updateStatus:false,
     }
   },
   computed:{
@@ -163,55 +167,92 @@ export default {
   watch: {
     form:{
       async handler (newValue, oldName) {
-        if (this.fileList.length!==0&&this.fileList1.length!==0){
-          if (newValue.image!==''&&newValue.attachments!==''){
-            let result = await this.$axios.requirementControllerList.releaseRequire(this.form)
-            if (result.code === 20000){
-              this.$message({
-                message: '发布需求成功,请前往个人中心查看！',
-                type: 'success'
-              });
-              await this.$router.push("/index")
-            }
-          }
-        }else if (this.fileList.length!==0&&this.fileList1.length===0){
-          if (newValue.attachments!==''){
-            let result = await this.$axios.requirementControllerList.releaseRequire(this.form)
-            if (result.code === 20000){
-              this.$message({
-                message: '发布需求成功,请前往个人中心查看！',
-                type: 'success'
-              });
-              await this.$router.push("/index")
-            }
-          }
-        }else if(this.fileList.length===0&&this.fileList1.length!==0){
-          if (newValue.image!==''){
-            let result = await this.$axios.requirementControllerList.releaseRequire(this.form)
-            if (result.code === 20000){
-              this.$message({
-                message: '发布需求成功,请前往个人中心查看！',
-                type: 'success'
-              });
-              await this.$router.push("/index")
-            }
-          }
-        }
+       if(!this.updateStatus){
+         if (this.filerReadyUploadList1.length!==0&&this.filerReadyUploadList.length!==0){
+           if (newValue.image!==''&&newValue.attachments!==''){
+             let result = await this.$axios.requirementControllerList.releaseRequire(this.form)
+             if (result.code === 20000){
+               this.$message({
+                 message: '发布需求成功,请前往个人中心查看！',
+                 type: 'success'
+               });
+               await this.$router.push("/index")
+             }
+           }
+         }else if (this.filerReadyUploadList.length!==0&&this.filerReadyUploadList1.length===0){
+           if (newValue.attachments!==''){
+             let result = await this.$axios.requirementControllerList.releaseRequire(this.form)
+             if (result.code === 20000){
+               this.$message({
+                 message: '发布需求成功,请前往个人中心查看！',
+                 type: 'success'
+               });
+               await this.$router.push("/index")
+             }
+           }
+         }else if(this.filerReadyUploadList.length===0&&this.filerReadyUploadList1.length!==0){
+           if (newValue.image!==''){
+             let result = await this.$axios.requirementControllerList.releaseRequire(this.form)
+             if (result.code === 20000){
+               this.$message({
+                 message: '发布需求成功,请前往个人中心查看！',
+                 type: 'success'
+               });
+               await this.$router.push("/index")
+             }
+           }
+         }
+       }else {
+         if (this.filerReadyUploadList1.length!==0&&this.filerReadyUploadList.length!==0){
+           if (newValue.image!==''&&newValue.attachments!==''){
+             let result =  await this.$axios.requirementControllerList.updateRequireById(this.form)
+             if (result.code === 20000){
+               this.$message({
+                 message: '修改需求成功,请前往个人中心查看！',
+                 type: 'success'
+               });
+               await this.$router.push("/buyer/mydemand")
+             }
+           }
+         }else if (this.filerReadyUploadList.length!==0&&this.filerReadyUploadList1.length===0){
+           if (newValue.attachments!==''){
+             let result =  await this.$axios.requirementControllerList.updateRequireById(this.form)
+             if (result.code === 20000){
+               this.$message({
+                 message: '修改需求成功,请前往个人中心查看！',
+                 type: 'success'
+               });
+               await this.$router.push("/buyer/mydemand")
+             }
+           }
+         }else if(this.filerReadyUploadList.length===0&&this.filerReadyUploadList1.length!==0){
+           if (newValue.image!==''){
+             let result =  await this.$axios.requirementControllerList.updateRequireById(this.form)
+             if (result.code === 20000){
+               this.$message({
+                 message: '修改需求成功,请前往个人中心查看！',
+                 type: 'success'
+               });
+               await this.$router.push("/buyer/mydemand")
+             }
+           }
+         }
+       }
       },
       deep: true //对于对象设置为深度 监听
     },
     $route(to,from){
       if(to.path === '/sd'){
         this.form = {
-          name: '',
-          company: '',
-          budget: 0,
-          projectBackground: '',
-          content: '',
-          contact: '',
-          telephone: '',
-          address: '',
-          standard: '',
+          name: '4',
+          company: '4',
+          budget: 4,
+          projectBackground: '4',
+          content: '4',
+          contact: '4',
+          telephone: '4',
+          address: '4',
+          standard: '4',
           deadline: '',
           attachments: '',
           image: ''
@@ -220,16 +261,16 @@ export default {
         this.fileList1 = []
       }
     },
-    fileList1:{
-      async handler (newValue, oldName) {
-        this.$refs.upload.submit();
-      }
-    },
-    fileList:{
-      async handler (newValue, oldName) {
-        this.$refs.uploadimage.submit();
-      }
-    }
+    // fileList1:{
+    //   async handler (newValue, oldName) {
+    //     this.$refs.upload.submit();
+    //   }
+    // },
+    // fileList:{
+    //   async handler (newValue, oldName) {
+    //     this.$refs.uploadimage.submit();
+    //   }
+    // }
   },
   methods: {
     async onSubmit() {
@@ -237,13 +278,13 @@ export default {
         if (valid) {
           // this.disabled = true
           // this.getDays(this.deadlinetiem[0],this.deadlinetiem[1])
-          if(this.fileList1.length !== 0){
-            this.$refs.uploadimage.submit();
+          if(this.filerReadyUploadList1.length !== 0){
+            await this.$refs.uploadimage.submit();
           }
-          if(this.fileList.length !== 0){
-            this.$refs.upload.submit();
+          if(this.filerReadyUploadList.length !== 0){
+            await this.$refs.upload.submit();
           }
-          if(this.fileList.length === 0 && this.fileList1.length === 0){
+          if(this.filerReadyUploadList1.length === 0 && this.filerReadyUploadList.length === 0){
             let result =  await this.$axios.requirementControllerList.releaseRequire(this.form)
             if (result.code === 20000){
               this.$message({
@@ -253,8 +294,6 @@ export default {
               await this.$router.push("/index")
             }
           }
-        } else {
-          return false;
         }
       });
     },
@@ -269,31 +308,51 @@ export default {
       }
     },
     async handleRemove1(file, fileList) {
-      let result = await this.$axios.ossControllerList.delFile({
-        filename:file.name
-      })
-      this.fileList = fileList
-    },
-    async handleRemove2(file, fileList) {
-      let result = await this.$axios.ossControllerList.delFile({
-        filename:file.name
-      })
+      if (file?.status !== 'ready'){
+        this.fileRemoveList.push(file)
+      }
       this.fileList1 = fileList
     },
+    async handleRemove(file, fileList) {
+      if (file?.status !== 'ready'){
+        this.fileRemoveList.push(file)
+      }
+      this.fileList = fileList
+    },
     async onUpdate(){
-      let result =  await this.$axios.requirementControllerList.updateRequireById(this.form)
-      if (result.code === 20000){
-        await this.$router.push("/buyer/mydemand")
+      this.updateStatus = true
+      if (this.fileRemoveList.length !== 0){
+        await this.fileRemoveList.map(async(item)=>{
+          let result = await this.$axios.ossControllerList.delFile({
+            filename:item.name
+          })
+        })
+      }
+      if(this.filerReadyUploadList1.length !== 0){
+        await this.$refs.uploadimage.submit();
+      }
+      if(this.filerReadyUploadList.length !== 0){
+        await this.$refs.upload.submit();
+      }
+      if (this.filerReadyUploadList1.length === 0 && this.filerReadyUploadList.length === 0){
+        let result =  await this.$axios.requirementControllerList.updateRequireById(this.form)
+        if (result.code === 20000){
+          await this.$router.push("/buyer/mydemand")
+        }
       }
     },
     handlePreview(file) {
       console.log(file);
     },
     changeUpload(file,fileList){
-      this.fileList = fileList;
+      if(file.status === "ready") {
+        this.filerReadyUploadList.push(file)
+      }
     },
     changeUpload1(file,fileList){
-      this.fileList1 = fileList;
+      if(file.status === "ready") {
+        this.filerReadyUploadList1.push(file)
+      }
     },
 
   },

@@ -27,7 +27,6 @@ export const validatorSignUpInput =async function(data){
     let isExistUsername = await axios.userControllerList.isExist({
         username
     })
-    console.log(isExistUsername)
     if(isExistUsername.code === 20001) {
         errors.username = "此账号已注册"
     }
