@@ -67,7 +67,7 @@ props:['id'],
       const message_result =  await  this.$axios.requirementControllerList.getMessage({
         id: this.$store.getters .getUserInfo.id,
         page: this.currentPage1,
-        limit: 15,
+        limit: 10,
       })
       this.message_total = message_result.data.messageList.total//获取全部消息总数
       this.message_list = message_result.data.messageList.records//获取消息列表
@@ -79,7 +79,7 @@ props:['id'],
       const message_result =  await  this.$axios.requirementControllerList.lookMessageById({
         id: this.$store.getters.getUserInfo.id,
         page: this.currentPage1,
-        limit: 15,
+        limit: 10,
         isRead:0
       })
       this.message_list_no =message_result.data.messageList.records
