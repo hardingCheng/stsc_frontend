@@ -130,7 +130,7 @@
                 for (var i = 0; i < this.data.nodeList.length; i++) {
                     let node = this.data.nodeList[i]
                     // 设置源点，可以拖出线连接其他节点
-                    this.jsPlumb.makeSource(node.id, lodash.merge(this.jsplumbSourceOptions, {}))
+                    // this.jsPlumb.makeSource(node.id, lodash.merge(this.jsplumbSourceOptions, {}))
                     // // 设置目标点，其他源点拖出的线可以连接该节点
                     this.jsPlumb.makeTarget(node.id, this.jsplumbTargetOptions)
                     if (!node.viewOnly) {

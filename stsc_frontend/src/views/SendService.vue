@@ -45,10 +45,10 @@
               </el-upload>
             </el-form-item>
             <el-form-item label="服务价格：" prop="price">
-              <el-input-number v-model="form.price" :precision="2" :step="0.1" :max="10"></el-input-number> 万
+              <el-input-number v-model="form.price" :precision="2" :step="0.1" :max="10000"></el-input-number> 万
             </el-form-item>
             <el-form-item label="服务工期：" prop="deadline">
-              <el-input v-model="form.deadline"></el-input>
+              <el-input style="width:200px" v-model="form.deadline"></el-input> 天
             </el-form-item>
             <el-form-item label="所属分类：" prop="categoryId" >
               <el-cascader :options="options"  v-model="category" :props="{ checkStrictly: true }" clearable ></el-cascader>
