@@ -56,6 +56,8 @@
               :value="item.value">
           </el-option>
         </el-select>
+
+<!--        推荐服务商-->
         <div class="children_demand"  v-for="(items,index) in item" v-bind:key="index">
           <span class="children_demand_title">拆弹机器人专利信息检索</span>
           <div style="display: inline-block;">
@@ -72,11 +74,10 @@
                 </div>
               </el-radio-group>
             </div>
-
-
           </div>
         </div>
 
+<!--        抢单-->
       </div>
       <div class="grab">
         <h3 style="margin-bottom: 20px">抢单商家</h3>

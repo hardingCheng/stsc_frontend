@@ -1,11 +1,36 @@
 <template>
   <div class="my-news">
     <Message
-        :indexss_inform=this.message_list_all
+        :indexss_inform=this.message_list
         :indexss_no_read=this.message_list_no
 
     >
-
+      <div slot="page_1" class="common-pagination container">
+        <div class="pagination">
+          <el-pagination
+              background
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page.sync="currentPage1"
+              :page-size="15"
+              layout="total, prev, pager, next"
+              :total="message_total">
+          </el-pagination>
+        </div>
+      </div>
+      <div slot="page_2" class="common-pagination container">
+        <div class="pagination">
+          <el-pagination
+              background
+              @size-change="handleSizeChange1"
+              @current-change="handleCurrentChange1"
+              :current-page.sync="currentPage2"
+              :page-size="15"
+              layout="total, prev, pager, next"
+              :total="message_list_no_total">
+          </el-pagination>
+        </div>
+      </div>
     </Message>
   </div>
 </template>
@@ -17,54 +42,69 @@ export default {
   components:{Message},
   data() {
     return {
+      currentPage1: 1,
+      currentPage2: 1,
       message_list_no:[],//存放未读消息
       message_list_have:[],//存放已读消息
       message_list:[],//存放消息列表
-      message_list_all:[],
       message_total:0,//获取消息总数
+      message_list_no_total:0,//存放未读消息总数
       is_read:1,//消息已读未读
       activeName: 'first',
       activeNames: ['']
-
     };
   },
-  async mounted() {
+  async created() {
     await this.getMessageList()
+    await this.getMessageListNoRead()
   },
   methods: {
     async getMessageList() {
       const message_result =  await  this.$axios.requirementControllerList.getMessage({
-        id: this.$store.getters.getUserInfo.id,
-        page: 1,
-        limit: 4,
+        id: this.$store.getters .getUserInfo.id,
+        page: this.currentPage1,
+        limit: 10,
       })
-      this.message_total = message_result.data.count//获取消息总数
+      this.message_total = message_result.data.messageList.total//获取全部消息总数
       this.message_list = message_result.data.messageList.records//获取消息列表
       this.is_read = message_result.data.messageList.records.isRead
-      let i = 0, j = 0, n = 0, k = 0
-      while (this.message_list[i]) {
-        this.message_list_all[k++] = this.message_list[i]
-        if (!this.message_list[i].isRead) {
-          this.message_list_no[j++] = this.message_list[i]
-          console.log('if', this.message_list_no[0])
-        } else {
-          this.message_list_have[n++] = this.message_list[i]
-          console.log('else', this.message_list_have)
-        }
-        i++
-      }
-      console.log("是否有读", this.message_list_no[0])
-      console.log(message_result.data)
-      console.log(this.message_total)
-      console.log("消息列表", this.message_list)
-      console.log('111', this.message_list_no)
+      console.log("消息总数",this.message_total)
+
+    },
+    async getMessageListNoRead(){
+      const message_result =  await  this.$axios.requirementControllerList.lookMessageById({
+        id: this.$store.getters.getUserInfo.id,
+        page: this.currentPage1,
+        limit: 10,
+        isRead:0
+      })
+      this.message_list_no =message_result.data.messageList.records
+      this.message_list_no_total=message_result.data.messageList.total
     },
 
-    handleClick(tab, event) {
-      console.log(tab, event);
+    //删除消息
+    async delete_inform1(delete_val){
+      await this.$axios.requirementControllerList.deleteMessageById({
+        id: delete_val
+      })
     },
-    handleChange(val) {
-      console.log(val);
+    //改变消息状态已读到全部
+    async change_message_state(val){
+      await this.$axios.requirementControllerList.changeMessageState({
+        messageId:val
+      })
+    },
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+    },
+    async handleCurrentChange() {
+      await this.getMessageList()
+    },
+    handleSizeChange1(val) {
+      console.log(`每页 ${val} 条`);
+    },
+    async handleCurrentChange1() {
+      await this.getMessageListNoRead()
     }
   }
 }
@@ -72,11 +112,17 @@ export default {
 
 <style scoped lang="scss">
 .my-news {
-  width:100%;
-  .delete_message {
-    display: block;
-    margin-left: 530px;
+  .common-pagination{
+    height:60px;
+    position:relative;
+    .pagination {
+      position:absolute;
+      top: 50%;
+      left: 50%;
+      transform:translate(-50%,-50%);
+    }
   }
+  width:100%;
   .delete{
     padding: 8px;
     font-size: 12px;

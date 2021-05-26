@@ -1,7 +1,8 @@
 <template>
   <div class="service-evaluation">
+    <div  v-if="type === '0'">
     <div class="serve_company">
-      <img :src="this.seller.avatar"  class="img_style">
+      <img :src="!this.seller.avatar ? orderChildrenInfo.image: this.seller.avatar"  class="img_style">
       <div class="company_detail">
         <ul>
           <li>
@@ -29,7 +30,7 @@
           订单编号:<span>{{ !order.orderId ? "暂无数据":order.orderId}}</span>
         </li>
         <li>
-          子服务名称:<span>{{ !orderChildrenInfo.name? "暂无数据": orderChildrenInfo.name}}</span>
+          服务名称:<span>{{ !orderChildrenInfo.name? "暂无数据": orderChildrenInfo.name}}</span>
         </li>
         <li>
           开始时间:<span>{{ !orderChildrenInfo.createTime? "暂无数据": orderChildrenInfo.createTime}}</span>
@@ -59,9 +60,73 @@
       </div>
     </div>
     <div class="service-acceptance-operation">
-      <el-button type="primary" @click="submitComment">下一步</el-button>
+      <el-button type="primary" @click="submitComment">提交</el-button>
     </div>
+    </div>
+  </div>
+    <div  v-if="type === '1'">
+      <div class="serve_company">
+        <img :src="!this.seller.avatar ? orderChildrenInfo.image: this.seller.avatar"  class="img_style">
+        <div class="company_detail">
+          <ul>
+            <li>
+              服务商名称:<span>{{ !orderChildrenInfo.company? "暂无数据":orderChildrenInfo.company }}</span>
+            </li>
+            <li>
+              所属机构:<span>{{ !orderChildrenInfo.platform ? "暂无数据":orderChildrenInfo.platform}}</span>
+            </li>
+            <li>
+              联系方式:<span>{{ !orderChildrenInfo.telephone? "暂无数据":orderChildrenInfo.telephone }}</span>
+            </li>
+            <li>
+              地址:<span>{{ !orderChildrenInfo.address ? "暂无数据":orderChildrenInfo.telephone }}</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="evaluation_title" ><span class="order">订单</span><span class="evaluation_text">评论</span></div>
+      <div class="content">
 
+        <div class="serve_order">
+          <img :src="orderChildrenInfo.image"  class="order_style">
+          <ul>
+            <li>
+              订单编号:<span>{{ !order.orderId ? "暂无数据":order.orderId}}</span>
+            </li>
+            <li>
+              子服务名称:<span>{{ !orderChildrenInfo.name? "暂无数据": orderChildrenInfo.name}}</span>
+            </li>
+            <li>
+              开始时间:<span>{{ !orderChildrenInfo.createTime? "暂无数据": orderChildrenInfo.createTime}}</span>
+            </li>
+            <li>
+              结束时间:<span>{{ !this.deadTime ? "暂无数据":this.deadTime }}</span>
+            </li>
+            <li>
+              服务价格:<span>{{!orderChildrenInfo.price? "暂无数据":orderChildrenInfo.price}}万元</span>
+            </li>
+
+          </ul>
+          <div class="evaluation_source">
+            <!--        评分-->
+
+            <el-rate class="star_style"
+                     v-model="value"
+                     show-text>
+            </el-rate>
+            <!--          文本输入框-->
+            <el-input class="input_style"
+                      type="textarea"
+                      :autosize="{ minRows: 4, maxRows: 4}"
+                      placeholder="请输入内容"
+                      v-model="textarea2">
+            </el-input>
+          </div>
+        </div>
+        <div class="service-acceptance-operation">
+          <el-button type="primary" @click="submitComment">下一步</el-button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -76,6 +141,7 @@ export default {
         textarea2: '',
         order:[],//存放订单消息
         seller:[],//存放买家ID
+        img_default:[],
         orderBuyInfo:[],
         orderChildrenInfo:[],
         deadTime:[],
@@ -88,6 +154,7 @@ export default {
 
   },
   methods:{
+    //获取买家信息
     async  getSellerId(val){
       let result = await this.$axios.orderControllerList.getOrderBuyerInfo({
         id:val
@@ -95,29 +162,31 @@ export default {
       this.orderBuyInfo=result.data.user
       // console.log(result.data.user)
     },
+    //获取订单信息
     async getOrderInfo(){
       let result = await this.$axios.orderControllerList.getOrderInfo({
         orderId:this.orderid
       })
-
       this.order=result.data.orderInfo
       this.seller=this.order.sellerId
       this.serverId=this.order.serveId
       await this.getSellerId(this.seller)
       await this.getServeInfo(this.serverId)
-      // console.log("订单",  this.serverId)console.log("订单",  this.serverId)
+       console.log("订单",  this.order)
       // console.log(this.seller)
     },
+    //获取订单子服务信息
     async getServeInfo(val){
       let results= await this.$axios.serveControllerList.getServesDetailById({
         id:val
       })
       this.orderChildrenInfo=results.data.serve
-
       const moment = require('moment')
-      this.deadTime =moment(this.orderChildrenInfo.createTime).add(4, "month").format('YYYY-MM-DD HH:mm:ss');//2019-03-25 00:00:00
-      // console.log(  "222",this.orderChildrenInfo)
+      this.orderChildrenInfo.createTime=moment(this.orderChildrenInfo.createTime).format('YYYY-MM-DD ');
+      this.deadTime =moment(this.orderChildrenInfo.createTime).add(4, "month").format('YYYY-MM-DD ');//2019-03-25 00:00:00
+       console.log(  "服务信息",this.orderChildrenInfo)
     },
+    //发布评论
     async submitComment(){
       const result= await this.$axios.orderControllerList.submitComment({
          userId:this.$store.getters.getUserInfo.id,
@@ -127,6 +196,9 @@ export default {
       })
       if(result.code==2000){}
       this.$message.success("评论成功！");
+      await this.$router.push({
+        path: "/buyer/myorder"//要跳转的页面的路由
+      });
     }
   }
 }
