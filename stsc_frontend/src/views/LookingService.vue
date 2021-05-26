@@ -39,7 +39,7 @@
     <div class="info-list" v-if="serviceList.length !== 0">
       <div class="info-list-main" v-for="(item,index) in serviceList" :key="index">
         <div class="container">
-          <info-list-item2 v-for="(info,index) in item" :key="index"  :info="info" :detailurl="'/sdetail/'+info.id"  @orderImmediately="setOrderImmediately"></info-list-item2>
+          <info-list-item2 v-for="(info,index) in item" :key="index"  :info="info" :detailurl="'/sdetail/'+info.id" :listtype="1"  @orderImmediately="setOrderImmediately"></info-list-item2>
         </div>
       </div>
       <div class="common-pagination">

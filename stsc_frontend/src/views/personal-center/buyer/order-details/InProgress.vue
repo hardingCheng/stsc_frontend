@@ -48,6 +48,7 @@
         </div>
         <div class="order-info-right">
           <h3>服务进度</h3>
+          <b-pai></b-pai>
         </div>
       </div>
       <div class="order-info-table">
@@ -114,11 +115,11 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
 <script>
+import BPai from '../../../../views/BPai'
 import OrderSteps from "../../../../components/OrderSteps";
 export default {
   props:['orderid','type'],
@@ -156,6 +157,7 @@ export default {
   },
   components: {
     OrderSteps,
+    BPai
   },
   methods: {
     next() {

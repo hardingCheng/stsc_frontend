@@ -28,6 +28,7 @@
                   :auto-upload="false"
                   :on-change="changeUpload"
                   :on-success="handleSuccess"
+                  :before-upload="handleBeforeUpload"
                   ref="upload"
                   v-if="contractForBuyer.length === 0"
               >
@@ -169,7 +170,8 @@ export default {
   data() {
     return {
       fileList:[],
-      contractForBuyer:[]
+      contractForBuyer:[],
+      orderInfo:{}
     }
   },
   methods: {
@@ -180,24 +182,36 @@ export default {
       console.log(file);
     },
     changeUpload(file, fileList){
+
+      // if (file.status === 'ready'){
+      //   file.name = this.orderInfo.name+'合同.'+file.name.split('.')[1]
+      // }
       this.fileList = fileList
+    },
+    handleBeforeUpload(file){
+      // const timeStamp = new Date() - 0
+      // const copyFile = new File([file], `${timeStamp}_${file.name}`)
+      // const formdata = new FormData()
+      // formdata.append('lbf-file-upload', copyFile)
+      // console.log(formdata)
     },
     async handleSuccess(response, file, fileList){
       if (this.type === '0' && response.code === 20000){
-        let result = await this.$axios.orderControllerList.nextForUpload({
-          contractUrl:response.data.url,
-          orderId:this.orderid
-        })
-       if (result.code === 20000){
-         setTimeout(async () => {
-           this.$message({
-             message: '合同快照上传成功',
-             center: true,
-             type:'success'
-           })
-           await this.$router.push(`/buyer/orderdetail/inprogress/${this.orderid}/${this.type}`)
-         },1000)
-       }
+        console.log(response)
+       //  let result = await this.$axios.orderControllerList.nextForUpload({
+       //    contractUrl:response.data.url,
+       //    orderId:this.orderid
+       //  })
+       // if (result.code === 20000){
+       //   setTimeout(async () => {
+       //     this.$message({
+       //       message: '合同快照上传成功',
+       //       center: true,
+       //       type:'success'
+       //     })
+       //     await this.$router.push(`/buyer/orderdetail/inprogress/${this.orderid}/${this.type}`)
+       //   },1000)
+       // }
       }
     },
     async submitOrderInfo(){
@@ -216,6 +230,7 @@ export default {
         orderId:this.orderid
       })
       if (result.code === 20000){
+        this.orderInfo = result.data.orderInfo
         if (result.data.orderInfo.contractForBuyer !== null){
           result.data.orderInfo.contractForBuyer.split(',').slice(-1).map((item)=>{
             this.contractForBuyer.push({

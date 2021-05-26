@@ -36,10 +36,10 @@
         </div>
       </div>
     </div>
-    <div class="info-list" v-if="demandList.length !== 0">
-      <div class="info-list-main" v-for="(item,index) in demandList" :key="index">
+    <div class="info-list" v-if="demandList2.length !== 0">
+      <div class="info-list-main" v-for="(item,index) in demandList2" :key="index">
         <div class="container">
-          <info-list-item2  v-for="(info,index) in item" :key="index"  :info="info" :detailurl="'/ddetail/'+info.id" @orderImmediately="setOrderImmediately"></info-list-item2>
+          <info-list-item2  v-for="(info,index) in item" :key="index"  :info="info" :detailurl="'/ddetail/'+info.id" :listtype="0" @requireImmediately="requireImmediately"></info-list-item2>
         </div>
       </div>
       <div class="common-pagination">
@@ -73,7 +73,8 @@ export default {
       input2: '',
       getFirstCategoryList: [],
       getSecondCategoryList: [],
-      demandList: [],
+      demandList1: [],
+      demandList2: [],
       currentPage1: 1,
       requireList:[],
       secondId:null,
@@ -113,17 +114,27 @@ export default {
           page: this.currentPage1,
           limit: 15
         }, {})
+        this.demandList1 = [];
+        this.demandList2 = [];
         this.requireList = demandBaseResult.data.requirementList;
-        let len = demandBaseResult.data.requirementList.records.length;
+        let requirementListRecords = demandBaseResult.data.requirementList.records
+        requirementListRecords.map((item) => {
+          this.demandList1.push(item)
+          if(item.list.length !== 0){
+            item.list.map((item)=> {
+              this.demandList1.push(item)
+            })
+          }
+        })
+        let len = this.demandList1.length;
         let n = 5; //假设每行显示4个
-        this.demandList = [];
         if (len !== 0) {
           let lineNum = len % n === 0 ? len / n : Math.floor((len / n) + 1);
-          this.demandList = [];
+          this.demandList2 = [];
           for (let i = 0; i < lineNum; i++) {
             // slice() 方法返回一个从开始到结束（不包括结束）选择的数组的一部分浅拷贝到一个新数组对象。且原始数组不会被修改。
-            let temp = demandBaseResult.data.requirementList.records.slice(i * n, i * n + n);
-            this.demandList.push(temp);
+            let temp = this.demandList1.slice(i * n, i * n + n);
+            this.demandList2.push(temp);
           }
         }
       } else {
@@ -143,17 +154,27 @@ export default {
             categoryId: id,
           })
         }
+        this.demandList1 = [];
+        this.demandList2 = [];
         this.requireList = demandBaseResult.data.requirementList;
-        let len = demandBaseResult.data.requirementList.records.length;
+        let requirementListRecords = demandBaseResult.data.requirementList.records
+        requirementListRecords.map((item) => {
+          this.demandList1.push(item)
+          if(item.list.length !== 0){
+            item.list.map((item)=> {
+              this.demandList1.push(item)
+            })
+          }
+        })
+        let len = this.demandList1.length;
         let n = 5; //假设每行显示4个
-        this.demandList = [];
         if (len !== 0) {
           let lineNum = len % n === 0 ? len / n : Math.floor((len / n) + 1);
-          this.demandList = [];
+          this.demandList2 = [];
           for (let i = 0; i < lineNum; i++) {
             // slice() 方法返回一个从开始到结束（不包括结束）选择的数组的一部分浅拷贝到一个新数组对象。且原始数组不会被修改。
-            let temp = demandBaseResult.data.requirementList.records.slice(i * n, i * n + n);
-            this.demandList.push(temp);
+            let temp = this.demandList1.slice(i * n, i * n + n);
+            this.demandList2.push(temp);
           }
         }
       }
@@ -165,22 +186,35 @@ export default {
       }, {
         categoryId: this.firstId+','+id
       })
+      this.demandList1 = [];
+      this.demandList2 = [];
       this.requireList = demandBaseResult.data.requirementList;
-      let len = demandBaseResult.data.requirementList.records.length;
+      let requirementListRecords = demandBaseResult.data.requirementList.records
+      requirementListRecords.map((item) => {
+        this.demandList1.push(item)
+        if(item.list.length !== 0){
+          item.list.map((item)=> {
+            this.demandList1.push(item)
+          })
+        }
+      })
+      let len = this.demandList1.length;
       let n = 5; //假设每行显示4个
-      this.demandList = [];
       if (len !== 0) {
         let lineNum = len % n === 0 ? len / n : Math.floor((len / n) + 1);
-        this.demandList = [];
+        this.demandList2 = [];
         for (let i = 0; i < lineNum; i++) {
           // slice() 方法返回一个从开始到结束（不包括结束）选择的数组的一部分浅拷贝到一个新数组对象。且原始数组不会被修改。
-          let temp = demandBaseResult.data.requirementList.records.slice(i * n, i * n + n);
-          this.demandList.push(temp);
+          let temp = this.demandList1.slice(i * n, i * n + n);
+          this.demandList2.push(temp);
         }
       }
     },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
+    },
+    requireImmediately(value){
+      console.log(value)
     },
     async handleCurrentChange(val) {
       if (this.secondId) {
@@ -278,86 +312,9 @@ export default {
       .container {
         display: flex;
         justify-content: flex-start;
-
-        .info-list-item {
-          box-sizing: border-box;
-          width: 225px;
-          height: 330px;
-          border: 1px solid #E7E7E7;
-          padding: 16px 22px;
-          margin-bottom: 20px;
-          margin-right: 18px;
-
-          &:last-child {
-            margin-right: 0;
-          }
-
-          &:hover {
-            border: 1px solid #1794FF;
-          }
-
-          img {
-            width: 100%;
-            height: auto;
-          }
-
-          .enterprise-name {
-            height: 45px;
-            margin: 14px 0;
-
-            h1 {
-              font-size: 15px;
-              font-weight: 500;
-              color: #111111;
-              word-break: break-all;
-              text-overflow: ellipsis;
-              display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
-              -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
-              -webkit-line-clamp: 2; /** 显示的行数 **/
-              overflow: hidden; /** 隐藏超出的内容 **/
-            }
-          }
-
-          .enterprise-bottom {
-            span {
-              display: inline-block;
-              height: 17px;
-              font-size: 12px;
-              font-family: PingFangSC-Regular, PingFang SC;
-              font-weight: 400;
-              color: #FF7C12;
-            }
-          }
-
-          .enterprise-bottom-operation {
-            overflow: hidden;
-            height: 22px;
-            line-height: 22px;
-
-            span:first-child {
-              width: 108px;
-              float: left;
-              font-size: 12px;
-              font-weight: 400;
-              color: #666666;
-              word-break: break-all;
-              text-overflow: ellipsis;
-              display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
-              -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
-              -webkit-line-clamp: 1; /** 显示的行数 **/
-              overflow: hidden; /** 隐藏超出的内容 **/
-            }
-
-            span:last-child {
-              float: right;
-              font-size: 16px;
-              font-weight: 500;
-
-              a {
-                color: #1794FF;
-              }
-            }
-          }
+        .container-small {
+          display: flex;
+          justify-content: flex-start;
         }
       }
     }

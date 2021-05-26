@@ -12,7 +12,8 @@
       <span>{{ info.keywords }}</span>
       <div class="enterprise-bottom-operation">
         <span>{{ info.company }}</span>
-        <span><a @click="smallOrder">立即下单</a></span>
+        <span v-if="listtype === 0"><a @click="requireImmediately">立即抢单</a></span>
+        <span v-if="listtype === 1"><a @click="orderImmediately">立即下单</a></span>
       </div>
     </div>
   </div>
@@ -20,7 +21,7 @@
 
 <script>
 export default {
-  props:['info','detailurl'],
+  props:['info','detailurl','listtype'],
   name: "InfoListItem",
   data() {
     return {
@@ -31,8 +32,11 @@ export default {
     goDetail(url){
       this.$router.push(url)
     },
-    async smallOrder(){
+    async orderImmediately(){
       this.$emit('orderImmediately',this.info.id)
+    },
+    async requireImmediately(){
+      this.$emit('requireImmediately',this.info.id)
     }
   },
   computed:{

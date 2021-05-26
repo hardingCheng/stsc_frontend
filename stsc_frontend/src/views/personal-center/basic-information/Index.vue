@@ -33,12 +33,12 @@
               <h3>实名认证</h3>
             </div>
             <div class="authentication-info">
-              <div class="check">
+              <div class="check" v-cloak>
                 <p v-if="userInfo.isRealNameCertification === 1"><i class="el-icon-circle-check"></i><span>您已经成功的完成实名认证</span></p>
                 <p v-else><i class="el-icon-circle-close"></i><span><router-link to="/buyer/realauth">您未完成完成实名认证</router-link></span></p>
                 <p>技术加密，保障您的账号信息安全。</p>
               </div>
-              <div class="check">
+              <div class="check" v-cloak>
                 <p v-if="userInfo.isQualification === 1"><i class="el-icon-circle-check"></i><span>您已经成功的完成实名认证</span></p>
                 <p v-else><i class="el-icon-circle-close"></i><span><router-link to="/seller/realauth">您未完成资质认证</router-link></span></p>
               </div>
@@ -167,6 +167,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  [v-cloak] {
+    display: none !important;
+  }
   .basic-information {
     box-sizing: border-box;
     width:100%;

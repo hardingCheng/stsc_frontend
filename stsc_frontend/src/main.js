@@ -8,12 +8,12 @@ import axios from "./api/request";
 import VueLazyload from 'vue-lazyload'
 import * as echarts from 'echarts'
 import infiniteScroll from 'vue-infinite-scroll'
-
+import './styles/index.css'
 Vue.use(infiniteScroll)
 Vue.use(element);
 Vue.use(VueLazyload, {
   preLoad: 1.3,// 预加载高度比例
-  error: '/assets/audio.svg',// 图片路径错误时加载图片   未来是ui给设计
+  error: '/assets/audio.svg',// 图片路径错误时加载图片
   loading: '/assets/audio.svg',
   attempt: 1
 })

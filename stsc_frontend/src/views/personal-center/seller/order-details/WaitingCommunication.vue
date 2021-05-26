@@ -180,6 +180,9 @@ export default {
       console.log(file);
     },
     changeUpload(file, fileList){
+      if (file.status === "ready"){
+        file.name = this.orderInfo.name+'.'+file.name.split('.')[1]
+      }
       this.fileList = fileList
     },
     async handleSuccess(response, file, fileList){
