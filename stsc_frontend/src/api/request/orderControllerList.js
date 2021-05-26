@@ -53,6 +53,23 @@ const orderControllerList = {
             url: `/ph/stcsp/order/getOrderInfo/${params.orderId}`,
             method: "get",
         });
+
+    },
+    //获取订单买家信息
+    getOrderBuyerInfo(params){
+        return axios({
+            url: `/ph/stcsp/user/admin/info/${params.id}`,
+            method: "get",
+        });
+
+    },
+    //提交评论
+    submitComment(params){
+        return axios({
+            url: `/bh/stcsp/evaluation/releaseEvaluation`,
+            method: "post",
+            data:params
+        });
     }
 
 }
