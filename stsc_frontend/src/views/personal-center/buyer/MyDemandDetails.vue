@@ -1,23 +1,22 @@
 <template>
   <div class="my_demand_details container">
     <div class="my_demand-details container ">
-      <div class="my_demand-details-img"><img :src="this.info.image" width="400px" height="400px"></div>
+      <div class="my_demand-details-img"><img :src="this.info_all.image" width="400px" height="400px"></div>
       <div class="my_demand-details-inner-text">
-        <div class="my_demand-title">{{ this.info.name }}</div>
+        <div class="my_demand-title">{{ this.info_all.name }}</div>
         <div class="mechanism-classification">
-          <div class="text-title-title">需求机构：<span class="text-service-text">{{ this.info.company }}</span></div>
+          <div class="text-title-title">需求机构：<span class="text-service-text">{{ this.info_all.company }}</span></div>
           <!--          <div class="text-title-title ">服务类别：<span class="text-service-text">设计服务>工业服务</span></div>-->
         </div>
         <!--        <div class="text-title-title">单位所在地：<span class="text-service-text">{{ info.address }}</span></div>-->
-        <div class="text-title-title">创造时间：<span class="text-service-text">{{ this.info.createTime }}</span></div>
-        <div class="text-title-title">联系人：<span class="text-service-text">{{ this.info.contact }}</span></div>
-        <div class="text-title-title">手机号：<span class="text-service-text">{{  this.info.telephone }}</span></div>
+        <div class="text-title-title">创造时间：<span class="text-service-text">{{ this.info_all.createTime }}</span></div>
+        <div class="text-title-title">联系人：<span class="text-service-text">{{ this.info_all.telephone }}</span></div>
+        <div class="text-title-title">手机号：<span class="text-service-text">{{  this.info_all.telephone }}</span></div>
 
         <div class="address">
-          <div class="text-title-title ">联系地址：<span class="text-service-text ">{{  this.info.address }}</span></div>
+          <div class="text-title-title ">联系地址：<span class="text-service-text ">{{  this.info_all.address }}</span></div>
         </div>
 <!--        <div class="text-title-title ">电子邮箱：<span class="text-service-text">xxxxx</span></div>-->
-
       </div>
       <div></div>
     </div>
@@ -26,19 +25,17 @@
     <!--      <p class="des_content">{{info.content}}</p>-->
     <!--    </div>-->
     <el-tabs v-model="activeName" type="card" class="serve-details-text-bottom container">
-      <el-tab-pane label="需求描述" name="first" class="tab"><div class="indicators_text"><p class="p_text">{{ this.info.content}}</p></div></el-tab-pane>
-      <el-tab-pane label="项目背景" name="second" class="tab"><div class="indicators_text"><p class="p_text">{{ this.info.projectBackground}}</p></div></el-tab-pane>
+      <el-tab-pane label="需求描述" name="first" class="tab"><div class="indicators_text"><p class="p_text">{{ this.info_all.content}}</p></div></el-tab-pane>
+      <el-tab-pane label="项目背景" name="second" class="tab"><div class="indicators_text"><p class="p_text">{{ this.info_all.projectBackground}}</p></div></el-tab-pane>
       <el-tab-pane label="验收指标" name="third" class="tab">
-        <div class="indicators_text"><p class="p_text">1、手臂应承载能力大、刚性好、自重轻
-          手臂的刚性直接影响到手臂抓取工件时动作的平稳性、运动的速度和定位精度。如刚性差则会引起手臂在垂直平面内的弯曲变形和水平面内侧向扭转变形，手臂就要产生振动，或动作时
-          工件卡死无法工作。为此，手臂一般都采用刚性较好的导向杆来加大手臂的刚度，各支承、连接件的刚性也要有一定的要求，以保证能承受所需要的驱动力。</p></div>
+        <div class="indicators_text"><p class="p_text">{{this.info_all.standard}}</p></div>
 
       </el-tab-pane>
       <el-tab-pane label="附件" name="fourth" class="tab">
         <div class="accessory ">
           <img src="" class="file_img"/>
           <p class="accessory_name">附件</p>
-          <a class="down" :href="this.info.attachments">下载</a>
+          <a class="down" :href="this.info_all.attachments">下载</a>
         </div>
 
       </el-tab-pane>
@@ -58,27 +55,17 @@
         </el-select>
 
 <!--        推荐服务商-->
+
         <div class="children_demand"  v-for="(items,index) in item" v-bind:key="index">
-          <span class="children_demand_title">拆弹机器人专利信息检索</span>
-          <div style="display: inline-block;">
-            <div class="company ">
-              <el-radio-group v-model="company_radio[index]" @change="changeVal" >
-                <div class="company_list"  >
-                  <el-radio :label="3"  >公司公司公司公司公司公司</el-radio>
-                </div>
-                <div class="company_list">
-                  <el-radio :label="6"  >公司公司公公司公司司公司</el-radio>
-                </div>
-                <div class="company_list">
-                  <el-radio :label="9">公司公公司公司公司司公司公司</el-radio>
-                </div>
-              </el-radio-group>
-            </div>
+          <span class="children_demand_title" >{{items.subRequireName}}</span>
+          <div class="company ">
+            <el-radio-group v-model="company_radio[index]" @change="changeVal" v-for="(itemss,index1) in items.sellerList" v-bind:key="index1">
+              <el-radio :label="itemss.serveId"  >{{itemss.sellerName}}</el-radio>
+            </el-radio-group>
           </div>
         </div>
-
-<!--        抢单-->
       </div>
+      <!--        抢单-->
       <div class="grab">
         <h3 style="margin-bottom: 20px">抢单商家</h3>
         <div class="grab_name" v-for="(items,index) in grab_item" v-bind:key="index">
@@ -111,7 +98,7 @@
         </div>
       </div>
       <div class="submit">
-        <el-button><span class="font">提交</span></el-button>
+        <el-button><span class="font" @click="submit">提交</span></el-button>
       </div>
     </div>
   </div>
@@ -125,11 +112,12 @@ export default {
   name: "MyDemandDetails",
   data() {
     return {
-      company_radio: ['1','1','1'],
+      company_radio: {},
       grab_radio:['1','1','1'],//抢单商家
       activeName: 'first',
       info: {},
-      item: ["", "", ""],//推荐商家
+      info_all:[],
+      item: [],//推荐商家
       grab_item: ["", "", ""],
       options: [{
         value: '选项1',
@@ -148,12 +136,16 @@ export default {
     };
   },
   async mounted() {
-    const detail_result = await this.$axios.requirementControllerList.getRequireDetailById({
-      id: this.id
+    const detail_result = await this.$axios.serveControllerList.getServeById({
+      requirementId: this.id
     })
-    this.info = detail_result.data.requirement
-    console.log(this.id)
-    console.log(this.info)
+    this.item = detail_result.data.res
+    const results =  await  this.$axios.requirementControllerList.getRequireDetailById({
+      id:this.id
+    })
+    this.info_all =results.data.requirement
+    console.log("all", this.info_all)
+
 
   },
 
@@ -162,7 +154,7 @@ export default {
       console.log(val)
     },
     changeVal(val){
-      console.log(val)
+      console.log(this.company_radio)
     },
     changeSelect(label){
       this.radio=label
@@ -189,9 +181,16 @@ export default {
       link.setAttribute('download', row.filename)
       document.body.appendChild(link)
       link.click()
+    },
+    async submit() {
+      let orderList = []
+      this.item.map((item, index) => {
+        orderList.push( item.subRequireId + ',' + this.company_radio[index])
+      })
+      console.log(orderList)
+      await this.$axios.orderControllerList.saveForSelect(orderList)
+
     }
-
-
   },
 
 };
@@ -202,11 +201,7 @@ export default {
 @import './src/styles/mixin';
 
 .my_demand_details {
-  .grab_company_list {
-    width: 250px;
-    display: inline-block;
-    height: 30px;
-  }
+
 
   font-family: PingFangSC-Regular, PingFang SC;
   position: relative;
@@ -225,35 +220,35 @@ export default {
       border: 1px solid #E7E7E7;
       margin-top: 20px;
       padding: 20px;
-
       .strategy {
         width: 110px;
         height: 20px;
         margin-left: 15px;
         margin-bottom: 50px;
       }
-
       .children_demand {
-        margin: 20px 20px 20px 0;
-
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
         .children_demand_title {
-          width: 600px;
-          margin-right: 20px;
-          margin-top: 0;
-
-        }
-
-        .company {
+          font-size: 14px;
           display: inline-block;
-          width: 600px;
-
-          .company_list {
-            width: 200px;
-            display: inline-block;
-
-
+          width: 200px;
+          margin-right: 20px;
+        }
+        .company {
+          flex: 1;
+          width: 100%;
+          display: flex;
+          justify-content: flex-start;
+          flex-wrap: wrap;
+          /deep/ .el-radio-group {
+            margin-right: 20px;
           }
-
+          /deep/ .el-radio {
+            margin-bottom: 5px !important;
+          }
         }
       }
     }
@@ -270,7 +265,8 @@ export default {
         .grab_title {
           display: inline-block;
           margin-right: 20px;
-          height: 50px;
+          font-size: 14px;
+          width: 200px;
           position: absolute;
           top: 50%;
           transform: translateY(-50%); /*定位*/
@@ -280,6 +276,14 @@ export default {
           display: inline-block;
           margin-left: 200px;
           padding-top: 10px;
+          .company{
+            .grab_company_list {
+              width: 250px;
+              display: inline-block;
+              height: 30px;
+            }
+          }
+
         }
       }
     }

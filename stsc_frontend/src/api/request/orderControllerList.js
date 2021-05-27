@@ -70,7 +70,15 @@ const orderControllerList = {
             method: "post",
             data:params
         });
-    }
+    },
+    //生成大订单接口
+    saveForSelect: (data) => {
+        return axios({
+            url: `/ph/stcsp/order/createOrderForRequire`,
+            method: "post",
+            data:data
+        });
+    },
 
 }
 export default orderControllerList

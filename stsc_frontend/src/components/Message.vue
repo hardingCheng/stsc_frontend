@@ -4,7 +4,7 @@
     <el-tabs v-model="activeName" @tab-click="handleClick">
 
       <el-tab-pane name="first">
-        <template slot="label">全部({{ indexss_inform.length }})</template>
+        <template slot="label">全部({{ total }})</template>
         <!--      折叠面板-->
 
         <el-collapse v-model="activeNames" @change="handleChange">
@@ -22,7 +22,7 @@
 
       <el-tab-pane name="second">
         <template slot="label">
-          未读({{ indexss_no_read.length }})
+          未读({{ total_no_read }})
         </template>
         <el-collapse v-model="activeNames" @change="handleChange">
           <el-collapse-item :name="index" v-for="(item,index) in indexss_no_read" v-bind:key="index">
@@ -45,7 +45,7 @@
 export default {
   // indexss_inform通知内容
   // indexss_no_manage待办内容
-  props: ["indexss_inform", "indexss_no_read"],
+  props: ["indexss_inform", "indexss_no_read","total","total_no_read"],
   name: "Message",
   data() {
     return {

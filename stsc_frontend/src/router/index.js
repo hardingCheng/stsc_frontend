@@ -220,7 +220,17 @@ const routes = [
             component: () => import("../views/personal-center/seller/order-details/WaitingCommunication"),
             props: true,
           }]
-        }]
+        },
+          {
+            path: "/seller/myservice/:id",
+            name: "myserve",
+            component: () => import("../views/personal-center/seller/MyServiceDetails"),
+            meta: {
+              requiresAuth: true,
+              name: "我的服务详情"
+            },
+            props: true,
+          }]
       },
       {
         path: "/sd",
