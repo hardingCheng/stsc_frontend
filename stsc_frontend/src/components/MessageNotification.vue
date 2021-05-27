@@ -2,16 +2,16 @@
   <div class="message-notification">
     <div class="message-notification-tab">
       <ul class="message-notification-tab-ul">
-        <li @click="liswitch(1)" :class="[isTabActive === 1 ? 'active' :'']">通知({{ messageObj.notice}})</li>
-        <li @click="liswitch(2)" :class="[isTabActive === 2 ? 'active' :'']">待办({{ messageObj.handle}})</li>
-        <li @click="liswitch(3)" :class="[isTabActive === 3 ? 'active' :'']">其他({{ messageObj.other}})</li>
+        <li @click="liswitch(1)" :class="[isTabActive === 1 ? 'active' :'']">买家({{ messageObj.notice}})</li>
+        <li @click="liswitch(2)" :class="[isTabActive === 2 ? 'active' :'']">卖家({{ messageObj.handle}})</li>
+<!--        <li @click="liswitch(3)" :class="[isTabActive === 3 ? 'active' :'']">其他({{ messageObj.other}})</li>-->
       </ul>
     </div>
     <div class="message-notification-tab-content">
       <div class="message-notification-tab-content-item" v-if="isTabActive === 1">
         <div class="message-notification-tab-content-item-main">
           <div v-infinite-scroll="loadMore" infinite-scroll-disabled="disabled" infinite-scroll-distance="10">
-            <div v-for="item in data" :key="item.index" class="message-notification-tab-content-item-detail">
+            <div v-for="(item,index) in message_text" :key="index" class="message-notification-tab-content-item-detail">
               <el-row type="flex" align="middle" :gutter="10">
                 <el-col :span="4">
                   <div class="message-notification-tab-content-item-left">
@@ -20,8 +20,8 @@
                 </el-col>
                 <el-col :span="20">
                   <div class="message-notification-tab-content-item-right">
-                    <h4>蒂姆·库克回复了你的邮件蒂姆·库克回复了你的邮件</h4>
-                    <p>2019-05-08 14:33:18</p>
+                    <h4>{{ item.title }} </h4>
+                    <p>{{ item.createTime }}</p>
                   </div>
                 </el-col>
               </el-row>
@@ -50,7 +50,7 @@
                 </el-col>
                 <el-col :span="20">
                   <div class="message-notification-tab-content-item-right">
-                    <h4>蒂姆·库克回复了你的邮件蒂姆·库克回复了你的邮件</h4>
+                    <h4>{{ item }}</h4>
                     <p>2019-05-08 14:33:18</p>
                   </div>
                 </el-col>
@@ -68,6 +68,7 @@
           </div>
         </div>
       </div>
+
       <div class="message-notification-tab-content-item" v-if="isTabActive === 3">
         <div class="message-notification-tab-content-item-main">
           <div v-infinite-scroll="loadMore" infinite-scroll-disabled="disabled" infinite-scroll-distance="10">
@@ -80,7 +81,7 @@
                 </el-col>
                 <el-col :span="20">
                   <div class="message-notification-tab-content-item-right">
-                    <h4>{{message_text}}</h4>
+                    <h4>{{ message_text[item.index].title }}</h4>
                     <p>2019-05-08 14:33:18</p>
                   </div>
                 </el-col>
@@ -105,16 +106,16 @@
 <script>
 export default {
   name: "MessageNotification",
-  props:["message_text"],
+  props:["message_text","total"],
   data () {
     return {
       count: 0,
-      data: [],
+      data: ['s','x'],
       busy: false,
       isTabActive:1,
       loading: false,
       messageObj:{
-        notice:1,
+        notice:this.total,
         handle:2,
         other:0
       }
