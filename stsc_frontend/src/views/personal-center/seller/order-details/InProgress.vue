@@ -1,120 +1,30 @@
 <template>
   <div class="order-in-progress">
-    <div class="order-in-progress-immediately" v-if="type === '0'">
-      <div class="order-info">
-        <div class="order-info-left">
-          <h3>订单信息</h3>
-          <ul class="order-info-list">
-            <li>订单名称：<span>{{type0OrderInfo.order.name}}</span></li>
-            <li>订单编号：<span>{{type0OrderInfo.order.orderId}}</span></li>
-            <li>服务方：<span>{{type0OrderInfo.company}}</span></li>
-            <li>联系地址：<span>{{type0OrderInfo.address}}</span></li>
-          </ul>
-        </div>
-        <div class="order-info-right">
-          <h3>流程进度</h3>
-          <div class="order-info-flow">
-            <div class="order-info-flow-left">
-              子服务1：
-              <div>
-                <el-button size="small" style="margin-top: 12px;" @click="next" type="primary" >申请异常</el-button>
-              </div>
+    <div class="order-info">
+      <div class="order-info-left">
+        <h3>订单信息</h3>
+        <ul class="order-info-list">
+          <li>订单名称：<span>{{type0OrderInfo.order.name}}</span></li>
+          <li>订单编号：<span>{{type0OrderInfo.order.orderId}}</span></li>
+          <li>服务方：<span>{{type0OrderInfo.company}}</span></li>
+          <li>联系地址：<span>{{type0OrderInfo.address}}</span></li>
+        </ul>
+      </div>
+      <div class="order-info-right">
+        <h3>流程进度</h3>
+        <div class="order-info-flow">
+          <div class="order-info-flow-left">
+            子服务1：
+            <div>
+              <el-button size="small" style="margin-top: 12px;" @click="next" type="primary" >申请异常</el-button>
             </div>
-            <div class="order-info-flow-right">
-              <order-steps></order-steps>
-            </div>
+          </div>
+          <div class="order-info-flow-right">
+            <order-steps></order-steps>
           </div>
         </div>
       </div>
     </div>
-    <div class="order-in-progress-split" v-else>
-      <div class="order-info" >
-        <div class="order-info-left">
-          <h3>订单信息</h3>
-          <ul class="order-info-list">
-            <li>需求名称：<span>上海拆单机器人</span></li>
-            <li>订单编号：<span>124214325325</span></li>
-            <li>需求方：<span>科技协同服务公司</span></li>
-            <li>联系地址：<span>北京市昌平区回龙观</span></li>
-          </ul>
-          <h6>子订单数量：<span>6</span></h6>
-          <ul class="suborder-info-list">
-            <li>子服务名称1：<span>北京市昌平区回龙观</span>服务商1：<span>知网</span></li>
-            <li>子服务名称1：<span>北京市昌平区回龙观</span>服务商1：<span>知网</span></li>
-            <li>子服务名称1：<span>北京市昌平区回龙观</span>服务商1：<span>知网</span></li>
-            <li>子服务名称1：<span>北京市昌平区回龙观</span>服务商1：<span>知网</span></li>
-          </ul>
-          <a> 查看更多</a>
-        </div>
-        <div class="order-info-right">
-          <h3>服务进度</h3>
-        </div>
-      </div>
-      <div class="order-info-table">
-        <el-table
-            :data="tableData"
-            border
-            style="width: 100%"
-            :header-cell-style="{background:'#FAFAFA',}"
-        >
-          <el-table-column
-              prop="orderId"
-              label="订单编号"
-              align="center"
-          >
-          </el-table-column>
-          <el-table-column
-              prop="subServiceName"
-              label="子服务名称"
-              align="center"
-          >
-          </el-table-column>
-          <el-table-column
-              prop="startTime"
-              label="开始时间"
-              align="center"
-          >
-          </el-table-column>
-          <el-table-column
-              prop="endTime"
-              label="结束时间"
-              align="center"
-          >
-          </el-table-column>
-          <el-table-column
-              prop="servicePrice"
-              label="服务价格"
-              align="center"
-          >
-          </el-table-column>
-          <el-table-column
-              prop="serviceStatus"
-              label="服务状态"
-              align="center"
-          >
-            <template slot-scope="scope">
-              <el-tag type="success">{{scope.row.serviceStatus}}</el-tag>
-            </template>
-          </el-table-column>
-        </el-table>
-      </div>
-      <div class="order-info-flow">
-        <div class="order-info-flow-left">
-          子服务1：
-          <div>
-            <el-button size="small" style="margin-top: 12px;" @click="next" type="primary" >申请异常</el-button>
-          </div>
-        </div>
-        <div class="order-info-flow-right">
-          <el-steps :active="active" finish-status="success">
-            <el-step title="节点 1"></el-step>
-            <el-step title="节点 2"></el-step>
-            <el-step title="节点 3"></el-step>
-          </el-steps>
-        </div>
-      </div>
-    </div>
-
   </div>
 </template>
 

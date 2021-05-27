@@ -86,18 +86,17 @@ export default {
       jumpRouting:''
     }
   },
+  // 根据没登录前的点击的路由  登陆后跳转到相关页面
   mounted() {
     if (Object.keys(this.$route.query).length !== 0){
       this.jumpRouting = this.$route.query
     }
   },
   methods: {
+    // 提交登录表单
     async loginForm() {
       const { errors, isValid } = validatorInput(this.form)
       if(isValid){
-        // 发起请求
-        // this.$store.commit("modTokenLogin",{})
-        // this.$router.push("/index")
         let result = await this.$axios.userControllerList.login({
           username:this.form.username,
           password:this.form.password
@@ -118,6 +117,7 @@ export default {
         this.errors = errors
       }
     },
+    // 获取验证码
     getNewCode(){
       this.$refs.sidentify.getCode()
     },

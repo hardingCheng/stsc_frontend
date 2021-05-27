@@ -1,76 +1,10 @@
 <template>
   <div class="waiting-communication">
-    <div class="service-snapshot-immediately" v-if="type === '0'">
-      <div class="service-snapshot">
-        <h3>服务快照</h3>
-        <div class="service-snapshot-immediately">
-          <div class="service-snapshot-main">
-            <div class="service-snapshot-item">
-              <span>服务1：</span>
-              <img src="http://n.sinaimg.cn/sports/2_img/upload/127d0b3e/107/w1024h683/20210519/0ee5-kqhwhrk1641934.jpg" alt="">
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="service-contract">
-        <h3>服务方相关合同</h3>
-        <div class="service-contract-immediately" >
-          <div class="service-contract-main">
-            <div class="service-contract-item">
-              <div>服务1：</div>
-              <el-upload
-                  class="upload-demo"
-                  action="/ph/stcsp/fileoss/upload"
-                  :on-preview="handlePreview"
-                  :on-remove="handleRemove"
-                  :file-list="fileList"
-                  list-type="picture"
-                  :auto-upload="false"
-                  :on-change="changeUpload"
-                  :on-success="handleSuccess"
-                  ref="upload"
-                  v-if="contractForSeller.length === 0"
-              >
-                <el-button size="small" type="primary">点击上传</el-button>
-              </el-upload>
-              <ul>
-                <li v-for="(item,index) in contractForSeller" :key="index">
-                  <a @click="pdfShow(item.fileUrl)">{{item.fileName}}</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="service-operation" v-if="contractForSeller.length === 0">
-        <el-button @click="submitOrderInfo" type="primary">提交</el-button>
-      </div>
-    </div>
-    <div class="service-snapshot" v-else>
+    <div class="service-snapshot">
       <div class="service-snapshot">
         <h3>服务快照</h3>
         <div class="service-snapshot-split" >
           <div class="service-snapshot-main">
-            <div class="service-snapshot-item">
-              <span>子服务1：</span>
-              <img src="http://n.sinaimg.cn/sports/2_img/upload/127d0b3e/107/w1024h683/20210519/0ee5-kqhwhrk1641934.jpg" alt="">
-            </div>
-            <div class="service-snapshot-item">
-              <span>子服务1：</span>
-              <img src="http://n.sinaimg.cn/sports/2_img/upload/127d0b3e/107/w1024h683/20210519/0ee5-kqhwhrk1641934.jpg" alt="">
-            </div>
-            <div class="service-snapshot-item">
-              <span>子服务1：</span>
-              <img src="http://n.sinaimg.cn/sports/2_img/upload/127d0b3e/107/w1024h683/20210519/0ee5-kqhwhrk1641934.jpg" alt="">
-            </div>
-            <div class="service-snapshot-item">
-              <span>子服务1：</span>
-              <img src="http://n.sinaimg.cn/sports/2_img/upload/127d0b3e/107/w1024h683/20210519/0ee5-kqhwhrk1641934.jpg" alt="">
-            </div>
-            <div class="service-snapshot-item">
-              <span>子服务1：</span>
-              <img src="http://n.sinaimg.cn/sports/2_img/upload/127d0b3e/107/w1024h683/20210519/0ee5-kqhwhrk1641934.jpg" alt="">
-            </div>
             <div class="service-snapshot-item">
               <span>子服务1：</span>
               <img src="http://n.sinaimg.cn/sports/2_img/upload/127d0b3e/107/w1024h683/20210519/0ee5-kqhwhrk1641934.jpg" alt="">
@@ -83,7 +17,6 @@
         <div class="service-contract-split" >
           <div class="service-contract-main">
             <div class="service-contract-item">
-              <div>子服务1：</div>
               <el-upload
                   class="upload-demo"
                   action="https://jsonplaceholder.typicode.com/posts/"
@@ -93,62 +26,7 @@
                   list-type="picture"
                   :auto-upload="false"
               >
-                <el-button size="small" type="primary">点击上传</el-button>
-              </el-upload>
-            </div>
-            <div class="service-contract-item">
-              <div>子服务1：</div>
-              <el-upload
-                  class="upload-demo"
-                  action="https://jsonplaceholder.typicode.com/posts/"
-                  :on-preview="handlePreview"
-                  :on-remove="handleRemove"
-                  :file-list="fileList"
-                  list-type="picture"
-                  :auto-upload="false"
-              >
-                <el-button size="small" type="primary">点击上传</el-button>
-              </el-upload>
-            </div>
-            <div class="service-contract-item">
-              <div>子服务1：</div>
-              <el-upload
-                  class="upload-demo"
-                  action="https://jsonplaceholder.typicode.com/posts/"
-                  :on-preview="handlePreview"
-                  :on-remove="handleRemove"
-                  :file-list="fileList"
-                  list-type="picture"
-                  :auto-upload="false"
-              >
-                <el-button size="small" type="primary">点击上传</el-button>
-              </el-upload>
-            </div>
-            <div class="service-contract-item">
-              <div>子服务1：</div>
-              <el-upload
-                  class="upload-demo"
-                  action="https://jsonplaceholder.typicode.com/posts/"
-                  :on-preview="handlePreview"
-                  :on-remove="handleRemove"
-                  :file-list="fileList"
-                  list-type="picture"
-                  :auto-upload="false"
-              >
-                <el-button size="small" type="primary">点击上传</el-button>
-              </el-upload>
-            </div>
-            <div class="service-contract-item">
-              <div>子服务1：</div>
-              <el-upload
-                  class="upload-demo"
-                  action="https://jsonplaceholder.typicode.com/posts/"
-                  :on-preview="handlePreview"
-                  :on-remove="handleRemove"
-                  :file-list="fileList"
-                  list-type="picture"
-                  :auto-upload="false"
-              >
+                <span>子服务1：</span>
                 <el-button size="small" type="primary">点击上传</el-button>
               </el-upload>
             </div>
@@ -159,6 +37,52 @@
         <el-button @click="submitOrderInfo" type="primary">提交</el-button>
       </div>
     </div>
+<!--    <div class="service-snapshot-immediately" v-if="type === '0'">-->
+<!--      <div class="service-snapshot">-->
+<!--        <h3>服务快照</h3>-->
+<!--        <div class="service-snapshot-immediately">-->
+<!--          <div class="service-snapshot-main">-->
+<!--            <div class="service-snapshot-item">-->
+<!--              <span>服务1：</span>-->
+<!--              <img src="http://n.sinaimg.cn/sports/2_img/upload/127d0b3e/107/w1024h683/20210519/0ee5-kqhwhrk1641934.jpg" alt="">-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="service-contract">-->
+<!--        <h3>服务方相关合同</h3>-->
+<!--        <div class="service-contract-immediately" >-->
+<!--          <div class="service-contract-main">-->
+<!--            <div class="service-contract-item">-->
+<!--              <div>服务1：</div>-->
+<!--              <el-upload-->
+<!--                  class="upload-demo"-->
+<!--                  action="/ph/stcsp/fileoss/upload"-->
+<!--                  :on-preview="handlePreview"-->
+<!--                  :on-remove="handleRemove"-->
+<!--                  :file-list="fileList"-->
+<!--                  list-type="picture"-->
+<!--                  :auto-upload="false"-->
+<!--                  :on-change="changeUpload"-->
+<!--                  :on-success="handleSuccess"-->
+<!--                  ref="upload"-->
+<!--                  v-if="contractForSeller.length === 0"-->
+<!--              >-->
+<!--                <el-button size="small" type="primary">点击上传</el-button>-->
+<!--              </el-upload>-->
+<!--              <ul>-->
+<!--                <li v-for="(item,index) in contractForSeller" :key="index">-->
+<!--                  <a @click="pdfShow(item.fileUrl)">{{item.fileName}}</a>-->
+<!--                </li>-->
+<!--              </ul>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="service-operation" v-if="contractForSeller.length === 0">-->
+<!--        <el-button @click="submitOrderInfo" type="primary">提交</el-button>-->
+<!--      </div>-->
+<!--    </div>-->
   </div>
 </template>
 

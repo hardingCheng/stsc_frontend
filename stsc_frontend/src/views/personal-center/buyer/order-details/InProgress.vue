@@ -32,69 +32,63 @@
         <div class="order-info-left">
           <h3>订单信息</h3>
           <ul class="order-info-list">
-            <li>需求名称：<span>上海拆单机器人</span></li>
-            <li>订单编号：<span>124214325325</span></li>
-            <li>需求方：<span>科技协同服务公司</span></li>
-            <li>联系地址：<span>北京市昌平区回龙观</span></li>
+            <li>需求名称：<span>{{type1OrderInfo.requirementName}}</span></li>
+            <li>订单编号：<span>{{type1OrderInfo.orderId}}</span></li>
+            <li>需求方：<span>{{type1OrderInfo.buyerName}}</span></li>
+            <li>联系地址：<span>{{type1OrderInfo.address}}</span></li>
           </ul>
-          <h6>子订单数量：<span>6</span></h6>
+          <h6>子订单数量：<span>{{subOrderInfoVoListLength}}</span></h6>
           <ul class="suborder-info-list">
-            <li>子服务名称1：<span>北京市昌平区回龙观</span>服务商1：<span>知网</span></li>
-            <li>子服务名称1：<span>北京市昌平区回龙观</span>服务商1：<span>知网</span></li>
-            <li>子服务名称1：<span>北京市昌平区回龙观</span>服务商1：<span>知网</span></li>
-            <li>子服务名称1：<span>北京市昌平区回龙观</span>服务商1：<span>知网</span></li>
+            <li v-for="(item,index) in  type1OrderInfo.subOrderInfoVoList" :key="index">服务{{index+1}}：<span>{{item.subOrderName}}</span>服务商{{index+1}}：<span>{{item.sellerName}}</span></li>
           </ul>
           <a> 查看更多</a>
         </div>
         <div class="order-info-right">
           <h3>服务进度</h3>
-          <b-pai></b-pai>
+          <b-pai :arrangeList="arrangeList" @getNodeInfo="getNodeInfo"></b-pai>
         </div>
       </div>
       <div class="order-info-table">
         <el-table
-            :data="tableData"
+            :data="subOrderDetailsInfo"
             border
             style="width: 100%"
             :header-cell-style="{background:'#FAFAFA',}"
         >
           <el-table-column
-              prop="orderId"
+              prop="subOrderId"
               label="订单编号"
               align="center"
           >
           </el-table-column>
           <el-table-column
-              prop="subServiceName"
+              prop="orderName"
               label="子服务名称"
               align="center"
           >
           </el-table-column>
           <el-table-column
-              prop="startTime"
-              label="开始时间"
+              prop="createTime"
+              label="创建时间"
               align="center"
           >
           </el-table-column>
           <el-table-column
-              prop="endTime"
-              label="结束时间"
-              align="center"
-          >
-          </el-table-column>
-          <el-table-column
-              prop="servicePrice"
+              prop="price"
               label="服务价格"
               align="center"
           >
+            <template slot-scope="scope">
+              <span type="success">{{'￥'+scope.row.price+'万'}}</span>
+            </template>
           </el-table-column>
           <el-table-column
-              prop="serviceStatus"
+              prop="status"
               label="服务状态"
               align="center"
           >
             <template slot-scope="scope">
-              <el-tag type="success">{{scope.row.serviceStatus}}</el-tag>
+              <el-tag type="success">{{scope.row.status | modStatus}}</el-tag>
             </template>
           </el-table-column>
         </el-table>
@@ -153,6 +147,10 @@ export default {
           updateTime: '',
         }
       },
+      type1OrderInfo:{},
+      arrangeList:{},
+      subOrderInfoVoListLength:0,
+      subOrderDetailsInfo:[]
     }
   },
   components: {
@@ -162,6 +160,13 @@ export default {
   methods: {
     next() {
       if (this.active++ > 2) this.active = 0;
+    },
+    async getNodeInfo(nodeId){
+      this.subOrderDetailsInfo.length = 0
+      let result = await this.$axios.orderControllerList.getSubOrderDetailsInfo({
+        subRequireId:nodeId
+      })
+      this.subOrderDetailsInfo.push(result.data)
     }
   },
   async mounted() {
@@ -171,6 +176,32 @@ export default {
       })
      this.type0OrderInfo = result.data
     }
+    if (this.orderid && this.type === '1'){
+      let result1 = await this.$axios.orderControllerList.getSplitDetailInfo({
+        id:this.orderid
+      })
+      this.type1OrderInfo = result1.data.subOrderInfo
+      this.subOrderInfoVoListLength = result1.data.subOrderInfo.subOrderInfoVoList.length
+      let result = await this.$axios.arrangeController.getArrangeList({
+        requirementId:this.type1OrderInfo.requirementId
+      })
+      this.arrangeList = result.data.arrange
+      await this.getNodeInfo(result.data.arrange.nodeList[0].id)
+    }
+  },
+  filters:{
+    modStatus(value){
+      switch (value){
+        case 1:
+          return '待沟通'
+        case 2:
+          return '进行中'
+        case 3:
+          return '已验收'
+        case 4:
+          return '已评价'
+      }
+    }
   }
 }
 </script>
@@ -178,90 +209,89 @@ export default {
 <style lang="scss" scoped>
 .order-in-progress {
   width: 100%;
-  .order-info {
-    box-shadow: 0px 2px 4px 3px rgba(225, 225, 225, 0.5);
-    border-radius: 4px;
-    height: 375px;
-    display:flex;
-    justify-content:flex-start;
-    align-items: center;
-    margin-bottom: 40px;
-    .order-info-left {
-      height:100%;
-      box-sizing: border-box;
-      padding:30px 20px 20px 20px;
-      border-right: 1px solid #E7E7E7;
-      h3 {
-        font-size: 18px;
-        margin-bottom: 18px;
-      }
-      .order-info-list {
-        li {
-          margin-bottom: 8px;
-          font-size: 14px;
-          font-weight: 400;
-          color: #666666;
-          span {
-            margin-left: 20px;
+  .order-in-progress-split{
+    .order-info {
+      box-shadow: 0px 2px 4px 3px rgba(225, 225, 225, 0.5);
+      border-radius: 4px;
+      height: 375px;
+      display:flex;
+      justify-content:flex-start;
+      align-items: center;
+      margin-bottom: 40px;
+      .order-info-left {
+        height:100%;
+        box-sizing: border-box;
+        padding:30px 20px 20px 20px;
+        border-right: 1px solid #E7E7E7;
+        h3 {
+          font-size: 18px;
+          margin-bottom: 18px;
+        }
+        .order-info-list {
+          li {
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 400;
+            color: #666666;
           }
         }
-      }
-      h6 {
-        font-size: 14px;
-        font-weight: 500;
-        margin-bottom:10px;
-      }
-      .suborder-info-list {
-        li {
-          margin-bottom: 8px;
+        h6 {
           font-size: 14px;
-          font-weight: 400;
-          color: #666666;
-          &>span:first-child {
-            margin-right: 20px;
+          font-weight: 500;
+          margin-bottom:10px;
+        }
+        .suborder-info-list {
+          li {
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 400;
+            color: #666666;
+            &>span:first-child {
+              margin-right: 20px;
+            }
           }
         }
+        a {
+          margin-top: 20px;
+          display: block;
+          text-align: center;
+          font-size: 14px;
+          font-weight: 400;
+          color: #999999;
+        }
       }
-      a {
-        margin-top: 20px;
-        display: block;
-        text-align: center;
-        font-size: 14px;
-        font-weight: 400;
-        color: #999999;
+      .order-info-right {
+        height:100%;
+        padding:30px 20px 20px 20px;
+        box-sizing: border-box;
+        flex: 1;
+        h3 {
+          font-size: 18px;
+          margin-bottom: 18px;
+        }
       }
     }
-    .order-info-right {
-      height:100%;
-      padding:30px 20px 20px 20px;
+    .order-info-table {
+      margin-bottom: 40px;
+    }
+    .order-info-flow {
+      width: 100%;
+      height: 150px;
       box-sizing: border-box;
-      flex: 1;
-      h3 {
-        font-size: 18px;
-        margin-bottom: 18px;
-      }
-    }
-  }
-  .order-info-table {
-    margin-bottom: 40px;
-  }
-  .order-info-flow {
-    width: 100%;
-    height: 150px;
-    box-sizing: border-box;
-    padding:20px;
-    box-shadow: 0px 2px 4px 3px rgba(225, 225, 225, 0.5);
-    border-radius: 4px;
-    margin-bottom: 40px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    .order-info-flow-left {
+      padding:20px;
+      box-shadow: 0px 2px 4px 3px rgba(225, 225, 225, 0.5);
+      border-radius: 4px;
+      margin-bottom: 40px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      .order-info-flow-left {
 
-    }
-    .order-info-flow-right {
-      flex: 1;
-      margin-left: 50px;
+      }
+      .order-info-flow-right {
+        flex: 1;
+        margin-left: 50px;
+      }
     }
   }
   .order-in-progress-immediately {

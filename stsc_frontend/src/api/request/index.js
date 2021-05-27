@@ -10,6 +10,7 @@ import requirementControllerList from "./requirementControllerList";
 import serveControllerList from "./serveControllerList";
 import orderControllerList from "./orderControllerList";
 import companyRealInfoController from "./companyRealInfoController";
+import arrangeController from "./arrangeController";
 
 export default {
     adminControllerList,
@@ -19,5 +20,6 @@ export default {
     requirementControllerList,
     serveControllerList,
     orderControllerList,
-    companyRealInfoController
+    companyRealInfoController,
+    arrangeController
 }

@@ -61,9 +61,11 @@ export default {
     }
   },
   methods: {
+    // 获取验证码
     getNewCode(){
       this.$refs.sidentify.getCode()
     },
+    // 表单提交
     async registerForm(){
       const { errors,isValid } = await validatorSignUpInput(this.form)
       if(isValid) {
@@ -84,7 +86,7 @@ export default {
     }
   }
 };
-</script>s
+</script>
 
 <style scoped lang="scss">
 .signup{

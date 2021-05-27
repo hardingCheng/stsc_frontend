@@ -10,4 +10,5 @@ const ossControllerList = {
         });
     },
 }
+
 export default ossControllerList

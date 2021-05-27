@@ -3,7 +3,7 @@
     <el-row :gutter="20">
       <el-col :span="4">
         <el-menu
-            default-active="1"
+            :default-active="activeIndex"
             class="el-menu-vertical-demo"
             @open="handleOpen"
             @close="handleClose"
@@ -38,7 +38,26 @@ export default {
   name: "Index",
   data(){
     return {
-
+      activeIndex:'1'
+    }
+  },
+  mounted() {
+    switch(this.$route.path){
+      case '/seller/realauth':
+        this.activeIndex = '1'
+        break
+      case '/seller/mydemand':
+        this.activeIndex = '2'
+        break
+      case '/seller/myorder':
+        this.activeIndex = '3'
+        break
+      case '/seller/mynews':
+        this.activeIndex = '4'
+        break
+      default:
+        this.activeIndex = '1'
+        break
     }
   },
   methods:{

@@ -12,10 +12,12 @@
         </div>
         <!-- 节点名称 -->
 
-
+      <el-tooltip class="item" effect="dark" :content="node.name" placement="top-start">
         <div class="ef-node-text" :show-overflow-tooltip="true" >
-                {{node.name}}
+          {{node.name}}
         </div>
+      </el-tooltip>
+
     </div>
 </template>
 

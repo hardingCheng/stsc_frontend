@@ -6,7 +6,7 @@
           <ul class="public-order-info-item-top-detail">
             <li>{{item.createTime}}</li>
             <li>订单号：<span>{{item.orderId}}</span></li>
-            <li>服务商：<span>{{item.sellerName}}</span></li>
+            <li><span v-if="item.sellerName">服务商：{{item.sellerName}}</span></li>
           </ul>
         </div>
         <div class="public-order-info-item-bottom">
@@ -19,7 +19,7 @@
             <el-tag v-for="(itemde,index) in item.keywords === null?[]:item.keywords.split(',')" :key="index">{{itemde}}</el-tag>
           </div>
           <div class="info-price-status">
-            <span>{{item.price === null ? '' :'￥'+item.price}}</span>
+            <span>{{item.price | modPrice}}</span>
             <span>{{item.orderStatus | modStatus}}</span>
           </div>
           <div class="info-menu">
@@ -83,8 +83,12 @@ export default {
     let result = await this.$axios.orderControllerList.getOrderListForBuyer({
       page:1
     })
-    this.pageInfo.total = result?.data?.total
-    this.orderList = result?.data?.orderList
+    if (result.data?.total){
+      this.pageInfo.total = result.data?.total
+    }
+    if (result.data?.orderList){
+      this.orderList = result.data?.orderList
+    }
   },
   filters:{
     modStatus(value){
@@ -99,6 +103,13 @@ export default {
           return '已验收'
         default:
           return '待沟通'
+      }
+    },
+    modPrice(value){
+      if (value){
+        return '￥'+value.toFixed(2)+'万'
+      }else {
+        return ''
       }
     }
   },

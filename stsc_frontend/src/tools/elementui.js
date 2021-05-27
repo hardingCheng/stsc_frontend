@@ -56,6 +56,7 @@ import {
   Link,
   Steps,
   Step,
+  Tooltip
 } from "element-ui";
 
 const element = {
@@ -114,6 +115,7 @@ const element = {
     Vue.use(Link)
     Vue.use(Dialog)
     Vue.use(Steps)
+    Vue.use(Tooltip)
     Vue.use(Step)
     Vue.prototype.$message = Message;
     // Vue.prototype.$confirm = MessageBox.confirm;

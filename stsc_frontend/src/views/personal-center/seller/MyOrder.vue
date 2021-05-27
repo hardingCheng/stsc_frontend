@@ -83,9 +83,12 @@ export default {
     let result = await this.$axios.orderControllerList.getOrderListForSeller({
       page:1
     })
-    this.pageInfo.total = result?.data?.total
-    this.orderList = result?.data?.orderList
-    console.log(this.orderList.length)
+    if (result.data?.total){
+      this.pageInfo.total = result.data?.total
+    }
+    if (result.data?.orderList){
+      this.orderList = result.data?.orderList
+    }
   },
   filters:{
     modStatus(value){

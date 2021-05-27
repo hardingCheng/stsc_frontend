@@ -27,15 +27,12 @@
             </div>
           </div>
         </div>
-
         <!--        <div class="text-title-title">单位所在地：<span class="text-service-text">{{ info.address }}</span></div>-->
         <div class="text-title-title">创造时间：<span class="text-service-text">{{ info.createTime }}</span></div>
         <div class="text-title-title">手机号：<span class="text-service-text">{{ info.telephone }}</span></div>
-
         <!--        <div class="address">-->
         <!--        <div class="text-title-title ">联系地址：<span class="text-service-text ">陕西省西安市幸福街道</span></div>-->
         <!--        </div>-->
-
         <div class="text-title-title ">电子邮箱：<span class="text-service-text">{{ info.email }}</span></div>
         <div class="show-reviews">
           <div class="show-reviews-text fl" v-for="(item,index) in keywords" v-bind:key="index"><span class="tag-text">{{

@@ -70,7 +70,25 @@ const orderControllerList = {
             method: "post",
             data:params
         });
+    },
+    getSplitDetailInfo(params){
+        return axios({
+            url: `/ph/stcsp/order/getDetailInfo/${params.id}`,
+            method: "get",
+        });
+    },
+    setUploadContracts(data){
+        return axios({
+            url: `/ph/stcsp/order/uploadContracts`,
+            method: "post",
+            data
+        });
+    },
+    getSubOrderDetailsInfo(params){
+        return axios({
+            url: `/ph/stcsp/suborder/getSubOrderInfo/${params.subRequireId}`,
+            method: "get",
+        });
     }
-
 }
 export default orderControllerList

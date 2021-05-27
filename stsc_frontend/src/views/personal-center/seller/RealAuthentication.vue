@@ -115,10 +115,6 @@ export default {
       },
     }
   },
-  async mounted() {
-    let result = await this.$axios.userControllerList.getAuthInfo({})
-    console.log(result)
-  },
   watch:{
     cerUrlNum:{
       async handler(newValue,oldValue) {
