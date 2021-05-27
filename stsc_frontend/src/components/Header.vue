@@ -26,7 +26,9 @@
              </el-col>
            </el-row>
            <div class="header-login-nav-right-notification" v-if="notificationShow">
-             <message-notification class="myPanel"></message-notification>
+             <message-notification class="myPanel"
+             :message_text=this.message_list_no
+             :total=message_list_no_total></message-notification>
            </div>
          </div>
          <div class="header-login-nav-right fr" v-else>
@@ -87,11 +89,15 @@ export default {
   data(){
     return {
       notificationShow:false,
+      message_list_no:{},
+      message_list_no_total:[]
+
     }
   },
   async mounted() {
     await this.handleHeader()
     this.myPanel()
+    await this.getMessageListNoRead()
   },
   watch: {
     $route(to,from) {
@@ -105,6 +111,17 @@ export default {
     },
   },
   methods: {
+    async getMessageListNoRead(){
+      const message_result =  await  this.$axios.requirementControllerList.lookMessageById({
+        id: this.$store.getters.getUserInfo.id,
+        page: 1,
+        limit: 10,
+        isRead:0
+      })
+      this.message_list_no =message_result.data.messageList.records
+      this.message_list_no_total=message_result.data.messageList.total
+      console.log(this.message_list_no)
+    },
     handleClick(tab, event) {
       // console.log(tab, event);
     },

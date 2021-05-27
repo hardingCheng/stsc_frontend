@@ -3,11 +3,11 @@
   <div class="my_demand-details container ">
     <div class="my_demand-details-img"><img :src="this.info.image" width="400px" height="400px"></div>
     <ul >
-      <li>服务名称:<span class="text">{{ this.info.name }}</span></li>
-      <li class="text-title-title">单位名称:<span>{{ this.info.company }}</span></li>
-      <li>单位地址:<span>{{ this.info.address }}</span></li>
-      <li>联系人:<span>{{ this.info.contact }}</span></li>
-      <li>联系方式:<span>{{ this.info.telephone }}</span></li>
+      <li>服务名称:<span class="text">{{ !this.info.name ?"暂无数据":this.info.name }}</span></li>
+      <li class="text-title-title">单位名称:<span>{{ !this.info.company ?"暂无数据":this.info.company}}</span></li>
+      <li>单位地址:<span>{{ !this.info.address ?"暂无数据":this.info.address}}</span></li>
+      <li>联系人:<span>{{ !this.info.contact ?"暂无数据":this.info.contact }}</span></li>
+      <li>联系方式:<span>{{ !this.info.telephone ?"暂无数据":this.info.telephone}}</span></li>
       <li>服务价格:<span>{{ this.info.price }}万</span></li>
       <li>服务工期:<span>{{ this.info.deadline }}天</span></li>
       <li>所属分类:<span>{{ this.info.categoryName }}</span></li>

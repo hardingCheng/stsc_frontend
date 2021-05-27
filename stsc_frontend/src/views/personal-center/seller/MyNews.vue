@@ -3,7 +3,8 @@
     <Message
         :indexss_inform=this.message_list
         :indexss_no_read=this.message_list_no
-
+        :total="message_total"
+        :total_no_read="message_list_no_total"
     >
       <div slot="page_1" class="common-pagination container">
         <div class="pagination">
@@ -80,6 +81,7 @@ export default {
       })
       this.message_list_no =message_result.data.messageList.records
       this.message_list_no_total=message_result.data.messageList.total
+      console.log("ddd",this.message_list_no_total)
     },
 
     //删除消息
