@@ -3,6 +3,8 @@
     <Message
         :indexss_inform="message_list"
         :indexss_no_read="message_list_no"
+        :total="message_total"
+        :total_no_read="message_list_no_total"
     >
       <div slot="page_1" class="common-pagination container">
         <div class="pagination">
@@ -47,10 +49,10 @@ props:['id'],
     return {
       currentPage1: 1,
       currentPage2: 1,
-      message_list_no:[],//存放未读消息
       message_list_have:[],//存放已读消息
       message_list:[],//存放消息列表
       message_total:0,//获取消息总数
+      message_list_no:[],//存放未读消息
       message_list_no_total:0,//存放未读消息总数
       is_read:1,//消息已读未读
       activeName: 'first',
@@ -72,7 +74,7 @@ props:['id'],
       this.message_total = message_result.data.messageList.total//获取全部消息总数
       this.message_list = message_result.data.messageList.records//获取消息列表
       this.is_read = message_result.data.messageList.records.isRead
-      console.log("消息总数",this.message_total)
+      // console.log("消息总数",this.message_total)
 
     },
     async getMessageListNoRead(){
@@ -83,7 +85,9 @@ props:['id'],
         isRead:0
       })
       this.message_list_no =message_result.data.messageList.records
-      this.message_list_no_total=message_result.data.messageList.total
+      //消息总数
+      this.message_list_no_total=message_result.data.count
+      // console.log( "未读消息总数",this.message_list_no_total)
     },
 
      //删除消息

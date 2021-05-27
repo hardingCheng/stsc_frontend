@@ -55,5 +55,14 @@ const serveControllerList = {
             data
         });
     },
+    //获取推荐服务商
+    getServeById: (params) => {
+        return axios({
+            url: `/ph/stcsp/serve/createServicePlan/${params.requirementId}`,
+            method: "get",
+        });
+    },
+
+
 }
 export default serveControllerList
