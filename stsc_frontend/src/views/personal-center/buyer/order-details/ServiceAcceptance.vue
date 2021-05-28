@@ -51,14 +51,19 @@ export default {
       let result = await this.$axios.orderControllerList.getOrderInfo({
         orderId:this.orderid
       })
-      if (result.code === 20000){
-        console.log(result)
+    },
+    async getInfo(){
+      if(this.type === '0'){
+        await this.getAcceptanceUploadFle()
+        await this.getOrderInfo()
+      }else if (this.type === '1'){
+        await this.getAcceptanceUploadFle()
+        await this.getOrderInfo()
       }
     }
   },
   async mounted(){
-    await this.getAcceptanceUploadFle()
-    await this.getOrderInfo()
+    await this.getInfo()
   }
 }
 </script>

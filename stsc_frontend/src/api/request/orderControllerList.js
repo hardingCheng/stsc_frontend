@@ -35,11 +35,10 @@ const orderControllerList = {
             method: "get",
         });
     },
-    setServerUploadFile(data,params){
+    setServerUploadFile(params){
         return axios({
             url: `/ph/stcsp/order/uploadfile/${params.orderId}`,
             method: "post",
-            data
         });
     },
     getAcceptanceUploadFle(params){
@@ -84,18 +83,65 @@ const orderControllerList = {
             data
         });
     },
-    getSubOrderDetailsInfo(params){
-        return axios({
-            url: `/ph/stcsp/suborder/getSubOrderInfo/${params.subRequireId}`,
-            method: "get",
-        });
-    },
     //生成大订单接口
     saveForSelect: (data) => {
         return axios({
             url: `/ph/stcsp/order/createOrderForRequire`,
             method: "post",
             data:data
+        });
+    },
+    getSubOrderDetailsInfo(params){
+        return axios({
+            url: `/ph/stcsp/suborder/getSubOrderInfo/${params.subRequireId}`,
+            method: "get",
+        });
+    },
+
+    setSubOrderAcceptanceList: (data,params) => {
+        return axios({
+            url: `/ph/stcsp/suborder/uploadfile/${params.subOrderId}`,
+            method: "post",
+            data
+        });
+    },
+    getSubOrderAcceptanceList: (params) => {
+        return axios({
+            url: `/ph/stcsp/suborder/downloadfile/${params.subOrderId}`,
+            method: "get",
+        });
+    },
+    getSubOrderInfo: (params) => {
+        return axios({
+            url: `/ph/stcsp/suborder/getOrderInfo/${params.subOrderId}`,
+            method: "get",
+        });
+    },
+    setSubOrderUploadContract: (data) => {
+        return axios({
+            url: `/ph/stcsp/suborder/uploadContractForSeller`,
+            method: "post",
+            data
+        });
+    },
+    getSubOrderSellerInfo: (params) => {
+        return axios({
+            url: `/ph/stcsp/suborder/getSubOrder/${params.subOrderId}`,
+            method: "get",
+        });
+    },
+    setNextStepForSeller(data){
+        return axios({
+            url: `/ph/stcsp/suborder/nextStepForSeller`,
+            method: "post",
+            data
+        });
+    },
+    setNextStepForBuyer(data){
+        return axios({
+            url: `/ph/stcsp/suborder/nextStepForBuyer`,
+            method: "post",
+            data
         });
     },
 }

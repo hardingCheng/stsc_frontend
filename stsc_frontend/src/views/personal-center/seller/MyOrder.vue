@@ -19,7 +19,7 @@
             <el-tag v-for="(itemde,index) in item.keywords === null?[]:item.keywords.split(',')" :key="index">{{itemde}}</el-tag>
           </div>
           <div class="info-price-status">
-            <span>{{item.price === null ? '' :'￥'+item.price}}</span>
+            <span>{{item.price | modPrice}}</span>
             <span>{{item.orderStatus | modStatus}}</span>
           </div>
           <div class="info-menu">
@@ -103,6 +103,13 @@ export default {
           return '已验收'
         default:
           return '待沟通'
+      }
+    },
+    modPrice(value){
+      if (value){
+        return '￥'+value.toFixed(2)+'万'
+      }else {
+        return ''
       }
     }
   },

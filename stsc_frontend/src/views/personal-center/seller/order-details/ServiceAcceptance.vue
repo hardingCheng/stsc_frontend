@@ -68,15 +68,22 @@ export default {
       if (response.code === 20000 && response.data.url !== ""){
         this.uploadFileNum++
         this.uploadFileUrl = this.uploadFileUrl + response.data.url + ','
-        console.log(this.uploadFileNum)
-        if (this.uploadFileNum === this.filerReadyUploadList.length){
-          console.log(this.uploadFileNum)
-          let result = await this.$axios.orderControllerList.setServerUploadFile({
-            attachments:this.uploadFileUrl
-          },{
-            orderId:this.orderid
-          })
-          console.log(result)
+        if(this.type === '0'){
+          if (this.uploadFileNum === this.filerReadyUploadList.length){
+            let result = await this.$axios.orderControllerList.setServerUploadFile({
+              attachments:this.uploadFileUrl
+            },{
+              orderId:this.orderid
+            })
+          }
+        } else if(this.type === '1'){
+          if (this.uploadFileNum === this.filerReadyUploadList.length){
+            let result = await this.$axios.orderControllerList.setSubOrderAcceptanceList({
+              attachments:this.uploadFileUrl
+            },{
+              subOrderId:this.orderid
+            })
+          }
         }
       }
     },
@@ -86,17 +93,31 @@ export default {
       }
     },
     async getAcceptanceUploadFle(){
-      let result = await this.$axios.orderControllerList.getAcceptanceUploadFle({
-        orderId:this.orderid
-      })
-      if (result.code === 20000){
-        result.data.fileurls.split(',').slice(0,-1).map((item) => {
-          this.acceptanceUploadFleList.push({
-            fileName:item.split('/').slice(-1)[0].split('_').slice(1).toString(),
-            fileUrl:item
-          })
-        })
-      }
+     if (this.type === '0'){
+       let result = await this.$axios.orderControllerList.getAcceptanceUploadFle({
+         orderId:this.orderid
+       })
+       if (result.code === 20000){
+         result.data.fileurls.split(',').slice(0,-1).map((item) => {
+           this.acceptanceUploadFleList.push({
+             fileName:item.split('/').slice(-1)[0].split('_').slice(1).toString(),
+             fileUrl:item
+           })
+         })
+       }
+     }else if (this.type === '1'){
+       let result = await this.$axios.orderControllerList.getSubOrderAcceptanceList({
+         subOrderId:this.orderid
+       })
+       if (result.code === 20000){
+         result.data.fileurls.split(',').slice(0,-1).map((item) => {
+           this.acceptanceUploadFleList.push({
+             fileName:item.split('/').slice(-1)[0].split('_').slice(1).toString(),
+             fileUrl:item
+           })
+         })
+       }
+     }
     }
   },
   async mounted(){

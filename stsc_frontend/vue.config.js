@@ -34,5 +34,5 @@ module.exports = {
   },
 
   publicPath: './',
-  outputDir: 'webproject'
+  outputDir: 'webproject/dist'
 };
