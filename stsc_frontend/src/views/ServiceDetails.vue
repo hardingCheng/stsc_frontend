@@ -44,27 +44,28 @@
       </div>
     </div>
     <Tabs
-        :description="info.serviceDescription">
+        :description="info.serviceDescription"
+        :professional-talents="info.expertIntroduction">
       <div class="evaluation-box">
         <div class="praise-of">
           <div class="praise-of-text">
             <div class="degree-of-praise fl"><span class="praise-of-text-praise">好评度</span></div>
-            <div class="praise-tag-div fl"><span class="praise-tag">态度好(10)</span></div>
-            <div class="praise-tag-div fl"><span class="praise-tag">态度好(10)</span></div>
-            <div class="praise-tag-div fl"><span class="praise-tag">态度好(10)</span></div>
-            <div class="praise-tag-div fl"><span class="praise-tag">态度好(10)</span></div>
-            <div class="praise-tag-div fl"><span class="praise-tag">态度好(10)</span></div>
-            <div class="praise-tag-div fl"><span class="praise-tag">态度好(10)</span></div>
+            <div class="praise-tag-div fl"><span class="praise-tag">态度好(0)</span></div>
+            <div class="praise-tag-div fl"><span class="praise-tag">态度好(0)</span></div>
+            <div class="praise-tag-div fl"><span class="praise-tag">态度好(0)</span></div>
+            <div class="praise-tag-div fl"><span class="praise-tag">态度好(0)</span></div>
+            <div class="praise-tag-div fl"><span class="praise-tag">态度好(0)</span></div>
+            <div class="praise-tag-div fl"><span class="praise-tag">态度好(0)</span></div>
           </div>
-          <div class="praise-of-num">98%</div>
+          <div class="praise-of-num">0%</div>
         </div>
         <div class="all-evaluation">
-          <span class="allEvaluation">全部评价(10)</span>
-          <span class="allEvaluation">有图(30)</span>
-          <span class="allEvaluation">追加(19)</span>
-          <span class="allEvaluation">好评(34)</span>
-          <span class="allEvaluation">中评(10)</span>
-          <span class="allEvaluation">差评(10)</span>
+          <span class="allEvaluation">全部评价(0)</span>
+          <span class="allEvaluation">有图(0)</span>
+          <span class="allEvaluation">追加(0)</span>
+          <span class="allEvaluation">好评(0)</span>
+          <span class="allEvaluation">中评(0)</span>
+          <span class="allEvaluation">差评(0)</span>
         </div>
 
         <Evaluation
@@ -127,7 +128,6 @@ export default {
       currentPage: 1,
       total:0,
       commentListRequire:[],//存放评论数据
-
     };
   },
   async mounted() {
@@ -139,17 +139,16 @@ export default {
       limit:4,
       id:this.$route.params.id
     })
-
     this.commentListRequire=commentList.data.evaluationList
      this.total=commentList.data.evaluationList.records.length;
+    console.log("评价列表", this.commentListRequire)
     console.log("获取的评价总数",this.total)
      this.currentPage=commentList.data.evaluationList.current
      console.log(commentList.data.evaluationList)
     console.log(this.evaluate)
     this.info = detail_result.data.serve
     console.log("11",this.info)
-    this.keywords = this.info.keywords.split('，')
-
+    this.keywords = this.info.keywords.split(',')
     this.value = parseInt(this.info.star)
     if (!this.value) {
       this.value = 0
@@ -260,7 +259,7 @@ export default {
         }
 
         .praise-of-num {
-          margin-left: 60px;
+          margin-left: 65px;
           @include wh(66px, 42px);
           font-size: 30px;
           font-weight: 500;

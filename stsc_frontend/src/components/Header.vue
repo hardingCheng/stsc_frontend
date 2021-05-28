@@ -8,7 +8,7 @@
            <el-row :gutter="20">
              <el-col :span="12">
                <div class="header-login-nav-info">
-               <el-badge :value="12" class="item">
+               <el-badge :value=this.message_No_All class="item">
                  <i class="el-icon-bell header-login-nav-i"></i>
                </el-badge>
              </div>
@@ -28,7 +28,11 @@
            <div class="header-login-nav-right-notification" v-if="notificationShow">
              <message-notification class="myPanel"
              :message_text=this.message_list_no
-             :total=message_list_no_total></message-notification>
+             :total=message_list_no_total
+             :message_text_seller=this.message_seller_list_no
+             :total_seller=this.message_seller_list_no_total
+             @active="message_active">
+             </message-notification>
            </div>
          </div>
          <div class="header-login-nav-right fr" v-else>
@@ -85,12 +89,18 @@ import MessageNotification from "./MessageNotification";
 
 export default {
   name: "Header",
+  props:["active3"],
   components: {MessageNotification},
   data(){
     return {
       notificationShow:false,
       message_list_no:{},
-      message_list_no_total:[]
+      message_seller_list_no:{},
+      message_list_no_total:[],
+      message_seller_list_no_total:0,
+      message_No_All:0,
+      active:""
+
 
     }
   },
@@ -98,6 +108,8 @@ export default {
     await this.handleHeader()
     this.myPanel()
     await this.getMessageListNoRead()
+    await this.getMessageBuyerListNoRead()
+    await this.getUserMessageNoAll()
   },
   watch: {
     $route(to,from) {
@@ -111,16 +123,45 @@ export default {
     },
   },
   methods: {
+    message_active(data){
+        this.active=data
+        this.$emit("active1",data)
+    },
+    //买家
     async getMessageListNoRead(){
       const message_result =  await  this.$axios.requirementControllerList.lookMessageById({
-        id: this.$store.getters.getUserInfo.id,
+        userId: this.$store.getters.getUserInfo.id,
         page: 1,
-        limit: 10,
+        limit: 100,
         isRead:0
       })
-      this.message_list_no =message_result.data.messageList.records
+      this.message_list_no = message_result.data.messageList.records
       this.message_list_no_total=message_result.data.messageList.total
-      console.log(this.message_list_no)
+      // console.log("消息",this.message_list_no)
+      // console.log(this.$store.getters.getUserInfo.id)
+      // console.log("未读消息总数",this.message_list_no_total)
+    },
+    //卖家
+    async getMessageBuyerListNoRead(){
+      const message_result =  await this.$axios.requirementControllerList.lookSellerMessageById({
+        userId: this.$store.getters.getUserInfo.id,
+        page: 1,
+        limit: 100,
+        isRead:0
+      })
+      this.message_seller_list_no = message_result.data.messageList.records
+      this.message_seller_list_no_total=message_result.data.messageList.total
+      // console.log( this.$store.getters.getUserInfo.id,)
+      // console.log("卖家消息",this.message_seller_list_no)
+      // console.log(this.$store.getters.getUserInfo.id)
+      // console.log("未读消息总数",this.message_list_no_total)
+    },
+    //查询所有未读消息
+    async getUserMessageNoAll(){
+      const results =await  this.$axios.requirementControllerList.getUserMessageNoAll({
+        userId:this.$store.getters.getUserInfo.id
+      })
+      this.message_No_All=results.data.total
     },
     handleClick(tab, event) {
       // console.log(tab, event);

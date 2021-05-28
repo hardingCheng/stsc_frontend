@@ -61,8 +61,8 @@ export default {
   },
   methods: {
     async getMessageList() {
-      const message_result =  await  this.$axios.requirementControllerList.getMessage({
-        id: this.$store.getters .getUserInfo.id,
+      const message_result =  await  this.$axios.requirementControllerList.getSellerMessage({
+        userId: this.$store.getters .getUserInfo.id,
         page: this.currentPage1,
         limit: 10,
       })
@@ -73,15 +73,15 @@ export default {
 
     },
     async getMessageListNoRead(){
-      const message_result =  await  this.$axios.requirementControllerList.lookMessageById({
-        id: this.$store.getters.getUserInfo.id,
+      const message_result = await this.$axios.requirementControllerList.lookSellerMessageById({
+        userId: this.$store.getters.getUserInfo.id,
         page: this.currentPage1,
         limit: 10,
         isRead:0
       })
       this.message_list_no =message_result.data.messageList.records
       this.message_list_no_total=message_result.data.messageList.total
-      console.log("ddd",this.message_list_no_total)
+      console.log("ddd",this.message_list_no)
     },
 
     //删除消息
@@ -95,6 +95,7 @@ export default {
       await this.$axios.requirementControllerList.changeMessageState({
         messageId:val
       })
+      console.log("已读",val)
     },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);

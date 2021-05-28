@@ -45,11 +45,10 @@
 export default {
   // indexss_inform通知内容
   // indexss_no_manage待办内容
-  props: ["indexss_inform", "indexss_no_read","total","total_no_read"],
+  props: ["indexss_inform", "indexss_no_read","total","total_no_read","message_active"],
   name: "Message",
   data() {
     return {
-
       activeName: 'first',
       activeNames: [''],
     };
@@ -65,22 +64,13 @@ export default {
       this.indexss_no_read.splice(val, 1)
     },
     //改变消息状态
-    async change_message_state(val){
-      this.$parent.change_message_state(val);
-    },
-
-    //改变消息状态
     async have_manage(val, delete_val) {
-      // await this.$axios.requirementControllerList.deleteMessageById({
-      //   id: delete_val
-      // })
-      console.log("已读",delete_val)
-      await this.change_message_state(delete_val)
+      this.$parent.change_message_state(delete_val);
       this.indexss_no_read.splice(val, 1)
     },
 
     handleClick(tab, event) {
-      console.log("handleClick", tab, event);
+
 
     },
    async handleChange(val) {

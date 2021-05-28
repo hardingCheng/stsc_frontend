@@ -2,7 +2,7 @@
   <div class="my-news">
     <Message
         :indexss_inform="message_list"
-        :indexss_no_read="message_list_no"
+        :indexss_no_read=this.message_list_no
         :total="message_total"
         :total_no_read="message_list_no_total"
     >
@@ -67,7 +67,7 @@ props:['id'],
   methods: {
     async getMessageList() {
       const message_result =  await  this.$axios.requirementControllerList.getMessage({
-        id: this.$store.getters .getUserInfo.id,
+        userId: this.$store.getters .getUserInfo.id,
         page: this.currentPage1,
         limit: 10,
       })
@@ -75,19 +75,22 @@ props:['id'],
       this.message_list = message_result.data.messageList.records//获取消息列表
       this.is_read = message_result.data.messageList.records.isRead
       // console.log("消息总数",this.message_total)
+      console.log(this.$store.getters.getUserInfo.id)
 
     },
     async getMessageListNoRead(){
-      const message_result =  await  this.$axios.requirementControllerList.lookMessageById({
-        id: this.$store.getters.getUserInfo.id,
+      const message_result =  await this.$axios.requirementControllerList.lookMessageById({
+        userId: this.$store.getters.getUserInfo.id,
         page: this.currentPage1,
         limit: 10,
         isRead:0
       })
       this.message_list_no =message_result.data.messageList.records
       //消息总数
-      this.message_list_no_total=message_result.data.count
+      this.message_list_no_total=message_result.data.messageList.total
       // console.log( "未读消息总数",this.message_list_no_total)
+      console.log("未读",this.message_list_no)
+      console.log( "数量",this.message_list_no_total)
     },
 
      //删除消息

@@ -14,12 +14,12 @@
             <div v-for="(item,index) in message_text" :key="index" class="message-notification-tab-content-item-detail">
               <el-row type="flex" align="middle" :gutter="10">
                 <el-col :span="4">
-                  <div class="message-notification-tab-content-item-left">
-                    <img src="../assets/logo.png" alt="">
-                  </div>
+<!--                  <div class="message-notification-tab-content-item-left">-->
+<!--                    <img src="../assets/logo.png" alt="">-->
+<!--                  </div>-->
                 </el-col>
                 <el-col :span="20">
-                  <div class="message-notification-tab-content-item-right">
+                  <div class="message-notification-tab-content-item-right" @click="inBuyerMessage">
                     <h4>{{ item.title }} </h4>
                     <p>{{ item.createTime }}</p>
                   </div>
@@ -27,44 +27,45 @@
               </el-row>
             </div>
           </div>
-          <div class="message-status">
-            <p v-if="loading">加载中...</p>
-            <p v-if="noMore">没有更多了...</p>
-          </div>
+<!--          <div class="message-status">-->
+<!--            <p v-if="loading">加载中...</p>-->
+<!--            <p v-if="noMore">没有更多了...</p>-->
+<!--          </div>-->
         </div>
         <div class="message-notification-tab-content-item-footer">
           <div class="message-clear">
-            <a @click="messageClear(isTabActive,$event)">清空通知</a>
+<!--            <a @click="messageClear(isTabActive,$event)">消息通知</a>-->
+
           </div>
         </div>
       </div>
       <div class="message-notification-tab-content-item" v-if="isTabActive === 2">
         <div class="message-notification-tab-content-item-main">
           <div v-infinite-scroll="loadMore" infinite-scroll-disabled="disabled" infinite-scroll-distance="10">
-            <div v-for="item in data" :key="item.index" class="message-notification-tab-content-item-detail">
+            <div v-for="(item,index) in message_text_seller" :key="index" class="message-notification-tab-content-item-detail">
               <el-row type="flex" align="middle" :gutter="10">
                 <el-col :span="4">
-                  <div class="message-notification-tab-content-item-left">
-                    <img src="../assets/logo.png" alt="">
-                  </div>
+<!--                  <div class="message-notification-tab-content-item-left">-->
+<!--                    <img src="../assets/logo.png" alt="">-->
+<!--                  </div>-->
                 </el-col>
                 <el-col :span="20">
-                  <div class="message-notification-tab-content-item-right">
-                    <h4>{{ item }}</h4>
-                    <p>2019-05-08 14:33:18</p>
+                  <div class="message-notification-tab-content-item-right" @click="inSellerMessage">
+                    <h4>{{ item.title }}</h4>
+                    <p>{{ item.createTime }}</p>
                   </div>
                 </el-col>
               </el-row>
             </div>
           </div>
-          <div class="message-status">
-            <p v-if="loading">加载中...</p>
-            <p v-if="noMore">没有更多了...</p>
-          </div>
+<!--          <div class="message-status">-->
+<!--            <p v-if="loading">加载中...</p>-->
+<!--            <p v-if="noMore">没有更多了...</p>-->
+<!--          </div>-->
         </div>
         <div class="message-notification-tab-content-item-footer">
           <div class="message-clear">
-            <a @click="messageClear(isTabActive,$event)">清空通知</a>
+<!--            <a @click="messageClear(isTabActive,$event)">消息通知</a>-->
           </div>
         </div>
       </div>
@@ -106,7 +107,7 @@
 <script>
 export default {
   name: "MessageNotification",
-  props:["message_text","total"],
+  props:["message_text","total","message_text_seller","total_seller"],
   data () {
     return {
       count: 0,
@@ -114,9 +115,10 @@ export default {
       busy: false,
       isTabActive:1,
       loading: false,
+      message_active:"",
       messageObj:{
         notice:this.total,
-        handle:2,
+        handle:this.total_seller,
         other:0
       }
     }
@@ -133,6 +135,16 @@ export default {
     }
   },
   methods: {
+    inBuyerMessage(){
+      this.$router.push(`/buyer/mynews`,)
+      this.state.message_active="second"
+      // this.message_active="second"
+      // this.$emit("active",this.message_active)
+    },
+
+    inSellerMessage(){
+      this.$router.push(`/seller/mynews`)
+    },
     loadMore: function() {
       this.loading = true
       setTimeout(() => {
@@ -195,7 +207,7 @@ export default {
         position: relative;
         .message-notification-tab-content-item-detail{
           box-sizing: border-box;
-          padding: 12px 24px;
+          padding: 12px 0px;
           border-bottom: 1px solid #e8eaec;
           cursor: pointer;
           .message-notification-tab-content-item-left {
@@ -237,6 +249,7 @@ export default {
         bottom:0;
         width: 100%;
         .message-clear {
+          height: 20px;
           cursor: pointer;
           border-top: 1px solid #e8eaec;
           background:#FFF;

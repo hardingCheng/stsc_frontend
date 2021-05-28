@@ -49,9 +49,8 @@ const requirementControllerList = {
     //获取评论列表
     getCommentList:(params)=>{
         return axios({
-            url:`/bh/stcsp/evaluation/getEvaluation/${params.page}/${params.limit}/${params.id}`,
+            url:`/bh/stcsp/evaluation/getEvaluation/${params.page}/${params.limit}/${params.serveId}`,
             method:"get",
-            date:params
         })
     },
     // 根据买家id查询该用户
@@ -62,10 +61,10 @@ const requirementControllerList = {
             data:params
         });
     },
-    //查询用户消息
+    //查询买家用户消息
     getMessage: (params) => {
         return axios({
-            url: `/bh/stcsp/message/getMessageByUserId/${params.id}/${params.page}/${params.limit}`,
+            url: `/bh/stcsp/message/getBuyerMessage/${params.userId}/${params.page}/${params.limit}`,
             method: "post",
             data:params
         });
@@ -77,11 +76,27 @@ const requirementControllerList = {
             method: "delete",
         });
     },
-    //根据ID查询未读消息
+    //根据ID查询买家未读消息
     lookMessageById: (params) => {
         return axios({
-            url: `/bh/stcsp/message/getMessageByUserId/${params.id}/${params.page}/${params.limit}/${params.isRead}`,
-            method: "POST",
+            url: `/bh/stcsp/message/getBuyerMessage/${params.userId}/${params.page}/${params.limit}/${params.isRead}`,
+            method: "post",
+            data:params
+        });
+    },
+    //查询卖家用户消息
+    getSellerMessage: (params) => {
+        return axios({
+            url: `/bh/stcsp/message/getSellerMessage/${params.userId}/${params.page}/${params.limit}`,
+            method: "post",
+            data:params
+        });
+    },
+    //根据ID查询卖家未读消息
+    lookSellerMessageById: (params) => {
+        return axios({
+            url: `/bh/stcsp/message/getSellerMessage/${params.userId}/${params.page}/${params.limit}/${params.isRead}`,
+            method: "post",
             data:params
         });
     },
@@ -90,10 +105,15 @@ const requirementControllerList = {
         return axios({
             url: `/bh/stcsp/message/changeStatus/${params.messageId}`,
             method: "get",
-            data:params
         });
     },
-
+    //查询用户所有未读消息
+    getUserMessageNoAll: (params) => {
+        return axios({
+            url: `/bh/stcsp/message/getUserMessage/${params.userId}`,
+            method: "get",
+        });
+    },
 }
 export default requirementControllerList
 
