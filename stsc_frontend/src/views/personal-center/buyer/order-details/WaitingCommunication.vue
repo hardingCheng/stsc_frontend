@@ -164,7 +164,7 @@ export default {
 
 
     async submitSplitOrderInfo(){
-      for (let i = 0; i <3;i++){
+      for (let i = 0; i <4;i++){
         await Array.from(this.$refs.uploadSplit)[i].submit()
       }
     },

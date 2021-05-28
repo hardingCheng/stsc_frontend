@@ -94,17 +94,20 @@
         </el-table>
       </div>
       <div class="order-info-flow">
-        <div class="order-info-flow-left">
-          子服务1：
+        <div class="order-info-flow-left" v-if="subOrderDetailsInfo[0]">
+          {{subOrderDetailsInfo[0].orderName ? subOrderDetailsInfo[0].orderName :''}}
           <div>
-            <el-button size="small" style="margin-top: 12px;" @click="next" type="primary" >申请异常</el-button>
+            <el-button size="small" style="margin-top: 12px;" @click="next" type="danger" >申请异常</el-button>
+            <el-button size="small" style="margin-top: 12px;" @click="next" type="primary" >已完成</el-button>
           </div>
         </div>
         <div class="order-info-flow-right">
-          <el-steps :active="active" finish-status="success">
-            <el-step title="节点 1"></el-step>
-            <el-step title="节点 2"></el-step>
-            <el-step title="节点 3"></el-step>
+          <el-steps :active="subOrderDetailsInfo[0].sellerStep+1" finish-status="success" v-if="subOrderDetailsInfo[0]" align-center>
+            <el-step v-for="(item,index) in subOrderDetailsInfo[0].nodes ? subOrderDetailsInfo[0].nodes :[]" :title="item" :key="index">
+              <template v-slot:description v-if="index+1 <= subOrderDetailsInfo[0].sellerStep+1 && index>subOrderDetailsInfo[0].buyerStep" >
+                <el-button type="text" @click="stepSubmit(index,subOrderDetailsInfo[0].id)">确认</el-button>
+              </template>
+            </el-step>
           </el-steps>
         </div>
       </div>
@@ -150,7 +153,8 @@ export default {
       type1OrderInfo:{},
       arrangeList:{},
       subOrderInfoVoListLength:0,
-      subOrderDetailsInfo:[]
+      subOrderDetailsInfo:[],
+      currentSubRequirementId:''
     }
   },
   components: {
@@ -159,17 +163,47 @@ export default {
   },
   methods: {
     next() {
-      if (this.active++ > 2) this.active = 0;
+      // this.active++
     },
     async getNodeInfo(nodeId){
       this.subOrderDetailsInfo.length = 0
       let result = await this.$axios.orderControllerList.getSubOrderDetailsInfo({
         subRequireId:nodeId
       })
+      this.currentSubRequirementId = nodeId
       this.subOrderDetailsInfo.push(result.data)
+    },
+    async stepSubmit(index,subOrderId) {
+      console.log(subOrderId)
+      let result = await this.$axios.orderControllerList.setNextStepForBuyer({
+        orderId:subOrderId,
+        step:index
+      })
+      if (result.code == 20000) {
+        this.subOrderDetailsInfo.length = 0
+        let result = await this.$axios.orderControllerList.getSubOrderDetailsInfo({
+          subRequireId:this.currentSubRequirementId
+        })
+        this.subOrderDetailsInfo.push(result.data)
+      }
     }
   },
+  async created(){
+
+  },
   async mounted() {
+    // const timer = setInterval(async () => {
+    //   // 某些定时器操作
+    //   this.subOrderDetailsInfo.length = 0
+    //   let result = await this.$axios.orderControllerList.getSubOrderDetailsInfo({
+    //     subRequireId:this.currentSubRequirementId
+    //   })
+    //   this.subOrderDetailsInfo.push(result.data)
+    // }, 1000);
+    // // 通过$once来监听定时器，在beforeDestroy钩子可以被清除。
+    // this.$once('hook:beforeDestroy', () => {
+    //   clearInterval(timer);
+    // })
     if (this.orderid && this.type === '0'){
       let result = await this.$axios.orderControllerList.setpDoing({
         id:this.orderid
@@ -286,7 +320,7 @@ export default {
       justify-content: flex-start;
       align-items: center;
       .order-info-flow-left {
-
+        width:15%;
       }
       .order-info-flow-right {
         flex: 1;

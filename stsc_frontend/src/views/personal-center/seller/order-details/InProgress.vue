@@ -1,6 +1,6 @@
 <template>
   <div class="order-in-progress">
-    <div class="order-info">
+    <div class="order-info" v-if="type === '0'">
       <div class="order-info-left">
         <h3>订单信息</h3>
         <ul class="order-info-list">
@@ -21,6 +21,36 @@
           </div>
           <div class="order-info-flow-right">
             <order-steps></order-steps>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="order-info" v-if="type === '1'">
+      <div class="order-info-left">
+        <h3>订单信息</h3>
+        <ul class="order-info-list" >
+          <li>订单名称：<span>{{orderInfo.subOrderName}}</span></li>
+          <li>订单编号：<span>{{orderInfo.subOrderId}}</span></li>
+          <li>需求方：<span>{{orderInfo.buyerName}}</span></li>
+          <li>联系方式：<span>{{orderInfo.telephone}}</span></li>
+        </ul>
+      </div>
+      <div class="order-info-right">
+        <h3>流程进度</h3>
+        <div class="order-info-flow">
+          <div class="order-info-flow-left">
+            <span>{{orderInfo.subOrderName}}</span>
+            <div>
+              <el-button size="small" style="margin-top: 12px;" @click="next" type="danger" >申请异常</el-button>
+              <el-button size="small" style="margin-top: 12px;" @click="next" type="primary" :disabled="completeCon" v-if="!completeCon">下一步</el-button>
+              <el-button size="small" style="margin-top: 12px;" @click="next" type="primary" :disabled="completeCon" v-else>已完成</el-button>
+            </div>
+          </div>
+          <div class="order-info-flow-right">
+            <el-steps :active="active" finish-status="success" align-center>
+              <el-step :title="item" v-for="(item,index) in orderInfo.nodes" :key="index">
+              </el-step>
+            </el-steps>
           </div>
         </div>
       </div>
@@ -62,14 +92,35 @@ export default {
           updateTime: '',
         }
       },
+      orderInfo:{},
+      completeCon:true
     }
   },
   components: {
     OrderSteps,
   },
   methods: {
-    next() {
-      if (this.active++ > 2) this.active = 0;
+    async next() {
+      let result = await this.$axios.orderControllerList.setNextStepForSeller({
+        orderId: this.orderid,
+        step:this.active
+      })
+      if (result.code === 20000) {
+        let result = await this.$axios.orderControllerList.getSubOrderSellerInfo({
+          subOrderId:this.orderid
+        })
+        this.orderInfo = result.data
+        this.active = (this.orderInfo.sellerStep+1)
+        if (this.orderInfo.sellerStep+1 === this.orderInfo.nodes.length){
+          this.$message({
+            type:'success',
+            message:'此订单已经完成'
+          })
+          this.completeCon = true
+        }else {
+          this.completeCon = false
+        }
+      }
     }
   },
   async mounted() {
@@ -78,6 +129,18 @@ export default {
         id:this.orderid
       })
       this.type0OrderInfo = result.data
+    }
+    if (this.orderid && this.type === '1'){
+      let result = await this.$axios.orderControllerList.getSubOrderSellerInfo({
+        subOrderId:this.orderid
+      })
+      this.orderInfo = result.data
+      this.active = (this.orderInfo.sellerStep+1)
+      if (this.orderInfo.sellerStep+1 === this.orderInfo.nodes.length){
+        this.completeCon = true
+      }else {
+        this.completeCon = false
+      }
     }
   }
 }
@@ -95,6 +158,7 @@ export default {
     align-items: center;
     margin-bottom: 40px;
     .order-info-left {
+      width:30%;
       height:100%;
       box-sizing: border-box;
       padding:30px 20px 20px 20px;
@@ -105,13 +169,10 @@ export default {
       }
       .order-info-list {
         li {
-          margin-bottom: 8px;
+          margin-bottom: 30px;
           font-size: 14px;
           font-weight: 400;
           color: #666666;
-          span {
-            margin-left: 20px;
-          }
         }
       }
       h6 {
@@ -165,7 +226,10 @@ export default {
     justify-content: flex-start;
     align-items: center;
     .order-info-flow-left {
-
+      span {
+        display:inline-block;
+        width:160px;
+      }
     }
     .order-info-flow-right {
       flex: 1;
