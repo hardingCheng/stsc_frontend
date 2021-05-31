@@ -170,71 +170,29 @@ export default {
        if(!this.updateStatus){
          if (this.filerReadyUploadList1.length!==0&&this.filerReadyUploadList.length!==0){
            if (newValue.image!==''&&newValue.attachments!==''){
-             let result = await this.$axios.requirementControllerList.releaseRequire(this.form)
-             if (result.code === 20000){
-               this.$message({
-                 message: '发布需求成功,请前往个人中心查看！',
-                 type: 'success'
-               });
-               await this.$router.push("/index")
-             }
+             await this.releaseRequire()
            }
          }else if (this.filerReadyUploadList.length!==0&&this.filerReadyUploadList1.length===0){
            if (newValue.attachments!==''){
-             let result = await this.$axios.requirementControllerList.releaseRequire(this.form)
-             if (result.code === 20000){
-               this.$message({
-                 message: '发布需求成功,请前往个人中心查看！',
-                 type: 'success'
-               });
-               await this.$router.push("/index")
-             }
+             await this.releaseRequire()
            }
          }else if(this.filerReadyUploadList.length===0&&this.filerReadyUploadList1.length!==0){
            if (newValue.image!==''){
-             let result = await this.$axios.requirementControllerList.releaseRequire(this.form)
-             if (result.code === 20000){
-               this.$message({
-                 message: '发布需求成功,请前往个人中心查看！',
-                 type: 'success'
-               });
-               await this.$router.push("/index")
-             }
+             await this.releaseRequire()
            }
          }
        }else {
          if (this.filerReadyUploadList1.length!==0&&this.filerReadyUploadList.length!==0){
            if (newValue.image!==''&&newValue.attachments!==''){
-             let result =  await this.$axios.requirementControllerList.updateRequireById(this.form)
-             if (result.code === 20000){
-               this.$message({
-                 message: '修改需求成功,请前往个人中心查看！',
-                 type: 'success'
-               });
-               await this.$router.push("/buyer/mydemand")
-             }
+             await this.releaseRequire()
            }
          }else if (this.filerReadyUploadList.length!==0&&this.filerReadyUploadList1.length===0){
            if (newValue.attachments!==''){
-             let result =  await this.$axios.requirementControllerList.updateRequireById(this.form)
-             if (result.code === 20000){
-               this.$message({
-                 message: '修改需求成功,请前往个人中心查看！',
-                 type: 'success'
-               });
-               await this.$router.push("/buyer/mydemand")
-             }
+              await this.releaseRequire()
            }
          }else if(this.filerReadyUploadList.length===0&&this.filerReadyUploadList1.length!==0){
            if (newValue.image!==''){
-             let result =  await this.$axios.requirementControllerList.updateRequireById(this.form)
-             if (result.code === 20000){
-               this.$message({
-                 message: '修改需求成功,请前往个人中心查看！',
-                 type: 'success'
-               });
-               await this.$router.push("/buyer/mydemand")
-             }
+              await this.releaseRequire()
            }
          }
        }
@@ -261,16 +219,6 @@ export default {
         this.fileList1 = []
       }
     },
-    // fileList1:{
-    //   async handler (newValue, oldName) {
-    //     this.$refs.upload.submit();
-    //   }
-    // },
-    // fileList:{
-    //   async handler (newValue, oldName) {
-    //     this.$refs.uploadimage.submit();
-    //   }
-    // }
   },
   methods: {
     async onSubmit() {
@@ -285,17 +233,21 @@ export default {
             await this.$refs.upload.submit();
           }
           if(this.filerReadyUploadList1.length === 0 && this.filerReadyUploadList.length === 0){
-            let result =  await this.$axios.requirementControllerList.releaseRequire(this.form)
-            if (result.code === 20000){
-              this.$message({
-                message: '发布需求成功,请前往个人中心查看！',
-                type: 'success'
-              });
-              await this.$router.push("/index")
-            }
+            await this.releaseRequire()
           }
         }
       });
+    },
+    // 发布需求
+    async releaseRequire(){
+      let result =  await this.$axios.requirementControllerList.updateRequireById(this.form)
+      if (result.code === 20000){
+        this.$message({
+          message: '修改需求成功,请前往个人中心查看！',
+          type: 'success'
+        });
+        await this.$router.push("/buyer/mydemand")
+      }
     },
     async handleSuccess(response, file, fileList) {
       if (response.code === 20000 && response.data.url !== "") {
@@ -354,10 +306,8 @@ export default {
         this.filerReadyUploadList1.push(file)
       }
     },
-
-  },
-  async mounted(){
-    if (this.id) {
+    // 获取更新数据
+    async getUpdateRequirement(){
       let result = await this.$axios.requirementControllerList.getRequireDetailById({
         id:this.id
       })
@@ -376,6 +326,12 @@ export default {
           url:result.data.requirement.image
         })
       }
+    }
+  },
+  async mounted(){
+    // 修改需求的情况
+    if (this.id) {
+      await this.getUpdateRequirement()
     }
   }
 }

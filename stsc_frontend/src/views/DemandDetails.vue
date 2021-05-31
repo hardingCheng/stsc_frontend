@@ -8,9 +8,7 @@
         <div class="demand-title">{{ info ? info.name : "" }}</div>
         <div class="mechanism-classification">
           <div class="text-title-title">需求机构：<span class="text-service-text">{{ info.company }}</span></div>
-          <!--          <div class="text-title-title ">服务类别：<span class="text-service-text">设计服务>工业服务</span></div>-->
         </div>
-        <!--        <div class="text-title-title">单位所在地：<span class="text-service-text">{{ info.address }}</span></div>-->
         <div class="text-title-title">创造时间：<span class="text-service-text">{{ info.createTime }}</span></div>
         <div class="text-title-title">联系人：<span class="text-service-text">{{ info.contact }}</span></div>
         <div class="text-title-title">手机号：<span class="text-service-text">{{ info.telephone }}</span></div>
@@ -23,24 +21,18 @@
       </div>
       <div></div>
     </div>
-<!--    <div class="demand-description container">-->
-<!--      <p class="des-title">需求描述</p>-->
-<!--      <p class="des_content">{{info.content}}</p>-->
-<!--    </div>-->
-    <el-tabs v-model="activeName" type="card"   class="serve-details-text-bottom container">
-      <el-tab-pane label="需求描述" name="first" class="tab"><p >{{info.content}}</p></el-tab-pane>
+    <el-tabs v-model="activeName" type="card" class="serve-details-text-bottom container">
+      <el-tab-pane label="需求描述" name="first" class="tab"><p>{{ info.content }}</p></el-tab-pane>
       <el-tab-pane label="项目背景" name="second" class="tab">{{ info.projectBackground }}</el-tab-pane>
       <el-tab-pane label="验收指标" name="third" class="tab">{{ info.standard }}</el-tab-pane>
-      <el-tab-pane label="附件" name="fourth" class="tab" >
-      <div class="accessory ">
-        <img src="../assets/images/fileimg.png" class="file_img"/>
-        <p class="accessory_name">附件</p>
-        <a class="down" v-bind:href="info.attachments" >下载</a>
-      </div>
-
+      <el-tab-pane label="附件" name="fourth" class="tab">
+        <div class="accessory ">
+          <img src="../assets/images/fileimg.png" class="file_img"/>
+          <p class="accessory_name">附件</p>
+          <a class="down" v-bind:href="info.attachments">下载</a>
+        </div>
       </el-tab-pane>
     </el-tabs>
-
     <div class="see-and-see container">
       <span class="see-and-see-title">---看了又看---</span>
       <img src="../assets/staticImgs/seeandsee.png" height="160px" width="160px">
@@ -56,9 +48,8 @@
 </template>
 
 <script>
-import axios from "axios";
 export default {
-  props:['id'],
+  props: ['id'],
   name: "demandDetails",
   data() {
     return {
@@ -70,7 +61,7 @@ export default {
   },
   async mounted() {
     const detail_result = await this.$axios.requirementControllerList.getRequireDetailById({
-      id:this.id
+      id: this.id
     })
     this.info = detail_result.data.requirement
     console.log(this.info)
@@ -80,16 +71,16 @@ export default {
   methods: {
 
 
-    downloadClick(row){
+    downloadClick(row) {
       let entity = {
         id: row.id,
         filename: row.filename,
       }
-      this.download(this.info.data,row)
+      this.download(this.info.data, row)
     },
 
     // 下载文件
-    download (data,row) {
+    download(data, row) {
       if (!data) {
         return
       }
@@ -117,16 +108,19 @@ export default {
 .DemandDetails {
   font-family: PingFangSC-Regular, PingFang SC;
   position: relative;
+
   .serve-details-text-bottom {
     width: 940px;
     margin: 50px 330px 33px auto;
     border: 1px solid #E7E7E7;
-    .tab{
+
+    .tab {
       height: 800px;
       margin-left: 10px;
       padding-top: 5px;
     }
   }
+
   .details-category {
     height: 17px;
     font-size: 12px;
@@ -178,7 +172,7 @@ export default {
       display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
       -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
       -webkit-line-clamp: 2; /** 显示的行数 **/
-      overflow: hidden;  /** 隐藏超出的内容 **/
+      overflow: hidden; /** 隐藏超出的内容 **/
     }
 
     .text-title-title {
@@ -302,27 +296,33 @@ export default {
 /deep/ .el-rate__item {
   height: 16px;
 }
-/deep/.el-tab-pane{
-margin: 10px;
+
+/deep/ .el-tab-pane {
+  margin: 10px;
 }
+
 .tab {
   height: 800px;
   margin-left: 10px;
   padding-top: 5px;
-  .accessory{
+
+  .accessory {
     display: flex;
-   align-items: center;
+    align-items: center;
     margin-left: 30px;
-    .file_img{
+
+    .file_img {
       height: 50px;
     }
-    .accessory_name{
+
+    .accessory_name {
       display: inline-block;
       width: 400px;
       margin-left: 20px;
 
     }
-    .down{
+
+    .down {
 
     }
   }

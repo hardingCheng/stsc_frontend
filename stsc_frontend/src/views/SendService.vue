@@ -195,30 +195,9 @@ export default {
     }
   },
   async mounted() {
-     let result = await this.$axios.categoryControllerList.getCategory({})
-     this.options = result.data.firstCategoryList
-     this.options= JSON.parse(JSON.stringify(this.options).replace(/id/g,"value").replace(/name/g,"label"))
+    await this.getCategory()
     if (this.id) {
-      let result = await this.$axios.serveControllerList.getServesDetailById({
-        id:this.id
-      })
-      this.form = result.data.serve
-      this.category = result.data.serve.categoryId.split(',')
-      this.dynamicTags = result.data.serve.keywords.split(',')
-      if (result.data.serve.attachment){
-        let urlArr = result.data.serve.attachment.split('/').slice(-1)[0]
-        this.fileList.push({
-          name:urlArr,
-          url:result.data.serve.attachment
-        })
-      }
-      if (result.data.serve.image){
-        let urlArr = result.data.serve.image.split('/').slice(-1)[0]
-        this.fileList1.push({
-          name:urlArr,
-          url:result.data.serve.image
-        })
-      }
+      await this.getServesDetailById()
     }
   },
   watch: {
@@ -227,36 +206,15 @@ export default {
         if(!this.updateStatus){
           if (this.filerReadyUploadList1.length!==0&&this.filerReadyUploadList.length!==0){
             if (newValue.image!==''&&newValue.attachment!==''){
-              let result = await this.$axios.serveControllerList.releaseServe(this.form)
-              if (result.code === 20000){
-                this.$message({
-                  message: '发布服务成功,请前往个人中心查看！',
-                  type: 'success'
-                });
-                await this.$router.push("/index")
-              }
+              await this.releaseServe()
             }
           }else if (this.filerReadyUploadList.length!==0&&this.filerReadyUploadList1.length===0){
             if (newValue.attachment!==''){
-              let result = await this.$axios.serveControllerList.releaseServe(this.form)
-              if (result.code === 20000){
-                this.$message({
-                  message: '发布服务成功,请前往个人中心查看！',
-                  type: 'success'
-                });
-                await this.$router.push("/index")
-              }
+              await this.releaseServe()
             }
           }else if(this.filerReadyUploadList.length===0&&this.filerReadyUploadList1.length!==0){
             if (newValue.image!==''){
-              let result = await this.$axios.serveControllerList.releaseServe(this.form)
-              if (result.code === 20000){
-                this.$message({
-                  message: '发布服务成功,请前往个人中心查看！',
-                  type: 'success'
-                });
-                await this.$router.push("/index")
-              }
+              await this.releaseServe()
             }
           }
         }else {
@@ -299,7 +257,37 @@ export default {
       deep: true //对于对象设置为深度 监听
     }
   },
-  methods: {
+  methods:{
+    //  获取修改数据
+    async getServesDetailById(){
+      let result = await this.$axios.serveControllerList.getServesDetailById({
+        id:this.id
+      })
+      this.form = result.data.serve
+      this.category = result.data.serve.categoryId.split(',')
+      this.dynamicTags = result.data.serve.keywords.split(',')
+      if (result.data.serve.attachment){
+        let urlArr = result.data.serve.attachment.split('/').slice(-1)[0]
+        this.fileList.push({
+          name:urlArr,
+          url:result.data.serve.attachment
+        })
+      }
+      if (result.data.serve.image){
+        let urlArr = result.data.serve.image.split('/').slice(-1)[0]
+        this.fileList1.push({
+          name:urlArr,
+          url:result.data.serve.image
+        })
+      }
+    },
+    // 获取三级分类处理
+    async getCategory(){
+      let result = await this.$axios.categoryControllerList.getCategory({})
+      this.options = result.data.firstCategoryList
+      this.options= JSON.parse(JSON.stringify(this.options).replace(/id/g,"value").replace(/name/g,"label"))
+    },
+    // 提交服务
     async onSubmit() {
       this.form.categoryId = this.category.toString();
       await this.$refs['serviceform'].validate(async (valid) => {
@@ -312,19 +300,23 @@ export default {
             this.$refs.upload.submit();
           }
           if(this.filerReadyUploadList1.length === 0 && this.filerReadyUploadList.length === 0){
-            let result = await this.$axios.serveControllerList.releaseServe(this.form)
-            if (result.code === 20000){
-              this.$message({
-                message: '发布服务成功,请前往个人中心查看！',
-                type: 'success'
-              });
-              await this.$router.push("/index")
-            }
+            await this.releaseServe()
           }
         } else {
           return false;
         }
       });
+    },
+    // 发布服务
+    async releaseServe(){
+      let result = await this.$axios.serveControllerList.releaseServe(this.form)
+      if (result.code === 20000){
+        this.$message({
+          message: '发布服务成功,请前往个人中心查看！',
+          type: 'success'
+        });
+        await this.$router.push("/seller/myservice")
+      }
     },
     async handleSuccess(response, file, fileList) {
       if (response.code === 20000 && response.data.url !== "") {
@@ -360,19 +352,16 @@ export default {
       if(file.status === "ready") {
         this.filerReadyUploadList1.push(file)
       }
-
     },
     handleClose(tag) {
       this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
     },
-
     showInput() {
       this.inputVisible = true;
       this.$nextTick(_ => {
         this.$refs.saveTagInput.$refs.input.focus();
       });
     },
-
     handleInputConfirm() {
       let inputValue = this.inputValue;
       if (inputValue) {
@@ -382,6 +371,7 @@ export default {
       this.inputVisible = false;
       this.inputValue = '';
     },
+    // 更新服务
     async onUpdate(){
       this.updateStatus = true
       if (this.fileRemoveList.length !== 0){

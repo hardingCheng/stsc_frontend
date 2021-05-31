@@ -22,7 +22,7 @@
           </el-form-item>
           <el-form-item>
             <el-button type="primary" :disabled="isValid"  v-on:click="loginForm">登录</el-button>
-            <el-button type="primary" v-on:click="loginForm1">重置</el-button>
+            <el-button type="primary" v-on:click="resetForm('loginForm')">重置</el-button>
           </el-form-item>
         </el-form>
        <div class="login-other-action">
@@ -67,6 +67,7 @@
 </template>
 
 <script>
+// 验证码   验证组件
 import SIdentify from "../components/SIdentify";
 import { validatorInput } from "../tools/verification/validata"
 export default {
@@ -107,6 +108,7 @@ export default {
             token:result.data.token,
             isLogin:true
           });
+          // 点击需要登录查看的页面   登录之后跳转
           if (this.jumpRouting) {
             await this.$router.push(this.jumpRouting?.url)
           }else {
@@ -121,8 +123,10 @@ export default {
     getNewCode(){
       this.$refs.sidentify.getCode()
     },
-    loginForm1(){
-    }
+    // 重置表单
+    resetForm(formName){
+      this.$refs[formName].resetFields();
+    },
   }
 }
 </script>

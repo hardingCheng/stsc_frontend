@@ -90,10 +90,13 @@ export default {
   },
   async mounted() {
     await this.getFirstServiceList(null)
-    const categoryResust = await this.$axios.categoryControllerList.getFirstCategoryList({})
-    this.getFirstCategoryList = categoryResust.data.firstCategoryList
+    await this.getFirstCategoryList()
   },
   methods: {
+    async getFirstCategoryList(){
+      const categoryResust = await this.$axios.categoryControllerList.getFirstCategoryList({})
+      this.getFirstCategoryList = categoryResust.data.firstCategoryList
+    },
     async getSecendsList(id) {
       this.firstId = id
       const secondsResult = await this.$axios.categoryControllerList.getSecondCategoryList({
@@ -110,19 +113,7 @@ export default {
         }, {
           status: 1
         })
-        this.serviceData = servciceBaseResult.data.serveList
-        let len = servciceBaseResult.data.serveList.records.length;
-        let n = 5; //假设每行显示4个
-        this.serviceList = [];
-        if (len !== 0) {
-          let lineNum = len % n === 0 ? len / n : Math.floor((len / n) + 1);
-          this.serviceList = [];
-          for (let i = 0; i < lineNum; i++) {
-            // slice() 方法返回一个从开始到结束（不包括结束）选择的数组的一部分浅拷贝到一个新数组对象。且原始数组不会被修改。
-            let temp = servciceBaseResult.data.serveList.records.slice(i * n, i * n + n);
-            this.serviceList.push(temp);
-          }
-        }
+        this.setServiceData(servciceBaseResult)
       } else {
         const servciceBaseResult = await this.$axios.serveControllerList.getServesByCondition({
           page: 1,
@@ -131,19 +122,7 @@ export default {
           categoryId: id,
           status: 1
         })
-        this.serviceData = servciceBaseResult.data.serveList
-        let len = servciceBaseResult.data.serveList.records.length;
-        let n = 5; //假设每行显示4个
-        this.serviceList = [];
-        if (len !== 0) {
-          let lineNum = len % n === 0 ? len / n : Math.floor((len / n) + 1);
-          this.serviceList = [];
-          for (let i = 0; i < lineNum; i++) {
-            // slice() 方法返回一个从开始到结束（不包括结束）选择的数组的一部分浅拷贝到一个新数组对象。且原始数组不会被修改。
-            let temp = servciceBaseResult.data.serveList.records.slice(i * n, i * n + n);
-            this.serviceList.push(temp);
-          }
-        }
+        this.setServiceData(servciceBaseResult)
       }
     },
     async getSecondServiceList(id){
@@ -154,6 +133,10 @@ export default {
         categoryId:this.firstId+','+id,
         status: 1
       })
+      this.setServiceData(servciceBaseResult)
+    },
+    // 获取服务获取的数据
+    setServiceData(servciceBaseResult){
       this.serviceData = servciceBaseResult.data.serveList
       let len = servciceBaseResult.data.serveList.records.length;
       let n = 5; //假设每行显示4个
@@ -182,9 +165,9 @@ export default {
     },
     async handleCurrentChange(val) {
       if (this.secondId) {
-        await this.getServiceList(this.secondId)
+        await this.getSecondServiceList(this.secondId)
       }else {
-        await this.getServiceList(null)
+        await this.getFirstServiceList(null)
       }
     }
   }

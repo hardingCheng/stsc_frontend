@@ -18,6 +18,7 @@ export default {
     }
   },
   methods:{
+    // 404点击跳转路由
     toIndex(){
       this.$router.push('/index')
     }

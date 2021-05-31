@@ -87,10 +87,15 @@ export default {
   },
   async mounted() {
     await this.getFirstDemandList(null)
-    const categoryResust = await this.$axios.categoryControllerList.getFirstCategoryList({})
-    this.getFirstCategoryList = categoryResust.data.firstCategoryList
+    await this.getFirstCategoryList()
   },
   methods: {
+    // 获取分类一级分类id
+    async getFirstCategoryList(){
+      const categoryResust = await this.$axios.categoryControllerList.getFirstCategoryList({})
+      this.getFirstCategoryList = categoryResust.data.firstCategoryList
+    },
+    // 获取二级分类
     async getSecendsList(id) {
       this.firstId = id
       const secondsResult = await this.$axios.categoryControllerList.getSecondCategoryList({
@@ -99,6 +104,7 @@ export default {
       this.getSecondCategoryList = secondsResult.data.secondCategoryList
       await this.getFirstDemandList(this.firstId)
     },
+    // 立即下单
     async setOrderImmediately(value){
       let result = await this.$axios.orderControllerList.createOrder({
         serveId:value,
@@ -108,44 +114,22 @@ export default {
         await this.$router.push('/seller/myorder')
       }
     },
+    // 获取一级分类的需求和全部需求内容
     async getFirstDemandList(id) {
+      let demandBaseResult
+      // 全部需求
       if (id === null) {
-        const demandBaseResult = await this.$axios.requirementControllerList.getRequireSubRequire({
+        demandBaseResult = await this.$axios.requirementControllerList.getRequireSubRequire({
           page: this.currentPage1,
           limit: 15
         }, {})
-        this.demandList1 = [];
-        this.demandList2 = [];
-        this.requireList = demandBaseResult.data.requirementList;
-        let requirementListRecords = demandBaseResult.data.requirementList.records
-        requirementListRecords.map((item) => {
-          this.demandList1.push(item)
-          if(item.list.length !== 0){
-            item.list.map((item)=> {
-              this.demandList1.push(item)
-            })
-          }
-        })
-        let len = this.demandList1.length;
-        let n = 5; //假设每行显示4个
-        if (len !== 0) {
-          let lineNum = len % n === 0 ? len / n : Math.floor((len / n) + 1);
-          this.demandList2 = [];
-          for (let i = 0; i < lineNum; i++) {
-            // slice() 方法返回一个从开始到结束（不包括结束）选择的数组的一部分浅拷贝到一个新数组对象。且原始数组不会被修改。
-            let temp = this.demandList1.slice(i * n, i * n + n);
-            this.demandList2.push(temp);
-          }
-        }
+        // 此处可以选择数组平铺
+        this.handleDemandBaseResult(demandBaseResult)
       } else {
-        let demandBaseResult
+        // 一级和二级都要选择时候
         if(this.secondId){
-          demandBaseResult = await this.$axios.requirementControllerList.getRequireSubRequire({
-            page: this.currentPage1,
-            limit: 15
-          }, {
-            categoryId: this.firstId+','+this.secondId
-          })
+          await this.getSecendDemandList(this.secondId)
+          // 只有一级的时候
         }else{
           demandBaseResult = await this.$axios.requirementControllerList.getRequireSubRequire({
             page: this.currentPage1,
@@ -154,31 +138,10 @@ export default {
             categoryId: id,
           })
         }
-        this.demandList1 = [];
-        this.demandList2 = [];
-        this.requireList = demandBaseResult.data.requirementList;
-        let requirementListRecords = demandBaseResult.data.requirementList.records
-        requirementListRecords.map((item) => {
-          this.demandList1.push(item)
-          if(item.list.length !== 0){
-            item.list.map((item)=> {
-              this.demandList1.push(item)
-            })
-          }
-        })
-        let len = this.demandList1.length;
-        let n = 5; //假设每行显示4个
-        if (len !== 0) {
-          let lineNum = len % n === 0 ? len / n : Math.floor((len / n) + 1);
-          this.demandList2 = [];
-          for (let i = 0; i < lineNum; i++) {
-            // slice() 方法返回一个从开始到结束（不包括结束）选择的数组的一部分浅拷贝到一个新数组对象。且原始数组不会被修改。
-            let temp = this.demandList1.slice(i * n, i * n + n);
-            this.demandList2.push(temp);
-          }
-        }
+       this.handleDemandBaseResult(demandBaseResult)
       }
     },
+    // 获取一级和二级都要选择时候
     async getSecendDemandList(id) {
       let demandBaseResult = await this.$axios.requirementControllerList.getRequireSubRequire({
         page: this.currentPage1,
@@ -186,8 +149,12 @@ export default {
       }, {
         categoryId: this.firstId+','+id
       })
-      this.demandList1 = [];
-      this.demandList2 = [];
+      this.handleDemandBaseResult(demandBaseResult)
+    },
+    // 处理数组数据
+    handleDemandBaseResult(demandBaseResult){
+      this.demandList1 = []; // 存储数组平铺的list
+      this.demandList2 = []; // 将数组平铺的list转化为二维数组
       this.requireList = demandBaseResult.data.requirementList;
       let requirementListRecords = demandBaseResult.data.requirementList.records
       requirementListRecords.map((item) => {
@@ -210,17 +177,19 @@ export default {
         }
       }
     },
+    //处理分页
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
     },
     requireImmediately(value){
       console.log(value)
     },
+    // 分页待做
     async handleCurrentChange(val) {
       if (this.secondId) {
-        await this.getDemandList(this.secondId)
+        await this.getSecendDemandList(this.secondId)
       }else {
-        await this.getDemandList(null)
+        await this.getFirstDemandList(null)
       }
     }
   },
