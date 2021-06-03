@@ -159,12 +159,8 @@ export default {
       window.open('/pdf/web/viewer.html?file=' + fileUrl);
     },
 
-
-
-
-
     async submitSplitOrderInfo(){
-      for (let i = 0; i <4;i++){
+      for (let i = 0; i <this.orderSplitInfo.subOrderInfoVoList.length;i++){
         await Array.from(this.$refs.uploadSplit)[i].submit()
       }
     },
