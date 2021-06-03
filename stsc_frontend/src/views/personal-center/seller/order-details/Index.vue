@@ -84,7 +84,7 @@ export default {
       align-items:center;
       text-align: center;
       li {
-        opacity:20%;
+        opacity:25%;
         flex: 1;
         padding: 0 10px 0 30px;
         line-height: 40px;
