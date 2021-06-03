@@ -145,9 +145,6 @@ export default {
     //.cssNavEnd:after {
     //  display: none;
     //}
-
-
-
   }
 }
 </style>
