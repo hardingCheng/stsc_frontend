@@ -105,6 +105,14 @@ const userControllerList = {
             url: "/ph/stcsp/user/info",
             method: "get",
         });
-    }
+    },
+    // 第三方登录
+    thirdLogin: (data) => {
+        return axios({
+            url: "/third/stcsp/user/thirdLogin",
+            method: "post",
+            data,
+        });
+    },
 }
 export default userControllerList
