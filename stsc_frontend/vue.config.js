@@ -2,7 +2,7 @@ module.exports = {
   lintOnSave: false,
   devServer: {
     host: "0.0.0.0",
-    port: 8080, // 端口号
+    port: 80, // 端口号
     https: false, // https:{type:Boolean}
     compress: true,
     disableHostCheck: true, //webpack4.0 开启热更新
