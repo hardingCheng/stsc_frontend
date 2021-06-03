@@ -11,14 +11,14 @@ module.exports = {
     proxy: {
       // 配置多个跨域
       "/ph": {
-        target: "http://192.168.31.235:8001", //跨域接口的地址
+        target: "http://60.205.217.212:8001", //跨域接口的地址
         changeOrigin: true,
         pathRewrite: {
           "^/ph": "",
         },
       },
       "/bh": {
-        target: "http://192.168.31.65:8001", //跨域接口的地址
+        target: "http://60.205.217.212:8003", //跨域接口的地址
         changeOrigin: true,
         pathRewrite: {
           "^/bh": "",
