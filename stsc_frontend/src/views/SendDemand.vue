@@ -240,7 +240,7 @@ export default {
     },
     // 发布需求
     async releaseRequire(){
-      let result =  await this.$axios.requirementControllerList.updateRequireById(this.form)
+      let result =  await this.$axios.requirementControllerList.releaseRequire(this.form)
       if (result.code === 20000){
         this.$message({
           message: '修改需求成功,请前往个人中心查看！',
