@@ -192,18 +192,18 @@ export default {
 
   },
   async mounted() {
-    // const timer = setInterval(async () => {
-    //   // 某些定时器操作
-    //   this.subOrderDetailsInfo.length = 0
-    //   let result = await this.$axios.orderControllerList.getSubOrderDetailsInfo({
-    //     subRequireId:this.currentSubRequirementId
-    //   })
-    //   this.subOrderDetailsInfo.push(result.data)
-    // }, 1000);
-    // // 通过$once来监听定时器，在beforeDestroy钩子可以被清除。
-    // this.$once('hook:beforeDestroy', () => {
-    //   clearInterval(timer);
-    // })
+    const timer = setInterval(async () => {
+      // 某些定时器操作
+      this.subOrderDetailsInfo.length = 0
+      let result = await this.$axios.orderControllerList.getSubOrderDetailsInfo({
+        subRequireId:this.currentSubRequirementId
+      })
+      this.subOrderDetailsInfo.push(result.data)
+    }, 2000);
+    // 通过$once来监听定时器，在beforeDestroy钩子可以被清除。
+    this.$once('hook:beforeDestroy', () => {
+      clearInterval(timer);
+    })
     if (this.orderid && this.type === '0'){
       let result = await this.$axios.orderControllerList.setpDoing({
         id:this.orderid
