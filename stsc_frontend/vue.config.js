@@ -24,6 +24,13 @@ module.exports = {
           "^/bh": "",
         },
       },
+      "/third": {
+        target: "http://192.168.31.65:8003", //跨域接口的地址
+        changeOrigin: true,
+        pathRewrite: {
+          "^/third": "",
+        },
+      },
     },
     headers: {
       "Access-Control-Allow-Origin": "*",

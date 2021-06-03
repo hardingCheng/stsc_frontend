@@ -13,51 +13,35 @@
             <el-input type="password" placeholder="请输入密码" @input="errors.password =''" v-model="form.password"/>
             <div class="el-form-item__error">{{errors.password}}</div>
           </el-form-item>
-          <el-form-item label="验证码" >
-            <el-row :gutter="10">
-              <el-col :span="10"><el-input type="text" placeholder="验证码"  @input="errors.verificationCode =''" v-model="form.verificationCode"/></el-col>
-              <el-col :span="12"><div  @click="getNewCode"><SIdentify ref="sidentify"></SIdentify></div></el-col>
-              <div class="el-form-item__error" >{{errors.verificationCode}}</div>
-            </el-row>
-          </el-form-item>
+<!--          <el-form-item label="验证码"  class="verifivcation">-->
+<!--            <el-row :gutter="10">-->
+<!--              <el-col :span="10"><el-input type="text" placeholder="验证码"  @input="errors.verificationCode =''" v-model="form.verificationCode"/></el-col>-->
+<!--              <el-col :span="12"><div  @click="getNewCode"><SIdentify ref="sidentify"></SIdentify></div></el-col>-->
+<!--              <div class="el-form-item__error" >{{errors.verificationCode}}</div>-->
+<!--            </el-row>-->
+<!--          </el-form-item>-->
           <el-form-item>
-            <el-button type="primary" :disabled="isValid"  v-on:click="loginForm">登录</el-button>
-            <el-button type="primary" v-on:click="resetForm('loginForm')">重置</el-button>
+            <el-button type="primary"  :disabled="isValid"  v-on:click="loginForm">登录</el-button>
+            <el-button type="primary" v-on:click="loginForm1">重置</el-button>
           </el-form-item>
         </el-form>
-       <div class="login-other-action">
-         <span><router-link to="/signup">注册</router-link></span>
-         <span><router-link to="/index">忘记密码？</router-link></span>
-       </div>
+<!--        <div class="login-other-action">-->
+<!--          <span><router-link to="/signup">注册</router-link></span>-->
+<!--          <span><router-link to="/index">忘记密码？</router-link></span>-->
+<!--        </div>-->
       </div>
-      <div class="login-box-bottom">
-        <span>第三方登录</span>
-        <div class="third-party-login">
-          <div class="third-party-item">
-            <img src="http://www.114cxy.com/app/images/PC/logo.png" alt="" @click="third1">
-            <span>测一</span>
-          </div>
-          <div class="third-party-item">
-            <img src="http://www.114cxy.com/app/images/PC/logo.png" alt="">
-            <span>114产学研</span>
-          </div>
-          <div class="third-party-item">
-            <img src="http://www.114cxy.com/app/images/PC/logo.png" alt="">
-            <span>114产学研</span>
-          </div>
-        </div>
-      </div>
+
     </div>
     <div class="login-welcome">
       <h1>Hi</h1>
       <h1>Welcome</h1>
       <h3>您好，欢迎登录!</h3>
-      <img src="../assets/images/loginwave.png" alt="">
+      <img src="../../assets/images/loginwave.png" alt="">
     </div>
     <el-dialog
-      title="温馨提示"
-      :visible.sync="dialogVisible"
-      width="30%">
+        title="温馨提示"
+        :visible.sync="dialogVisible"
+        width="30%">
       <span>请输入账号和密码</span>
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
@@ -67,16 +51,15 @@
 </template>
 
 <script>
-// 验证码   验证组件
-import SIdentify from "../components/SIdentify";
-import { validatorInput } from "../tools/verification/validata"
+import SIdentify from "../../components/SIdentify";
+import { validatorInput } from "../../tools/verification/validata"
 export default {
-  name: "Login",
-  components: {SIdentify},
+  name: "Third_1",
+  // components: {SIdentify},
   data() {
     return {
       form: {
-        username: '15230631400',
+        username: '15033566337',
         password: '123456',
         verificationCode: ''
       },
@@ -96,48 +79,39 @@ export default {
   methods: {
     // 提交登录表单
     async loginForm() {
+      console.log("执行")
       const { errors, isValid } = validatorInput(this.form)
-      if(isValid){
-        let result = await this.$axios.userControllerList.login({
-          username:this.form.username,
+        let result = await this.$axios.userControllerList.thirdLogin({
+          phone:this.form.username,
           password:this.form.password
         })
         if (result.code === 20000) {
+          console.log(result)
           this.$store.commit("modTokenLogin",{
             userInfo:result.data.user,
             token:result.data.token,
             isLogin:true
           });
-          // 点击需要登录查看的页面   登录之后跳转
+          console.log(result.data.token)
           if (this.jumpRouting) {
             await this.$router.push(this.jumpRouting?.url)
           }else {
             await this.$router.push('/index')
           }
         }
-      }else {
-        this.errors = errors
-      }
+
     },
-    // 获取验证码
-    getNewCode(){
-      this.$refs.sidentify.getCode()
-    },
-    // 重置表单
-    resetForm(formName){
-      this.$refs[formName].resetFields();
-    },
+    //获取验证码
+    // getNewCode(){
+    //   this.$refs.sidentify.getCode()
+    // },
     loginForm1(){
-    },
-    //模拟第三方登录
-    third1(){
-      this.$router.push('/third1')
     }
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 .login{
   position: fixed;
   top: 0;
@@ -148,7 +122,7 @@ export default {
   z-index:-10;
   zoom: 1;
   background-color: #fff;
-  background-image: url("../assets/images/loginbg.png");
+  background-image: url("../../assets/images/loginbg.png");
   background-repeat: no-repeat;
   background-size: cover;
   -webkit-background-size: cover;
@@ -170,9 +144,12 @@ export default {
     box-shadow: 0 0 25px #909399;
     .login-box-top {
       position:relative;
+      .verifivcation{
+        height: 140px;
+      }
       .login-title {
         text-align: center;
-        margin: 0 auto 20px auto;
+        margin: 0 auto 30px auto;
         color: #303133;
       }
       .login-verificationInfo {
@@ -229,9 +206,8 @@ export default {
       content:"";
       position: absolute;
       left: 0;
-      bottom:155px;
+
       width:100%;
-      height: 1px;
       background: #E7E7E7;
     }
   }

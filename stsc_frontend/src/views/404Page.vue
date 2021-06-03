@@ -14,7 +14,7 @@ export default {
   name: "404Page",
   data() {
     return {
-
+      
     }
   },
   methods:{

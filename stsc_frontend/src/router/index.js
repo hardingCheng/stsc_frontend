@@ -292,12 +292,22 @@ const routes = [
       },
     ],
   },
+    //第三方
+  {
+    path: "/third1",
+    name: "third1",
+    component: () => import("../views/third-party/Third_1"),
+    meta: { requiresAuth: false },
+    hidden:true
+  },
+
   {
     path: "/login",
     name: "login",
     component: () => import("../views/Login.vue"),
     meta: { requiresAuth: false },
   },
+
   {
     path: "/signup",
     name: "signup",
