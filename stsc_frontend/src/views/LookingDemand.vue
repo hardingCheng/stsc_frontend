@@ -87,11 +87,11 @@ export default {
   },
   async mounted() {
     await this.getFirstDemandList(null)
-    await this.getFirstCategoryList()
+    await this.getFirstCategory()
   },
   methods: {
     // 获取分类一级分类id
-    async getFirstCategoryList(){
+    async getFirstCategory(){
       const categoryResust = await this.$axios.categoryControllerList.getFirstCategoryList({})
       this.getFirstCategoryList = categoryResust.data.firstCategoryList
     },

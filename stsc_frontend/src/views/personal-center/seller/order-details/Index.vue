@@ -1,13 +1,16 @@
 <template>
   <div class="order-details-index">
+        <div class="order-detail-progress">
+          <ul class="navs">
+            <!--        此处需要判断切换-->
+            <li :class="[routerIndex === 0?'active':'']"><a @click="routerJump(0)">合同上传</a></li>　
+            <li :class="[routerIndex === 1?'active':'']"><a @click="routerJump(1)">进行中</a></li>　
+            <li :class="[routerIndex === 2?'active':'']"><a @click="routerJump(2)">服务验收</a></li>　　
+            <li :class="[routerIndex === 3?'active':'']"><a @click="routerJump(3)">服务评价</a></li>
+          </ul>
+        </div>
     <div class="order-detail-progress">
-      <ul class="navs">
-        <!--        此处需要判断切换-->
-        <li :class="[routerIndex === 0?'active':'']"><a @click="routerJump(0)">合同上传</a></li>　
-        <li :class="[routerIndex === 1?'active':'']"><a @click="routerJump(1)">进行中</a></li>　
-        <li :class="[routerIndex === 2?'active':'']"><a @click="routerJump(2)">服务验收</a></li>　　
-        <li :class="[routerIndex === 3?'active':'']"><a @click="routerJump(3)">服务评价</a></li>
-      </ul>
+      <custom-step-diagram :stepInfo="stepInfo"></custom-step-diagram>
     </div>
     <div class="order-detail-progress-main">
       <router-view></router-view>
@@ -16,12 +19,27 @@
 </template>
 
 <script>
+import CustomStepDiagram from "../../../../components/CustomStepDiagram";
+
 export default {
   name: "Index",
-  data(){
+  components: {CustomStepDiagram},
+  data() {
     return {
-      orderid:'',
-      routerIndex:0
+      orderid: '',
+      routerIndex: 0,
+      stepInfo: {
+        list: [{
+            status: '待沟通',
+          }, {
+           status: '进行中',
+        },{
+          status: '服务验收',
+        },{
+          status: '服务评价',
+        }],
+        step: 2
+      }
     }
   },
   mounted() {
@@ -30,8 +48,8 @@ export default {
   },
   watch: {
     $route: {
-      handler(to,from) {
-        switch(to.name) {
+      handler(to, from) {
+        switch (to.name) {
           case 'sellerwaitingcommunication':
             this.routerIndex = 0
             break
@@ -46,13 +64,13 @@ export default {
             break
         }
       },
-      deep:true,
+      deep: true,
       immediate: true
     }
   },
   methods: {
-    routerJump(index){
-      switch(index) {
+    routerJump(index) {
+      switch (index) {
         case 0:
           this.$router.push(`/seller/orderdetail/waitingcommunication/${this.orderid}/${this.type}`)
           break
@@ -74,17 +92,20 @@ export default {
 <style lang="scss" scoped>
 .order-details-index {
   width: 100%;
+
   .order-detail-progress {
     width: 100%;
+
     .navs {
       width: 100%;
-      margin:30px auto;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
+      margin: 30px auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       text-align: center;
+
       li {
-        opacity:0.5;
+        opacity: 0.5;
         flex: 1;
         padding: 0 10px 0 30px;
         line-height: 40px;
@@ -92,9 +113,11 @@ export default {
         color: #fff;
         position: relative;
         margin-right: 10px;
+
         a {
           cursor: pointer;
         }
+
         &:after {
           content: '';
           display: block;
@@ -106,6 +129,7 @@ export default {
           top: 0;
           z-index: 10;
         }
+
         &:before {
           content: '';
           display: block;
@@ -116,26 +140,31 @@ export default {
           left: 0px;
           top: 0;
         }
+
         &:first-child {
           border-radius: 4px 0 0 4px;
           padding-left: 25px;
         }
+
         &:first-child {
           border-radius: 4px 0 0 4px;
           padding-left: 25px;
         }
+
         &:first-child:before {
           display: none;
         }
+
         &.active {
-          opacity:1;
+          opacity: 1;
         }
 
         &.active:after {
-          opacity:1;
+          opacity: 1;
         }
       }
     }
+
     //.navs li:last-child,
     //.cssNavEnd {
     //  border-radius: 0px 4px 4px 0px;
@@ -145,7 +174,6 @@ export default {
     //.cssNavEnd:after {
     //  display: none;
     //}
-
 
 
   }

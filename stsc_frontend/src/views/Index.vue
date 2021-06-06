@@ -93,79 +93,11 @@
         </div>
         <div class="service-category-bottom">
           <div class="container">
-            <div class="service-category-info" v-if="sindex === 1">
-              <div class="service-category-bottom-item">
+            <div class="service-category-info" v-if="sindex === index+1" v-for="(itemfirst,index) in categoryList" :key="index">
+              <div class="service-category-bottom-item" v-for="(itemsecond,index) in itemfirst.children" :key="index">
                 <dl>
-                  <dt>研究开发</dt>
-                  <dd>研究开发</dd>
-                  <dd>研究开发</dd>
-                  <dd>研究开发</dd>
-                  <dd>研究开发</dd>
-                  <dd>研究开发</dd>
-                  <dd>研究开发</dd>
-                </dl>
-              </div>
-              <div class="service-category-bottom-item">
-                <dl>
-                  <dt>研究开发</dt>
-                  <dd>研究开发</dd>
-                  <dd>研究开发</dd>
-                  <dd>研究开发</dd>
-                  <dd>研究开发</dd>
-                  <dd>研究开发</dd>
-                  <dd>研究开发</dd>
-                  <dd>研究开发</dd>
-                  <dd>研究开发</dd>
-                </dl>
-              </div>
-              <div class="service-category-bottom-item">
-                <dl>
-                  <dt>研究开发</dt>
-                  <dd>研究开发</dd>
-                  <dd>研究开发</dd>
-                  <dd>研究开发</dd>
-                  <dd>研究开发</dd>
-                  <dd>研究开发</dd>
-                  <dd>研究开发</dd>
-                </dl>
-              </div>
-            </div >
-            <div class="service-category-info" v-if="sindex === 2">
-              <div class="service-category-bottom-item">
-                <dl>
-                  <dt>技术转移</dt>
-                  <dd>技术转移</dd>
-                  <dd>技术转移</dd>
-                  <dd>技术转移</dd>
-                  <dd>技术转移</dd>
-                  <dd>技术转移</dd>
-                  <dd>技术转移</dd>
-                </dl>
-              </div>
-            </div >
-            <div class="service-category-info" v-if="sindex === 3">
-              <div class="service-category-bottom-item">
-                <dl>
-                  <dt>知识产权</dt>
-                  <dd>知识产权</dd>
-                  <dd>知识产权</dd>
-                  <dd>知识产权</dd>
-                  <dd>知识产权</dd>
-                  <dd>知识产权</dd>
-                  <dd>知识产权</dd>
-                </dl>
-              </div>
-            </div >
-            <div class="service-category-info" v-if="sindex === 4">
-              <div class="service-category-bottom-item">
-                <dl>
-                  <dt>检验检测</dt>
-                  <dd>检验检测</dd>
-                  <dd>检验检测</dd>
-                  <dd>检验检测</dd>
-                  <dd>检验检测</dd>
-                  <dd>检验检测</dd>
-                  <dd>检验检测</dd>
+                  <dt>{{itemsecond.name}}</dt>
+                  <dd v-for="(itemthird,index) in itemsecond.children" :key="index">{{itemthird.name}}</dd>
                 </dl>
               </div>
             </div >
@@ -329,6 +261,18 @@
           </div>
         </div>
       </div>
+      <div class="resource-space">
+        <div class="public-switch">
+          <div class="container">
+            <div class="public-switch-title">资源空间</div>
+          </div>
+        </div>
+       <div class="container">
+         <div class="resource-space-main" id="resource-space-main">
+
+         </div>
+       </div>
+      </div>
       <div class="cooperative-partner">
         <div class="container">
           <div class="cooperative-partner-top">
@@ -395,7 +339,8 @@ export default {
       },
       value:4,
       pindex:1,
-      sindex:1
+      sindex:1,
+      categoryList:[]
     }
   },
   components: {
@@ -404,8 +349,11 @@ export default {
     SwiperSlide,
     ScrollingNumbers
   },
-  mounted() {
-
+  async created() {
+    await this.getCategoryList()
+  },
+  async mounted(){
+    this.drawInit()
   },
   methods: {
     popularrecommendation(index){
@@ -413,6 +361,188 @@ export default {
     },
     servicecategory(index){
       this.sindex = index
+    },
+    async getCategoryList() {
+      let result = await this.$axios.categoryControllerList.getCategory()
+      if (result.code === 20000){
+        this.categoryList = result.data.firstCategoryList
+      }
+    },
+    drawInit(){
+      // 基于准备好的dom，初始化echarts实例
+      let myChart = this.$echarts.init(document.getElementById('resource-space-main'));
+
+      // 指定图表的配置项和数据
+      let option = {
+        color: ['#80FFA5', '#00DDFF', '#37A2FF', '#FF0087', '#FFBF00'],
+        title: {
+          text: '科技服务协同平台资源空间'
+        },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'cross',
+            label: {
+              backgroundColor: '#6a7985'
+            }
+          }
+        },
+        legend: {
+          data: ['知网', '114产学研', '陕西', '哈长', '首都师范大学']
+        },
+        toolbox: {
+          feature: {
+            saveAsImage: {}
+          }
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        xAxis: [
+          {
+            type: 'category',
+            boundaryGap: false,
+            data: ['用户', '需求', '服务', '订单']
+          }
+        ],
+        yAxis: [
+          {
+            type: 'value'
+          }
+        ],
+        series: [
+          {
+            name: '知网',
+            type: 'line',
+            stack: '总量',
+            smooth: true,
+            lineStyle: {
+              width: 0
+            },
+            showSymbol: false,
+            areaStyle: {
+              opacity: 0.8,
+              color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                offset: 0,
+                color: 'rgba(128, 255, 165)'
+              }, {
+                offset: 1,
+                color: 'rgba(1, 191, 236)'
+              }])
+            },
+            emphasis: {
+              focus: 'series'
+            },
+            data: [140, 232, 101, 264]
+          },
+          {
+            name: '114产学研',
+            type: 'line',
+            stack: '总量',
+            smooth: true,
+            lineStyle: {
+              width: 0
+            },
+            showSymbol: false,
+            areaStyle: {
+              opacity: 0.8,
+              color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                offset: 0,
+                color: 'rgba(0, 221, 255)'
+              }, {
+                offset: 1,
+                color: 'rgba(77, 119, 255)'
+              }])
+            },
+            emphasis: {
+              focus: 'series'
+            },
+            data: [120, 282, 111, 234]
+          },
+          {
+            name: '陕西',
+            type: 'line',
+            stack: '总量',
+            smooth: true,
+            lineStyle: {
+              width: 0
+            },
+            showSymbol: false,
+            areaStyle: {
+              opacity: 0.8,
+              color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                offset: 0,
+                color: 'rgba(55, 162, 255)'
+              }, {
+                offset: 1,
+                color: 'rgba(116, 21, 219)'
+              }])
+            },
+            emphasis: {
+              focus: 'series'
+            },
+            data: [320, 132, 201, 334]
+          },
+          {
+            name: '哈长',
+            type: 'line',
+            stack: '总量',
+            smooth: true,
+            lineStyle: {
+              width: 0
+            },
+            showSymbol: false,
+            areaStyle: {
+              opacity: 0.8,
+              color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                offset: 0,
+                color: 'rgba(255, 0, 135)'
+              }, {
+                offset: 1,
+                color: 'rgba(135, 0, 157)'
+              }])
+            },
+            emphasis: {
+              focus: 'series'
+            },
+            data: [220, 402, 231, 134]
+          },
+          {
+            name: '首都师范大学',
+            type: 'line',
+            stack: '总量',
+            smooth: true,
+            lineStyle: {
+              width: 0
+            },
+            showSymbol: false,
+            label: {
+              show: true,
+              position: 'top'
+            },
+            areaStyle: {
+              opacity: 0.8,
+              color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                offset: 0,
+                color: 'rgba(255, 191, 0)'
+              }, {
+                offset: 1,
+                color: 'rgba(224, 62, 76)'
+              }])
+            },
+            emphasis: {
+              focus: 'series'
+            },
+            data: [220, 302, 181, 234]
+          }
+        ]
+      };
+
+      // 使用刚指定的配置项和数据显示图表。
+      myChart.setOption(option);
     }
   }
 };
@@ -433,7 +563,6 @@ export default {
       }
     }
   }
-
   .main-wapper {
     .data-presentation {
       margin-top: -70px;
@@ -521,6 +650,7 @@ export default {
             height:100%;
             display:flex;
             justify-content: flex-start;
+            flex-wrap: wrap;
             .service-category-bottom-item {
               flex:1;
               dl {
@@ -737,6 +867,15 @@ export default {
             transform: translate(-50%, -50%);
           }
         }
+      }
+    }
+    .resource-space {
+      .public-switch {
+        height:100px !important;
+      }
+      .resource-space-main {
+        height:300px;
+        width: 100%;
       }
     }
   }
