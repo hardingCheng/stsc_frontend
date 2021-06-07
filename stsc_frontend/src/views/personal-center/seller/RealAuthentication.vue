@@ -1,7 +1,7 @@
 <template>
   <div class="real-auth">
    <h3>资质证明</h3>
-    <div class="qualification-certificate-not-certified" v-if="!realInfo.realConfirm">
+    <div class="qualification-certificate-not-certified" v-if="isQualification === 0">
       <p>请上传相应资质证明！可以上传多个资质证明扫描高清图片！仅供审核！</p>
       <div class="qualification-certificate-form">
         <el-form  :rules="rules" label-width="200px" :model="form" ref="certificateForm">
@@ -51,17 +51,17 @@
     <div class="qualification-certificate-yes-certified" v-else>
       <div class="qualification-certificate-info">
         <ul>
-          <li>营业执照全称: <span>{{form.busiName}}</span></li>
-          <li>营业执照注册号: <span>{{form.noBusi}}</span></li>
-          <li>对公账户名: <span>{{form.acctName}}</span></li>
-          <li>对公账号: <span>{{form.acctNo}}</span></li>
-          <li>清算联行号: <span>{{form.bankNo}}</span></li>
+          <li>营业执照全称: <span>{{qualificationInfo.busiName}}</span></li>
+          <li>营业执照注册号: <span>{{qualificationInfo.noBusi}}</span></li>
+          <li>对公账户名: <span>{{qualificationInfo.acctName}}</span></li>
+          <li>对公账号: <span>{{qualificationInfo.acctNo}}</span></li>
+          <li>清算联行号: <span>{{qualificationInfo.bankNo}}</span></li>
         </ul>
       </div>
       <div class="qualification-certificate-img">
         <h3>相关资质图片！</h3>
         <div class="qualification-certificate-item-img">
-          <a @click="handlePictureCardPreview(item)" v-for="( item,index ) in realInfo.qualificationUrl" :key="index">
+          <a @click="handlePictureCardPreview(item)" v-for="( item,index ) in qualificationInfo.cerUrl" :key="index">
             <img :src="item" alt="" >
           </a>
         </div>
@@ -82,11 +82,11 @@ export default {
       dialogVisible: false,
       fileList: [],
       form: {
-        busiName: '首都师范大学',
-        noBusi: '10028',
-        acctName: '10028',
-        acctNo: '10028',
-        bankNo: '10028',
+        busiName: '',
+        noBusi: '',
+        acctName: '',
+        acctNo: '',
+        bankNo: '',
         cerUrl:''
       },
       rules: {
@@ -108,11 +108,6 @@ export default {
       },
       cerUrlNum:0,
       certificateIinfo:'',
-      isCertificate:'false',
-      realInfo:{
-        qualificationUrl:[],
-        realConfirm:false
-      },
     }
   },
   watch:{
@@ -120,7 +115,6 @@ export default {
       async handler(newValue,oldValue) {
         if (newValue === this.fileList.length){
           await this.submit()
-          await this.getAuthInfo()
         }
       }
     }
@@ -148,15 +142,15 @@ export default {
     async submitCertificate(formName) {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          await this.$refs.upload.submit()
           if (this.fileList.length === 0){
             this.$message({
               type:'error',
               message:'请您上传资质认证相关证明图片！'
             })
+          }else {
+            await this.$refs.upload.submit()
           }
         } else {
-          console.log('error submit!!')
           return false;
         }
       });
@@ -164,22 +158,36 @@ export default {
     async submit(){
       if (this.cerUrlNum === this.fileList.length){
         let result = await this.$axios.companyRealInfoController.enterpriseCertification(this.form)
-        this.certificateIinfo = result.message
-      }
-    },
-    async getAuthInfo(){
-      let result = await this.$axios.userControllerList.getAuthInfo()
-      if (result.code === 20000 && result.data?.companyRealInfo){
-        this.form = result.data.companyRealInfo
-        if (result.data.qualificationUrl){
-          this.realInfo.qualificationUrl = result.data.qualificationUrl.split(',').slice(0,-1)
+        if(result.code === 20000){
+          this.certificateIinfo = result.message
+          this.form.cerUrl =this.form.cerUrl.split(',').slice(0,-1)
+          this.$store.commit('modQualification',{
+            qualificationInfo:this.form,
+            isQualification:1
+          })
         }
-        this.realInfo.realConfirm = true
       }
     },
+    // async getAuthInfo(){
+    //   let result = await this.$axios.userControllerList.getAuthInfo()
+    //   if (result.code === 20000 && result.data?.companyRealInfo){
+    //     this.form = result.data.companyRealInfo
+    //     if (result.data.qualificationUrl){
+    //       this.realInfo.qualificationUrl = result.data.qualificationUrl.split(',').slice(0,-1)
+    //     }
+    //   }
+    // },
   },
-  async created(){
-    await this.getAuthInfo()
+  async mounted(){
+
+  },
+  computed:{
+    isQualification(){
+      return this.$store.getters.getUserInfo.isQualification
+    },
+    qualificationInfo(){
+      return this.$store.getters.getUserInfo.qualificationInfo
+    }
   }
 }
 </script>

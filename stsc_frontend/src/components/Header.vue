@@ -54,7 +54,9 @@
          <el-row :gutter="20">
            <el-col :span="4">
              <div class="header-main-logo">
-              <router-link to="/index">LOGO</router-link>
+              <router-link to="/index">
+                <img src="../assets/Stsclogo.png" alt="">
+              </router-link>
              </div>
            </el-col>
            <el-col :span="16">
@@ -281,9 +283,14 @@ export default {
     height: 70px;
     .header-main-nav {
       .header-main-logo {
+        margin-top:10px;
         a {
-          line-height:70px;
-          @include font-config(30px,'PingFangSC-Regular, PingFang SC',500,#FFFFFF)
+          display: block;
+          img {
+            display:inline-block;
+            height:50px;
+            width:auto;
+          }
         }
       }
       .header-main-bar {

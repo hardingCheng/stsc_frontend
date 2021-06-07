@@ -131,21 +131,24 @@ export default {
   name: "Index",
   data(){
     return {
-      userInfo:{},
       centerDialogVisible: false,
       imageUrl: '',
     }
   },
   async mounted(){
-    let result = await this.$axios.userControllerList.getUserInfo()
-    this.userInfo = result.data.user
+
   },
   methods: {
     async handleAvatarSuccess(response, file) {
       if (response.code === 20000){
         this.userInfo.avatar = response.data.url
         let result = await this.$axios.userControllerList.updateInfo(this.userInfo)
-        console.log(result)
+        if (result.code === 20000){
+          let result = await this.$axios.userControllerList.getUserInfo()
+          this.$store.commit("modUserInfo",{
+            userInfo:result.data.user,
+          });
+        }
       }
       //this.imageUrl = URL.createObjectURL(file.raw);
     },
@@ -161,6 +164,11 @@ export default {
     async updateInfo(){
       this.centerDialogVisible = false
       await this.$refs.avatarUpload.submit()
+    }
+  },
+  computed:{
+    userInfo(){
+      return this.$store.getters.getUserInfo
     }
   }
 }

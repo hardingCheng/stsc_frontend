@@ -116,6 +116,9 @@ export default {
             type:'success',
             message:'此订单已经完成'
           })
+          var timer = setTimeout(function(){
+            this.$router.push(`seller/orderdetail/serviceacceptance/${this.orderid}/${this.type}}`);
+          },1000);
           this.completeCon = true
         }else {
           this.completeCon = false

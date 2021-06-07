@@ -57,8 +57,8 @@
         <h3>需求方服务合同</h3>
         <div class="service-contract-split" >
           <div class="service-contract-main">
-            <div class="service-contract-item" v-for="(item,index) in orderSplitInfo.subOrderInfoVoList" :key="index">
-              <span>{{item.subOrderName}}</span>
+            <div class="service-contract-item"  v-if="contractForBuyer.length === 0" v-for="(item,index) in orderSplitInfo.subOrderInfoVoList" :key="index">
+              <span >{{item.subOrderName}}</span>
               <el-upload
                   class="upload-demo"
                   action="/ph/stcsp/fileoss/upload/"
@@ -74,11 +74,14 @@
                 <el-button size="small" type="primary">点击上传</el-button>
               </el-upload>
             </div>
+            <div class="service-contract-item"   v-if="contractForBuyer.length > 0" v-for="(item,index) in orderSplitInfo.subOrderInfoVoList" :key="index">
+              <span >{{item.subOrderName}}: <a @click="pdfShow(contractForBuyer[index].fileUrl)">{{contractForBuyer[index].fileName}}</a></span>
+            </div>
           </div>
         </div>
       </div>
       <div class="service-operation">
-        <el-button @click="submitSplitOrderInfo" type="primary">提交</el-button>
+        <el-button @click="submitSplitOrderInfo" v-if="contractForBuyer.length === 0" type="primary">提交</el-button>
       </div>
     </div>
   </div>
@@ -147,11 +150,22 @@ export default {
         }
       }
       if (this.type === '1'){
-        let result = await this.$axios.orderControllerList.getSplitDetailInfo({
+        let result1 = await this.$axios.orderControllerList.getSplitDetailInfo({
           id:this.orderid
         })
-        if (result.code === 20000){
-          this.orderSplitInfo =result.data.subOrderInfo
+        if (result1.code === 20000){
+          this.orderSplitInfo =result1.data.subOrderInfo
+          let result2 = await this.$axios.orderControllerList.getContractsForBuyer({
+            orderId:this.orderid
+          })
+          if(result2.data.contracts) {
+            result2.data.contracts.split(',').slice(0,-1).map((item)=>{
+              this.contractForBuyer.push({
+                fileName:item.split('/').slice(-1)[0].split('_')[1],
+                fileUrl:item
+              })
+            })
+          }
         }
       }
     },
@@ -160,8 +174,16 @@ export default {
     },
 
     async submitSplitOrderInfo(){
-      for (let i = 0; i <this.orderSplitInfo.subOrderInfoVoList.length;i++){
-        await Array.from(this.$refs.uploadSplit)[i].submit()
+      if (this.fileTempSplitList.length === this.orderSplitInfo.subOrderInfoVoList.length) {
+        for (let i = 0; i <this.orderSplitInfo.subOrderInfoVoList.length;i++){
+          await Array.from(this.$refs.uploadSplit)[i].submit()
+        }
+      }else {
+        this.$message({
+          message: '请上传相应服务的合同',
+          center: true,
+          type:'error'
+        })
       }
     },
     handleSplitPreview(file){
@@ -171,10 +193,17 @@ export default {
 
     },
     changeSplitUpload(file, fileList){
-
+      if(file.status === "ready"){
+        this.fileTempSplitList.push(file)
+      }
     },
     handleSplitBeforeUpload(file){
 
+    },
+    async handleSuccess(response, file){
+      if (response.code === 20000){
+        await this.getOrderInfo()
+      }
     },
     async handleSplitSuccess(response, file, subOrderId,index){
       if (response.code === 20000){
@@ -182,9 +211,19 @@ export default {
         this.contractSplitInfoNum++
         if (this.contractSplitInfoNum === this.orderSplitInfo.subOrderInfoVoList.length){
           let result = await this.$axios.orderControllerList.setUploadContracts(this.contractSplitInfo)
-          // if (result.code === 20000){
-          //   this.$router.push()
-          // }
+          if (result.code === 20000){
+            let result = await this.$axios.orderControllerList.getContractsForBuyer({
+              orderId:this.orderid
+            })
+            if(result.data.contracts) {
+              result.data.contracts.split(',').slice(0,-1).map((item)=>{
+                this.contractForBuyer.push({
+                  fileName:item.split('/').slice(-1)[0].split('_')[1],
+                  fileUrl:item
+                })
+              })
+            }
+          }
         }
       }
     },
@@ -307,6 +346,9 @@ export default {
             height:100%;
             vertical-align:top;
           }
+          a {
+            cursor: pointer;
+          }
         }
       }
     }
@@ -327,29 +369,30 @@ export default {
         flex-wrap: wrap;
         .service-contract-item {
           width: 30%;
-          display:flex;
+          display: flex;
           flex-direction: column;
-          justify-content:space-between;
+          justify-content: space-between;
           flex-wrap: wrap;
           margin-right: 20px;
           margin-bottom: 30px;
+
           .upload-demo {
             margin-top: 10px;
-            display:inline-block;
-            flex:1;
+            display: inline-block;
+            flex: 1;
           }
+
           span {
-            display:inline-block;
+            display: inline-block;
           }
+
           &:last-child {
             margin-right: 0;
           }
-          ul {
-            li {
-              a {
-                cursor: pointer;
-              }
-            }
+
+          a {
+            color: #0a84ff;
+            cursor: pointer;
           }
         }
       }

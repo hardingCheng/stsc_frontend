@@ -144,5 +144,11 @@ const orderControllerList = {
             data
         });
     },
+    getContractsForBuyer: (params) => {
+        return axios({
+            url: `/ph/stcsp/order/getContractsForBuyer/${params.orderId}`,
+            method: "get",
+        });
+    },
 }
 export default orderControllerList

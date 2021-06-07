@@ -32,9 +32,8 @@
       </ul>
     </div>
     <div class="service-acceptance-operation" v-if="acceptanceUploadFleList.length === 0">
-      <el-button type="primary" @click="submitUpload">确认验收</el-button>
+      <el-button type="primary" @click="submitUpload">确认订单完成</el-button>
     </div>
-
   </div>
 </template>
 

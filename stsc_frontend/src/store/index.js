@@ -24,6 +24,27 @@ export default new Vuex.Store({
       state.isLogin = payload.isLogin
       state.userInfo = payload.userInfo
     },
+    modUserInfo: (state,payload) => {
+      state.userInfo = payload.userInfo
+    },
+    modRealNameCertification: (state,payload) => {
+      state.userInfo.realNameCertificationInfo = payload.realNameCertificationInfo
+      if(payload.isRealNameCertification){
+        state.userInfo.isRealNameCertification = payload.isRealNameCertification
+      }
+    },
+    modQualification: (state,payload) => {
+      state.userInfo.qualificationInfo = payload.qualificationInfo
+      if(payload.isQualification){
+        state.userInfo.isQualification = payload.isQualification
+      }
+    },
+    modRealNameCertification1: (state,payload) => {
+      state.userInfo.realNameCertificationInfo = payload.realNameCertificationInfo
+    },
+    modQualification1: (state,payload) => {
+      state.userInfo.qualificationInfo = payload.qualificationInfo
+    },
   },
   actions: {},
   getters: {

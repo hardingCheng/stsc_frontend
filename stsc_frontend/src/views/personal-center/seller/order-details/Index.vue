@@ -6,7 +6,7 @@
             <li :class="[routerIndex === 0?'active':'']"><a @click="routerJump(0)">合同上传</a></li>　
             <li :class="[routerIndex === 1?'active':'']"><a @click="routerJump(1)">进行中</a></li>　
             <li :class="[routerIndex === 2?'active':'']"><a @click="routerJump(2)">服务验收</a></li>　　
-            <li :class="[routerIndex === 3?'active':'']"><a @click="routerJump(3)">服务评价</a></li>
+<!--            <li :class="[routerIndex === 3?'active':'']"><a @click="routerJump(3)">服务评价</a></li>-->
           </ul>
         </div>
     <div class="order-detail-progress">

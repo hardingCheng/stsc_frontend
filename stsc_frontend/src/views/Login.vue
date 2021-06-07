@@ -2,33 +2,40 @@
   <div class="login">
     <div class="login-box">
       <div class="login-box-top">
-        <el-form ref="loginForm" :model="form"  label-width="60px" label-position="left">
+        <el-form ref="loginForm" :model="form" label-width="60px" label-position="left">
           <h3 class="login-title">欢迎登录</h3>
-          <div class="login-verificationInfo">{{errors.errorlogin}}</div>
-          <el-form-item label="账号" >
+          <div class="login-verificationInfo">{{ errors.errorlogin }}</div>
+          <el-form-item label="账号">
             <el-input type="text" placeholder="请输入账号" @input="errors.username =''" v-model="form.username"/>
-            <div class="el-form-item__error">{{errors.username}}</div>
+            <div class="el-form-item__error">{{ errors.username }}</div>
           </el-form-item>
-          <el-form-item label="密码" >
+          <el-form-item label="密码">
             <el-input type="password" placeholder="请输入密码" @input="errors.password =''" v-model="form.password"/>
-            <div class="el-form-item__error">{{errors.password}}</div>
+            <div class="el-form-item__error">{{ errors.password }}</div>
           </el-form-item>
-          <el-form-item label="验证码" >
+          <el-form-item label="验证码">
             <el-row :gutter="10">
-              <el-col :span="10"><el-input type="text" placeholder="验证码"  @input="errors.verificationCode =''" v-model="form.verificationCode"/></el-col>
-              <el-col :span="12"><div  @click="getNewCode"><SIdentify ref="sidentify"></SIdentify></div></el-col>
-              <div class="el-form-item__error" >{{errors.verificationCode}}</div>
+              <el-col :span="10">
+                <el-input type="text" placeholder="验证码" @input="errors.verificationCode =''"
+                          v-model="form.verificationCode"/>
+              </el-col>
+              <el-col :span="12">
+                <div @click="getNewCode">
+                  <SIdentify ref="sidentify"></SIdentify>
+                </div>
+              </el-col>
+              <div class="el-form-item__error">{{ errors.verificationCode }}</div>
             </el-row>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" :disabled="isValid"  v-on:click="loginForm">登录</el-button>
+            <el-button type="primary" :disabled="isValid" v-on:click="loginForm">登录</el-button>
             <el-button type="primary" v-on:click="resetForm('loginForm')">重置</el-button>
           </el-form-item>
         </el-form>
-       <div class="login-other-action">
-         <span><router-link to="/signup">注册</router-link></span>
-         <span><router-link to="/index">忘记密码？</router-link></span>
-       </div>
+        <div class="login-other-action">
+          <span><router-link to="/signup">注册</router-link></span>
+          <span><router-link to="/index">忘记密码？</router-link></span>
+        </div>
       </div>
       <div class="login-box-bottom">
         <span>第三方登录</span>
@@ -55,9 +62,9 @@
       <img src="../assets/images/loginwave.png" alt="">
     </div>
     <el-dialog
-      title="温馨提示"
-      :visible.sync="dialogVisible"
-      width="30%">
+        title="温馨提示"
+        :visible.sync="dialogVisible"
+        width="30%">
       <span>请输入账号和密码</span>
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
@@ -69,7 +76,8 @@
 <script>
 // 验证码   验证组件
 import SIdentify from "../components/SIdentify";
-import { validatorInput } from "../tools/verification/validata"
+import {validatorInput} from "../tools/verification/validata"
+
 export default {
   name: "Login",
   components: {SIdentify},
@@ -82,55 +90,76 @@ export default {
       },
       // 对话框显示和隐藏
       dialogVisible: false,
-      errors:{},
-      isValid:false,
-      jumpRouting:''
+      errors: {},
+      isValid: false,
+      jumpRouting: ''
     }
   },
   // 根据没登录前的点击的路由  登陆后跳转到相关页面
   mounted() {
-    if (Object.keys(this.$route.query).length !== 0){
+    if (Object.keys(this.$route.query).length !== 0) {
       this.jumpRouting = this.$route.query
     }
   },
   methods: {
     // 提交登录表单
     async loginForm() {
-      const { errors, isValid } = validatorInput(this.form)
-      if(isValid){
+      const {errors, isValid} = validatorInput(this.form)
+      if (isValid) {
         let result = await this.$axios.userControllerList.login({
-          username:this.form.username,
-          password:this.form.password
+          username: this.form.username,
+          password: this.form.password
         })
         if (result.code === 20000) {
-          this.$store.commit("modTokenLogin",{
-            userInfo:result.data.user,
-            token:result.data.token,
-            isLogin:true
+          this.$store.commit("modTokenLogin", {
+            userInfo: result.data.user,
+            token: result.data.token,
+            isLogin: true
           });
           // 点击需要登录查看的页面   登录之后跳转
           if (this.jumpRouting) {
             await this.$router.push(this.jumpRouting?.url)
-          }else {
+          } else {
             await this.$router.push('/index')
           }
+          let result1 = await this.$axios.userControllerList.getAuthInfo()
+          if (result1.code === 20000 && result1.data.idCard) {
+            this.$store.commit('modRealNameCertification', {
+              realNameCertificationInfo: {
+                realname: result1.data.realname,
+                idCard: result1.data.idCard
+              },
+            })
+          }
+          if (result1.code === 20000 && result1.data.qualificationUrl) {
+            this.$store.commit('modQualification', {
+              qualificationInfo: {
+                busiName: result1.data.companyRealInfo.busiName,
+                noBusi: result1.data.companyRealInfo.noBusi,
+                acctName: result1.data.companyRealInfo.acctName,
+                acctNo: result1.data.companyRealInfo.acctNo,
+                bankNo: result1.data.companyRealInfo.bankNo,
+                cerUrl: result1.data.qualificationUrl.split(',').slice(0,-1)
+              },
+            })
+          }
         }
-      }else {
+      } else {
         this.errors = errors
       }
     },
     // 获取验证码
-    getNewCode(){
+    getNewCode() {
       this.$refs.sidentify.getCode()
     },
     // 重置表单
-    resetForm(formName){
+    resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-    loginForm1(){
+    loginForm1() {
     },
     //模拟第三方登录
-    third1(){
+    third1() {
       this.$router.push('/third1')
     }
   }
@@ -138,14 +167,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.login{
+.login {
   position: fixed;
   top: 0;
   left: 0;
-  width:100%;
-  height:100%;
+  width: 100%;
+  height: 100%;
   min-width: 1000px;
-  z-index:-10;
+  z-index: -10;
   zoom: 1;
   background-color: #fff;
   background-image: url("../assets/images/loginbg.png");
@@ -154,13 +183,14 @@ export default {
   -webkit-background-size: cover;
   -o-background-size: cover;
   background-position: center 0;
+
   .login-box {
     box-sizing: border-box;
-    position:absolute;
+    position: absolute;
     top: 50%;
     left: 60%;
     transform: translateY(-50%);
-    background:#fff;
+    background: #fff;
     border: 1px solid #DCDFE6;
     width: 350px;
     padding: 35px 35px 15px 35px;
@@ -168,13 +198,16 @@ export default {
     -webkit-border-radius: 20px;
     -moz-border-radius: 20px;
     box-shadow: 0 0 25px #909399;
+
     .login-box-top {
-      position:relative;
+      position: relative;
+
       .login-title {
         text-align: center;
         margin: 0 auto 20px auto;
         color: #303133;
       }
+
       .login-verificationInfo {
         text-align: center;
         color: #F56C6C;
@@ -182,10 +215,12 @@ export default {
         line-height: 1;
         margin-bottom: 10px;
       }
+
       .login-other-action {
         position: absolute;
-        bottom:50px;
-        right:-20px;
+        bottom: 50px;
+        right: -20px;
+
         span {
           margin-left: 10px;
           font-size: 14px;
@@ -194,28 +229,33 @@ export default {
         }
       }
     }
-    .login-box-bottom{
-      margin-top:40px;
+
+    .login-box-bottom {
+      margin-top: 40px;
       text-align: center;
-      span{
+
+      span {
         font-size: 14px;
         font-family: PingFangSC-Regular, PingFang SC;
         font-weight: 400;
         color: #999999;
       }
-      .third-party-login{
-        width:100%;
+
+      .third-party-login {
+        width: 100%;
         margin-top: 30px;
-        display:flex;
-        justify-content:space-between;
-        .third-party-item{
-          img{
-            width:54px;
-            height:54px;
+        display: flex;
+        justify-content: space-between;
+
+        .third-party-item {
+          img {
+            width: 54px;
+            height: 54px;
             display: block;
             border-radius: 100%;
             background: #F4F4F4;
           }
+
           span {
             font-size: 12px;
             font-family: PingFangSC-Regular, PingFang SC;
@@ -225,36 +265,41 @@ export default {
         }
       }
     }
+
     &::after {
-      content:"";
+      content: "";
       position: absolute;
       left: 0;
-      bottom:155px;
-      width:100%;
+      bottom: 155px;
+      width: 100%;
       height: 1px;
       background: #E7E7E7;
     }
   }
+
   .login-welcome {
     position: absolute;
     top: 50%;
-    left:30%;
+    left: 30%;
     transform: translateY(-50%);
+
     h1 {
       margin: 15px 0;
       font-size: 56px;
       font-weight: 600;
       color: #FFFFFF;
     }
+
     h3 {
       font-size: 36px;
       font-weight: 600;
       color: #FFFFFF;
       margin: 15px 0;
     }
+
     img {
-      width:68px;
-      height:34px;
+      width: 68px;
+      height: 34px;
     }
   }
 }

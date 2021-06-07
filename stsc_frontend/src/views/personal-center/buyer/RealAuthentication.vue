@@ -1,6 +1,6 @@
 <template>
   <div class="real-auth">
-    <div class="real-auth-main" v-if="!realInfo.realConfirm">
+    <div class="real-auth-main" v-if="isRealNameCertification === 0">
       <el-form :label-position="labelPosition" ref="authForm" label-width="100px" :model="formLabelAlign" :rules="rules">
         <el-form-item label="真实姓名:" prop="_name">
           <el-input v-model="formLabelAlign._name" ></el-input>
@@ -17,8 +17,8 @@
     <div class="real-auth-success" v-else>
       实名认证成功! 仅可实名认证一次！
       <ul>
-        <li>认证姓名：<span>{{realInfo.realname}}</span></li>
-        <li>身份证号：<span>{{realInfo.idCard}}</span></li>
+        <li>认证姓名：<span>{{realNameCertificationInfo.realname}}</span></li>
+        <li>身份证号：<span>{{realNameCertificationInfo.idCard}}</span></li>
       </ul>
     </div>
   </div>
@@ -44,12 +44,6 @@ export default {
           { required: true, message: '请填写身份证号', trigger: 'change' }
         ],
       },
-      realInfo:{
-        idCard:'',
-        realname:'',
-        realConfirm:false
-      },
-
     }
   },
   methods:{
@@ -62,7 +56,13 @@ export default {
            realName: this.formLabelAlign._name
          })
           if (result.code === 20000){
-            await this.getAuthInfo()
+            this.$store.commit('modRealNameCertification',{
+              realNameCertificationInfo:{
+                realname:this.formLabelAlign._name,
+                idCard:this.formLabelAlign._id
+              },
+              isRealNameCertification:'1'
+            })
           }else {
             this.$message({
               type:'error',
@@ -77,19 +77,26 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-    async getAuthInfo(){
-      let result = await this.$axios.userControllerList.getAuthInfo()
-      if (result.code === 20000 && result.data?.idCard){
-        this.realInfo = result.data
-        this.realInfo.realConfirm = true
-      }
-    }
+    // async getAuthInfo(){
+    //   let result = await this.$axios.userControllerList.getAuthInfo()
+    //   if (result.code === 20000 && result.data?.idCard){
+    //     this.realInfo = result.data
+    //   }
+    // }
   },
   async mounted() {
-
+    // await this.getAuthInfo()
   },
   async created(){
-    await this.getAuthInfo()
+
+  },
+  computed:{
+    isRealNameCertification(){
+      return this.$store.getters.getUserInfo.isRealNameCertification;
+    },
+    realNameCertificationInfo(){
+      return this.$store.getters.getUserInfo.realNameCertificationInfo;
+    }
   }
 }
 </script>

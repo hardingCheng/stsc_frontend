@@ -11,6 +11,7 @@ import serveControllerList from "./serveControllerList";
 import orderControllerList from "./orderControllerList";
 import companyRealInfoController from "./companyRealInfoController";
 import arrangeController from "./arrangeController";
+import mainController from "./mainController";
 
 export default {
     adminControllerList,
@@ -21,5 +22,6 @@ export default {
     serveControllerList,
     orderControllerList,
     companyRealInfoController,
-    arrangeController
+    arrangeController,
+    mainController
 }

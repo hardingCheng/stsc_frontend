@@ -1,13 +1,16 @@
 <template>
   <div class="index">
-    <div class="swiper-main">
-      <swiper class="swiper" :options="swiperOption">
-        <swiper-slide><img src="../assets/images/500px1030823997.png" alt=""></swiper-slide>
-        <swiper-slide><img src="../assets/images/500px1030823997.png" alt=""></swiper-slide>
-        <swiper-slide><img src="../assets/images/500px1030823997.png" alt=""></swiper-slide>
-        <swiper-slide><img src="../assets/images/500px1030823997.png" alt=""></swiper-slide>
-        <swiper-slide><img src="../assets/images/500px1030823997.png" alt=""></swiper-slide>
-      </swiper>
+    <!--    <div class="swiper-main">-->
+    <!--      <swiper class="swiper" :options="swiperOption">-->
+    <!--        <swiper-slide><img src="../assets/images/500px1030823997.png" alt=""></swiper-slide>-->
+    <!--        <swiper-slide><img src="../assets/images/500px1030823997.png" alt=""></swiper-slide>-->
+    <!--        <swiper-slide><img src="../assets/images/500px1030823997.png" alt=""></swiper-slide>-->
+    <!--        <swiper-slide><img src="../assets/images/500px1030823997.png" alt=""></swiper-slide>-->
+    <!--        <swiper-slide><img src="../assets/images/500px1030823997.png" alt=""></swiper-slide>-->
+    <!--      </swiper>-->
+    <!--    </div>-->
+    <div class="video-main">
+      <video  src="https://static1.xpccdn.com/mp4/banner.mp4?12448ab"  id="bannerVideo" autoplay="" muted loop="" webkit-playsinline="" playsinline="" data-vscid="8rvymj79w"></video>
     </div>
     <div class="main-wapper">
       <div class="data-presentation">
@@ -93,58 +96,117 @@
         </div>
         <div class="service-category-bottom">
           <div class="container">
-            <div class="service-category-info" v-if="sindex === index+1" v-for="(itemfirst,index) in categoryList" :key="index">
+            <div class="service-category-info" v-if="sindex === index+1" v-for="(itemfirst,index) in categoryList"
+                 :key="index">
               <div class="service-category-bottom-item" v-for="(itemsecond,index) in itemfirst.children" :key="index">
                 <dl>
-                  <dt>{{itemsecond.name}}</dt>
-                  <dd v-for="(itemthird,index) in itemsecond.children" :key="index">{{itemthird.name}}</dd>
+                  <dt>{{ itemsecond.name }}</dt>
+                  <dd v-for="(itemthird,index) in itemsecond.children" :key="index">{{ itemthird.name }}</dd>
                 </dl>
               </div>
-            </div >
+            </div>
           </div>
         </div>
       </div>
       <div class="popular-recommendation">
-          <div class="public-switch">
-            <div class="container">
-              <div class="public-switch-title">热门推荐</div>
-              <div class="public-switch-view-all">
-                <a href="#">查看全部<span>></span></a>
+        <div class="public-switch">
+          <div class="container">
+            <div class="public-switch-title">热门推荐</div>
+            <div class="public-switch-view-all">
+              <a href="#">查看全部<span>></span></a>
+            </div>
+            <div class="public-switch-tab">
+              <div class="public-switch-tab-item" :class="[pindex === 1?'tab-active':'']">
+                <a @click="popularrecommendation(1)">全部</a>
               </div>
-              <div class="public-switch-tab">
-                <div class="public-switch-tab-item" :class="[pindex === 1?'tab-active':'']">
-                  <a @click="popularrecommendation(1)">全部</a>
-                </div>
-                <div class="public-switch-tab-item" :class="[pindex === 2?'tab-active':'']">
-                  <a @click="popularrecommendation(2)">需求</a>
-                </div>
-                <div class="public-switch-tab-item" :class="[pindex === 3?'tab-active':'']">
-                  <a @click="popularrecommendation(3)">服务</a>
-                </div>
+              <div class="public-switch-tab-item" :class="[pindex === 2?'tab-active':'']">
+                <a @click="popularrecommendation(2)">需求</a>
+              </div>
+              <div class="public-switch-tab-item" :class="[pindex === 3?'tab-active':'']">
+                <a @click="popularrecommendation(3)">服务</a>
               </div>
             </div>
           </div>
-          <div class="info-list" ref="plist">
-            <div class="container">
-              <div class="info-list-main" v-if="pindex === 1">
-                <info-list-item></info-list-item>
-                <info-list-item></info-list-item>
-                <info-list-item></info-list-item>
-                <info-list-item></info-list-item>
-                <info-list-item></info-list-item>
-              </div>
-              <div class="info-list-main" v-if="pindex === 2">
-                <info-list-item></info-list-item>
-              </div>
-              <div class="info-list-main" v-if="pindex === 3">
-                <info-list-item></info-list-item>
-                <info-list-item></info-list-item>
-                <info-list-item></info-list-item>
+        </div>
+        <div class="info-list" ref="plist">
+          <div class="container">
+            <div class="info-list-main" v-if="pindex === 1">
+              <info-list-item></info-list-item>
+              <info-list-item></info-list-item>
+              <info-list-item></info-list-item>
+              <info-list-item></info-list-item>
+              <info-list-item></info-list-item>
+            </div>
+            <div class="info-list-main" v-if="pindex === 2">
+              <info-list-item></info-list-item>
+            </div>
+            <div class="info-list-main" v-if="pindex === 3">
+              <info-list-item></info-list-item>
+              <info-list-item></info-list-item>
+              <info-list-item></info-list-item>
 
-              </div>
             </div>
           </div>
+        </div>
       </div>
+      <!--      <div class="successful-cases">-->
+      <!--        <div class="public-switch">-->
+      <!--          <div class="container">-->
+      <!--            <div class="public-switch-title">成功案例</div>-->
+      <!--            <div class="public-switch-view-all">-->
+      <!--              <a href="#">查看全部案例<span>></span></a>-->
+      <!--            </div>-->
+      <!--&lt;!&ndash;            需要修改&ndash;&gt;-->
+      <!--            <div class="public-switch-tab">-->
+      <!--              <div class="public-switch-tab-item tab-active">-->
+      <!--                <a>研究开发</a>-->
+      <!--              </div>-->
+      <!--              <div class="public-switch-tab-item">-->
+      <!--                <a>技术转移</a>-->
+      <!--              </div>-->
+      <!--              <div class="public-switch-tab-item">-->
+      <!--                <a>知识产权</a>-->
+      <!--              </div>-->
+      <!--              <div class="public-switch-tab-item">-->
+      <!--                <a>检验检测</a>-->
+      <!--              </div>-->
+      <!--            </div>-->
+      <!--          </div>-->
+      <!--        </div>-->
+      <!--        <div class="successful-cases-main">-->
+      <!--          <div class="container">-->
+      <!--            <div class="successful-cases-main-left">-->
+      <!--              <div class="title">-->
+      <!--                <h1>企业名称企业名称企业名称企业名称企业名称企业名称企业名称企业名称企业名称企业名称企业名称企业名称</h1>-->
+      <!--              </div>-->
+      <!--              <span class="keywords">摩擦片、模具</span>-->
+      <!--              <div class="rate">-->
+      <!--                服务评分：-->
+      <!--                <el-rate-->
+      <!--                    v-model="value"-->
+      <!--                    disabled-->
+      <!--                    show-score-->
+      <!--                    text-color="#ff9900"-->
+      <!--                    score-template="{value}">-->
+      <!--                </el-rate>-->
+      <!--              </div>-->
+      <!--              <p class="introduce">-->
+      <!--                介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍-->
+      <!--              </p>-->
+      <!--            </div>-->
+      <!--            <div class="successful-cases-main-right">-->
+      <!--              <div class="successful-cases-main-right-swiper">-->
+      <!--                <swiper class="swiper" :options="swiperOption2">-->
+      <!--                  <swiper-slide><img src="../assets/images/500px1030823997.png" alt=""></swiper-slide>-->
+      <!--                  <swiper-slide><img src="../assets/images/500px1030823997.png" alt=""></swiper-slide>-->
+      <!--                  <swiper-slide><img src="../assets/images/500px1030823997.png" alt=""></swiper-slide>-->
+      <!--                  <div class="swiper-pagination" slot="pagination"></div>-->
+      <!--                </swiper>-->
+      <!--              </div>-->
+      <!--            </div>-->
+      <!--          </div>-->
+      <!--        </div>-->
+      <!--      </div>-->
       <div class="successful-cases">
         <div class="public-switch">
           <div class="container">
@@ -152,52 +214,75 @@
             <div class="public-switch-view-all">
               <a href="#">查看全部案例<span>></span></a>
             </div>
-<!--            需要修改-->
-            <div class="public-switch-tab">
-              <div class="public-switch-tab-item tab-active">
-                <a>研究开发</a>
-              </div>
-              <div class="public-switch-tab-item">
-                <a>技术转移</a>
-              </div>
-              <div class="public-switch-tab-item">
-                <a>知识产权</a>
-              </div>
-              <div class="public-switch-tab-item">
-                <a>检验检测</a>
-              </div>
-            </div>
           </div>
         </div>
         <div class="successful-cases-main">
           <div class="container">
             <div class="successful-cases-main-left">
-              <div class="title">
-                <h1>企业名称企业名称企业名称企业名称企业名称企业名称企业名称企业名称企业名称企业名称企业名称企业名称</h1>
-              </div>
-              <span class="keywords">摩擦片、模具</span>
-              <div class="rate">
-                服务评分：
-                <el-rate
-                    v-model="value"
-                    disabled
-                    show-score
-                    text-color="#ff9900"
-                    score-template="{value}">
-                </el-rate>
-              </div>
-              <p class="introduce">
-                介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍
-              </p>
+              <a href="#">
+                <div class="sucess-left-img">
+                  <img
+                      src="https://img.alicdn.com/imgextra/i4/O1CN012aMSlt22kPhwdZtGs_!!6000000007158-2-tps-848-338.png"
+                      alt="">
+                </div>
+                <div class="sucess-left-info">
+                  <h3>联华华商 ></h3>
+                  <p>解决门店系统压力过高，大幅降低人力维护成本</p>
+                </div>
+              </a>
             </div>
             <div class="successful-cases-main-right">
-              <div class="successful-cases-main-right-swiper">
-                <swiper class="swiper" :options="swiperOption2">
-                  <swiper-slide><img src="../assets/images/500px1030823997.png" alt=""></swiper-slide>
-                  <swiper-slide><img src="../assets/images/500px1030823997.png" alt=""></swiper-slide>
-                  <swiper-slide><img src="../assets/images/500px1030823997.png" alt=""></swiper-slide>
-                  <div class="swiper-pagination" slot="pagination"></div>
-                </swiper>
+              <div class="successful-cases-main-right-item">
+                <a href="">
+                  <div class="sucess-right-img">
+                    <img
+                        src="https://img.alicdn.com/imgextra/i1/O1CN01xjmRvr1qIgKrz6Mop_!!6000000005473-2-tps-848-240.png"
+                        alt="">
+                  </div>
+                  <div class="sucess-right-info">
+                    <h3>联华华商 ></h3>
+                    <p>解决门店系统压力过高，大幅降低人力维护成本</p>
+                  </div>
+                </a>
+              </div>
+              <div class="successful-cases-main-right-item">
+                <a href="">
+                  <div class="sucess-right-img">
+                    <img
+                        src="https://img.alicdn.com/imgextra/i1/O1CN01xjmRvr1qIgKrz6Mop_!!6000000005473-2-tps-848-240.png"
+                        alt="">
+                  </div>
+                  <div class="sucess-right-info">
+                    <h3>联华华商 ></h3>
+                    <p>解决门店系统压力过高，大幅降低人力维护成本</p>
+                  </div>
+                </a>
+              </div>
+              <div class="successful-cases-main-right-item">
+                <a href="">
+                  <div class="sucess-right-img">
+                    <img
+                        src="https://img.alicdn.com/imgextra/i1/O1CN01xjmRvr1qIgKrz6Mop_!!6000000005473-2-tps-848-240.png"
+                        alt="">
+                  </div>
+                  <div class="sucess-right-info">
+                    <h3>联华华商 ></h3>
+                    <p>解决门店系统压力过高，大幅降低人力维护成本</p>
+                  </div>
+                </a>
+              </div>
+              <div class="successful-cases-main-right-item">
+                <a href="">
+                  <div class="sucess-right-img">
+                    <img
+                        src="https://img.alicdn.com/imgextra/i1/O1CN01xjmRvr1qIgKrz6Mop_!!6000000005473-2-tps-848-240.png"
+                        alt="">
+                  </div>
+                  <div class="sucess-right-info">
+                    <h3>联华华商 ></h3>
+                    <p>解决门店系统压力过高，大幅降低人力维护成本</p>
+                  </div>
+                </a>
               </div>
             </div>
           </div>
@@ -267,11 +352,11 @@
             <div class="public-switch-title">资源空间</div>
           </div>
         </div>
-       <div class="container">
-         <div class="resource-space-main" id="resource-space-main">
+        <div class="container">
+          <div class="resource-space-main" id="resource-space-main">
 
-         </div>
-       </div>
+          </div>
+        </div>
       </div>
       <div class="cooperative-partner">
         <div class="container">
@@ -281,22 +366,22 @@
           <div class="cooperative-partner-bottom">
             <ul class="cooperative-partner-ul">
               <li><img src="../assets/shanghai.png" alt=""></li>
-              <li><img src="../assets/shanghai.png" alt=""></li>
-              <li><img src="../assets/shanghai.png" alt=""></li>
-              <li><img src="../assets/shanghai.png" alt=""></li>
-              <li><img src="../assets/shanghai.png" alt=""></li>
+              <li><img src="https://cn.vuejs.org/images/vueschool.png" alt=""></li>
+              <li><img src="https://cn.vuejs.org/images/vehikl.png" alt=""></li>
+              <li><img src="https://cn.vuejs.org/images/retool.png" alt=""></li>
+              <li><img src="https://cn.vuejs.org/images/passionate_people.png" alt=""></li>
 
-              <li><img src="../assets/shanghai.png" alt=""></li>
-              <li><img src="../assets/shanghai.png" alt=""></li>
-              <li><img src="../assets/shanghai.png" alt=""></li>
-              <li><img src="../assets/shanghai.png" alt=""></li>
-              <li><img src="../assets/shanghai.png" alt=""></li>
+              <li><img src="https://cn.vuejs.org/images/storyblok.png" alt=""></li>
+              <li><img src="https://cn.vuejs.org/images/neds.png" alt=""></li>
+              <li><img src="https://cn.vuejs.org/images/vpsserver_com.png" alt=""></li>
+              <li><img src="https://cn.vuejs.org/images/vpn_review.png" alt=""></li>
+              <li><img src="https://cn.vuejs.org/images/litslink.png" alt=""></li>
 
-              <li><img src="../assets/shanghai.png" alt=""></li>
-              <li><img src="../assets/shanghai.png" alt=""></li>
-              <li><img src="../assets/shanghai.png" alt=""></li>
-              <li><img src="../assets/shanghai.png" alt=""></li>
-              <li><img src="../assets/shanghai.png" alt=""></li>
+              <li><img src="https://cn.vuejs.org/images/line_corporation.png" alt=""></li>
+              <li><img src="https://cn.vuejs.org/images/flatlogic_templates.svg" alt=""></li>
+              <li><img src="https://cn.vuejs.org/images/usave.png" alt=""></li>
+              <li><img src="https://cn.vuejs.org/images/lowdefy.png" alt=""></li>
+              <li><img src="https://cn.vuejs.org/images/devexpress.png" alt=""></li>
             </ul>
           </div>
         </div>
@@ -337,10 +422,11 @@ export default {
           el: '.swiper-pagination'
         }
       },
-      value:4,
-      pindex:1,
-      sindex:1,
-      categoryList:[]
+      value: 4,
+      pindex: 1,
+      sindex: 1,
+      categoryList: [],
+      chartDataList: []
     }
   },
   components: {
@@ -352,29 +438,63 @@ export default {
   async created() {
     await this.getCategoryList()
   },
-  async mounted(){
-    this.drawInit()
+  async mounted() {
+    await this.drawInit()
   },
   methods: {
-    popularrecommendation(index){
+    popularrecommendation(index) {
       this.pindex = index
     },
-    servicecategory(index){
+    servicecategory(index) {
       this.sindex = index
     },
     async getCategoryList() {
       let result = await this.$axios.categoryControllerList.getCategory()
-      if (result.code === 20000){
+      if (result.code === 20000) {
         this.categoryList = result.data.firstCategoryList
       }
     },
-    drawInit(){
+    async drawInit() {
+      let chartData = await this.$axios.mainController.getChartData()
+      if (chartData.code === 20000) {
+        this.chartDataList = chartData.data.platForms
+      }
+      // 自定义颜色
+      let colorList = [
+        {
+          startColor: '#0093E9',
+          endColor: '#80D0C7'
+        }, {
+          startColor: '#8EC5FC',
+          endColor: '#E0C3FC'
+        }, {
+          startColor: '#00DBDE',
+          endColor: '#FC00FF'
+        }, {
+          startColor: '#85FFBD',
+          endColor: '#FFFB7D'
+        }, {
+          startColor: '#8BC6EC',
+          endColor: '#9599E2'
+        }, {
+          startColor: '#FFE53B',
+          endColor: '#FF2525'
+        }, {
+          startColor: '#21D4FD',
+          endColor: '#B721FF'
+        }, {
+          startColor: '#3EECAC',
+          endColor: '#EE74E1'
+        }, {
+          startColor: '#FBDA61',
+          endColor: '#FF5ACD'
+        }]
+
       // 基于准备好的dom，初始化echarts实例
       let myChart = this.$echarts.init(document.getElementById('resource-space-main'));
-
-      // 指定图表的配置项和数据
       let option = {
-        color: ['#80FFA5', '#00DDFF', '#37A2FF', '#FF0087', '#FFBF00'],
+        // color: ['#80FFA5', '#00DDFF', '#37A2FF', '#FF0087', '#FFBF00'],
+        color: [],
         title: {
           text: '科技服务协同平台资源空间'
         },
@@ -388,10 +508,16 @@ export default {
           }
         },
         legend: {
-          data: ['知网', '114产学研', '陕西', '哈长', '首都师范大学']
+          data: []
         },
         toolbox: {
           feature: {
+            dataZoom: {
+              yAxisIndex: 'none'
+            },
+            dataView: {readOnly: false},
+            magicType: {type: ['line', 'bar']},
+            restore: {},
             saveAsImage: {}
           }
         },
@@ -413,134 +539,42 @@ export default {
             type: 'value'
           }
         ],
-        series: [
-          {
-            name: '知网',
-            type: 'line',
-            stack: '总量',
-            smooth: true,
-            lineStyle: {
-              width: 0
-            },
-            showSymbol: false,
-            areaStyle: {
-              opacity: 0.8,
-              color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                offset: 0,
-                color: 'rgba(128, 255, 165)'
-              }, {
-                offset: 1,
-                color: 'rgba(1, 191, 236)'
-              }])
-            },
-            emphasis: {
-              focus: 'series'
-            },
-            data: [140, 232, 101, 264]
-          },
-          {
-            name: '114产学研',
-            type: 'line',
-            stack: '总量',
-            smooth: true,
-            lineStyle: {
-              width: 0
-            },
-            showSymbol: false,
-            areaStyle: {
-              opacity: 0.8,
-              color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                offset: 0,
-                color: 'rgba(0, 221, 255)'
-              }, {
-                offset: 1,
-                color: 'rgba(77, 119, 255)'
-              }])
-            },
-            emphasis: {
-              focus: 'series'
-            },
-            data: [120, 282, 111, 234]
-          },
-          {
-            name: '陕西',
-            type: 'line',
-            stack: '总量',
-            smooth: true,
-            lineStyle: {
-              width: 0
-            },
-            showSymbol: false,
-            areaStyle: {
-              opacity: 0.8,
-              color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                offset: 0,
-                color: 'rgba(55, 162, 255)'
-              }, {
-                offset: 1,
-                color: 'rgba(116, 21, 219)'
-              }])
-            },
-            emphasis: {
-              focus: 'series'
-            },
-            data: [320, 132, 201, 334]
-          },
-          {
-            name: '哈长',
-            type: 'line',
-            stack: '总量',
-            smooth: true,
-            lineStyle: {
-              width: 0
-            },
-            showSymbol: false,
-            areaStyle: {
-              opacity: 0.8,
-              color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                offset: 0,
-                color: 'rgba(255, 0, 135)'
-              }, {
-                offset: 1,
-                color: 'rgba(135, 0, 157)'
-              }])
-            },
-            emphasis: {
-              focus: 'series'
-            },
-            data: [220, 402, 231, 134]
-          },
-          {
-            name: '首都师范大学',
-            type: 'line',
-            stack: '总量',
-            smooth: true,
-            lineStyle: {
-              width: 0
-            },
-            showSymbol: false,
-            label: {
-              show: true,
-              position: 'top'
-            },
-            areaStyle: {
-              opacity: 0.8,
-              color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                offset: 0,
-                color: 'rgba(255, 191, 0)'
-              }, {
-                offset: 1,
-                color: 'rgba(224, 62, 76)'
-              }])
-            },
-            emphasis: {
-              focus: 'series'
-            },
-            data: [220, 302, 181, 234]
-          }
-        ]
+        series: []
       };
-
+      // 指定图表的配置项和数据
+      for (let i = 0; i < this.chartDataList.length; i++) {
+        option.color.push(colorList[i].endColor)
+        option.legend.data.push(this.chartDataList[i].platFormName)
+        option.series.push({
+          name: this.chartDataList[i].platFormName,
+          type: 'line',
+          stack: '总量',
+          smooth: true,
+          lineStyle: {
+            width: 0
+          },
+          showSymbol: false,
+          label: {
+            show: true,
+            position: 'top'
+          },
+          areaStyle: {
+            opacity: 0.8,
+            color: new this.$echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+              offset: 0,
+              color: colorList[i].startColor
+            }, {
+              offset: 1,
+              color: colorList[i].endColor
+            }])
+          },
+          emphasis: {
+            focus: 'series'
+          },
+          data: [this.chartDataList[i].userCount, this.chartDataList[i].requireCount, this.chartDataList[i].serviceCount, this.chartDataList[i].orderCount]
+        })
+      }
+      console.log(option)
       // 使用刚指定的配置项和数据显示图表。
       myChart.setOption(option);
     }
@@ -556,6 +590,7 @@ export default {
     position: relative;
     top: -70px;
     z-index: -20;
+
     .swiper {
       img {
         height: 420px;
@@ -563,37 +598,57 @@ export default {
       }
     }
   }
+  .video-main {
+    position: relative;
+    top: -70px;
+    z-index: -20;
+    width:100%;
+    video {
+      display: inline-block;
+      width: 100%;
+      height: 420px;
+      object-fit: fill;
+    }
+  }
+
   .main-wapper {
     .data-presentation {
       margin-top: -70px;
       height: 110px;
+
       .container {
-        height:100%;
-        display:flex;
-        justify-content:space-between;
+        height: 100%;
+        display: flex;
+        justify-content: space-between;
         align-items: center;
+
         .data-presentation-item {
           width: 20%;
           text-align: center;
           display: flex;
-          justify-content:center;
+          justify-content: center;
           align-items: center;
+
           .data-presentation-item-left {
             width: 34px;
             height: 34px;
             margin-right: 24px;
+
             img {
-              width:100%;
-              height:auto;
+              width: 100%;
+              height: auto;
             }
           }
+
           .data-presentation-item-right {
             .data-presentation-item-title {
               line-height: 25px;
               @include font-config(18px, 'PingFangSC-Medium, PingFang SC', 400, #333333)
             }
+
             /deep/ .scrolling-numbers {
               margin-top: 4px;
+
               span {
                 @include font-config(26px, 'PingFangSC-Medium, PingFang SC', 500, #1794FF)
               }
@@ -602,57 +657,69 @@ export default {
         }
       }
     }
+
     .service-category {
-      height:490px;
+      height: 490px;
+
       .service-category-top {
-        height:240px;
+        height: 240px;
         text-align: center;
+
         .service-category-title {
           margin: 36px 0 70px 0;
           font-size: 30px;
           font-weight: 500;
           color: #333333;
         }
+
         .service-category-tab {
-          display:flex;
+          display: flex;
           justify-content: center;
           align-items: center;
-          height:100%;
+          height: 100%;
+
           .service-category-tab-item {
             box-sizing: border-box;
             text-align: center;
-            width:220px;
-            padding-bottom:10px;
+            width: 220px;
+            padding-bottom: 10px;
+
             a {
               img {
-                display:block;
+                display: block;
                 margin: 10px auto;
                 width: 60px;
                 height: 60px;
               }
+
               span {
                 font-size: 16px;
                 font-weight: 400;
                 color: #333333;
               }
+
               cursor: pointer;
             }
           }
         }
       }
+
       .service-category-bottom {
         box-sizing: border-box;
-        padding:0 0 30px 0;
-        width:100%;
+        padding: 0 0 30px 0;
+        width: 100%;
         background: #F6F6F6;
+
         .container {
-          .service-category-info{
-            height:100%;
-            display:flex;
+          .service-category-info {
+            height: 100%;
+            display: flex;
             justify-content: flex-start;
             flex-wrap: wrap;
+
             .service-category-bottom-item {
-              flex:1;
+              flex: 1;
+
               dl {
                 dt {
                   margin: 30px 0;
@@ -660,8 +727,9 @@ export default {
                   font-weight: 400;
                   color: #333333;
                 }
+
                 dd {
-                  float:left;
+                  float: left;
                   font-size: 14px;
                   font-weight: 400;
                   color: #999999;
@@ -674,120 +742,266 @@ export default {
         }
       }
     }
+
     .popular-recommendation {
       .container {
         .info-list-main {
-          display:flex;
+          display: flex;
           justify-content: flex-start;
         }
       }
     }
+
     .successful-cases {
+      .public-switch {
+        height: 100px !important;
+      }
+
       .successful-cases-main {
-        height:330px;
-       .container {
-         height: 100%;
-         display:flex;
-         justify-content: space-between;
-         .successful-cases-main-left {
-           box-sizing: border-box;
-           height: 100%;
-           width: 730px;
-           padding:69px 60px;
-           box-shadow: -1px 0px 9px 2px rgba(224, 224, 224, 0.5);
-           border-radius: 1px;
-           .title {
-             width:100%;
-             margin-bottom: 27px;
-             h1 {
-               font-size: 16px;
-               font-weight: 500;
-               color: #111111;
-               word-break: break-all;
-               text-overflow: ellipsis;
-               display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
-               -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
-               -webkit-line-clamp: 2; /** 显示的行数 **/
-               overflow: hidden;  /** 隐藏超出的内容 **/
-             }
-           }
-           .keywords {
-             font-size: 14px;
-             font-weight: 400;
-             color: #FF7C12;
-           }
-           .rate {
-             margin: 20px 0;
-             font-size: 14px;
-             font-weight: 400;
-             color: #999999;
-             /deep/ .el-rate {
-               display:inline-block;
-             }
-           }
-           .introduce {
-             font-size: 12px;
-             font-weight: 400;
-             color: #999999;
-             word-break: break-all;
-             text-overflow: ellipsis;
-             display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
-             -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
-             -webkit-line-clamp: 3; /** 显示的行数 **/
-             overflow: hidden;  /** 隐藏超出的内容 **/
-           }
-         }
-         .successful-cases-main-right {
-           height: 100%;
-           width: 470px;
-           .successful-cases-main-right-swiper {
-             height: 100%;
-             width: 100%;
-             .swiper {
-               height: 100%;
-               width: 100%;
-               img{
-                 height: 100%;
-                 width: 100%;
-               }
-             }
-           }
-         }
-       }
+        .container {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: space-between;
+
+          .successful-cases-main-left {
+            overflow: hidden;
+            width: 50%;
+            height: 260px;
+
+            .sucess-left-img {
+              img {
+                display: block;
+                height: 160px;
+                width: 100%;
+                transition: transform .3s ease;
+              }
+            }
+
+            .sucess-left-info {
+              color: white;
+              box-sizing: border-box;
+              height: 100px;
+              padding: 14px 20px 7px;
+              background-color: #FEE140;
+              background-image: linear-gradient(90deg, #FEE140 0%, #FA709A 100%);
+
+              h3 {
+                font-family: PingFangSC-Medium;
+                font-size: 16px;
+                color: #fff;
+                letter-spacing: 0;
+                margin-bottom: 10px;
+              }
+
+              p {
+                font-size: 13px;
+                color: #fff;
+                letter-spacing: 0;
+                line-height: 20px;
+                height: 40px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+              }
+            }
+
+            &:hover img {
+              transform: scale(1.1)
+            }
+          }
+
+          .successful-cases-main-right {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+
+            .successful-cases-main-right-item {
+              overflow: hidden;
+              width: 50%;
+              height: 50%;
+              position: relative;
+
+              .sucess-right-img {
+                img {
+                  display: block;
+                  width: 100%;
+                  height: 130px;
+                  transition: transform .3s ease;
+                }
+              }
+
+              .sucess-right-info {
+                color: white;
+                width: 100%;
+                position: absolute;
+                top: 0;
+                left: 0;
+                padding: 24px 14px 15px 20px;
+
+                h3 {
+                  font-family: PingFangSC-Medium;
+                  font-size: 16px;
+                  color: #fff;
+                  letter-spacing: 0;
+                  margin-bottom: 20px;
+                }
+
+                p {
+                  font-size: 13px;
+                  color: #fff;
+                  letter-spacing: 0;
+                  line-height: 20px;
+                  height: 40px;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  display: -webkit-box;
+                  -webkit-line-clamp: 2;
+                }
+              }
+
+              &:hover img {
+                transform: scale(1.1)
+              }
+            }
+          }
+        }
       }
     }
+
+    //.successful-cases {
+    //  .public-switch {
+    //    height: 100px !important;
+    //  }
+    //  .successful-cases-main {
+    //    height: 330px;
+    //    .container {
+    //      height: 100%;
+    //      display: flex;
+    //      justify-content: space-between;
+    //      .successful-cases-main-left {
+    //        box-sizing: border-box;
+    //        height: 100%;
+    //        width: 730px;
+    //        padding: 69px 60px;
+    //        box-shadow: -1px 0px 9px 2px rgba(224, 224, 224, 0.5);
+    //        border-radius: 1px;
+    //
+    //        .title {
+    //          width: 100%;
+    //          margin-bottom: 27px;
+    //
+    //          h1 {
+    //            font-size: 16px;
+    //            font-weight: 500;
+    //            color: #111111;
+    //            word-break: break-all;
+    //            text-overflow: ellipsis;
+    //            display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
+    //            -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+    //            -webkit-line-clamp: 2; /** 显示的行数 **/
+    //            overflow: hidden; /** 隐藏超出的内容 **/
+    //          }
+    //        }
+    //
+    //        .keywords {
+    //          font-size: 14px;
+    //          font-weight: 400;
+    //          color: #FF7C12;
+    //        }
+    //
+    //        .rate {
+    //          margin: 20px 0;
+    //          font-size: 14px;
+    //          font-weight: 400;
+    //          color: #999999;
+    //
+    //          /deep/ .el-rate {
+    //            display: inline-block;
+    //          }
+    //        }
+    //
+    //        .introduce {
+    //          font-size: 12px;
+    //          font-weight: 400;
+    //          color: #999999;
+    //          word-break: break-all;
+    //          text-overflow: ellipsis;
+    //          display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
+    //          -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+    //          -webkit-line-clamp: 3; /** 显示的行数 **/
+    //          overflow: hidden; /** 隐藏超出的内容 **/
+    //        }
+    //      }
+    //
+    //      .successful-cases-main-right {
+    //        height: 100%;
+    //        width: 470px;
+    //
+    //        .successful-cases-main-right-swiper {
+    //          height: 100%;
+    //          width: 100%;
+    //
+    //          .swiper {
+    //            height: 100%;
+    //            width: 100%;
+    //
+    //            img {
+    //              height: 100%;
+    //              width: 100%;
+    //            }
+    //          }
+    //        }
+    //      }
+    //    }
+    //  }
+    //}
+
     .platform-news {
+      .public-switch {
+        height: 100px !important;
+      }
+
       .container {
         .platform-news-main {
           height: 355px;
-          display:flex;
-          justify-content:space-between;
-          align-items:center;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
           .platform-news-main-item {
-            height:100%;
+            height: 100%;
             margin: 0 27px 0 0;
             flex: 1;
             background: #FFFFFF;
             border: 1px solid #E7E7E7;
+
             .platform-news-main-item-top {
               img {
                 width: 100%;
               }
             }
+
             .platform-news-main-item-bottom {
               box-sizing: border-box;
-              padding:16px;
+              padding: 16px;
+
               h1 {
                 font-size: 16px;
                 font-weight: 500;
                 color: #4E4E4E;
                 margin-bottom: 10px;
               }
+
               span {
                 font-size: 12px;
                 font-weight: 500;
                 color: #999999;
               }
+
               p {
                 margin-top: 10px;
                 font-size: 12px;
@@ -798,16 +1012,18 @@ export default {
                 display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
                 -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
                 -webkit-line-clamp: 2; /** 显示的行数 **/
-                overflow: hidden;  /** 隐藏超出的内容 **/
+                overflow: hidden; /** 隐藏超出的内容 **/
               }
+
               a {
-                display:inline-block;
+                display: inline-block;
                 margin-top: 5px;
                 font-size: 16px;
                 font-weight: 500;
                 color: #1794FF;
               }
             }
+
             &:last-child {
               margin-right: 0;
             }
@@ -815,6 +1031,7 @@ export default {
         }
       }
     }
+
     .cooperative-partner {
       height: 512px;
       background: rgba(23, 148, 255, 0.04);
@@ -862,6 +1079,8 @@ export default {
 
           img {
             position: absolute;
+            width: 100%;
+            height: 75%;
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
@@ -869,51 +1088,62 @@ export default {
         }
       }
     }
+
     .resource-space {
       .public-switch {
-        height:100px !important;
+        height: 100px !important;
       }
+
       .resource-space-main {
-        height:300px;
+        height: 300px;
         width: 100%;
       }
     }
   }
 }
+
 .public-switch {
-  height:185px;
+  height: 185px;
   margin-top: 50px;
+
   .container {
     text-align: center;
+
     .public-switch-title {
       margin: 0 0 20px 0;
       font-size: 30px;
       font-weight: 500;
       color: #333333;
     }
+
     .public-switch-view-all {
       margin-bottom: 50px;
+
       a {
         font-size: 14px;
         font-weight: 400;
         color: #1794FF;
+
         span {
-          margin-left:10px;
+          margin-left: 10px;
         }
       }
     }
+
     .public-switch-tab {
       font-size: 16px;
       font-weight: 400;
       color: #333333;
-      display:flex;
+      display: flex;
       justify-content: center;
+
       .public-switch-tab-item {
-        height:35px;
+        height: 35px;
         width: 220px;
         font-size: 16px;
         font-weight: 400;
         color: #333333;
+
         a {
           display: block;
           width: 100%;
@@ -924,9 +1154,11 @@ export default {
     }
   }
 }
+
 .tab-active {
   border-bottom: 2px solid #1794FF;
 }
+
 .swiper-style {
   outline: none;
   box-shadow: none;
