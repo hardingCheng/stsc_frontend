@@ -55,11 +55,53 @@
         <div class="sub_title">
           <div class="sub_title_top">
             <img src="../assets/images/icon_list.png" />
-            <span>xxxx</span>
+            <span>需求方/需求描述</span>
           </div>
-          <p>xxxxxxx</p>
+          <p>需求方：<span>哈萨克斯坦</span></p>
+          <p>所属平台：<span>哈萨克斯坦</span></p>
+          <p>创建时间：<span>哈萨克斯坦</span></p>
+          <p>需求描述：</p>
         </div>
-
+        <div class="other">
+          <div class="other_title"><h3>其他成功案例</h3></div>
+          <div class="other_success">
+            <div class="other_success_div">
+              <div class="img_div"><img src="../assets/logo.png"></div>
+              <div class="other_inner">
+              <span>标题</span>
+                <p>哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊</p>
+                <a>了解更多</a>
+              </div>
+            </div>
+            <div class="success_div">
+              <div class="img_div"><img src="../assets/logo.png"></div>
+              <div class="other_inner">
+                <span>标题</span>
+                <p>哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊</p>
+                <a>了解更多</a>
+              </div>
+            </div>
+            <div class="other_success_div">
+              <div class="img_div"><img src="../assets/logo.png"></div>
+              <div class="other_inner">
+                <span>标题</span>
+                <p>哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊</p>
+                <a>了解更多</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="other_pagination">
+          <el-pagination
+              background
+              @size-change="handleSizeChange1"
+              @current-change="handleCurrentChange1"
+              :current-page.sync="currentPage2"
+              :page-size="15"
+              layout="total, prev, pager, next"
+              :total="10">
+          </el-pagination>
+        </div>
       </div>
 
       <div class="evaluation-box" slot="fifth">
@@ -92,22 +134,21 @@
             :evaluation-data=item.createTime
             :evaluation-text=item.content>
         </Evaluation>
-
-        <div class="pagination-box"></div>
-      </div>
-      <div class="common-pagination">
-        <div class="pagination">
-          <el-pagination
-              background
-              @size-change="handleSizeChange"
-              @current-change="handleCurrentChange"
-              :current-page.sync="currentPage"
-              :page-size="1"
-              layout="total, prev, pager, next"
-              :total="total">
-          </el-pagination>
+        <div class="common-pagination">
+          <div class="pagination">
+            <el-pagination
+                background
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page.sync="currentPage"
+                :page-size="1"
+                layout="total, prev, pager, next"
+                :total="total">
+            </el-pagination>
+          </div>
         </div>
       </div>
+
     </Tabs>
     <div class="see-and-see container ">
       <span class="see-and-see-title">---看了又看---</span>
@@ -135,6 +176,7 @@ export default {
   components: {Evaluation, Tabs},
   data() {
     return {
+      currentPage2:1,
       activeName: 'first',
       info: {},
       value: 0,
@@ -172,6 +214,12 @@ export default {
   },
 
   methods: {
+    handleSizeChange1(val) {
+      console.log(`每页 ${val} 条`);
+    },
+    async handleCurrentChange1() {
+      //await this.getMessageListNoRead()
+    },
     // async getData(i){
     //   this.currentPage=i||this.currentPage;
     //     const commentList = await  this.$axios.requirementControllerList.getCommentList({
@@ -309,7 +357,6 @@ export default {
     .common-pagination {
       height: 60px;
       position: relative;
-
       .pagination {
         position: absolute;
         top: 50%;
@@ -356,7 +403,6 @@ export default {
       line-height: 20px;
       margin-top: 10px;
       margin-left: 10px;
-
       .text-service-text {
         color: #333333;
       }
@@ -474,10 +520,79 @@ export default {
   }
 
   .success{
+    .other_pagination{
+      display: flex;
+      justify-content: center;
+
+    }
+    .other{
+      .other_title{
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+        margin-top: 20px;
+      }
+      .other_success{
+        display: flex;
+        justify-content: center;
+
+      .other_success_div{
+        display: flex;
+        height: 200px;
+        width: 300px;
+        border: 1px solid #F3F3F3;
+        .other_inner{
+          margin-top: 20px;
+          margin-left: 10px;
+          margin-bottom: 20px;
+          padding-left: 5px;
+          border-left:1px solid #F3F3F3 ;
+          a{
+            font-size: 14px;
+           line-height: 30px;
+            color: #007aff;
+          }
+        }
+        .img_div{
+          display: flex;
+          align-items: center;
+          img{
+            height: 100px;
+          }
+        }
+      }
+        .success_div{
+          display: flex;
+          height: 200px;
+          width: 300px;
+          margin-left: 20px;
+          margin-right: 20px;
+          border: 1px solid #F3F3F3;
+          .other_inner{
+            margin-top: 20px;
+            margin-left: 10px;
+            margin-bottom: 20px;
+            padding-left: 5px;
+            border-left:1px solid #F3F3F3 ;
+            a{
+              font-size: 14px;
+              line-height: 30px;
+              color: #007aff;
+            }
+          }
+          .img_div{
+            display: flex;
+            align-items: center;
+            img{
+              height: 100px;
+            }
+          }
+        }
+      }
+    }
     .title{
       display: flex;
       align-items: center;
-      height: 200px;
       img{
         height: 150px;
       }
@@ -486,8 +601,10 @@ export default {
       }
     }
     .sub_title{
-      height: 250px;
-      background: #5e6d82;
+     border-bottom: 1px solid #F3F3F3;
+      p{
+        line-height: 25px;
+      }
       .sub_title_top{
         display: flex;
         align-items: center;
@@ -499,7 +616,8 @@ export default {
           background: #007aff;
         }
         span{
-          margin-left: 20px;
+          font-size: 16px;
+          margin-left: 15px;
         }
       }
     }
