@@ -19,13 +19,15 @@ module.exports = {
       },
       "/bh": {
         target: "http://60.205.217.212:8003", //跨域接口的地址
+        // target: "http://localhost:8003", //跨域接口的地址
         changeOrigin: true,
         pathRewrite: {
           "^/bh": "",
         },
       },
       "/third": {
-        target: "http://192.168.31.65:8003", //跨域接口的地址
+        //target: "http://192.168.31.65:8003", //跨域接口的地址
+        target: "http://localhost:8003", //跨域接口的地址
         changeOrigin: true,
         pathRewrite: {
           "^/third": "",

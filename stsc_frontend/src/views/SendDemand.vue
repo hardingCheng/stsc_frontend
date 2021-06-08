@@ -46,18 +46,22 @@
               <!--                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
             </el-upload>
           </el-form-item>
-          <el-form-item label="预算价格：" prop="budget">
-            <el-input-number v-model="form.budget" :precision="2" :step="0.1" :max="1000"></el-input-number>  万
+<!--          <el-form-item label="预算价格：" prop="budget">-->
+<!--            <el-input-number v-model="form.budget" :precision="2" :step="0.1" :max="1000"></el-input-number>  万-->
+<!--          </el-form-item>-->
+<!--          <el-form-item label="项目背景：" prop="projectBackground">-->
+<!--            <el-input type="textarea" v-model="form.projectBackground" placeholder="请填写项目背景"></el-input>-->
+<!--          </el-form-item>-->
+<!--          <el-form-item label="需求内容：" prop="content">-->
+<!--            <el-input type="textarea" v-model="form.content" placeholder="请填写需求内容"></el-input>-->
+<!--          </el-form-item>-->
+<!--          <el-form-item label="验收指标：" prop="standard">-->
+<!--            <el-input type="textarea" v-model="form.standard" placeholder="请填写验收指标"></el-input>-->
+<!--          </el-form-item>-->
+          <el-form-item label="需求概述：" prop="content">
+            <el-input type="textarea" v-model="form.content" placeholder="叙述项目背景、需求内容、需要达到的效果、技术指标"></el-input>
           </el-form-item>
-          <el-form-item label="项目背景：" prop="projectBackground">
-            <el-input type="textarea" v-model="form.projectBackground" placeholder="请填写项目背景"></el-input>
-          </el-form-item>
-          <el-form-item label="需求内容：" prop="content">
-            <el-input type="textarea" v-model="form.content" placeholder="请填写需求内容"></el-input>
-          </el-form-item>
-          <el-form-item label="验收指标：" prop="standard">
-            <el-input type="textarea" v-model="form.standard" placeholder="请填写验收指标"></el-input>
-          </el-form-item>
+
           <el-form-item label="需求时间：" prop="deadline">
             <el-date-picker
                 v-model="form.deadline"
@@ -103,15 +107,16 @@ export default {
   data() {
     return {
       form: {
-        name: '',
-        company: '',
-        budget: 0,
-        projectBackground: '',
-        content: '',
-        contact: '',
-        telephone: '',
-        address: '',
-        standard: '',
+        name: '4',
+        company: '4',
+       // budget: 4,
+        content: '4',//需求概述
+        contact: '4',
+        telephone: '4',
+        address: '4',
+       // standard: '4',
+        position:'',//职位
+        companyIntro:'',//公司简介
         deadline: '',
         attachments: '',
         image: ''
@@ -132,7 +137,7 @@ export default {
           {required: true, message: '请输入项目背景', trigger: 'blur'}
         ],
         content: [
-          {required: true, message: '请输入需求内容', trigger: 'blur'}
+          {required: true, message: '请输入需求概述', trigger: 'blur'}
         ],
         contact: [
           {required: true, message: '请输入联系人', trigger: 'blur'}
@@ -202,15 +207,15 @@ export default {
     $route(to,from){
       if(to.path === '/sd'){
         this.form = {
-          name: '',
-          company: '',
-          budget: 0,
-          projectBackground: '',
-          content: '',
-          contact: '',
-          telephone: '',
-          address: '',
-          standard: '',
+          name: '4',
+          company: '4',
+          budget: 4,
+         // projectBackground: '4',
+          content: '4',
+          contact: '4',
+          telephone: '4',
+          address: '4',
+         // standard: '4',
           deadline: '',
           attachments: '',
           image: ''

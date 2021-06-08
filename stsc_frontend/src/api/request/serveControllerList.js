@@ -27,7 +27,7 @@ const serveControllerList = {
     // 通过服务ID查看服务详情
     getServesDetailById: (params) => {
         return axios({
-            url: `/ph/stcsp/serve/getServesDetailById/${params.id}`,
+            url: `/bh/stcsp/serve/getServesDetailById/${params.id}`,
             method: "get",
         });
     },

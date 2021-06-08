@@ -40,8 +40,15 @@
 
       </el-tab-pane>
     </el-tabs>
-
-    <div class="indicators">
+    <div class="technological_process">
+      <h3>xxxx</h3>
+        <div class="map"></div>
+      <div class="button_group">
+      <el-button type="primary" @click="verify">确定</el-button>
+        <el-button type="primary">重新拆分</el-button>
+      </div>
+    </div>
+    <div class="indicators" v-if="hid">
       <div class="recommend">
         <h3 style="margin-bottom: 20px">推荐服务商</h3>
         <span style="margin-bottom: 50px">推荐策略</span>
@@ -53,6 +60,15 @@
               :value="item.value">
           </el-option>
         </el-select>
+        <span style="margin-bottom: 50px;margin-left: 20px">是否需要监理服务:</span>
+        <el-select v-model="value1" placeholder="请选择" class="strategy">
+          <el-option
+              v-for="item_select in options1"
+              :key="item_select.value"
+              :label="item_select.label"
+              :value="item_select.value">
+          </el-option>
+        </el-select>
 
 <!--        推荐服务商-->
 
@@ -61,6 +77,7 @@
           <div class="company ">
             <el-radio-group v-model="company_radio[index]" @change="changeVal" v-for="(itemss,index1) in items.sellerList" v-bind:key="index1">
               <el-radio :label="itemss.serveId"  >{{itemss.sellerName}}</el-radio>
+                <img src="../../../assets/images/detaillogo.png" class="detail_logo" @click="company_detail">
             </el-radio-group>
           </div>
         </div>
@@ -88,12 +105,8 @@
                 <div class="grab_company_list">
                   <el-radio :label="5">公司公公司公司公司司公司公司</el-radio>
                 </div>
-
               </el-radio-group>
             </div>
-
-
-
           </div>
         </div>
       </div>
@@ -119,6 +132,8 @@ export default {
       info_all:[],
       item: [],//推荐商家
       grab_item: ["", "", ""],
+      hid:false,
+
       options: [{
         value: '选项1',
         label: '综合排序'
@@ -132,7 +147,16 @@ export default {
         value: '选项4',
         label: '龙须面'
       }],
-      value: ''
+      options1: [{
+        value: '选项1',
+        label: '是'
+      }, {
+        value: '选项2',
+        label: '否'
+      }],
+      value: '',
+      value1: '',
+
     };
   },
   async mounted() {
@@ -140,6 +164,7 @@ export default {
       requirementId: this.id
     })
     this.item = detail_result.data.res
+    console.log("测",this.item)
     const results =  await  this.$axios.requirementControllerList.getRequireDetailById({
       id:this.id
     })
@@ -150,6 +175,12 @@ export default {
   },
 
   methods: {
+    company_detail(){
+      this.$router.push(`/buyer/comanydetail`)
+    },
+    verify(){//核实拆分
+      this.hid=true
+    },
     getVal(val){
       console.log(val)
     },
@@ -188,7 +219,19 @@ export default {
         orderList.push( item.subRequireId + ',' + this.company_radio[index])
       })
       console.log(orderList)
-      await this.$axios.orderControllerList.saveForSelect(orderList)
+      await this.$axios.orderControllerList.saveForSelect(orderList).then(response =>{
+        this.$message({
+          type: 'success',
+          message: '提交成功'
+        })
+          }
+      ).catch(error =>{
+        console.log(error)
+        this.$message({
+          type: 'error',
+          message: '提交失败'
+        })
+      })
 
     }
   },
@@ -201,10 +244,24 @@ export default {
 @import './src/styles/mixin';
 
 .my_demand_details {
-
-
   font-family: PingFangSC-Regular, PingFang SC;
   position: relative;
+  .technological_process{
+    border: 1px solid #E7E7E7;
+    /deep/ .el-button{
+      margin: 0 0 0 20px;
+    }
+    .map{
+      background: #909399;
+       height: 400px;
+    }
+    .button_group{
+      display: flex;
+      flex-direction: row-reverse;
+      margin-top: 5px;
+      margin-bottom: 5px;
+    }
+  }
   .indicators_text {
     border: 1px solid #E7E7E7;
     padding: 19px;
@@ -249,6 +306,9 @@ export default {
           /deep/ .el-radio {
             margin-bottom: 5px !important;
           }
+          img {
+            height: 15px;
+          }
         }
       }
     }
@@ -282,6 +342,7 @@ export default {
               display: inline-block;
               height: 30px;
             }
+
           }
 
         }
