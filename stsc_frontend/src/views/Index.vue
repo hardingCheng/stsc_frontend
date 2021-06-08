@@ -212,7 +212,7 @@
           <div class="container">
             <div class="public-switch-title">成功案例</div>
             <div class="public-switch-view-all">
-              <a href="#">查看全部案例<span>></span></a>
+              <a  >查看全部案例<span>></span></a>
             </div>
           </div>
         </div>
@@ -411,6 +411,10 @@ export default {
         this.successfulCaseList.push(result.data.caseList.slice(0,1))
         this.successfulCaseList.push(result.data.caseList.slice(1))
       }
+    },
+    //成功案例路由跳转
+    casePush(){
+      this.$router.push(`/successCase`)
     },
     popularrecommendation(index) {
       this.pindex = index
@@ -1095,9 +1099,11 @@ export default {
       margin-bottom: 50px;
 
       a {
+        cursor : pointer;
         font-size: 14px;
         font-weight: 400;
         color: #1794FF;
+
 
         span {
           margin-left: 10px;

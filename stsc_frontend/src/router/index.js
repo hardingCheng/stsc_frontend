@@ -24,6 +24,22 @@ const routes = [
         }
       },
       {
+        path: "/successCase",
+        name: "successCase",
+        component: () => import("../views/SuccessCase.vue"),
+        meta: {
+          name: "成功案例 "
+        },
+      },
+      {
+        path: "/successCaseDetail",
+        name: "SuccessCaseDetail",
+        component: () => import("../views/SuccessCaseDetail"),
+        meta: {
+          name: "成功案例 "
+        },
+      },
+      {
         path: "/ld",
         name: "ld",
         component: () => import("../views/LookingDemand.vue"),
