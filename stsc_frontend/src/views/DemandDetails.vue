@@ -17,22 +17,29 @@
           <div class="text-title-title ">联系地址：<span class="text-service-text ">{{ info.address }}</span></div>
         </div>
         <div class="text-title-title ">电子邮箱：<span class="text-service-text">{{ info.email }}</span></div>
+        <div class="text-title-title1 "><span>附件：</span><img src="../assets/images/fileimg.png" class="file_img" v-bind:href="info.attachments" /></div>
+
         <el-button><span class="font">立即下单</span></el-button>
       </div>
       <div></div>
     </div>
-    <el-tabs v-model="activeName" type="card" class="serve-details-text-bottom container">
-      <el-tab-pane label="需求描述" name="first" class="tab"><p>{{ info.content }}</p></el-tab-pane>
-      <el-tab-pane label="项目背景" name="second" class="tab">{{ info.projectBackground }}</el-tab-pane>
-      <el-tab-pane label="验收指标" name="third" class="tab">{{ info.standard }}</el-tab-pane>
-      <el-tab-pane label="附件" name="fourth" class="tab">
-        <div class="accessory ">
-          <img src="../assets/images/fileimg.png" class="file_img"/>
-          <p class="accessory_name">附件</p>
-          <a class="down" v-bind:href="info.attachments">下载</a>
-        </div>
-      </el-tab-pane>
-    </el-tabs>
+<!--    <el-tabs v-model="activeName" type="card" class="serve-details-text-bottom container">-->
+<!--      <el-tab-pane label="需求描述" name="first" class="tab"><p>{{ info.content }}</p></el-tab-pane>-->
+<!--      <el-tab-pane label="项目背景" name="second" class="tab">{{ info.projectBackground }}</el-tab-pane>-->
+<!--      <el-tab-pane label="验收指标" name="third" class="tab">{{ info.standard }}</el-tab-pane>-->
+<!--      <el-tab-pane label="附件" name="fourth" class="tab">-->
+<!--        <div class="accessory ">-->
+<!--          <img src="../assets/images/fileimg.png" class="file_img"/>-->
+<!--          <p class="accessory_name">附件</p>-->
+<!--          <a class="down" v-bind:href="info.attachments">下载</a>-->
+<!--        </div>-->
+<!--      </el-tab-pane>-->
+<!--    </el-tabs>-->
+    <div class="demand_overview container">
+        <h4>需求概述</h4>
+        <p>覅if岗位分为非飞凤飞飞分为分为分分分分分分臭豆腐分分分分分何飞飞飞分分分分分分儿飞飞飞飞纷纷为废物费纷纷为范文芳分分分分分分分分分为非</p>
+    </div>
+
     <div class="see-and-see container">
       <span class="see-and-see-title">---看了又看---</span>
       <img src="../assets/staticImgs/seeandsee.png" height="160px" width="160px">
@@ -108,7 +115,16 @@ export default {
 .DemandDetails {
   font-family: PingFangSC-Regular, PingFang SC;
   position: relative;
+  .demand_overview{
+    box-sizing: border-box;
+    @include wh(953px, 440px);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    margin: 20px 330px 33px auto;
+    border:  #E7E7E7 1px solid;
 
+  }
   .serve-details-text-bottom {
     width: 940px;
     margin: 50px 330px 33px auto;
@@ -183,9 +199,23 @@ export default {
       line-height: 20px;
       margin-top: 10px;
       margin-left: 10px;
-
       .text-service-text {
         color: #333333;
+      }
+    }
+    .text-title-title1 {
+      display: flex;
+      align-items: center;
+      height: 20px;
+      font-size: 14px;
+      font-weight: 400;
+      color: #999999;
+      line-height: 20px;
+      margin-top: 10px;
+      margin-left: 10px;
+      .file_img {
+        height: 25px;
+
       }
     }
   }
@@ -274,7 +304,7 @@ export default {
 
 /deep/ .el-button {
   @include wh(140px, 50px);
-  margin-top: 110px;
+  margin-top: 50px;
   bottom: 0;
   margin-bottom: 20px;
   background-color: #1794FF;
@@ -311,9 +341,7 @@ export default {
     align-items: center;
     margin-left: 30px;
 
-    .file_img {
-      height: 50px;
-    }
+
 
     .accessory_name {
       display: inline-block;

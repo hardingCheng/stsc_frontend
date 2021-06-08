@@ -12,14 +12,14 @@
         <div class="message-notification-tab-content-item-main">
           <div v-infinite-scroll="loadMore" infinite-scroll-disabled="disabled" infinite-scroll-distance="10">
             <div v-for="(item,index) in message_text" :key="index" class="message-notification-tab-content-item-detail">
-              <el-row type="flex" align="middle" :gutter="10">
+              <el-row type="flex" align="middle" :gutter="10"  >
                 <el-col :span="4">
 <!--                  <div class="message-notification-tab-content-item-left">-->
 <!--                    <img src="../assets/logo.png" alt="">-->
 <!--                  </div>-->
                 </el-col>
                 <el-col :span="20">
-                  <div class="message-notification-tab-content-item-right" @click="inBuyerMessage">
+                  <div class="message-notification-tab-content-item-right" @click="inBuyerMessage(index)">
                     <h4>{{ item.title }} </h4>
                     <p>{{ item.createTime }}</p>
                   </div>
@@ -50,7 +50,7 @@
 <!--                  </div>-->
                 </el-col>
                 <el-col :span="20">
-                  <div class="message-notification-tab-content-item-right" @click="inSellerMessage">
+                  <div class="message-notification-tab-content-item-right" @click="inSellerMessage(index)">
                     <h4>{{ item.title }}</h4>
                     <p>{{ item.createTime }}</p>
                   </div>
@@ -105,9 +105,10 @@
 </template>
 
 <script>
+import store from '../store/index.js';
 export default {
   name: "MessageNotification",
-  props:["message_text","total","message_text_seller","total_seller"],
+  props:["message_text","total","message_text_seller","total_seller","notice_reduce"],
   data () {
     return {
       count: 0,
@@ -135,14 +136,35 @@ export default {
     }
   },
   methods: {
-    inBuyerMessage(){
+    noticeReduce(val){
+
+    },
+    inBuyerMessage(val){
+
+      this.$store.commit('messageActive','second')
+      console.log("xxx",this.$store.state.activeName)
+      // this.messageObj.notice=this.notice_reduce-1
+      // this.notice_reduce=this.notice_reduce-1
+      if(this.message_text.splice(val,1)){
+        this.messageObj.notice--
+        this.notice_reduce--
+      }
+      this.$emit('noticeEvent',this.notice_reduce)
       this.$router.push(`/buyer/mynews`,)
-      this.state.message_active="second"
+
+      console.log("我被点了")
+      this.notice_reduce=this.notice_reduce-1
+      this.$emit('noticeEvent',this.notice_reduce)
       // this.message_active="second"
       // this.$emit("active",this.message_active)
     },
 
-    inSellerMessage(){
+    inSellerMessage(val){
+      if(this.message_text_seller.splice(val,1)){
+        this.messageObj.handle--
+        this.notice_reduce--
+      }
+
       this.$router.push(`/seller/mynews`)
     },
     loadMore: function() {

@@ -46,7 +46,23 @@
     <Tabs
         :description="info.serviceDescription"
         :professional-talents="info.expertIntroduction">
-      <div class="evaluation-box">
+<!--      成功案例-->
+      <div slot="second" class="success">
+        <div class="title">
+          <img src="../assets/logo.png"/>
+          <h3>谢谢谢谢谢</h3>
+        </div>
+        <div class="sub_title">
+          <div class="sub_title_top">
+            <img src="../assets/images/icon_list.png" />
+            <span>xxxx</span>
+          </div>
+          <p>xxxxxxx</p>
+        </div>
+
+      </div>
+
+      <div class="evaluation-box" slot="fifth">
         <div class="praise-of">
           <div class="praise-of-text">
             <div class="degree-of-praise fl"><span class="praise-of-text-praise">好评度</span></div>
@@ -453,6 +469,38 @@ export default {
         font-weight: 400;
         color: #999999;
         line-height: 17px;
+      }
+    }
+  }
+
+  .success{
+    .title{
+      display: flex;
+      align-items: center;
+      height: 200px;
+      img{
+        height: 150px;
+      }
+      h3{
+        margin-left: 50px;
+      }
+    }
+    .sub_title{
+      height: 250px;
+      background: #5e6d82;
+      .sub_title_top{
+        display: flex;
+        align-items: center;
+        height: 48px;
+        background: #f5f5f6;
+        img{
+          height: 100%;
+          width: 48px;
+          background: #007aff;
+        }
+        span{
+          margin-left: 20px;
+        }
       }
     }
   }
