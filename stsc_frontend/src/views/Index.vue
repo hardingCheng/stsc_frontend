@@ -216,71 +216,32 @@
             </div>
           </div>
         </div>
-        <div class="successful-cases-main">
+        <div class="successful-cases-main" v-if="successfulCaseList.length > 0">
           <div class="container">
             <div class="successful-cases-main-left">
-              <a href="#">
+              <a href="">
                 <div class="sucess-left-img">
                   <img
-                      src="https://img.alicdn.com/imgextra/i4/O1CN012aMSlt22kPhwdZtGs_!!6000000007158-2-tps-848-338.png"
+                      :src="successfulCaseList[0][0].imageUrl"
                       alt="">
                 </div>
                 <div class="sucess-left-info">
-                  <h3>联华华商 ></h3>
-                  <p>解决门店系统压力过高，大幅降低人力维护成本</p>
+                  <h3>{{successfulCaseList[0][0].title}} ></h3>
+                  <p>{{successfulCaseList[0][0].reqDescription}}</p>
                 </div>
               </a>
             </div>
             <div class="successful-cases-main-right">
-              <div class="successful-cases-main-right-item">
+              <div class="successful-cases-main-right-item" v-for="(item,index) in successfulCaseList[1]" :key="index">
                 <a href="">
                   <div class="sucess-right-img">
                     <img
-                        src="https://img.alicdn.com/imgextra/i1/O1CN01xjmRvr1qIgKrz6Mop_!!6000000005473-2-tps-848-240.png"
+                        :src="item.imageUrl"
                         alt="">
                   </div>
                   <div class="sucess-right-info">
-                    <h3>联华华商 ></h3>
-                    <p>解决门店系统压力过高，大幅降低人力维护成本</p>
-                  </div>
-                </a>
-              </div>
-              <div class="successful-cases-main-right-item">
-                <a href="">
-                  <div class="sucess-right-img">
-                    <img
-                        src="https://img.alicdn.com/imgextra/i1/O1CN01xjmRvr1qIgKrz6Mop_!!6000000005473-2-tps-848-240.png"
-                        alt="">
-                  </div>
-                  <div class="sucess-right-info">
-                    <h3>联华华商 ></h3>
-                    <p>解决门店系统压力过高，大幅降低人力维护成本</p>
-                  </div>
-                </a>
-              </div>
-              <div class="successful-cases-main-right-item">
-                <a href="">
-                  <div class="sucess-right-img">
-                    <img
-                        src="https://img.alicdn.com/imgextra/i1/O1CN01xjmRvr1qIgKrz6Mop_!!6000000005473-2-tps-848-240.png"
-                        alt="">
-                  </div>
-                  <div class="sucess-right-info">
-                    <h3>联华华商 ></h3>
-                    <p>解决门店系统压力过高，大幅降低人力维护成本</p>
-                  </div>
-                </a>
-              </div>
-              <div class="successful-cases-main-right-item">
-                <a href="">
-                  <div class="sucess-right-img">
-                    <img
-                        src="https://img.alicdn.com/imgextra/i1/O1CN01xjmRvr1qIgKrz6Mop_!!6000000005473-2-tps-848-240.png"
-                        alt="">
-                  </div>
-                  <div class="sucess-right-info">
-                    <h3>联华华商 ></h3>
-                    <p>解决门店系统压力过高，大幅降低人力维护成本</p>
+                    <h3>{{item.title}}  ></h3>
+                    <p>{{item.reqDescription}}</p>
                   </div>
                 </a>
               </div>
@@ -426,7 +387,8 @@ export default {
       pindex: 1,
       sindex: 1,
       categoryList: [],
-      chartDataList: []
+      chartDataList: [],
+      successfulCaseList: [],
     }
   },
   components: {
@@ -439,9 +401,17 @@ export default {
     await this.getCategoryList()
   },
   async mounted() {
+    await this.getSuccessfulCase()
     await this.drawInit()
   },
   methods: {
+    async getSuccessfulCase(){
+      let result = await this.$axios.mainController.getSuccessfulCase()
+      if (result.code === 20000) {
+        this.successfulCaseList.push(result.data.caseList.slice(0,1))
+        this.successfulCaseList.push(result.data.caseList.slice(1))
+      }
+    },
     popularrecommendation(index) {
       this.pindex = index
     },
@@ -785,7 +755,6 @@ export default {
               padding: 14px 20px 7px;
               background-color: #FEE140;
               background-image: linear-gradient(90deg, #FEE140 0%, #FA709A 100%);
-
               h3 {
                 font-family: PingFangSC-Medium;
                 font-size: 16px;
@@ -793,17 +762,19 @@ export default {
                 letter-spacing: 0;
                 margin-bottom: 10px;
               }
-
               p {
+                width:100%;
                 font-size: 13px;
                 color: #fff;
                 letter-spacing: 0;
                 line-height: 20px;
                 height: 40px;
                 overflow: hidden;
+                word-break: break-all;
                 text-overflow: ellipsis;
-                display: -webkit-box;
-                -webkit-line-clamp: 2;
+                display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
+                -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+                -webkit-line-clamp: 2; /** 显示的行数 **/
               }
             }
 
@@ -836,7 +807,8 @@ export default {
 
               .sucess-right-info {
                 color: white;
-                width: 100%;
+                width: auto;
+                height: 130px;
                 position: absolute;
                 top: 0;
                 left: 0;
@@ -851,15 +823,18 @@ export default {
                 }
 
                 p {
+                  width:100%;
                   font-size: 13px;
                   color: #fff;
                   letter-spacing: 0;
                   line-height: 20px;
                   height: 40px;
                   overflow: hidden;
+                  word-break: break-all;
                   text-overflow: ellipsis;
-                  display: -webkit-box;
-                  -webkit-line-clamp: 2;
+                  display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
+                  -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+                  -webkit-line-clamp: 2; /** 显示的行数 **/
                 }
               }
 

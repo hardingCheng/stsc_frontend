@@ -103,15 +103,15 @@ export default {
   data() {
     return {
       form: {
-        name: '4',
-        company: '4',
-        budget: 4,
-        projectBackground: '4',
-        content: '4',
-        contact: '4',
-        telephone: '4',
-        address: '4',
-        standard: '4',
+        name: '',
+        company: '',
+        budget: 0,
+        projectBackground: '',
+        content: '',
+        contact: '',
+        telephone: '',
+        address: '',
+        standard: '',
         deadline: '',
         attachments: '',
         image: ''
@@ -202,15 +202,15 @@ export default {
     $route(to,from){
       if(to.path === '/sd'){
         this.form = {
-          name: '4',
-          company: '4',
-          budget: 4,
-          projectBackground: '4',
-          content: '4',
-          contact: '4',
-          telephone: '4',
-          address: '4',
-          standard: '4',
+          name: '',
+          company: '',
+          budget: 0,
+          projectBackground: '',
+          content: '',
+          contact: '',
+          telephone: '',
+          address: '',
+          standard: '',
           deadline: '',
           attachments: '',
           image: ''

@@ -8,5 +8,11 @@ const mainController = {
             method: "get",
         });
     },
-}
+    getSuccessfulCase: (data) => {
+            return axios({
+                url: `/ph/stcsp/front/getSuccessfulCase`,
+                method: "get",
+            });
+        },
+    }
 export default mainController
