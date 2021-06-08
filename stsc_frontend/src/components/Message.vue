@@ -1,8 +1,7 @@
 <template>
   <div class="message">
 
-    <el-tabs v-model="activeName" @tab-click="handleClick">
-
+    <el-tabs v-model="this.$store.state.activeName" @tab-click="handleClick">
       <el-tab-pane name="first">
         <template slot="label">全部({{ total }})</template>
         <!--      折叠面板-->
@@ -42,6 +41,7 @@
   </div>
 </template>
 <script>
+import store from '../store/index.js';
 export default {
   // indexss_inform通知内容
   // indexss_no_manage待办内容
@@ -49,7 +49,7 @@ export default {
   name: "Message",
   data() {
     return {
-      activeName: 'first',
+       activeName: 'first',
       activeNames: [''],
     };
   },

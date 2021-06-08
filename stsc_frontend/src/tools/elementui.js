@@ -56,7 +56,8 @@ import {
   Link,
   Steps,
   Step,
-  Tooltip
+  Tooltip,
+  Popover,
 } from "element-ui";
 
 const element = {
@@ -117,6 +118,7 @@ const element = {
     Vue.use(Steps)
     Vue.use(Tooltip)
     Vue.use(Step)
+    Vue.use(Popover)
     Vue.prototype.$message = Message;
     // Vue.prototype.$confirm = MessageBox.confirm;
     // Vue.prototype.$alert = MessageBox.alert;

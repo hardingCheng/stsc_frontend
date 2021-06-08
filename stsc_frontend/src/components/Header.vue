@@ -31,7 +31,10 @@
              :total=message_list_no_total
              :message_text_seller=this.message_seller_list_no
              :total_seller=this.message_seller_list_no_total
-             @active="message_active">
+                                   :notice_reduce=this.message_No_All
+             @active="message_active"
+                                   @noticeEvent="noticeEvent($event)"
+             >
              </message-notification>
            </div>
          </div>
@@ -123,6 +126,9 @@ export default {
     },
   },
   methods: {
+    noticeEvent(data){
+      this.message_No_All=data
+    },
     message_active(data){
         this.active=data
         this.$emit("active1",data)

@@ -10,7 +10,8 @@ export default new Vuex.Store({
     golabelLoding: false,
     formCode:'',
     isLogin:false,
-    userInfo:{}
+    userInfo:{},
+    activeName:'first'
   },
   mutations: {
     modGlobalLoding: (state) => {
@@ -24,6 +25,9 @@ export default new Vuex.Store({
       state.isLogin = payload.isLogin
       state.userInfo = payload.userInfo
     },
+    messageActive:(state,payload) =>{
+      state.activeName= payload
+    }
   },
   actions: {},
   getters: {

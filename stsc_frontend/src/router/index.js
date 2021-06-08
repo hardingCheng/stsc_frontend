@@ -151,7 +151,17 @@ const routes = [
               name: "我的需求详情"
             },
             props: true,
-          }],
+          },
+            {
+              path: "/buyer/comanydetail",
+              name: "comanydetail",
+              component: () => import("../views/personal-center/buyer/CompanyDetail"),
+              meta: {
+                requiresAuth: true,
+                name: "公司详情"
+              },
+              props: true,
+            }],
         },{
           path: "/seller",
           name: "seller",
