@@ -86,8 +86,8 @@ export default {
     }
   },
   async mounted() {
-    await this.getFirstDemandList(null)
     await this.getFirstCategory()
+    await this.getFirstDemandList(null)
   },
   methods: {
     // 获取分类一级分类id
@@ -155,15 +155,10 @@ export default {
     handleDemandBaseResult(demandBaseResult){
       this.demandList1 = []; // 存储数组平铺的list
       this.demandList2 = []; // 将数组平铺的list转化为二维数组
-      this.requireList = demandBaseResult.data.requirementList;
-      let requirementListRecords = demandBaseResult.data.requirementList.records
+      this.requireList = demandBaseResult.data;
+      let requirementListRecords = demandBaseResult.data.list
       requirementListRecords.map((item) => {
         this.demandList1.push(item)
-        if(item.list.length !== 0){
-          item.list.map((item)=> {
-            this.demandList1.push(item)
-          })
-        }
       })
       let len = this.demandList1.length;
       let n = 5; //假设每行显示4个

@@ -123,14 +123,6 @@ export default {
   name: "InProgress",
   data() {
     return {
-      tableData: [{
-        orderId: '28218412324',
-        subServiceName: '机器人机械手臂设计',
-        startTime: '2021年05月01日',
-        endTime: '2021年05月31日',
-        servicePrice: '100万元',
-        serviceStatus: '进行中'
-      }],
       active: 0,
       type0OrderInfo:{
         address: '',
@@ -167,6 +159,7 @@ export default {
     },
     async getNodeInfo(nodeId){
       this.subOrderDetailsInfo.length = 0
+      console.log(this.subOrderDetailsInfo)
       let result = await this.$axios.orderControllerList.getSubOrderDetailsInfo({
         subRequireId:nodeId
       })

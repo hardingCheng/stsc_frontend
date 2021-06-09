@@ -11,6 +11,10 @@
     <!--    </div>-->
     <div class="video-main">
       <video  src="https://static1.xpccdn.com/mp4/banner.mp4?12448ab"  id="bannerVideo" autoplay="" muted loop="" webkit-playsinline="" playsinline="" data-vscid="8rvymj79w"></video>
+      <div class="video-title">
+       <h1> 灵活,准确,智能,快速,低成本</h1>
+        <h2>操作简单，功能强大，让人酣畅淋漓拥有体验！</h2>
+      </div>
     </div>
     <div class="main-wapper">
       <div class="data-presentation">
@@ -212,14 +216,14 @@
           <div class="container">
             <div class="public-switch-title">成功案例</div>
             <div class="public-switch-view-all">
-              <a  >查看全部案例<span>></span></a>
+              <router-link to="/successCase">查看全部案例<span>></span></router-link>
             </div>
           </div>
         </div>
         <div class="successful-cases-main" v-if="successfulCaseList.length > 0">
           <div class="container">
             <div class="successful-cases-main-left">
-              <a href="">
+              <router-link :to="'/successCaseDetail/'+successfulCaseList[0][0].id">
                 <div class="sucess-left-img">
                   <img
                       :src="successfulCaseList[0][0].imageUrl"
@@ -229,11 +233,11 @@
                   <h3>{{successfulCaseList[0][0].title}} ></h3>
                   <p>{{successfulCaseList[0][0].reqDescription}}</p>
                 </div>
-              </a>
+              </router-link>
             </div>
             <div class="successful-cases-main-right">
               <div class="successful-cases-main-right-item" v-for="(item,index) in successfulCaseList[1]" :key="index">
-                <a href="">
+                <router-link :to="'/successCaseDetail/'+item.id">
                   <div class="sucess-right-img">
                     <img
                         :src="item.imageUrl"
@@ -243,7 +247,7 @@
                     <h3>{{item.title}}  ></h3>
                     <p>{{item.reqDescription}}</p>
                   </div>
-                </a>
+                </router-link>
               </div>
             </div>
           </div>
@@ -580,8 +584,24 @@ export default {
     video {
       display: inline-block;
       width: 100%;
-      height: 420px;
+      height: 600px;
       object-fit: fill;
+    }
+    .video-title {
+      width: 100%;
+      text-align: center;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      color:white;
+      transform:translate(-50%,-50%);
+      h1{
+        font-size:55px;
+        margin-bottom: 30px;
+      }
+      h2 {
+        font-weight: 400;
+      }
     }
   }
 
@@ -739,14 +759,14 @@ export default {
           justify-content: space-between;
 
           .successful-cases-main-left {
-            overflow: hidden;
-            width: 50%;
-            height: 260px;
+            width: 70%;
+            height: 500px;
 
             .sucess-left-img {
+              overflow: hidden;
               img {
                 display: block;
-                height: 160px;
+                height: 400px;
                 width: 100%;
                 transition: transform .3s ease;
               }
@@ -804,7 +824,7 @@ export default {
                 img {
                   display: block;
                   width: 100%;
-                  height: 130px;
+                  height: 250px;
                   transition: transform .3s ease;
                 }
               }
@@ -814,7 +834,7 @@ export default {
                 width: auto;
                 height: 130px;
                 position: absolute;
-                top: 0;
+                bottom: 0;
                 left: 0;
                 padding: 24px 14px 15px 20px;
 

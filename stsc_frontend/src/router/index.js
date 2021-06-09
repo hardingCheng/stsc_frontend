@@ -32,11 +32,12 @@ const routes = [
         },
       },
       {
-        path: "/successCaseDetail",
+        path: "/successCaseDetail/:id",
         name: "SuccessCaseDetail",
         component: () => import("../views/SuccessCaseDetail"),
+        props: true,
         meta: {
-          name: "成功案例 "
+          name: "成功案例详情"
         },
       },
       {

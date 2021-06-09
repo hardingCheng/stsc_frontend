@@ -12,7 +12,7 @@
         </ul>
         <ul class="details" v-else>
           <li>服务名称：<span>{{item.name}}</span></li>
-          <li>服务类别：<span>{{item.price}}</span></li>
+          <li>服务类别：<span>{{item.categoryName}}</span></li>
           <li>服务状态：<span class="audit-status">{{ item.status | modStatus }}</span></li>
         </ul>
         <el-button type="primary" size="small"  plain @click="infoDetail(item.id)">详细信息</el-button>
