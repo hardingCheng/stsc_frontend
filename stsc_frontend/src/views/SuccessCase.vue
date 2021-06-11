@@ -3,78 +3,15 @@
   <bread-crumb :info="info"></bread-crumb>
   <div class="title ">成功案例</div>
   <div class="row">
-  <div class="case_div" >
-      <div class="img_div"><img src="../assets/logo.png"></div>
+  <div class="case_div"  v-for="(item,index) in successList">
+      <div class="img_div"><img :src=item.imageUrl></div>
       <div class="other_inner">
-        <span>标题</span>
-        <p style="height: 110px">哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊</p>
-        <a @click="seeDetail">了解更多</a>
+        <span>{{ item.title }}</span>
+        <p>{{item.reqDescription}}</p>
+        <a @click="seeDetail(item.id)">了解更多</a>
     </div>
   </div>
-    <div class="case_div" >
-    <div class="img_div"><img src="../assets/logo.png"></div>
-    <div class="other_inner">
-      <span>标题</span>
-      <p style="height: 110px">哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊</p>
-      <a @click="seeDetail">了解更多</a>
-    </div>
-  </div>
-    <div class="case_div" >
-      <div class="img_div"><img src="../assets/logo.png"></div>
-      <div class="other_inner">
-        <span>标题</span>
-        <p style="height: 110px">哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊</p>
-        <a @click="seeDetail">了解更多</a>
-      </div>
-    </div>
-    <div class="case_div" >
-      <div class="img_div"><img src="../assets/logo.png"></div>
-      <div class="other_inner">
-        <span>标题</span>
-        <p style="height: 110px">哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊</p>
-        <a>了解更多</a>
-      </div>
-    </div>
-    <div class="case_div" >
-      <div class="img_div"><img src="../assets/logo.png"></div>
-      <div class="other_inner">
-        <span>标题</span>
-        <p style="height: 110px">哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊</p>
-        <a>了解更多</a>
-      </div>
-    </div>
-    <div class="case_div" >
-    <div class="img_div"><img src="../assets/logo.png"></div>
-    <div class="other_inner">
-      <span>标题</span>
-      <p style="height: 110px">哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊</p>
-      <a>了解更多</a>
-    </div>
-  </div>
-    <div class="case_div" >
-      <div class="img_div"><img src="../assets/logo.png"></div>
-      <div class="other_inner">
-        <span>标题</span>
-        <p style="height: 110px">哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊</p>
-        <a>了解更多</a>
-      </div>
-    </div>
-    <div class="case_div" >
-    <div class="img_div"><img src="../assets/logo.png"></div>
-    <div class="other_inner">
-      <span>标题</span>
-      <p style="height: 110px">哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊</p>
-      <a>了解更多</a>
-    </div>
-  </div>
-    <div class="case_div" >
-      <div class="img_div"><img src="../assets/logo.png"></div>
-      <div class="other_inner">
-        <span>标题</span>
-        <p style="height: 110px">哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊</p>
-        <a>了解更多</a>
-      </div>
-    </div>
+
   </div>
   <div class="pagination">
     <el-pagination
@@ -82,9 +19,9 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page.sync="currentPage"
-        :page-size="15"
+        :page-size="9"
         layout="total, prev, pager, next"
-        :total="10">
+        :total=this.total>
     </el-pagination>
   </div>
   </div>
@@ -92,30 +29,49 @@
 
 <script>
 import BreadCrumb from "../components/BreadCrumb";
-
+import orderControllerList from "../api/request/orderControllerList";
 export default {
   name: "SuccessCase",
   components:{BreadCrumb},
  data(){
     return{
       currentPage:1,
+      successList:[],//成功案例列表
+      total:0,
       info:[{
         title:'成功案例',
         path:''
       }],
     }
  },
+  created() {
+    this.getSuccessAllInfo()
+  },
   methods:{
-    seeDetail(){
-      this.$router.push(`/successCaseDetail`)
+    getSuccessAllInfo(){
+      orderControllerList.getSuccessAllInfo({
+        page:this.currentPage,
+        limit:9
+      })
+      .then(response => {
+            this.successList=response.data.pageInfo.records
+            this.total = response.data.pageInfo.total
+        console.log(this.successList,this.total)
+      })
+      .catch(error =>{
+        console.log(error)
+      })
+    },
+    seeDetail(val){
+      this.$router.push(`/successCaseDetail/${val}`)
     },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
-      this.size = val
+
     },
     async handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
-      // await this.getData(val)
+      this.getSuccessAllInfo()
     },
   }
 }
@@ -157,6 +113,16 @@ export default {
           margin-bottom: 20px;
           padding-left: 5px;
           border-left:1px solid #F3F3F3 ;
+          span{
+            font-weight: bold;
+          }
+          p{
+            height: 105px;
+            display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
+            -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+            -webkit-line-clamp: 5; /** 显示的行数 **/
+            overflow: hidden; /** 隐藏超出的内容 **/
+          }
           a{
             font-size: 14px;
             line-height: 30px;
@@ -169,6 +135,7 @@ export default {
           align-items: center;
           img{
             height: 100px;
+            width: 100px;
           }
         }
 

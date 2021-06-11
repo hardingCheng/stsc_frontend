@@ -1,7 +1,7 @@
 <template>
   <el-tabs v-model="activeName" type="card"  @tab-click="handleClick" class="serve-details-text-bottom container">
     <el-tab-pane label="描述" name="first" class="tab"><p >{{description}}</p></el-tab-pane>
-    <el-tab-pane label="成功案例" name="second" ><slot name="second"></slot></el-tab-pane>
+<!--    <el-tab-pane label="成功案例" name="second" ><slot name="second"></slot></el-tab-pane>-->
     <el-tab-pane label="专业人才" name="third" class="tab">{{ professionalTalents }}</el-tab-pane>
     <el-tab-pane label="资质证明" name="fourth" class="tab" >{{ credentials }}</el-tab-pane>
     <el-tab-pane label="评价" name="fifth"  ><slot name="fifth"></slot></el-tab-pane>

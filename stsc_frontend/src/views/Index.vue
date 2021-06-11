@@ -212,7 +212,7 @@
           <div class="container">
             <div class="public-switch-title">成功案例</div>
             <div class="public-switch-view-all">
-              <a  >查看全部案例<span>></span></a>
+              <a  @click="casePush">查看全部案例<span>></span></a>
             </div>
           </div>
         </div>

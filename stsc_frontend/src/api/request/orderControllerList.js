@@ -49,10 +49,17 @@ const orderControllerList = {
     },
     getOrderInfo(params){
         return axios({
-            url: `/ph/stcsp/order/getOrderInfo/${params.orderId}`,
+            url: `/ph/stcsp/order/getDetailInfo/${params.id}`,
             method: "get",
         });
 
+    },
+    // 通过服务ID查看子订单详情
+    getSubOrderDetailById: (params) => {
+        return axios({
+            url: `/ph/stcsp/suborder/getOrderInfo/${params.subOrderId}`,
+            method: "get",
+        });
     },
     //获取订单买家信息
     getOrderBuyerInfo(params){
@@ -147,6 +154,19 @@ const orderControllerList = {
     getContractsForBuyer: (params) => {
         return axios({
             url: `/ph/stcsp/order/getContractsForBuyer/${params.orderId}`,
+            method: "get",
+        });
+    },
+    getSuccessAllInfo: (params) => {
+        return axios({
+            url: `/ph/stcsp/front/listForCase/${params.page}/${params.limit}`,
+            method: "post",
+            data:params
+        });
+    },
+    getSuccessDetailInfo: (params) => {
+        return axios({
+            url: `/ph/stcsp/admin/successCase/successCaseInfo/${params.id}`,
             method: "get",
         });
     },

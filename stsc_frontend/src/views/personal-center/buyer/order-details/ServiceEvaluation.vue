@@ -67,21 +67,21 @@
 <!--  </div>-->
 
     <div  v-if="type === '1'">
-      <div class="serve_company">
-        <img :src="!this.seller.avatar ? orderChildrenInfo.image: this.seller.avatar"  class="img_style">
+      <div class="serve_company" >
+        <img :src=orderBuyInfo.avatar class="img_style">
         <div class="company_detail">
           <ul>
             <li>
-              服务商名称:<span>{{ !orderChildrenInfo.company? "暂无数据":orderChildrenInfo.company }}</span>
+              服务商名称:<span>{{ this.orderBuyInfo.company }}</span>
             </li>
             <li>
-              所属机构:<span>{{ !orderChildrenInfo.platform ? "暂无数据":orderChildrenInfo.platform}}</span>
+              所属机构:<span>{{ this.orderBuyInfo.source}}</span>
             </li>
             <li>
-              联系方式:<span>{{ !orderChildrenInfo.telephone? "暂无数据":orderChildrenInfo.telephone }}</span>
+              联系方式:<span>{{ this.orderBuyInfo.telephone}}</span>
             </li>
             <li>
-              地址:<span>{{ !orderChildrenInfo.address ? "暂无数据":orderChildrenInfo.telephone }}</span>
+              地址:<span>{{ !this.orderBuyInfo.address ? "暂无数据":this.orderBuyInfo.address }}</span>
             </li>
           </ul>
         </div>
@@ -90,10 +90,10 @@
       <div class="content">
 
         <div class="serve_order">
-          <img :src="orderChildrenInfo.image"  class="order_style">
+          <img :src=orderChildrenInfo.orderImg  class="order_style">
           <ul>
             <li>
-              订单编号:<span>{{ !order.orderId ? "暂无数据":order.orderId}}</span>
+              订单编号:<span>{{ !orderChildrenInfo.id ? "暂无数据":orderChildrenInfo.id}}</span>
             </li>
             <li>
               子服务名称:<span>{{ !orderChildrenInfo.name? "暂无数据": orderChildrenInfo.name}}</span>
@@ -102,11 +102,9 @@
               开始时间:<span>{{ !orderChildrenInfo.createTime? "暂无数据": orderChildrenInfo.createTime}}</span>
             </li>
             <li>
-              结束时间:<span>{{ !this.deadTime ? "暂无数据":this.deadTime }}</span>
+              结束时间:<span>{{ !orderChildrenInfo.endTime? "暂无数据": orderChildrenInfo.endTime}}</span>
             </li>
-            <li>
-              服务价格:<span>{{!orderChildrenInfo.price? "暂无数据":orderChildrenInfo.price}}万元</span>
-            </li>
+
 
           </ul>
           <div class="evaluation_source" >
@@ -131,6 +129,7 @@
         </div>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -145,66 +144,91 @@ export default {
         textarea1:"",
         textarea2: '',
         order:[],//存放订单消息
+        orderTempt:[],//
+        subOrderTempt:[],
+        userTempt:[],//用户暂存
         seller:[],//存放买家ID
+        subOrderId:[],//存放子订单id
+        serveDetail:[],
         img_default:[],
         orderBuyInfo:[],
         orderChildrenInfo:[],
-        deadTime:[],
+        deadTime:['0'],
         serveId:null,//存放服务ID
-
+        num:0,
+        sum:0,
+        ev:0
       }
     },
-  async mounted() {
+  async created() {
     await this.getOrderInfo()
-
+    await this.getSellerInfo(this.order.sellerId,this.num)
+    await this.getSubInfo(this.order.subOrderId,this.num)
   },
   methods:{
     //获取买家信息
-    async  getSellerId(val){
+    async  getSellerInfo(val,i){
       let result = await this.$axios.orderControllerList.getOrderBuyerInfo({
         id:val
       })
       this.orderBuyInfo=result.data.user
-      // console.log(result.data.user)
+      console.log("买家信息",this.orderBuyInfo)
     },
     //获取订单信息
     async getOrderInfo(){
       let result = await this.$axios.orderControllerList.getOrderInfo({
-        orderId:this.orderid
+        id:this.orderid
       })
-     // console.log(this.orderid)
-      this.order=result.data.orderInfo
-      this.seller=this.order.sellerId
-      console.log(this.order)
-      this.serverId=this.order.serveId
-      await this.getSellerId(this.seller)
-      await this.getServeInfo(this.serverId)
-       console.log("订单",  this.order)
+      //子订单列表
+      this.sum=result.data.subOrderInfo.subOrderInfoVoList.length
+      this.order=result.data.subOrderInfo.subOrderInfoVoList[this.num]
+      console.log("订单", this.order,this.sum)
+
     },
-    //获取订单子服务信息
-    async getServeInfo(val){
-      let results= await this.$axios.serveControllerList.getServesDetailById({
-        id:val
+    //获取子订单子服务信息
+    async getSubInfo(val,i){
+      let results= await this.$axios.orderControllerList.getSubOrderDetailById({
+        subOrderId:val
       })
-      this.orderChildrenInfo=results.data.serve
-      const moment = require('moment')
-      this.orderChildrenInfo.createTime=moment(this.orderChildrenInfo.createTime).format('YYYY-MM-DD ');
-      this.deadTime =moment(this.orderChildrenInfo.createTime).add(4, "month").format('YYYY-MM-DD ');//2019-03-25 00:00:00
-       console.log(  "服务信息",this.orderChildrenInfo)
+      this.orderChildrenInfo=results.data.orderInfo
+      this.serveId=results.data.orderInfo.serveId
+
+      console.log( "xxx",this.orderChildrenInfo)
+
+      // console.log("子订单信息",this.orderChildrenInfo)
+      //  const moment = require('moment')
+      //  this.orderChildrenInfo.createTime=moment(this.orderChildrenInfo.createTime).format('YYYY-MM-DD ');
+      //  this.deadTime =moment(this.orderChildrenInfo.createTime).add(4, "month").format('YYYY-MM-DD ');//2019-03-25 00:00:00
+      //  console.log(  "服务信息",this.orderChildrenInfo)
     },
+    //获取子服务
+    // async getServeById(val){
+    //   let result = await this.$axios.serveControllerList.getServesDetailById({
+    //     id:val
+    //   })
+    // },
+
     //发布评论
     async submitComment(){
       const result= await this.$axios.orderControllerList.submitComment({
          userId:this.$store.getters.getUserInfo.id,
-         serveId:this.serverId,
+         serveId:this.serveId,
          content:this.textarea2,
           star:this.value
       })
-      if(result.code==2000){}
       this.$message.success("评论成功！");
-      await this.$router.push({
-        path: "/buyer/myorder"//要跳转的页面的路由
-      });
+      console.log("num",this.num)
+      if(this.num<this.sum){
+        this.num=this.num+1
+        await this.getOrderInfo()
+        await this.getSellerInfo(this.order.sellerId,this.num)
+        await this.getSubInfo(this.order.subOrderId,this.num)
+      }else{
+        this.$message.success("全部评论成功！");
+        await this.$router.push({
+          path: "/buyer/myorder"//要跳转的页面的路由
+        });
+      }
     }
   }
 }
