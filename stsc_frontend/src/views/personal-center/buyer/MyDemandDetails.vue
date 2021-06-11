@@ -16,6 +16,7 @@
         <div class="address">
           <div class="text-title-title ">联系地址：<span class="text-service-text ">{{  this.info_all.address }}</span></div>
         </div>
+        <div class="text-title-title1 "><span>附件：</span><img src="../../../assets/images/fileimg.png" class="file_img"/></div>
 <!--        <div class="text-title-title ">电子邮箱：<span class="text-service-text">xxxxx</span></div>-->
       </div>
       <div></div>
@@ -24,22 +25,26 @@
     <!--      <p class="des-title">需求描述</p>-->
     <!--      <p class="des_content">{{info.content}}</p>-->
     <!--    </div>-->
-    <el-tabs v-model="activeName" type="card" class="serve-details-text-bottom container">
-      <el-tab-pane label="需求描述" name="first" class="tab"><div class="indicators_text"><p class="p_text">{{ this.info_all.content}}</p></div></el-tab-pane>
-      <el-tab-pane label="项目背景" name="second" class="tab"><div class="indicators_text"><p class="p_text">{{ this.info_all.projectBackground}}</p></div></el-tab-pane>
-      <el-tab-pane label="验收指标" name="third" class="tab">
-        <div class="indicators_text"><p class="p_text">{{this.info_all.standard}}</p></div>
+<!--    <el-tabs v-model="activeName" type="card" class="serve-details-text-bottom container">-->
+<!--      <el-tab-pane label="需求描述" name="first" class="tab"><div class="indicators_text"><p class="p_text">{{ this.info_all.content}}</p></div></el-tab-pane>-->
+<!--      <el-tab-pane label="项目背景" name="second" class="tab"><div class="indicators_text"><p class="p_text">{{ this.info_all.projectBackground}}</p></div></el-tab-pane>-->
+<!--      <el-tab-pane label="验收指标" name="third" class="tab">-->
+<!--        <div class="indicators_text"><p class="p_text">{{this.info_all.standard}}</p></div>-->
 
-      </el-tab-pane>
-      <el-tab-pane label="附件" name="fourth" class="tab">
-        <div class="accessory ">
-          <img src="" class="file_img"/>
-          <p class="accessory_name">附件</p>
-          <a class="down" :href="this.info_all.attachments">下载</a>
-        </div>
+<!--      </el-tab-pane>-->
+<!--      <el-tab-pane label="附件" name="fourth" class="tab">-->
+<!--        <div class="accessory ">-->
+<!--          <img src="" class="file_img"/>-->
+<!--          <p class="accessory_name">附件</p>-->
+<!--          <a class="down" :href="this.info_all.attachments">下载</a>-->
+<!--        </div>-->
 
-      </el-tab-pane>
-    </el-tabs>
+<!--      </el-tab-pane>-->
+<!--    </el-tabs>-->
+    <div class="demand_overview container">
+      <h4>需求概述</h4>
+      <p>覅if岗位分为非飞凤飞飞分为分为分分分分分分臭豆腐分分分分分何飞飞飞分分分分分分儿飞飞飞飞纷纷为废物费纷纷为范文芳分分分分分分分分分为非</p>
+    </div>
     <div class="technological_process">
       <h3>xxxx</h3>
         <div class="map"></div>
@@ -246,6 +251,18 @@ export default {
 .my_demand_details {
   font-family: PingFangSC-Regular, PingFang SC;
   position: relative;
+  .demand_overview{
+    box-sizing: border-box;
+    width:1200px ;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    margin: 20px 0px 33px auto;
+    border:  #E7E7E7 1px solid;
+    h4{
+      margin-bottom: 15px;
+    }
+  }
   .technological_process{
     border: 1px solid #E7E7E7;
     /deep/ .el-button{
@@ -434,6 +451,21 @@ export default {
 
       .text-service-text {
         color: #333333;
+      }
+    }
+    .text-title-title1 {
+      display: flex;
+      align-items: center;
+      height: 20px;
+      font-size: 14px;
+      font-weight: 400;
+      color: #999999;
+      line-height: 20px;
+      margin-top: 10px;
+      margin-left: 10px;
+      .file_img {
+        height: 25px;
+
       }
     }
   }

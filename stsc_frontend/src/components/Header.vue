@@ -112,9 +112,11 @@ export default {
   async mounted() {
     await this.handleHeader()
     this.myPanel()
-    await this.getMessageListNoRead()
-    await this.getMessageBuyerListNoRead()
+      await this.getMessageListNoRead()
+     await this.getMessageBuyerListNoRead()
+    if(this.$store.getters.getUserInfo.id) {
     await this.getUserMessageNoAll()
+  }
   },
   watch: {
     $route(to,from) {

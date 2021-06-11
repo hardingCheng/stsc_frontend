@@ -42,10 +42,10 @@
         <div class="third-party-login">
           <div class="third-party-item">
             <img src="http://www.114cxy.com/app/images/PC/logo.png" alt="" @click="third1">
-            <span>测一</span>
+            <span>陕科</span>
           </div>
           <div class="third-party-item">
-            <img src="http://www.114cxy.com/app/images/PC/logo.png" alt="">
+            <img src="http://www.114cxy.com/app/images/PC/logo.png" alt="" @click="third2">
             <span>114产学研</span>
           </div>
           <div class="third-party-item">
@@ -161,6 +161,9 @@ export default {
     //模拟第三方登录
     third1() {
       this.$router.push('/third1')
+    },
+    third2(){
+      this.$router.push(`/third2`)
     }
   }
 }

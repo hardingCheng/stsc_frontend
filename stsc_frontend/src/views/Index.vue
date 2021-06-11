@@ -416,10 +416,6 @@ export default {
         this.successfulCaseList.push(result.data.caseList.slice(1))
       }
     },
-    //成功案例路由跳转
-    casePush(){
-      this.$router.push(`/successCase`)
-    },
     popularrecommendation(index) {
       this.pindex = index
     },
