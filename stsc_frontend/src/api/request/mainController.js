@@ -9,10 +9,16 @@ const mainController = {
         });
     },
     getSuccessfulCase: (data) => {
-            return axios({
-                url: `/ph/stcsp/front/getSuccessfulCase`,
-                method: "get",
-            });
-        },
-    }
+        return axios({
+            url: `/ph/stcsp/front/getSuccessfulCase`,
+            method: "get",
+        });
+    },
+    getIndexData: (data) => {
+        return axios({
+            url: `/ph/stcsp/front/getData`,
+            method: "get",
+        });
+    },
+}
 export default mainController

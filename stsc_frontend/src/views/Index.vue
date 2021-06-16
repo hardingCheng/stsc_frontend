@@ -25,7 +25,7 @@
             </div>
             <div class="data-presentation-item-right">
               <div class="data-presentation-item-title">机构数量</div>
-              <scrolling-numbers class="scrolling-numbers" startVal="0" endVal="666"></scrolling-numbers>
+              <scrolling-numbers class="scrolling-numbers" startVal="0" :endVal="indexData.companyCount"></scrolling-numbers>
             </div>
           </div>
           <div class="data-presentation-item">
@@ -34,7 +34,7 @@
             </div>
             <div class="data-presentation-item-right">
               <div class="data-presentation-item-title">需求数量</div>
-              <scrolling-numbers class="scrolling-numbers" startVal="0" endVal="666"></scrolling-numbers>
+              <scrolling-numbers class="scrolling-numbers" startVal="0" :endVal="indexData.reqCount"></scrolling-numbers>
             </div>
           </div>
           <div class="data-presentation-item">
@@ -43,7 +43,7 @@
             </div>
             <div class="data-presentation-item-right">
               <div class="data-presentation-item-title">服务数量</div>
-              <scrolling-numbers class="scrolling-numbers" startVal="0" endVal="190"></scrolling-numbers>
+              <scrolling-numbers class="scrolling-numbers" startVal="0" :endVal="indexData.serviceCount"></scrolling-numbers>
             </div>
           </div>
           <div class="data-presentation-item">
@@ -52,7 +52,7 @@
             </div>
             <div class="data-presentation-item-right">
               <div class="data-presentation-item-title">订单数量</div>
-              <scrolling-numbers class="scrolling-numbers" startVal="0" endVal="280"></scrolling-numbers>
+              <scrolling-numbers class="scrolling-numbers" startVal="0" :endVal="indexData.orderCount"></scrolling-numbers>
             </div>
           </div>
           <div class="data-presentation-item">
@@ -61,7 +61,7 @@
             </div>
             <div class="data-presentation-item-right">
               <div class="data-presentation-item-title">数据数量</div>
-              <scrolling-numbers class="scrolling-numbers" startVal="0" endVal="10" suffix="亿"></scrolling-numbers>
+              <scrolling-numbers class="scrolling-numbers" startVal="0" :endVal="indexData.dataTotal" suffix="千万"></scrolling-numbers>
             </div>
           </div>
         </div>
@@ -393,6 +393,7 @@ export default {
       categoryList: [],
       chartDataList: [],
       successfulCaseList: [],
+      indexData:{}
     }
   },
   components: {
@@ -405,10 +406,16 @@ export default {
     await this.getCategoryList()
   },
   async mounted() {
+    await this.getIndexData()
     await this.getSuccessfulCase()
     await this.drawInit()
   },
   methods: {
+    async getIndexData(){
+      let result = await this.$axios.mainController.getIndexData()
+      this.indexData = result.data.data
+      this.indexData.dataTotal /= 10000000
+    },
     async getSuccessfulCase(){
       let result = await this.$axios.mainController.getSuccessfulCase()
       if (result.code === 20000) {
