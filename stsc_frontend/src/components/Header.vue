@@ -101,12 +101,10 @@ export default {
       notificationShow:false,
       message_list_no:{},
       message_seller_list_no:{},
-      message_list_no_total:[],
+      message_list_no_total:0,
       message_seller_list_no_total:0,
       message_No_All:0,
       active:""
-
-
     }
   },
   async mounted() {
@@ -147,9 +145,6 @@ export default {
       })
       this.message_list_no = message_result.data.messageList.records
       this.message_list_no_total=message_result.data.messageList.total
-      // console.log("消息",this.message_list_no)
-      // console.log(this.$store.getters.getUserInfo.id)
-      // console.log("未读消息总数",this.message_list_no_total)
     },
     //卖家
     async getMessageBuyerListNoRead(){
@@ -161,10 +156,6 @@ export default {
       })
       this.message_seller_list_no = message_result.data.messageList.records
       this.message_seller_list_no_total=message_result.data.messageList.total
-      // console.log( this.$store.getters.getUserInfo.id,)
-      // console.log("卖家消息",this.message_seller_list_no)
-      // console.log(this.$store.getters.getUserInfo.id)
-      // console.log("未读消息总数",this.message_list_no_total)
     },
     //查询所有未读消息
     async getUserMessageNoAll(){
@@ -174,7 +165,6 @@ export default {
       this.message_No_All=results.data.total
     },
     handleClick(tab, event) {
-      // console.log(tab, event);
     },
     handleScroll() {
       let scrollY = document.documentElement.scrollTop
