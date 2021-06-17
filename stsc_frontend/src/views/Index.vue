@@ -407,8 +407,8 @@ export default {
   },
   async mounted() {
     await this.getIndexData()
-    await this.getSuccessfulCase()
     await this.drawInit()
+    await this.getSuccessfulCase()
   },
   methods: {
     async getIndexData(){
