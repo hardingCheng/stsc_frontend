@@ -2,7 +2,7 @@
   <div class="ServiceDetails container ">
     <div class="container"><P class="details-category">首页 > 找服务 > {{ info.name }}</P></div>
     <div class="serve-details ">
-      <div class="serve-details-img"><img :src="info.image" width="400px" height="400px"></div>
+      <div class="serve-details-img"><img :src=info.image width="400px" height="400px"></div>
       <div class="serve-details-inner-text">
         <div class="serve-title">{{ info ? info.name : "" }}</div>
 
@@ -47,62 +47,7 @@
         :description="info.serviceDescription"
         :professional-talents="info.expertIntroduction">
 <!--      成功案例-->
-      <div slot="second" class="success">
-        <div class="title">
-          <img src="../assets/logo.png"/>
-          <h3>谢谢谢谢谢</h3>
-        </div>
-        <div class="sub_title">
-          <div class="sub_title_top">
-            <img src="../assets/images/icon_list.png" />
-            <span>需求方/需求描述</span>
-          </div>
-          <p>需求方：<span>哈萨克斯坦</span></p>
-          <p>所属平台：<span>哈萨克斯坦</span></p>
-          <p>创建时间：<span>哈萨克斯坦</span></p>
-          <p>需求描述：</p>
-        </div>
-        <div class="other">
-          <div class="other_title"><h3>其他成功案例</h3></div>
-          <div class="other_success">
-            <div class="other_success_div">
-              <div class="img_div"><img src="../assets/logo.png"></div>
-              <div class="other_inner">
-              <span>标题</span>
-                <p>哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊</p>
-                <a>了解更多</a>
-              </div>
-            </div>
-            <div class="success_div">
-              <div class="img_div"><img src="../assets/logo.png"></div>
-              <div class="other_inner">
-                <span>标题</span>
-                <p>哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊</p>
-                <a>了解更多</a>
-              </div>
-            </div>
-            <div class="other_success_div">
-              <div class="img_div"><img src="../assets/logo.png"></div>
-              <div class="other_inner">
-                <span>标题</span>
-                <p>哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊</p>
-                <a>了解更多</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="other_pagination">
-          <el-pagination
-              background
-              @size-change="handleSizeChange1"
-              @current-change="handleCurrentChange1"
-              :current-page.sync="currentPage2"
-              :page-size="15"
-              layout="total, prev, pager, next"
-              :total="10">
-          </el-pagination>
-        </div>
-      </div>
+
 
       <div class="evaluation-box" slot="fifth">
         <div class="praise-of">
@@ -197,6 +142,7 @@ export default {
       limit:4,
       id:this.$route.params.id
     })
+    console.log("ccc",detail_result)
     this.commentListRequire=commentList.data.evaluationList
      this.total=commentList.data.evaluationList.records.length;
     console.log("评价列表", this.commentListRequire)

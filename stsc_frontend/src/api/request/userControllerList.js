@@ -42,7 +42,7 @@ const userControllerList = {
     // 根据用户id获取用户信息
     info: (params) => {
         return axios({
-            url: `/ph//stcsp/user/info/${params.id}`,
+            url: `/ph/stcsp/user/info/${params.id}`,
             method: "get",
         });
     },
@@ -87,7 +87,7 @@ const userControllerList = {
     // 平台用户修改个人信息
     updateInfo: (data) => {
         return axios({
-            url: "/ph/stcsp/user/updateInfo",
+            url: `/ph/stcsp/user/updateInfo`,
             method: "post",
             data,
         });
@@ -95,23 +95,23 @@ const userControllerList = {
     // 是否认证
     getAuthInfo(data){
         return axios({
-            url: "/ph/stcsp/user/getAuthInfo",
+            url: `/ph/stcsp/user/getAuthInfo`,
             method: "get",
         });
     },
     // 获取用户信息
     getUserInfo(data){
         return axios({
-            url: "/ph/stcsp/user/info",
+            url: `/ph/stcsp/user/info`,
             method: "get",
         });
     },
     // 第三方登录
-    thirdLogin: (data) => {
+    thirdLogin: (params,data) => {
         return axios({
-            url: "/third/stcsp/user/thirdLogin",
+            url: `/bh/stcsp/user/thirdLogin/${params.source}`,
             method: "post",
-            data,
+            data
         });
     },
 }
