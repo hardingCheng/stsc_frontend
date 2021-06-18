@@ -1,15 +1,15 @@
 import { Graph, Shape } from '@antv/x6'
-
+import "./shape"
 export default class ShowGraph {
   static init (data) {
     this.graph = new Graph({
       container: document.getElementById('showGraph'),
-      height: 800,
+      height:800,
       // 画布调整
       scroller: {
         enabled: true,
-        pageVisible: true,
-        pageBreak: true,
+        pageVisible: false,
+        pageBreak: false,
         pannable: false
       },
       //滚动滑轮缩放画布大小
@@ -80,7 +80,7 @@ export default class ShowGraph {
         }
       }
     })
-    
+
     this.initGraphShape(data)
     return this.graph
   }

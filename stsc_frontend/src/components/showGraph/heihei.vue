@@ -3,8 +3,8 @@
 </template>
 
 <script>
-import data from '../assets/data.json'
-import ShowGraph from '../tools/flow'
+import data from '../../assets/data.json'
+import ShowGraph from './index'
 export default {
   name: 'Index',
   data(){
@@ -14,32 +14,34 @@ export default {
   },
   mounted () {
     this.showDrawer()
-    setTimeout(() => {
+    this.$nextTick(()=>{
       this.boundEvent()
-    }, 200)
+    })
   },
   methods: {
     boundEvent() {
       const { graph } = ShowGraph
+      graph.centerContent()
+      graph.zoom(0)
       graph.on('cell:click', ({ cell }) => {
         let nodes = graph.getNodes()
         nodes.forEach((node) => {
         node.attr('body/stroke', '#5F95FF')
       })
         this.id = cell.id
+        console.log(this.id)
         cell.attr('body/stroke','orange')
       })
     },
     showDrawer () {
-      var data = JSON.parse()
       this.$nextTick(() => {
         this.initGraph(data)
       })
     },
     getContainerSize () {
       return {
-        width: '100%',
-        height: document.body.offsetHeight - 400
+        width:  '780px',
+        height: '85%'
       }
     },
     initGraph (data) {
@@ -57,7 +59,7 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style lang="scss" scoped>
 
 </style>
 

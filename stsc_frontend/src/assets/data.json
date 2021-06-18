@@ -114,7 +114,7 @@
           "text": "检验检测中心"
         },
         "image": {
-          "xlinkHref": "/img/inspection.3bcd7089.svg"
+          "xlinkHref": "img/inspection.3bcd7089.svg"
         }
       },
       "shape": "flow-chart-image-rect",

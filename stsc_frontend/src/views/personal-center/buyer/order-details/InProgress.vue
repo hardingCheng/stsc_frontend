@@ -45,7 +45,8 @@
         </div>
         <div class="order-info-right">
           <h3>服务进度</h3>
-          <b-pai :arrangeList="arrangeList" @getNodeInfo="getNodeInfo"></b-pai>
+<!--          <b-pai :arrangeList="arrangeList" @getNodeInfo="getNodeInfo"></b-pai>-->
+          <b-pai-flow></b-pai-flow>
         </div>
       </div>
       <div class="order-info-table">
@@ -116,7 +117,7 @@
 </template>
 
 <script>
-import BPai from '../../../../views/BPai'
+import BPaiFlow from '../../../../components/showGraph/heihei'
 import OrderSteps from "../../../../components/OrderSteps";
 export default {
   props:['orderid','type'],
@@ -151,7 +152,7 @@ export default {
   },
   components: {
     OrderSteps,
-    BPai
+    BPaiFlow
   },
   methods: {
     next() {
@@ -185,18 +186,18 @@ export default {
 
   },
   async mounted() {
-    const timer = setInterval(async () => {
-      // 某些定时器操作
-      this.subOrderDetailsInfo.length = 0
-      let result = await this.$axios.orderControllerList.getSubOrderDetailsInfo({
-        subRequireId:this.currentSubRequirementId
-      })
-      this.subOrderDetailsInfo.push(result.data)
-    }, 1500);
-    // 通过$once来监听定时器，在beforeDestroy钩子可以被清除。
-    this.$once('hook:beforeDestroy', () => {
-      clearInterval(timer);
-    })
+    // const timer = setInterval(async () => {
+    //   // 某些定时器操作
+    //   this.subOrderDetailsInfo.length = 0
+    //   let result = await this.$axios.orderControllerList.getSubOrderDetailsInfo({
+    //     subRequireId:this.currentSubRequirementId
+    //   })
+    //   this.subOrderDetailsInfo.push(result.data)
+    // }, 1500);
+    // // 通过$once来监听定时器，在beforeDestroy钩子可以被清除。
+    // this.$once('hook:beforeDestroy', () => {
+    //   clearInterval(timer);
+    // })
     if (this.orderid && this.type === '0'){
       let result = await this.$axios.orderControllerList.setpDoing({
         id:this.orderid
