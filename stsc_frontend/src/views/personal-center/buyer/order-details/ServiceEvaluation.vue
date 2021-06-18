@@ -127,7 +127,7 @@
         <div class="service-acceptance-operation">
           <el-button type="primary" @click="submitComment">下一步</el-button>
         </div>
-      </div>2
+      </div>
     </div>
 
     <div  v-if="type === '1'">
