@@ -1,7 +1,7 @@
 <template>
   <div class="my_demand_details container">
     <div class="my_demand-details container ">
-      <div class="my_demand-details-img"><img :src="this.info_all.image" width="400px" height="400px"></div>
+      <div class="my_demand-details-img"><img :src=this.info_all.image width="400px" height="400px"></div>
       <div class="my_demand-details-inner-text">
         <div class="my_demand-title">{{ this.info_all.name }}</div>
         <div class="mechanism-classification">
@@ -16,7 +16,8 @@
         <div class="address">
           <div class="text-title-title ">联系地址：<span class="text-service-text ">{{  this.info_all.address }}</span></div>
         </div>
-        <div class="text-title-title1 "><span>附件：</span><img src="../../../assets/images/fileimg.png" class="file_img"/></div>
+        <div class="text-title-title1 "><span>附件：</span><img src="../../../assets/images/fileimg.png" class="file_img" @click="downFile"/>
+        <a :href=this.info_all.attachments>下载</a></div>
 <!--        <div class="text-title-title ">电子邮箱：<span class="text-service-text">xxxxx</span></div>-->
       </div>
       <div></div>
@@ -43,14 +44,14 @@
 <!--    </el-tabs>-->
     <div class="demand_overview container">
       <h4>需求概述</h4>
-      <p>覅if岗位分为非飞凤飞飞分为分为分分分分分分臭豆腐分分分分分何飞飞飞分分分分分分儿飞飞飞飞纷纷为废物费纷纷为范文芳分分分分分分分分分为非</p>
+      <p>{{this.info_all.content}}</p>
     </div>
     <div class="technological_process">
       <h3>xxxx</h3>
         <div class="map"></div>
       <div class="button_group">
-      <el-button type="primary" @click="verify">确定</el-button>
-        <el-button type="primary">重新拆分</el-button>
+      <el-button type="primary" @click="verify" :disabled="forbidden">确定</el-button>
+        <el-button type="primary" :disabled="reOpen" @click="resoution">重新拆分</el-button>
       </div>
     </div>
     <div class="indicators" v-if="hid">
@@ -76,8 +77,7 @@
         </el-select>
 
 <!--        推荐服务商-->
-
-        <div class="children_demand"  v-for="(items,index) in item" v-bind:key="index">
+        <div class="children_demand"  v-for="(items,index) in item" v-bind:key="index" v-if="item[0].sellerList.length">
           <span class="children_demand_title" >{{items.subRequireName}}</span>
           <div class="company ">
             <el-radio-group v-model="company_radio[index]" @change="changeVal" v-for="(itemss,index1) in items.sellerList" v-bind:key="index1">
@@ -130,6 +130,7 @@ export default {
   name: "MyDemandDetails",
   data() {
     return {
+      reOpen:false,//是否重新拆分
       company_radio: {},
       grab_radio:['1','1','1'],//抢单商家
       activeName: 'first',
@@ -138,6 +139,7 @@ export default {
       item: [],//推荐商家
       grab_item: ["", "", ""],
       hid:false,
+      forbidden:false,
 
       options: [{
         value: '选项1',
@@ -169,7 +171,7 @@ export default {
       requirementId: this.id
     })
     this.item = detail_result.data.res
-    console.log("测",this.item)
+    console.log("测",this.item[0].sellerList.length)
     const results =  await  this.$axios.requirementControllerList.getRequireDetailById({
       id:this.id
     })
@@ -180,10 +182,22 @@ export default {
   },
 
   methods: {
+    resoution(){
+      this.$message({
+        message: '重新拆分请求已经发送！',
+        type: 'success'
+      });
+      this.reOpen=true
+    },
+    downFile(){
+
+    },
     company_detail(){
       this.$router.push(`/buyer/comanydetail`)
     },
     verify(){//核实拆分
+      this.reOpen=true
+      this.forbidden=true
       this.hid=true
     },
     getVal(val){
@@ -465,6 +479,7 @@ export default {
       margin-left: 10px;
       .file_img {
         height: 25px;
+        margin-right: 5px;
 
       }
     }
@@ -574,14 +589,4 @@ export default {
   margin: 0;
 }
 
-</style>
-<style>
-.el-tabs__item:hover {
-  color: black;
-}
-
-.el-tabs__item.is-active {
-  background-color: #1794FF;
-  color: white;
-}
 </style>

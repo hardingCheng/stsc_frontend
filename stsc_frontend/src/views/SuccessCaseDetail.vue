@@ -152,7 +152,7 @@ export default {
             display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
             -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
             -webkit-line-clamp: 5; /** 显示的行数 **/
-            overflow: hidden; /** 隐藏超出的内容 **/
+            //overflow: hidden; /** 隐藏超出的内容 **/
           }
           a{
             font-size: 14px;
@@ -182,14 +182,15 @@ export default {
     }
   }
   .sub_title{
-    border-bottom: 1px solid #F3F3F3;
+    margin-top: 20px;
+    border: 1px solid #F3F3F3;
     p{
       line-height: 40px;
     }
     .sub_title_top{
       display: flex;
       align-items: center;
-      margin-top: 20px;
+
       height: 48px;
       background: #f5f5f6;
       img{
