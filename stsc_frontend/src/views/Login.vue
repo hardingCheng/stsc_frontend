@@ -74,7 +74,6 @@
 </template>
 
 <script>
-// 验证码   验证组件
 import SIdentify from "../components/SIdentify";
 import {validatorInput} from "../tools/verification/validata"
 
@@ -97,6 +96,7 @@ export default {
   },
   // 根据没登录前的点击的路由  登陆后跳转到相关页面
   mounted() {
+    // 查看是否是从其他页面跳转到登录页面。登录后跳转回去
     if (Object.keys(this.$route.query).length !== 0) {
       this.jumpRouting = this.$route.query
     }
@@ -106,33 +106,38 @@ export default {
     async loginForm() {
       const {errors, isValid} = validatorInput(this.form)
       if (isValid) {
-        let result = await this.$axios.userControllerList.login({
+        let resultLogin = await this.$axios.userControllerList.login({
           username: this.form.username,
           password: this.form.password
         })
-        if (result.code === 20000) {
-          console.log(result)
+        if (resultLogin.code === 20000) {
+          // 保存用户信息
+          let {user,token} = resultLogin.data
           this.$store.commit("modTokenLogin", {
-            userInfo: result.data.user,
-            token: result.data.token,
+            userInfo: user,
+            token: token,
             isLogin: true
           });
-          let result1 = await this.$axios.userControllerList.getAuthInfo()
-          if (result1.code === 20000 && result1.data.idCard) {
+          // 设置实名认证信息
+          let resultAuthInfo = await this.$axios.userControllerList.getAuthInfo()
+          if (resultAuthInfo.code === 20000 && resultAuthInfo.data.idCard) {
+            let { realname,idCard } = resultAuthInfo.data
             this.$store.commit('modRealNameCertification', {
               realNameCertificationInfo: {
-                realname: result1.data.realname,
-                idCard: result1.data.idCard
+                realname,
+                idCard
               },
             })
           }
-          if (result1.code === 20000 && result1.data.qualificationUrl) {
+          // 设置资质认证信息
+          if (resultAuthInfo.code === 20000 && resultAuthInfo.data.qualificationUrl) {
+            let {address,businessScope,companyName,qualificationUrl} = resultAuthInfo.data
             this.$store.commit('modQualification', {
               qualificationInfo: {
-                address:result1.data.address,
-                businessScope:result1.data.businessScope,
-                companyName:result1.data.companyName,
-                qualificationUrl:result1.data.qualificationUrl,
+                address,
+                businessScope,
+                companyName,
+                qualificationUrl
               },
             })
           }
@@ -154,8 +159,6 @@ export default {
     // 重置表单
     resetForm(formName) {
       this.$refs[formName].resetFields();
-    },
-    loginForm1() {
     },
     //模拟第三方登录
     third1() {

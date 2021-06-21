@@ -10,7 +10,7 @@
           <el-input
               placeholder="请输入内容"
               prefix-icon="el-icon-search"
-              v-model="input2">
+              v-model="findValue">
           </el-input>
         </div>
       </div>
@@ -70,7 +70,7 @@ export default {
   components: {InfoListItem2, BreadCrumb},
   data() {
     return {
-      input2: '',
+      findValue: '',
       getFirstCategoryList: [],
       getSecondCategoryList: [],
       demandList1: [],
@@ -86,7 +86,9 @@ export default {
     }
   },
   async mounted() {
+    // 获取分类
     await this.getFirstCategory()
+    // 初次获取全部的需求列表
     await this.getFirstDemandList(null)
   },
   methods: {
