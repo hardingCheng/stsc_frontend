@@ -121,6 +121,13 @@ const requirementControllerList = {
             method: "get",
         });
     },
+    //重新拆分接口
+    resoution: (params) => {
+        return axios({
+            url: `/bh/stcsp/requirement/rearrange/${params.requirementId}`,
+            method: "get",
+        });
+    },
 
 }
 export default requirementControllerList

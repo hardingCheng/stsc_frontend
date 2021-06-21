@@ -48,11 +48,11 @@
       <h4>需求概述</h4>
       <p>{{this.info_all.content}}</p>
     </div>
-    <div class="technological_process" v-if="lengthInfo">
+    <div class="technological_process" >
         <div class="map">
         <heihei :arrangeList="arrangeInfo"></heihei>
         </div>
-      <div class="button_group" >
+      <div class="button_group"  v-if="lengthInfo" >
       <el-button type="primary" @click="verify" :disabled="forbidden">确定</el-button>
         <el-button type="primary" :disabled="reOpen" @click="resoution">重新拆分</el-button>
       </div>
@@ -206,12 +206,20 @@ export default {
       }
     },
     //对结果重新拆分
-    resoution(){
-      this.$message({
-        message: '重新拆分请求已经发送！',
-        type: 'success'
-      });
-      this.reOpen=true
+    async resoution() {
+      let result = await this.$axios.requirementControllerList.resoution({
+        requirementId:this.$route.params.id
+      })
+      if (result.code === 20000){
+        this.$message({
+          message: '重新拆分请求已经发送！',
+          type: 'success'
+        });
+        this.reOpen = true
+        //重新刷新页面，重新渲染数据
+        this.$router.go(0)
+      }
+
     },
     downFile(){
     },

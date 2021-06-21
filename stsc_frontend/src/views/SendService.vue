@@ -317,7 +317,7 @@ export default {
         this.$message({
           message: '发布服务成功,请前往个人中心查看！',
           type: 'success'
-        });
+        });1
         await this.$router.push("/seller/myservice")
       }
     },
