@@ -65,7 +65,7 @@ export default {
     getNewCode(){
       this.$refs.sidentify.getCode()
     },
-    // 表单提交
+    // 注册信息提交
     async registerForm(){
       const { errors,isValid } = await validatorSignUpInput(this.form)
       if(isValid) {

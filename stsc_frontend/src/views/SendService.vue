@@ -195,13 +195,16 @@ export default {
     }
   },
   async mounted() {
+    // 获取服务分类
     await this.getCategory()
+    // 修改服务信息
     if (this.id) {
       await this.getServesDetailById()
     }
   },
   watch: {
     form:{
+      // 用来监听我们上传文件的url返回来
       async handler (newValue, oldName) {
         if(!this.updateStatus){
           if (this.filerReadyUploadList1.length!==0&&this.filerReadyUploadList.length!==0){

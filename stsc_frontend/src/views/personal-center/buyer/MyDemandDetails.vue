@@ -126,7 +126,7 @@
 
 <script>
 import axios from "axios";
-import heihei from "../../../components/showGraph/heihei";
+import heihei from "../../../components/showGraph/ShowGraph";
 export default {
   props: ['id'],
   name: "MyDemandDetails",
