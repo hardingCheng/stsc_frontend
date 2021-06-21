@@ -9,15 +9,16 @@
           <!--          <div class="text-title-title ">服务类别：<span class="text-service-text">设计服务>工业服务</span></div>-->
         </div>
         <!--        <div class="text-title-title">单位所在地：<span class="text-service-text">{{ info.address }}</span></div>-->
-        <div class="text-title-title">创造时间：<span class="text-service-text">{{ this.info_all.createTime }}</span></div>
+        <div class="text-title-title">创造时间：<span class="text-service-text">{{ this.date }}</span></div>
         <div class="text-title-title">联系人：<span class="text-service-text">{{ this.info_all.telephone }}</span></div>
         <div class="text-title-title">手机号：<span class="text-service-text">{{  this.info_all.telephone }}</span></div>
 
         <div class="address">
           <div class="text-title-title ">联系地址：<span class="text-service-text ">{{  this.info_all.address }}</span></div>
         </div>
-        <div class="text-title-title1 "><span>附件：</span><img src="../../../assets/images/fileimg.png" class="file_img" @click="downFile"/>
-        <a :href=this.info_all.attachments>下载</a></div>
+        <div class="text-title-title1 "><span>附件：</span><img src="../../../assets/images/fileimg.png" class="file_img"  v-bind:href="this.info_all.attachments"/>
+<!--        <a :href=this.info_all.attachments>下载</a>-->
+        </div>
 <!--        <div class="text-title-title ">电子邮箱：<span class="text-service-text">xxxxx</span></div>-->
       </div>
       <div></div>
@@ -47,8 +48,9 @@
       <p>{{this.info_all.content}}</p>
     </div>
     <div class="technological_process">
-      <h3>xxxx</h3>
-        <div class="map"></div>
+        <div class="map">
+        <heihei></heihei>
+        </div>
       <div class="button_group">
       <el-button type="primary" @click="verify" :disabled="forbidden">确定</el-button>
         <el-button type="primary" :disabled="reOpen" @click="resoution">重新拆分</el-button>
@@ -124,10 +126,11 @@
 
 <script>
 import axios from "axios";
-
+import heihei from "../../../components/showGraph/heihei";
 export default {
   props: ['id'],
   name: "MyDemandDetails",
+  components: {heihei},
   data() {
     return {
       reOpen:false,//是否重新拆分
@@ -138,9 +141,9 @@ export default {
       info_all:[],
       item: [],//推荐商家
       grab_item: ["", "", ""],
-      hid:false,
-      forbidden:false,
-
+      hid:false,//是否隐藏推荐服务商面板
+      forbidden:false,//确定按钮是否可用
+      date:null,
       options: [{
         value: '选项1',
         label: '综合排序'
@@ -167,15 +170,17 @@ export default {
     };
   },
   async mounted() {
+    //moment时间格式化组件
+    const moment = require('moment');
     const detail_result = await this.$axios.serveControllerList.getServeById({
       requirementId: this.id
     })
     this.item = detail_result.data.res
-    console.log("测",this.item[0].sellerList.length)
     const results =  await  this.$axios.requirementControllerList.getRequireDetailById({
       id:this.id
     })
     this.info_all =results.data.requirement
+    this.date = moment(results.data.requirement.createTime).format(("YYYY-MM-DD"))
     console.log("all", this.info_all)
 
 
@@ -195,9 +200,9 @@ export default {
     company_detail(){
       this.$router.push(`/buyer/comanydetail`)
     },
-    verify(){//核实拆分
+    verify(){//用户核实拆分
       this.reOpen=true
-      this.forbidden=true
+      this.forbidden=true//禁用确定按钮
       this.hid=true
     },
     getVal(val){
@@ -278,19 +283,21 @@ export default {
     }
   }
   .technological_process{
+    display: flex;
+
     border: 1px solid #E7E7E7;
     /deep/ .el-button{
       margin: 0 0 0 20px;
     }
     .map{
-      background: #909399;
-       height: 400px;
+        height: 400px;
+
     }
     .button_group{
       display: flex;
-      flex-direction: row-reverse;
-      margin-top: 5px;
-      margin-bottom: 5px;
+      flex-direction: column-reverse;
+      align-content: center;
+      justify-content:space-evenly;
     }
   }
   .indicators_text {

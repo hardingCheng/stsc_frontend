@@ -67,6 +67,7 @@ export default {
     async have_manage(val, delete_val) {
       this.$parent.change_message_state(delete_val);
       this.indexss_no_read.splice(val, 1)
+
     },
 
     handleClick(tab, event) {

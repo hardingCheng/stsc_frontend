@@ -37,7 +37,7 @@
 <!--    </el-tabs>-->
     <div class="demand_overview container">
         <h4>需求概述</h4>
-        <p>覅if岗位分为非飞凤飞飞分为分为分分分分分分臭豆腐分分分分分何飞飞飞分分分分分分儿飞飞飞飞纷纷为废物费纷纷为范文芳分分分分分分分分分为非</p>
+        <p>{{ info.content }}</p>
     </div>
 
     <div class="see-and-see container">

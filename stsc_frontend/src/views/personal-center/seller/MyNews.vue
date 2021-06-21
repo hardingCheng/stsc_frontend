@@ -89,12 +89,14 @@ export default {
       await this.$axios.requirementControllerList.deleteMessageById({
         id: delete_val
       })
+      await this.getMessageList()
     },
     //改变消息状态已读到全部
     async change_message_state(val){
       await this.$axios.requirementControllerList.changeMessageState({
         messageId:val
       })
+      await this.getMessageListNoRead()
       console.log("已读",val)
     },
     handleSizeChange(val) {
