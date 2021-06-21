@@ -68,10 +68,11 @@ export default {
       })
       this.message_total = message_result.data.messageList.total//获取全部消息总数
       this.message_list = message_result.data.messageList.records//获取消息列表
-      this.is_read = message_result.data.messageList.records.isRead
+      this.is_read = message_result.data.messageList.records.isRead//消息状态
       console.log("消息总数",this.message_total)
 
     },
+    //获取消息未读列表
     async getMessageListNoRead(){
       const message_result = await this.$axios.requirementControllerList.lookSellerMessageById({
         userId: this.$store.getters.getUserInfo.id,
@@ -79,9 +80,8 @@ export default {
         limit: 10,
         isRead:0
       })
-      this.message_list_no =message_result.data.messageList.records
-      this.message_list_no_total=message_result.data.messageList.total
-      console.log("ddd",this.message_list_no)
+      this.message_list_no =message_result.data.messageList.records//未读消息
+      this.message_list_no_total=message_result.data.messageList.total//未读消息总数
     },
 
     //删除消息

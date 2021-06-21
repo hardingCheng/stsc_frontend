@@ -1,71 +1,5 @@
 <template>
   <div class="service-evaluation">
-<!--    <div  v-if="type === '0'">-->
-<!--    <div class="serve_company">-->
-<!--      <img :src="!this.seller.avatar ? orderChildrenInfo.image: this.seller.avatar"  class="img_style">-->
-<!--      <div class="company_detail">-->
-<!--        <ul>-->
-<!--          <li>-->
-<!--            服务商名称:<span>{{ !orderChildrenInfo.company? "暂无数据":orderChildrenInfo.company }}</span>-->
-<!--          </li>-->
-<!--          <li>-->
-<!--            所属机构:<span>{{ !orderChildrenInfo.platform ? "暂无数据":orderChildrenInfo.platform}}</span>-->
-<!--          </li>-->
-<!--          <li>-->
-<!--            联系方式:<span>{{ !orderChildrenInfo.telephone? "暂无数据":orderChildrenInfo.telephone }}</span>-->
-<!--          </li>-->
-<!--          <li>-->
-<!--            地址:<span>{{ !orderChildrenInfo.address ? "暂无数据":orderChildrenInfo.telephone }}</span>-->
-<!--          </li>-->
-<!--        </ul>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <div class="evaluation_title" ><span class="order">订单</span><span class="evaluation_text">评论</span></div>-->
-<!--    <div class="content">-->
-<!--    <div class="serve_order">-->
-
-<!--      <img :src="orderChildrenInfo.image"  class="order_style">-->
-<!--      <ul>-->
-<!--        <li>-->
-<!--          订单编号:<span>{{ !order.orderId ? "暂无数据":order.orderId}}</span>-->
-<!--        </li>-->
-<!--        <li>-->
-<!--          服务名称:<span>{{ !orderChildrenInfo.name? "暂无数据": orderChildrenInfo.name}}</span>-->
-<!--        </li>-->
-<!--        <li>-->
-<!--          开始时间:<span>{{ !orderChildrenInfo.createTime? "暂无数据": orderChildrenInfo.createTime}}</span>-->
-<!--        </li>-->
-<!--        <li>-->
-<!--          结束时间:<span>{{ !this.deadTime ? "暂无数据":this.deadTime }}</span>-->
-<!--        </li>-->
-<!--        <li>-->
-<!--          服务价格:<span>{{!orderChildrenInfo.price? "暂无数据":orderChildrenInfo.price}}万元</span>-->
-<!--        </li>-->
-
-<!--      </ul>-->
-<!--      <div class="evaluation_source">-->
-<!--&lt;!&ndash;        评分&ndash;&gt;-->
-
-<!--        <el-rate class="star_style"-->
-<!--            v-model="value1"-->
-<!--            show-text>-->
-<!--        </el-rate>-->
-<!--&lt;!&ndash;          文本输入框&ndash;&gt;-->
-
-<!--        <el-input class="input_style"-->
-<!--            type="textarea"-->
-<!--            :autosize="{ minRows: 4, maxRows: 4}"-->
-<!--            placeholder="请输入内容"-->
-<!--            v-model="textarea1">-->
-<!--        </el-input>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <div class="service-acceptance-operation">-->
-<!--      <el-button type="primary" @click="submitComment">提交</el-button>-->
-<!--    </div>-->
-<!--    </div>-->
-<!--  </div>-->
-
     <div  v-if="type === '0'">
       <div class="serve_company" >
         <img :src=orderBuyInfo.avatar class="img_style">
@@ -206,7 +140,7 @@ export default {
         value:null ,
         value1:null,
         textarea1:"",
-        textarea2: '',
+        textarea2: '',//type 为1时的评价输入框绑定的数据
         order:[],//存放订单消息
         orderTempt:[],//
         subOrderTempt:[],
@@ -219,18 +153,21 @@ export default {
         orderChildrenInfo:[],
         deadTime:['0'],
         serveId:null,//存放服务ID
-        num:0,
-        sum:0,
+        num:0,//当前是第几个子订单，默认值为0
+        sum:0,//存放订单的总数
         ev:0
       }
     },
   async created() {
+    //获取订单
     await this.getOrderInfo()
+    //获取订单的买家信息
     await this.getSellerInfo(this.order.sellerId,this.num)
+    //获取子订单子的详细信息
     await this.getSubInfo(this.order.subOrderId,this.num)
   },
   methods:{
-    //获取买家信息
+    //获取订单的买家信息
     async  getSellerInfo(val,i){
       let result = await this.$axios.orderControllerList.getOrderBuyerInfo({
         id:val
@@ -244,33 +181,20 @@ export default {
         id:this.orderid
       })
       //子订单列表
-      this.sum=result.data.subOrderInfo.subOrderInfoVoList.length
-      this.order=result.data.subOrderInfo.subOrderInfoVoList[this.num]
+      this.sum=result.data.subOrderInfo.subOrderInfoVoList.length//子订单的数目
+      this.order=result.data.subOrderInfo.subOrderInfoVoList[this.num]//子订单信息，默认是第一个订单的数据
       console.log("订单", this.order,this.sum)
 
     },
-    //获取子订单子服务信息
+    //获取子订单子的详细信息
     async getSubInfo(val,i){
       let results= await this.$axios.orderControllerList.getSubOrderDetailById({
         subOrderId:val
       })
-      this.orderChildrenInfo=results.data.orderInfo
-      this.serveId=results.data.orderInfo.serveId
-
+      this.orderChildrenInfo=results.data.orderInfo//子订单的信息
+      this.serveId=results.data.orderInfo.serveId//服务id
       console.log( "xxx",this.orderChildrenInfo)
-
-      // console.log("子订单信息",this.orderChildrenInfo)
-      //  const moment = require('moment')
-      //  this.orderChildrenInfo.createTime=moment(this.orderChildrenInfo.createTime).format('YYYY-MM-DD ');
-      //  this.deadTime =moment(this.orderChildrenInfo.createTime).add(4, "month").format('YYYY-MM-DD ');//2019-03-25 00:00:00
-      //  console.log(  "服务信息",this.orderChildrenInfo)
     },
-    //获取子服务
-    // async getServeById(val){
-    //   let result = await this.$axios.serveControllerList.getServesDetailById({
-    //     id:val
-    //   })
-    // },
 
     //发布评论
     async submitComment(){
@@ -282,7 +206,10 @@ export default {
       })
       this.$message.success("评论成功！");
       console.log("num",this.num)
+
+      //如果当前订单的索引小于订单的总数,调用方法
       if(this.num<this.sum){
+        //每调用一次num+1
         this.num=this.num+1
         await this.getOrderInfo()
         await this.getSellerInfo(this.order.sellerId,this.num)

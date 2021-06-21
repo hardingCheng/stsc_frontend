@@ -134,17 +134,18 @@ export default {
     };
   },
   async mounted() {
+      //通过id获取服务的详细信息
       const detail_result = await this.$axios.serveControllerList.getServesDetailById({
       id: this.id
     })
+    //通过id获取评论
     const commentList = await  this.$axios.requirementControllerList.getCommentList({
       page:this.currentPage,
       limit:4,
       id:this.$route.params.id
     })
-    console.log("ccc",detail_result)
-    this.commentListRequire=commentList.data.evaluationList
-     this.total=commentList.data.evaluationList.records.length;
+    this.commentListRequire=commentList.data.evaluationList//评价列表
+     this.total=commentList.data.evaluationList.records.length;//评价总数
     console.log("评价列表", this.commentListRequire)
     console.log("获取的评价总数",this.total)
      this.currentPage=commentList.data.evaluationList.current

@@ -47,15 +47,17 @@
       <h4>需求概述</h4>
       <p>{{this.info_all.content}}</p>
     </div>
+
     <div class="technological_process">
         <div class="map">
-        <heihei></heihei>
+        <heihei :arrangeList="arrangeInfo"></heihei>
         </div>
       <div class="button_group">
       <el-button type="primary" @click="verify" :disabled="forbidden">确定</el-button>
         <el-button type="primary" :disabled="reOpen" @click="resoution">重新拆分</el-button>
       </div>
     </div>
+
     <div class="indicators" v-if="hid">
       <div class="recommend">
         <h3 style="margin-bottom: 20px">推荐服务商</h3>
@@ -144,6 +146,7 @@ export default {
       hid:false,//是否隐藏推荐服务商面板
       forbidden:false,//确定按钮是否可用
       date:null,
+      arrangeInfo:{},
       options: [{
         value: '选项1',
         label: '综合排序'
@@ -170,23 +173,35 @@ export default {
     };
   },
   async mounted() {
-    //moment时间格式化组件
-    const moment = require('moment');
+    await this.getArrangeInfo()
+    //获取推荐服务商列表
     const detail_result = await this.$axios.serveControllerList.getServeById({
       requirementId: this.id
     })
+    //item用于存储推荐服务商
     this.item = detail_result.data.res
     const results =  await  this.$axios.requirementControllerList.getRequireDetailById({
       id:this.id
     })
+    //info_all存储需求详情
     this.info_all =results.data.requirement
+    //moment时间格式化插件
+    const moment = require('moment');
     this.date = moment(results.data.requirement.createTime).format(("YYYY-MM-DD"))
-    console.log("all", this.info_all)
-
-
   },
 
   methods: {
+    //获取编排的方法
+    async getArrangeInfo() {
+      let result = await this.$axios.requirementControllerList.getArrangeInfo({
+        requirementId:this.$route.params.id
+      })
+      if (result.code === 20000){
+          this.arrangeInfo=result.data.layout
+        console.log(  this.arrangeInfo)
+      }
+    },
+    //对结果重新拆分
     resoution(){
       this.$message({
         message: '重新拆分请求已经发送！',
@@ -195,8 +210,8 @@ export default {
       this.reOpen=true
     },
     downFile(){
-
     },
+    //跳转推荐服务商的详情页的方法
     company_detail(){
       this.$router.push(`/buyer/comanydetail`)
     },
@@ -237,6 +252,7 @@ export default {
       document.body.appendChild(link)
       link.click()
     },
+    //勾选服务商后点击提交按钮的方法
     async submit() {
       let orderList = []
       this.item.map((item, index) => {
