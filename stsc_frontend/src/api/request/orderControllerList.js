@@ -100,7 +100,7 @@ const orderControllerList = {
     },
     getSubOrderDetailsInfo(params){
         return axios({
-            url: `/ph/stcsp/suborder/getSubOrderInfo/${params.subRequireId}`,
+            url: `/ph/stcsp/suborder/getSubOrderInfo/${params.nid}`,
             method: "get",
         });
     },

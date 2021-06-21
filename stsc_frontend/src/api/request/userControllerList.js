@@ -5,7 +5,7 @@ const userControllerList = {
     // 用户实名认证接口
     authAccount: (data) => {
         return axios({
-            url: "/ph/stcsp/user/authAccount",
+            url: "/ph/stcsp/user/authAccount2",
             method: "post",
             data
         });

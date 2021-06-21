@@ -158,7 +158,7 @@ export const FlowChartImageRect = Graph.registerNode('flow-chart-image-rect', {
       fill: 'rgba(95,149,255,0.05)'
     },
     image: {
-      xlinkHref: require('@/assets/development.svg'),
+      xlinkHref: require('@/static/development.svg'),
       width: 40,
       height: 40,
       x: 12,

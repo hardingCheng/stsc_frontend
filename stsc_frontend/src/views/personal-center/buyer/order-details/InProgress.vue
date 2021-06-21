@@ -46,7 +46,7 @@
         <div class="order-info-right">
           <h3>服务进度</h3>
 <!--          <b-pai :arrangeList="arrangeList" @getNodeInfo="getNodeInfo"></b-pai>-->
-          <b-pai-flow></b-pai-flow>
+          <b-pai-flow :arrangeList="arrangeList" @getNodeInfo="getNodeInfo"></b-pai-flow>
         </div>
       </div>
       <div class="order-info-table">
@@ -80,7 +80,7 @@
               align="center"
           >
             <template slot-scope="scope">
-              <span type="success">{{'￥'+scope.row.price+'万'}}</span>
+              <span type="success">{{'￥'+ scope.row.price | modPrice +'万'}}</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -160,9 +160,8 @@ export default {
     },
     async getNodeInfo(nodeId){
       this.subOrderDetailsInfo.length = 0
-      console.log(this.subOrderDetailsInfo)
       let result = await this.$axios.orderControllerList.getSubOrderDetailsInfo({
-        subRequireId:nodeId
+        nid:nodeId
       })
       this.currentSubRequirementId = nodeId
       this.subOrderDetailsInfo.push(result.data)
@@ -176,7 +175,7 @@ export default {
       if (result.code == 20000) {
         this.subOrderDetailsInfo.length = 0
         let result = await this.$axios.orderControllerList.getSubOrderDetailsInfo({
-          subRequireId:this.currentSubRequirementId
+          nid:this.currentSubRequirementId
         })
         this.subOrderDetailsInfo.push(result.data)
       }
@@ -210,11 +209,15 @@ export default {
       })
       this.type1OrderInfo = result1.data.subOrderInfo
       this.subOrderInfoVoListLength = result1.data.subOrderInfo.subOrderInfoVoList.length
-      let result = await this.$axios.arrangeController.getArrangeList({
+      // let result = await this.$axios.arrangeController.getArrangeList({
+      //   requirementId:this.type1OrderInfo.requirementId
+      // })
+      // this.arrangeList = result.data.arrange
+      // await this.getNodeInfo(result.data.arrange.nodeList[0].id)
+      let arrangeResult = await this.$axios.layoutControllerList.getLayoutResult({
         requirementId:this.type1OrderInfo.requirementId
       })
-      this.arrangeList = result.data.arrange
-      await this.getNodeInfo(result.data.arrange.nodeList[0].id)
+      this.arrangeList = JSON.parse(arrangeResult.data.layout)
     }
   },
   filters:{
@@ -229,6 +232,9 @@ export default {
         case 4:
           return '已评价'
       }
+    },
+    modPrice(value){
+      console.log(value)
     }
   }
 }

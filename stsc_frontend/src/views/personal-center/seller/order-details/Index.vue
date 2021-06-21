@@ -39,7 +39,8 @@ export default {
           status: '服务评价',
         }],
         step: 2
-      }
+      },
+      orderInfo:{}
     }
   },
   mounted() {
@@ -72,19 +73,44 @@ export default {
     routerJump(index) {
       switch (index) {
         case 0:
-          this.$router.push(`/seller/orderdetail/waitingcommunication/${this.orderid}/${this.type}`)
+          if (this.orderInfo.status >=1) {
+            this.$router.push(`/seller/orderdetail/waitingcommunication/${this.orderid}/${this.type}`)
+          }
           break
         case 1:
-          this.$router.push(`/seller/orderdetail/inprogress/${this.orderid}/${this.type}`)
+          if (this.orderInfo.status >=2) {
+            this.$router.push(`/seller/orderdetail/inprogress/${this.orderid}/${this.type}`)
+          }
           break
         case 2:
-          this.$router.push(`/seller/orderdetail/serviceacceptance/${this.orderid}/${this.type}`)
+          if (this.orderInfo.status >=3) {
+            this.$router.push(`/seller/orderdetail/serviceacceptance/${this.orderid}/${this.type}`)
+          }
           break
         case 3:
-          this.$router.push(`/seller/orderdetail/serviceevaluation/${this.orderid}/${this.type}`)
+          if (this.orderInfo.status >=4) {
+            this.$router.push(`/seller/orderdetail/serviceevaluation/${this.orderid}/${this.type}`)
+          }
           break
       }
-    }
+    },
+    async getOrderInfo() {
+      if (this.type === '0') {
+        let result = await this.$axios.orderControllerList.getOrderInfo({
+          orderId: this.orderid
+        })
+        if (result.code === 20000) {
+          this.orderInfo = result.data.orderInfo
+        }
+      } else if (this.type === '1') {
+        let result = await this.$axios.orderControllerList.getSubOrderInfo({
+          subOrderId: this.orderid
+        })
+        if (result.code === 20000) {
+          this.orderInfo = result.data.orderInfo
+        }
+      }
+    },
   }
 }
 </script>

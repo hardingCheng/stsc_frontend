@@ -24,7 +24,7 @@
           </div>
           <div class="info-menu">
             <ul>
-              <li><a @click="getOrderDetail(item.id,item.orderType)">订单详情</a></li>
+              <li><a @click="getOrderDetail(item.id,item.orderType,item.orderStatus)">订单详情</a></li>
             </ul>
           </div>
           <div class="info-evaluate">
@@ -75,8 +75,21 @@ export default {
       this.pageInfo.total = result?.data?.total
       this.orderList = result?.data?.orderList
     },
-    getOrderDetail(id,orderType){
-      this.$router.push(`/buyer/orderdetail/waitingcommunication/${id}/${orderType}`)
+    getOrderDetail(id,orderType,orderStatus){
+      switch(orderStatus) {
+        case 1:
+          this.$router.push(`/buyer/orderdetail/waitingcommunication/${id}/${orderType}`)
+          break
+        case 2:
+          this.$router.push(`/buyer/orderdetail/inprogress/${id}/${orderType}`)
+          break
+        case 3:
+          this.$router.push(`/buyer/orderdetail/serviceacceptance/${id}/${orderType}`)
+          break
+        case 4:
+          this.$router.push(`/buyer/orderdetail/serviceevaluation/${id}/${orderType}`)
+          break
+      }
     }
   },
   async mounted() {

@@ -3,25 +3,25 @@
    <h3>资质证明</h3>
     <div class="qualification-certificate-not-certified" v-if="isQualification === 0">
       <p>请上传相应资质证明！可以上传多个资质证明扫描高清图片！仅供审核！</p>
-      <div class="qualification-certificate-form">
-        <el-form  :rules="rules" label-width="200px" :model="form" ref="certificateForm">
-          <el-form-item label="	营业执照全称:" prop="busiName">
-            <el-input v-model="form.busiName"></el-input>
-          </el-form-item>
-          <el-form-item label="营业执照注册号:" prop="noBusi">
-            <el-input v-model="form.noBusi"></el-input>
-          </el-form-item>
-          <el-form-item label="对公账户名:" prop="acctName">
-            <el-input v-model="form.acctName"></el-input>
-          </el-form-item>
-          <el-form-item label="对公账号:" prop="acctNo">
-            <el-input v-model="form.acctNo"></el-input>
-          </el-form-item>
-          <el-form-item label="清算联行号:" prop="bankNo">
-            <el-input v-model="form.bankNo"></el-input>
-          </el-form-item>
-        </el-form>
-      </div>
+<!--      <div class="qualification-certificate-form">-->
+<!--        <el-form  :rules="rules" label-width="200px" :model="form" ref="certificateForm">-->
+<!--          <el-form-item label="	营业执照全称:" prop="busiName">-->
+<!--            <el-input v-model="form.busiName"></el-input>-->
+<!--          </el-form-item>-->
+<!--          <el-form-item label="营业执照注册号:" prop="noBusi">-->
+<!--            <el-input v-model="form.noBusi"></el-input>-->
+<!--          </el-form-item>-->
+<!--          <el-form-item label="对公账户名:" prop="acctName">-->
+<!--            <el-input v-model="form.acctName"></el-input>-->
+<!--          </el-form-item>-->
+<!--          <el-form-item label="对公账号:" prop="acctNo">-->
+<!--            <el-input v-model="form.acctNo"></el-input>-->
+<!--          </el-form-item>-->
+<!--          <el-form-item label="清算联行号:" prop="bankNo">-->
+<!--            <el-input v-model="form.bankNo"></el-input>-->
+<!--          </el-form-item>-->
+<!--        </el-form>-->
+<!--      </div>-->
       <div class="qualification-certificate-upload">
         <h3>上传相关资质图片！</h3>
         <el-upload
@@ -44,25 +44,23 @@
           <h3> {{certificateIinfo}}</h3>
         </div>
         <div class="authentication-operation">
-          <el-button @click="submitCertificate('certificateForm')" type="primary">提交</el-button>
+          <el-button @click="submitCertificate" type="primary">提交</el-button>
         </div>
       </div>
     </div>
     <div class="qualification-certificate-yes-certified" v-else>
       <div class="qualification-certificate-info">
         <ul>
-          <li>营业执照全称: <span>{{qualificationInfo.busiName}}</span></li>
-          <li>营业执照注册号: <span>{{qualificationInfo.noBusi}}</span></li>
-          <li>对公账户名: <span>{{qualificationInfo.acctName}}</span></li>
-          <li>对公账号: <span>{{qualificationInfo.acctNo}}</span></li>
-          <li>清算联行号: <span>{{qualificationInfo.bankNo}}</span></li>
+          <li>企业名称: <span>{{qualificationInfo.address}}</span></li>
+          <li>企业地址: <span>{{qualificationInfo.companyName}}</span></li>
+          <li>营业范围: <span>{{qualificationInfo.businessScope}}</span></li>
         </ul>
       </div>
       <div class="qualification-certificate-img">
         <h3>相关资质图片！</h3>
         <div class="qualification-certificate-item-img">
-          <a @click="handlePictureCardPreview(item)" v-for="( item,index ) in qualificationInfo.cerUrl" :key="index">
-            <img :src="item" alt="" >
+          <a @click="handlePictureCardPreview(qualificationInfo.qualificationUrl)">
+            <img :src="qualificationInfo.qualificationUrl" alt="" >
           </a>
         </div>
         <el-dialog :visible.sync="dialogVisible">
@@ -81,33 +79,9 @@ export default {
       dialogImageUrl: '',
       dialogVisible: false,
       fileList: [],
-      form: {
-        busiName: '',
-        noBusi: '',
-        acctName: '',
-        acctNo: '',
-        bankNo: '',
-        cerUrl:''
-      },
-      rules: {
-        busiName: [
-          {required: true, message: '请输入营业执照全称', trigger: 'blur'},
-        ],
-        noBusi: [
-          {required: true, message: '请输入营业执照注册号', trigger: 'blur'},
-        ],
-        acctName: [
-          {required: true, message: '请输入对公账户名', trigger: 'blur'},
-        ],
-        acctNo: [
-          {required: true, message: '请输入对公账号', trigger: 'blur'},
-        ],
-        bankNo: [
-          {required: true, message: '请输入清算联行号', trigger: 'blur'},
-        ],
-      },
       cerUrlNum:0,
       certificateIinfo:'',
+      cerUrl:''
     }
   },
   watch:{
@@ -134,49 +108,52 @@ export default {
       if (response.code === 20000 && response.data.url !== ""){
         return new Promise(resolve => {
           this.cerUrlNum++
-          this.form.cerUrl = this.form.cerUrl+response.data.url+','
-          resolve(this.form.cerUrl)
+          if (this.fileList.length === 1) {
+            this.cerUrl = this.cerUrl+response.data.url
+          }else {
+            this.cerUrl = this.cerUrl+response.data.url+','
+          }
+          resolve(this.cerUrl)
         })
       }
     },
     async submitCertificate(formName) {
-      this.$refs[formName].validate(async (valid) => {
-        if (valid) {
-          if (this.fileList.length === 0){
-            this.$message({
-              type:'error',
-              message:'请您上传资质认证相关证明图片！'
-            })
-          }else {
-            await this.$refs.upload.submit()
-          }
-        } else {
-          return false;
-        }
-      });
+      if (this.fileList.length === 0){
+        this.$message({
+          type:'error',
+          message:'请您上传资质认证相关证明图片！'
+        })
+      }else {
+        await this.$refs.upload.submit()
+      }
     },
     async submit(){
       if (this.cerUrlNum === this.fileList.length){
-        let result = await this.$axios.companyRealInfoController.enterpriseCertification(this.form)
+        let result = await this.$axios.companyRealInfoController.enterpriseCertification({
+          cerUrl:this.cerUrl
+        })
         if(result.code === 20000){
-          this.certificateIinfo = result.message
-          this.form.cerUrl =this.form.cerUrl.split(',').slice(0,-1)
-          this.$store.commit('modQualification',{
-            qualificationInfo:this.form,
-            isQualification:1
-          })
+          let result1 = await this.$axios.userControllerList.getAuthInfo()
+          this.certificateIinfo = "资质认证成功"
+          this.cerUrl =result.qualificationUrl
+          await this.getAuthInfo()
         }
       }
     },
-    // async getAuthInfo(){
-    //   let result = await this.$axios.userControllerList.getAuthInfo()
-    //   if (result.code === 20000 && result.data?.companyRealInfo){
-    //     this.form = result.data.companyRealInfo
-    //     if (result.data.qualificationUrl){
-    //       this.realInfo.qualificationUrl = result.data.qualificationUrl.split(',').slice(0,-1)
-    //     }
-    //   }
-    // },
+    async getAuthInfo(){
+      let result = await this.$axios.userControllerList.getAuthInfo()
+      if (result.code === 20000 && result.data){
+        this.$store.commit('modQualification',{
+          qualificationInfo:{
+            address:result.data.address,
+            businessScope:result.data.businessScope,
+            companyName:result.data.companyName,
+            qualificationUrl:result.data.qualificationUrl,
+          },
+          isQualification:1
+        })
+      }
+    },
   },
   async mounted(){
 
