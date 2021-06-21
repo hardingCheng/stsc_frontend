@@ -93,7 +93,6 @@
           </div>
         </div>
       </div>
-
     </Tabs>
     <div class="see-and-see container ">
       <span class="see-and-see-title">---看了又看---</span>
@@ -148,12 +147,11 @@ export default {
      this.total=commentList.data.evaluationList.records.length;//评价总数
     console.log("评价列表", this.commentListRequire)
     console.log("获取的评价总数",this.total)
-     this.currentPage=commentList.data.evaluationList.current
+     this.currentPage=commentList.data.evaluationList.current//当前页
      console.log(commentList.data.evaluationList)
     console.log(this.evaluate)
-    this.info = detail_result.data.serve
-    console.log("11",this.info)
-    this.keywords = this.info.keywords.split(',')
+    this.info = detail_result.data.serve//服务信息
+    this.keywords = this.info.keywords.split(',')//以逗号分割获取的关键字
     this.value = parseInt(this.info.star)
     if (!this.value) {
       this.value = 0

@@ -48,6 +48,7 @@ export default {
     this.getSuccessAllInfo()
   },
   methods:{
+    //获取全部成功案例
     getSuccessAllInfo(){
       orderControllerList.getSuccessAllInfo({
         page:this.currentPage,
@@ -62,6 +63,7 @@ export default {
         console.log(error)
       })
     },
+    //跳转成功案例详情
     seeDetail(val){
       this.$router.push(`/successCaseDetail/${val}`)
     },

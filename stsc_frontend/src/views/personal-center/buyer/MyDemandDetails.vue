@@ -43,16 +43,16 @@
 
 <!--      </el-tab-pane>-->
 <!--    </el-tabs>-->
+
     <div class="demand_overview container">
       <h4>需求概述</h4>
       <p>{{this.info_all.content}}</p>
     </div>
-
-    <div class="technological_process" >
+    <div class="technological_process" v-if="lengthInfo">
         <div class="map">
         <heihei :arrangeList="arrangeInfo"></heihei>
         </div>
-      <div class="button_group">
+      <div class="button_group" >
       <el-button type="primary" @click="verify" :disabled="forbidden">确定</el-button>
         <el-button type="primary" :disabled="reOpen" @click="resoution">重新拆分</el-button>
       </div>
@@ -147,6 +147,7 @@ export default {
       forbidden:false,//确定按钮是否可用
       date:null,
       arrangeInfo:{},
+      lengthInfo:0,
       options: [{
         value: '选项1',
         label: '综合排序'
@@ -197,8 +198,11 @@ export default {
         requirementId:this.$route.params.id
       })
       if (result.code === 20000){
-          this.arrangeInfo=result.data.layout.toJSON
-        console.log(  this.arrangeInfo)
+          this.arrangeInfo=JSON.parse(result.data.layout)
+          this.lengthInfo=this.arrangeInfo.cells.length
+           console.log(result.data.layout)
+            console.log(  this.arrangeInfo)
+            console.log( this.lengthInfo)
       }
     },
     //对结果重新拆分
@@ -307,6 +311,7 @@ export default {
     }
     .map{
         height: 400px;
+
 
     }
     .button_group{

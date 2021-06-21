@@ -43,7 +43,7 @@ export default {
   data(){
     return{
       info:["ddd"],
-      successDetail:[],
+      successDetail:[],//成功案例详情信息
       successList:[],
     }
   },
@@ -52,35 +52,34 @@ export default {
     this.getSuccessAllInfo()
   },
   methods:{
+    //获取成功案例详情信息
     getSuccessDetailInfo(){
       orderControllerList.getSuccessDetailInfo({
         id:this.id
       })
       .then(response =>{
           this.successDetail =response.data.successCase
-        console.log(this.successDetail)
       }).catch(error =>{
         console.log(error)
       })
     },
+    //页面中显示其他成功案例详情
     getSuccessAllInfo(){
       orderControllerList.getSuccessAllInfo({
         page:1,
         limit:3
-      })
-          .then(response => {
+      }).then(response => {
             this.successList=response.data.pageInfo.records
-            console.log(this.successList,this.total)
-          })
-          .catch(error =>{
+          }).catch(error =>{
             console.log(error)
           })
     },
+    //点击其他成功案例，重新渲染页面
     seeOther(val){
       console.log(val)
        this.$router.push(`/successCaseDetail/${val}`)
+        //重新刷新页面，重新渲染数据
         this.$router.go(0)
-
     }
   }
 }
