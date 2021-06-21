@@ -15,7 +15,7 @@ export default {
   },
   mounted() {
     // 采用了路由组件传参
-    // this.numType = this.$route.params.type
+    this.numType = this.$route.params.type
   }
 };
 </script>

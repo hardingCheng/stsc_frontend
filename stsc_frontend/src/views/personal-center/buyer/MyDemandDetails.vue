@@ -128,7 +128,7 @@
 
 <script>
 import axios from "axios";
-import heihei from "../../../components/showGraph/heihei";
+import heihei from "../../../components/showGraph/ShowGraph";
 export default {
   props: ['id'],
   name: "MyDemandDetails",
@@ -197,7 +197,7 @@ export default {
         requirementId:this.$route.params.id
       })
       if (result.code === 20000){
-          this.arrangeInfo=result.data.layout
+          this.arrangeInfo=result.data.layout.toJSON
         console.log(  this.arrangeInfo)
       }
     },

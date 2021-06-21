@@ -40,7 +40,7 @@ export default {
     },
     showDrawer () {
       this.$nextTick(() => {
-        this.initGraph(this.arrangeList.cells)
+        this.initGraph(JSON.parse(this.arrangeList.cells))
       })
     },
     getContainerSize () {

@@ -117,7 +117,7 @@
 </template>
 
 <script>
-import BPaiFlow from '../../../../components/showGraph/heihei'
+import BPaiFlow from '../../../../components/showGraph/ShowGraph'
 import OrderSteps from "../../../../components/OrderSteps";
 export default {
   props:['orderid','type'],
@@ -172,7 +172,7 @@ export default {
         orderId:subOrderId,
         step:index
       })
-      if (result.code == 20000) {
+      if (result.code === 20000) {
         this.subOrderDetailsInfo.length = 0
         let result = await this.$axios.orderControllerList.getSubOrderDetailsInfo({
           nid:this.currentSubRequirementId
@@ -217,7 +217,7 @@ export default {
       let arrangeResult = await this.$axios.layoutControllerList.getLayoutResult({
         requirementId:this.type1OrderInfo.requirementId
       })
-      this.arrangeList = JSON.parse(arrangeResult.data.layout)
+      this.arrangeList = arrangeResult.data.layout
     }
   },
   filters:{

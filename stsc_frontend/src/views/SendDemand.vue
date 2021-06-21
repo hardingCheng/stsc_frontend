@@ -107,13 +107,13 @@ export default {
   data() {
     return {
       form: {
-        name: '4',
-        company: '4',
+        name: '',
+        company: '',
        // budget: 4,
-        content: '4',//需求概述
-        contact: '4',
-        telephone: '4',
-        address: '4',
+        content: '',//需求概述
+        contact: '',
+        telephone: '',
+        address: '',
        // standard: '4',
         position:'',//职位
         companyIntro:'',//公司简介
@@ -171,7 +171,8 @@ export default {
   },
   watch: {
     form:{
-      async handler (newValue, oldName) {
+      // 用来监听我们上传文件的url返回来
+      async handler (newValue, oldValue) {
        if(!this.updateStatus){
          if (this.filerReadyUploadList1.length!==0&&this.filerReadyUploadList.length!==0){
            if (newValue.image!==''&&newValue.attachments!==''){
@@ -207,15 +208,15 @@ export default {
     $route(to,from){
       if(to.path === '/sd'){
         this.form = {
-          name: '4',
-          company: '4',
-          budget: 4,
+          name: '',
+          company: '',
+          budget: 0,
          // projectBackground: '4',
-          content: '4',
-          contact: '4',
-          telephone: '4',
-          address: '4',
-         // standard: '4',
+          content: '',
+          contact: '',
+          telephone: '',
+          address: '',
+         // standard: '',
           deadline: '',
           attachments: '',
           image: ''
@@ -226,11 +227,11 @@ export default {
     },
   },
   methods: {
+    // 需求信息提交
     async onSubmit() {
       await this.$refs['demandform'].validate(async (valid) => {
         if (valid) {
-          // this.disabled = true
-          // this.getDays(this.deadlinetiem[0],this.deadlinetiem[1])
+          // 根据文件信息提交
           if(this.filerReadyUploadList1.length !== 0){
             await this.$refs.uploadimage.submit();
           }
@@ -276,6 +277,7 @@ export default {
       }
       this.fileList = fileList
     },
+    // 更新需求数据提交
     async onUpdate(){
       this.updateStatus = true
       if (this.fileRemoveList.length !== 0){

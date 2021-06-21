@@ -10,7 +10,7 @@
           <el-input
               placeholder="请输入内容"
               prefix-icon="el-icon-search"
-              v-model="input2">
+              v-model="findValue">
           </el-input>
         </div>
       </div>
@@ -74,7 +74,7 @@ export default {
   components: {InfoListItem2, BreadCrumb},
   data(){
     return{
-      input2: '',
+      findValue: '',
       getFirstCategoryList: [],
       getSecondCategoryList: [],
       serviceData:[],
@@ -89,14 +89,18 @@ export default {
     }
   },
   async mounted() {
-    await this.getFirstServiceList(null)
+    // 获取服务分类列表
     await this.getFirstCategory()
+    // 获取第一次全部的服务
+    await this.getFirstServiceList(null)
   },
   methods: {
+    // 获取服务分类列表
     async getFirstCategory(){
       const categoryResust = await this.$axios.categoryControllerList.getFirstCategoryList({})
       this.getFirstCategoryList = categoryResust.data.firstCategoryList
     },
+    // 获取二级分类列表
     async getSecendsList(id) {
       this.firstId = id
       const secondsResult = await this.$axios.categoryControllerList.getSecondCategoryList({
@@ -105,6 +109,7 @@ export default {
       this.getSecondCategoryList = secondsResult.data.secondCategoryList
       await this.getFirstServiceList(this.firstId)
     },
+    // 获取第一次全部的服务或者一级分类的服务
     async getFirstServiceList(id){
       if (id === null) {
         const servciceBaseResult = await this.$axios.serveControllerList.getServesByCondition({
@@ -125,6 +130,7 @@ export default {
         this.setServiceData(servciceBaseResult)
       }
     },
+    // 获取二级分类的服务列表
     async getSecondServiceList(id){
       const servciceBaseResult = await this.$axios.serveControllerList.getServesByCondition({
         page: 1,
@@ -135,7 +141,7 @@ export default {
       })
       this.setServiceData(servciceBaseResult)
     },
-    // 获取服务获取的数据
+    // 处理服务列表数据
     setServiceData(servciceBaseResult){
       this.serviceData = servciceBaseResult.data.serveList
       let len = servciceBaseResult.data.serveList.records.length;
@@ -151,6 +157,7 @@ export default {
         }
       }
     },
+    // 立即下单产生订单
     async setOrderImmediately(value){
       let result = await this.$axios.orderControllerList.createOrder({
         serveId:value,
