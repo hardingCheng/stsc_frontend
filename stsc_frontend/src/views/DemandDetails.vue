@@ -61,23 +61,24 @@ export default {
   data() {
     return {
       activeName: 'first',
-      info: {},
+      info: {},//存放需求信息
       value: 2
       //存放后端获取的数据
     };
   },
   async mounted() {
+    //通过id获取需求详情
     const detail_result = await this.$axios.requirementControllerList.getRequireDetailById({
       id: this.id
     })
+    //存放需求详情的信息
     this.info = detail_result.data.requirement
     console.log(this.info)
+    //存放需求评价的星数
     this.value = parseInt(this.info.star)
   },
 
   methods: {
-
-
     downloadClick(row) {
       let entity = {
         id: row.id,

@@ -114,6 +114,14 @@ const requirementControllerList = {
             method: "get",
         });
     },
+    //编排接口
+    getArrangeInfo: (params) => {
+        return axios({
+            url: `/bh/stcsp/layout/getResult/${params.requirementId}`,
+            method: "get",
+        });
+    },
+
 }
 export default requirementControllerList
 
