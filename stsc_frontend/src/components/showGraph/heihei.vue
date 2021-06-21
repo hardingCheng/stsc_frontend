@@ -3,9 +3,9 @@
 </template>
 
 <script>
-import data from '../../assets/data.json'
 import ShowGraph from './index'
 export default {
+  props:['arrangeList'],
   name: 'Index',
   data(){
     return{
@@ -13,10 +13,15 @@ export default {
     }
   },
   mounted () {
-    this.showDrawer()
-    this.$nextTick(()=>{
-      this.boundEvent()
-    })
+
+  },
+  watch:{
+    arrangeList(newValue,oldValue){
+      this.showDrawer()
+      this.$nextTick(()=>{
+        this.boundEvent()
+      })
+    }
   },
   methods: {
     boundEvent() {
@@ -29,13 +34,13 @@ export default {
         node.attr('body/stroke', '#5F95FF')
       })
         this.id = cell.id
-        console.log(this.id)
+        this.$emit('getNodeInfo',this.id)
         cell.attr('body/stroke','orange')
       })
     },
     showDrawer () {
       this.$nextTick(() => {
-        this.initGraph(data)
+        this.initGraph(this.arrangeList.cells)
       })
     },
     getContainerSize () {

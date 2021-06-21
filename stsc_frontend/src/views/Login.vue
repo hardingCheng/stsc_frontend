@@ -111,17 +111,12 @@ export default {
           password: this.form.password
         })
         if (result.code === 20000) {
+          console.log(result)
           this.$store.commit("modTokenLogin", {
             userInfo: result.data.user,
             token: result.data.token,
             isLogin: true
           });
-          // 点击需要登录查看的页面   登录之后跳转
-          if (this.jumpRouting) {
-            await this.$router.push(this.jumpRouting?.url)
-          } else {
-            await this.$router.push('/index')
-          }
           let result1 = await this.$axios.userControllerList.getAuthInfo()
           if (result1.code === 20000 && result1.data.idCard) {
             this.$store.commit('modRealNameCertification', {
@@ -134,14 +129,18 @@ export default {
           if (result1.code === 20000 && result1.data.qualificationUrl) {
             this.$store.commit('modQualification', {
               qualificationInfo: {
-                busiName: result1.data.companyRealInfo.busiName,
-                noBusi: result1.data.companyRealInfo.noBusi,
-                acctName: result1.data.companyRealInfo.acctName,
-                acctNo: result1.data.companyRealInfo.acctNo,
-                bankNo: result1.data.companyRealInfo.bankNo,
-                cerUrl: result1.data.qualificationUrl.split(',').slice(0,-1)
+                address:result1.data.address,
+                businessScope:result1.data.businessScope,
+                companyName:result1.data.companyName,
+                qualificationUrl:result1.data.qualificationUrl,
               },
             })
+          }
+          // 点击需要登录查看的页面   登录之后跳转
+          if (this.jumpRouting) {
+            await this.$router.push(this.jumpRouting?.url)
+          } else {
+            await this.$router.push('/index')
           }
         }
       } else {

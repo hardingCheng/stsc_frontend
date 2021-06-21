@@ -21,12 +21,15 @@ export default {
   data(){
     return {
       orderid:'',
-      routerIndex:0
+      routerIndex:0,
+      orderInfo:{},
+      orderSplitInfo:{}
     }
   },
-  mounted() {
+  async mounted() {
     this.orderid = this.$route.params.orderid
     this.type = this.$route.params.type
+    await this.getOrderInfo()
   },
   watch: {
     $route: {
@@ -54,19 +57,45 @@ export default {
     routerJump(index){
       switch(index) {
         case 0:
-          this.$router.push(`/buyer/orderdetail/waitingcommunication/${this.orderid}/${this.type}`)
+          if (this.orderSplitInfo.status >=1) {
+            this.$router.push(`/buyer/orderdetail/waitingcommunication/${this.orderid}/${this.type}`)
+          }
           break
         case 1:
-          this.$router.push(`/buyer/orderdetail/inprogress/${this.orderid}/${this.type}`)
+          if (this.orderSplitInfo.status >=2) {
+            this.$router.push(`/buyer/orderdetail/inprogress/${this.orderid}/${this.type}`)
+          }
           break
         case 2:
-          this.$router.push(`/buyer/orderdetail/serviceacceptance/${this.orderid}/${this.type}`)
+          if (this.orderSplitInfo.status >=3) {
+            this.$router.push(`/buyer/orderdetail/serviceacceptance/${this.orderid}/${this.type}`)
+          }
           break
         case 3:
-          this.$router.push(`/buyer/orderdetail/serviceevaluation/${this.orderid}/${this.type}`)
+          if (this.orderSplitInfo.status >=4) {
+            this.$router.push(`/buyer/orderdetail/serviceevaluation/${this.orderid}/${this.type}`)
+          }
           break
       }
-    }
+    },
+    async getOrderInfo(){
+      if (this.type === '0'){
+        let result = await this.$axios.orderControllerList.getOrderInfo({
+          orderId:this.orderid
+        })
+        if (result.code === 20000){
+          this.orderInfo = result.data.orderInfo
+        }
+      }
+      if (this.type === '1'){
+        let result1 = await this.$axios.orderControllerList.getSplitDetailInfo({
+          id:this.orderid
+        })
+        if (result1.code === 20000){
+          this.orderSplitInfo =result1.data.subOrderInfo
+        }
+      }
+    },
   }
 }
 </script>
