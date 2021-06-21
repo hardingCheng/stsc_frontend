@@ -48,7 +48,7 @@
       <p>{{this.info_all.content}}</p>
     </div>
 
-    <div class="technological_process">
+    <div class="technological_process" >
         <div class="map">
         <heihei :arrangeList="arrangeInfo"></heihei>
         </div>
