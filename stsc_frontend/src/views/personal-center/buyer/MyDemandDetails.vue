@@ -52,7 +52,7 @@
       <div class="map">
         <heihei :arrangeList="arrangeInfo"></heihei>
         </div>
-      <div class="button_group" v-if="requireState!==6">
+      <div class="button_group" v-if="lengthInfo&&requireState!==6">
       <el-button type="primary" @click="verify" :disabled="forbidden">确定</el-button>
         <el-button type="primary" :disabled="reOpen" @click="resoution">重新拆分</el-button>
       </div>
