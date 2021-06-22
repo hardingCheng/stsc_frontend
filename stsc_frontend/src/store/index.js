@@ -41,12 +41,6 @@ export default new Vuex.Store({
         state.userInfo.isQualification = payload.isQualification
       }
     },
-    modRealNameCertification1: (state,payload) => {
-      state.userInfo.realNameCertificationInfo = payload.realNameCertificationInfo
-    },
-    modQualification1: (state,payload) => {
-      state.userInfo.qualificationInfo = payload.qualificationInfo
-    },
     messageActive:(state,payload) =>{
       state.activeName= payload
     }

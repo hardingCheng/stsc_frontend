@@ -120,6 +120,7 @@ const element = {
     Vue.use(Step)
     Vue.use(Popover)
     Vue.prototype.$message = Message;
+    Vue.prototype.$loading = Loading;
     // Vue.prototype.$confirm = MessageBox.confirm;
     // Vue.prototype.$alert = MessageBox.alert;
     // Vue.prototype.$notify = Notification;

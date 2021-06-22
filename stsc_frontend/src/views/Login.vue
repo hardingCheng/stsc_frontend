@@ -104,49 +104,26 @@ export default {
   methods: {
     // 提交登录表单
     async loginForm() {
-      const {errors, isValid} = validatorInput(this.form)
+      const { errors, isValid } = validatorInput(this.form)
       if (isValid) {
+        const loading = this.$loading.service({
+          lock: true,
+          text: '登录中...',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)'
+        });
         let resultLogin = await this.$axios.userControllerList.login({
           username: this.form.username,
           password: this.form.password
         })
         if (resultLogin.code === 20000) {
-          // 保存用户信息
-          let {user,token} = resultLogin.data
-          this.$store.commit("modTokenLogin", {
-            userInfo: user,
-            token: token,
-            isLogin: true
-          });
-          // 设置实名认证信息
-          let resultAuthInfo = await this.$axios.userControllerList.getAuthInfo()
-          if (resultAuthInfo.code === 20000 && resultAuthInfo.data.idCard) {
-            let { realname,idCard } = resultAuthInfo.data
-            this.$store.commit('modRealNameCertification', {
-              realNameCertificationInfo: {
-                realname,
-                idCard
-              },
-            })
-          }
-          // 设置资质认证信息
-          if (resultAuthInfo.code === 20000 && resultAuthInfo.data.qualificationUrl) {
-            let {address,businessScope,companyName,qualificationUrl} = resultAuthInfo.data
-            this.$store.commit('modQualification', {
-              qualificationInfo: {
-                address,
-                businessScope,
-                companyName,
-                qualificationUrl
-              },
-            })
-          }
-          // 点击需要登录查看的页面   登录之后跳转
-          if (this.jumpRouting) {
-            await this.$router.push(this.jumpRouting?.url)
-          } else {
-            await this.$router.push('/index')
-          }
+          setTimeout(async () => {
+            await loading.close();
+            await this.setLoginInfo(resultLogin)
+          }, 2000);
+        }else if (resultLogin.code === 20001) {
+          loading.close();
+          errors.errorlogin = "账号或者密码错误！"
         }
       } else {
         this.errors = errors
@@ -166,6 +143,65 @@ export default {
     },
     third2(){
       this.$router.push(`/third2`)
+    },
+    async setLoginInfo(resultLogin){
+      // 保存用户信息
+      let { user,token } = resultLogin.data
+      this.$store.commit("modTokenLogin", {
+        userInfo: user,
+        token: token,
+        isLogin: true
+      });
+      // 设置实名认证信息
+      let resultAuthInfo = await this.$axios.userControllerList.getAuthInfo()
+      if (resultAuthInfo.code === 20000 && resultAuthInfo.data.idCard) {
+        let { realname,idCard } = resultAuthInfo.data
+        console.log(realname,idCard)
+        this.$store.commit('modRealNameCertification', {
+          realNameCertificationInfo: {
+            realname,
+            idCard
+          },
+          isRealNameCertification:1
+        })
+      }else {
+        this.$store.commit('modRealNameCertification', {
+          realNameCertificationInfo: {
+            realname:'',
+            idCard:''
+          },
+          isRealNameCertification:0
+        })
+      }
+      // 设置资质认证信息
+      if (resultAuthInfo.code === 20000 && resultAuthInfo.data.qualificationUrl) {
+        let {address,businessScope,companyName,qualificationUrl} = resultAuthInfo.data
+        this.$store.commit('modQualification', {
+          qualificationInfo: {
+            address,
+            businessScope,
+            companyName,
+            qualificationUrl
+          },
+          isQualification:1
+        })
+      }else {
+        this.$store.commit('modQualification', {
+          qualificationInfo: {
+            address:'',
+            businessScope:'',
+            companyName:'',
+            qualificationUrl:''
+          },
+          isQualification:0
+        })
+      }
+      // 点击需要登录查看的页面   登录之后跳转
+      if (this.jumpRouting) {
+        await this.$router.push(this.jumpRouting?.url)
+      } else {
+        await this.$router.push('/index')
+      }
     }
   }
 }
