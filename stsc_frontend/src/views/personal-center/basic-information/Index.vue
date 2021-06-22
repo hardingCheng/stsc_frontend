@@ -1,4 +1,4 @@
-<template>
+s<template>
   <div class="basic-information">
     <div class="basic-information-main">
       <div class="basic-information-main-top">
