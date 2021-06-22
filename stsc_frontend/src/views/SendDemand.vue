@@ -167,12 +167,12 @@ export default {
       updateStatus:false,
     }
   },
-  computed:{
-  },
   watch: {
-    form:{
+    formUrlObj:{
+      deep: true,
       // 用来监听我们上传文件的url返回来
       async handler (newValue, oldValue) {
+        console.log(oldValue)
        if(!this.updateStatus){
          if (this.filerReadyUploadList1.length!==0&&this.filerReadyUploadList.length!==0){
            if (newValue.image!==''&&newValue.attachments!==''){
@@ -202,8 +202,7 @@ export default {
            }
          }
        }
-      },
-      deep: true //对于对象设置为深度 监听
+      }
     },
     $route(to,from){
       if(to.path === '/sd'){
@@ -226,6 +225,14 @@ export default {
       }
     },
   },
+  computed:{
+    formUrlObj(){
+      return {
+        attachments:this.form.attachments,
+        image:this.form.image
+      }
+    }
+  },
   methods: {
     // 需求信息提交
     async onSubmit() {
@@ -246,8 +253,8 @@ export default {
     },
     // 发布需求
     async releaseRequire(){
-      let result =  await this.$axios.requirementControllerList.releaseRequire(this.form)
-      if (result.code === 20000){
+      let releaseResult =  await this.$axios.requirementControllerList.releaseRequire(this.form)
+      if (releaseResult.code === 20000){
         this.$message({
           message: '修改需求成功,请前往个人中心查看！',
           type: 'success'
@@ -282,7 +289,7 @@ export default {
       this.updateStatus = true
       if (this.fileRemoveList.length !== 0){
         await this.fileRemoveList.map(async(item)=>{
-          let result = await this.$axios.ossControllerList.delFile({
+          let delResult = await this.$axios.ossControllerList.delFile({
             filename:item.name
           })
         })
@@ -294,14 +301,14 @@ export default {
         await this.$refs.upload.submit();
       }
       if (this.filerReadyUploadList1.length === 0 && this.filerReadyUploadList.length === 0){
-        let result =  await this.$axios.requirementControllerList.updateRequireById(this.form)
-        if (result.code === 20000){
+        let updaterResult =  await this.$axios.requirementControllerList.updateRequireById(this.form)
+        if (updaterResult.code === 20000){
           await this.$router.push("/buyer/mydemand")
         }
       }
     },
     handlePreview(file) {
-      console.log(file);
+
     },
     changeUpload(file,fileList){
       if(file.status === "ready") {
@@ -319,18 +326,19 @@ export default {
         id:this.id
       })
       this.form = result.data.requirement
-      if (result.data.requirement.attachments){
-        let urlArr = result.data.requirement.attachments.split('/').slice(-1)[0]
+      const {attachments,image} = result.data.requirement
+      if (attachments){
+        let urlArr = attachments.split('/').slice(-1)[0]
         this.fileList.push({
           name:urlArr,
-          url:result.data.requirement.attachments
+          url:attachments
         })
       }
-      if (result.data.requirement.image){
-        let urlArr = result.data.requirement.image.split('/').slice(-1)[0]
+      if (image){
+        let urlArr = image.split('/').slice(-1)[0]
         this.fileList1.push({
           name:urlArr,
-          url:result.data.requirement.image
+          url:image
         })
       }
     }

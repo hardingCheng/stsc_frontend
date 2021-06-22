@@ -203,7 +203,7 @@ export default {
     }
   },
   watch: {
-    form:{
+    formUrlObj:{
       // 用来监听我们上传文件的url返回来
       async handler (newValue, oldName) {
         if(!this.updateStatus){
@@ -223,36 +223,15 @@ export default {
         }else {
           if (this.filerReadyUploadList1.length!==0&&this.filerReadyUploadList.length!==0){
             if (newValue.image!==''&&newValue.attachment!==''){
-              let result =  await this.$axios.requirementControllerList.updateRequireById(this.form)
-              if (result.code === 20000){
-                this.$message({
-                  message: '修改服务成功,请前往个人中心查看！',
-                  type: 'success'
-                });
-                await this.$router.push("/seller/myservice")
-              }
+              await this.updateServe()
             }
           }else if (this.filerReadyUploadList.length!==0&&this.filerReadyUploadList1.length===0){
             if (newValue.attachment!==''){
-              let result =  await this.$axios.requirementControllerList.updateRequireById(this.form)
-              if (result.code === 20000){
-                this.$message({
-                  message: '修改服务成功,请前往个人中心查看！',
-                  type: 'success'
-                });
-                await this.$router.push("/seller/myservice")
-              }
+              await this.updateServe()
             }
           }else if(this.filerReadyUploadList.length===0&&this.filerReadyUploadList1.length!==0){
             if (newValue.image!==''){
-              let result =  await this.$axios.requirementControllerList.updateRequireById(this.form)
-              if (result.code === 20000){
-                this.$message({
-                  message: '修改服务成功,请前往个人中心查看！',
-                  type: 'success'
-                });
-                await this.$router.push("/seller/myservice")
-              }
+                await this.updateServe()
             }
           }
         }
@@ -260,34 +239,43 @@ export default {
       deep: true //对于对象设置为深度 监听
     }
   },
+  computed: {
+    formUrlObj(){
+      return {
+        attachment:this.form.attachment,
+        image:this.form.image
+      }
+    }
+  },
   methods:{
     //  获取修改数据
     async getServesDetailById(){
-      let result = await this.$axios.serveControllerList.getServesDetailById({
+      let servesDetailResult = await this.$axios.serveControllerList.getServesDetailById({
         id:this.id
       })
-      this.form = result.data.serve
-      this.category = result.data.serve.categoryId.split(',')
-      this.dynamicTags = result.data.serve.keywords.split(',')
-      if (result.data.serve.attachment){
-        let urlArr = result.data.serve.attachment.split('/').slice(-1)[0]
+      this.form = servesDetailResult.data.serve
+      const {categoryId,keywords,attachment,image} = servesDetailResult.data.serve
+      this.category = categoryId.split(',')
+      this.dynamicTags = keywords.split(',')
+      if (attachment){
+        let urlArr = attachment.split('/').slice(-1)[0]
         this.fileList.push({
           name:urlArr,
-          url:result.data.serve.attachment
+          url:attachment
         })
       }
-      if (result.data.serve.image){
-        let urlArr = result.data.serve.image.split('/').slice(-1)[0]
+      if (image){
+        let urlArr = image.split('/').slice(-1)[0]
         this.fileList1.push({
           name:urlArr,
-          url:result.data.serve.image
+          url:image
         })
       }
     },
     // 获取三级分类处理
     async getCategory(){
-      let result = await this.$axios.categoryControllerList.getCategory({})
-      this.options = result.data.firstCategoryList
+      let categoryResult = await this.$axios.categoryControllerList.getCategory({})
+      this.options = categoryResult.data.firstCategoryList
       this.options= JSON.parse(JSON.stringify(this.options).replace(/id/g,"value").replace(/name/g,"label"))
     },
     // 提交服务
@@ -312,10 +300,21 @@ export default {
     },
     // 发布服务
     async releaseServe(){
-      let result = await this.$axios.serveControllerList.releaseServe(this.form)
-      if (result.code === 20000){
+      let releaseResult = await this.$axios.serveControllerList.releaseServe(this.form)
+      if (releaseResult.code === 20000){
         this.$message({
           message: '发布服务成功,请前往个人中心查看！',
+          type: 'success'
+        });
+        await this.$router.push("/seller/myservice")
+      }
+    },
+    // 更新服务
+    async updateServe(){
+      let updateResult =  await this.$axios.serveControllerList.updateServeById(this.form)
+      if (updateResult.code === 20000){
+        this.$message({
+          message: '修改服务成功,请前往个人中心查看！',
           type: 'success'
         });
         await this.$router.push("/seller/myservice")
@@ -359,12 +358,14 @@ export default {
     handleClose(tag) {
       this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
     },
+    // 处理发服务的关键字
     showInput() {
       this.inputVisible = true;
       this.$nextTick(_ => {
         this.$refs.saveTagInput.$refs.input.focus();
       });
     },
+    // 处理发服务的关键字
     handleInputConfirm() {
       let inputValue = this.inputValue;
       if (inputValue) {
@@ -374,12 +375,12 @@ export default {
       this.inputVisible = false;
       this.inputValue = '';
     },
-    // 更新服务
+    // 点击更新服务
     async onUpdate(){
       this.updateStatus = true
       if (this.fileRemoveList.length !== 0){
         await this.fileRemoveList.map(async(item)=>{
-          let result = await this.$axios.ossControllerList.delFile({
+          let delResult = await this.$axios.ossControllerList.delFile({
             filename:item.name
           })
         })
@@ -391,8 +392,8 @@ export default {
         await this.$refs.upload.submit();
       }
       if (this.filerReadyUploadList1.length === 0 && this.filerReadyUploadList.length === 0){
-        let result =  await this.$axios.requirementControllerList.updateRequireById(this.form)
-        if (result.code === 20000){
+        let updateServeResult =  await this.$axios.serveControllerList.updateServeById(this.form)
+        if (updateServeResult.code === 20000){
           await this.$router.push("/seller/myservice")
         }
       }

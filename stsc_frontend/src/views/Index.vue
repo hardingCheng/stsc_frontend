@@ -555,7 +555,6 @@ export default {
           data: [this.chartDataList[i].userCount, this.chartDataList[i].requireCount, this.chartDataList[i].serviceCount, this.chartDataList[i].orderCount]
         })
       }
-      console.log(option)
       // 使用刚指定的配置项和数据显示图表。
       myChart.setOption(option);
     }
