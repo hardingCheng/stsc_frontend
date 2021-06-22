@@ -128,6 +128,13 @@ const requirementControllerList = {
             method: "get",
         });
     },
+    //确认编排结果
+    confirmResult: (params) => {
+        return axios({
+            url: `/bh/stcsp/requirement/confirmResult/${params.requirementId}`,
+            method: "get",
+        });
+    },
 
 }
 export default requirementControllerList

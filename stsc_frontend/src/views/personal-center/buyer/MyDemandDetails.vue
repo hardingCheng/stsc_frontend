@@ -52,10 +52,11 @@
         <div class="map">
         <heihei :arrangeList="arrangeInfo"></heihei>
         </div>
-      <div class="button_group"  v-if="lengthInfo" >
+      <div class="button_group" >
       <el-button type="primary" @click="verify" :disabled="forbidden">确定</el-button>
         <el-button type="primary" :disabled="reOpen" @click="resoution">重新拆分</el-button>
       </div>
+
     </div>
 
     <div class="indicators" v-if="hid">
@@ -120,7 +121,7 @@
         </div>
       </div>
       <div class="submit">
-        <el-button><span class="font" @click="submit">提交</span></el-button>
+        <el-button type="primary"><span class="font" @click="submit">提交</span></el-button>
       </div>
     </div>
   </div>
@@ -143,11 +144,12 @@ export default {
       info_all:[],
       item: [],//推荐商家
       grab_item: ["", "", ""],
-      hid:false,//是否隐藏推荐服务商面板
+      hid:0,//是否隐藏推荐服务商面板
       forbidden:false,//确定按钮是否可用
       date:null,
       arrangeInfo:{},
       lengthInfo:0,
+      requireState:0,
       options: [{
         value: '选项1',
         label: '综合排序'
@@ -189,6 +191,9 @@ export default {
     //moment时间格式化插件
     const moment = require('moment');
     this.date = moment(results.data.requirement.createTime).format(("YYYY-MM-DD"))
+
+    //根据需求状态设置确定按钮的可用状态
+    await this.getRequireState()
   },
 
   methods: {
@@ -227,10 +232,31 @@ export default {
     company_detail(){
       this.$router.push(`/buyer/comanydetail`)
     },
-    verify(){//用户核实拆分
-      this.reOpen=true
-      this.forbidden=true//禁用确定按钮
-      this.hid=true
+    //用户核实拆分
+    async verify() {
+      let result = await this.$axios.requirementControllerList.confirmResult({
+        requirementId:this.$route.params.id
+      })
+      console.log(result.data.num)
+      if(result.code===20000){
+          console.log("我被点了")
+          this.forbidden = true//禁用确定按钮
+          this.reOpen = true//重新拆分是否隐藏
+          this.hid = 1//推荐服务商是否隐藏
+        }
+
+      },
+    //获取需求状态
+    async getRequireState(){
+      let result =await this.$axios.requirementControllerList.getRequireDetailById({
+        id:this.$route.params.id
+      })
+      if(result.code===20000&&result.data.requirement.status===5){
+        this.requireState=result.data.requirement.status
+        this.forbidden = true//禁用确定按钮
+        this.reOpen = true//重新拆分是否隐藏
+        this.hid = 1//推荐服务商是否隐藏
+      }
     },
     getVal(val){
       console.log(val)
@@ -271,11 +297,16 @@ export default {
         orderList.push( item.subRequireId + ',' + this.company_radio[index])
       })
       console.log(orderList)
-      await this.$axios.orderControllerList.saveForSelect(orderList).then(response =>{
-        this.$message({
+      await this.$axios.orderControllerList.saveForSelect(orderList)
+          .then(response =>{
+            this.$message({
           type: 'success',
           message: '提交成功'
         })
+
+        this.hid=0
+        //重新刷新页面，重新渲染数据
+        this.$router.go(0)
           }
       ).catch(error =>{
         console.log(error)
@@ -570,7 +601,7 @@ export default {
 /deep/ .el-button {
   @include wh(140px, 50px);
   margin: 20px 0px 20px 0px;
-  background-color: #1794FF;
+  //background-color: #1794FF;
   color: #FFFFFF;
   font-size: 18px;
   font-weight: 400;
