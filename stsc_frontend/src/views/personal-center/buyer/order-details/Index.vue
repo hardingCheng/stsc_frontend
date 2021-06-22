@@ -54,14 +54,16 @@ export default {
     }
   },
   methods: {
-    routerJump(index){
+    async routerJump(index){
       switch(index) {
         case 0:
+          await this.getOrderInfo()
           if (this.orderSplitInfo.status >=1) {
             this.$router.push(`/buyer/orderdetail/waitingcommunication/${this.orderid}/${this.type}`)
           }
           break
         case 1:
+          await this.getOrderInfo()
           if (this.orderSplitInfo.status >=2) {
             this.$router.push(`/buyer/orderdetail/inprogress/${this.orderid}/${this.type}`)
           }else{
@@ -72,11 +74,13 @@ export default {
           }
           break
         case 2:
+          await this.getOrderInfo()
           if (this.orderSplitInfo.status >=3) {
             this.$router.push(`/buyer/orderdetail/serviceacceptance/${this.orderid}/${this.type}`)
           }
           break
         case 3:
+          await this.getOrderInfo()
           if (this.orderSplitInfo.status >=4) {
             this.$router.push(`/buyer/orderdetail/serviceevaluation/${this.orderid}/${this.type}`)
           }

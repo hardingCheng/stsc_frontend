@@ -70,24 +70,29 @@ export default {
     }
   },
   methods: {
-    routerJump(index) {
+    async routerJump(index) {
       switch (index) {
         case 0:
+          await this.getOrderInfo()
           if (this.orderInfo.status >=1) {
             this.$router.push(`/seller/orderdetail/waitingcommunication/${this.orderid}/${this.type}`)
           }
           break
         case 1:
+          await this.getOrderInfo()
           if (this.orderInfo.status >=2) {
             this.$router.push(`/seller/orderdetail/inprogress/${this.orderid}/${this.type}`)
           }
           break
         case 2:
+          await this.getOrderInfo()
+          console.log(this.orderInfo.status)
           if (this.orderInfo.status >=3) {
             this.$router.push(`/seller/orderdetail/serviceacceptance/${this.orderid}/${this.type}`)
           }
           break
         case 3:
+          await this.getOrderInfo()
           if (this.orderInfo.status >=4) {
             this.$router.push(`/seller/orderdetail/serviceevaluation/${this.orderid}/${this.type}`)
           }

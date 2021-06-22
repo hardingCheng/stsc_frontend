@@ -95,7 +95,7 @@ export default {
       return this.$store.getters.getUserInfo.isRealNameCertification;
     },
     realNameCertificationInfo(){
-      return this.$store.getters.getUserInfo.realNameCertificationInfo;
+      return this.$store.getters.getRealauth.realNameCertificationInfo;
     }
   }
 }

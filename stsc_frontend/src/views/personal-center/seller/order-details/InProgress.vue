@@ -41,9 +41,9 @@
           <div class="order-info-flow-left">
             <span>{{orderInfo.subOrderName}}</span>
             <div>
-              <el-button size="small" style="margin-top: 12px;" @click="next" type="danger" >申请异常</el-button>
+              <el-button size="small" style="margin-top: 12px;"  type="danger" >申请异常</el-button>
               <el-button size="small" style="margin-top: 12px;" @click="next" type="primary" :disabled="completeCon" v-if="!completeCon">下一步</el-button>
-              <el-button size="small" style="margin-top: 12px;" @click="next" type="primary" :disabled="completeCon" v-else>已完成</el-button>
+              <el-button size="small" style="margin-top: 12px;"  type="primary" :disabled="completeCon" v-else>已完成</el-button>
             </div>
           </div>
           <div class="order-info-flow-right">
@@ -116,9 +116,7 @@ export default {
             type:'success',
             message:'此订单已经完成'
           })
-          var timer = setTimeout(function(){
-            this.$router.push(`seller/orderdetail/serviceacceptance/${this.orderid}/${this.type}}`);
-          },1000);
+          await this.$router.push(`seller/orderdetail/serviceacceptance/${this.orderid}/${this.type}`);
           this.completeCon = true
         }else {
           this.completeCon = false

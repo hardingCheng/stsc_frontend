@@ -20,7 +20,7 @@ s<template>
            <ul>
              <li>账户昵称：<span>{{userInfo.username}}</span></li>
              <li>联系方式：<span>{{userInfo.telephone}}</span></li>
-             <li>性别：<span>男</span></li>
+             <li>性别：<span>{{userInfo.gender === 1?'男':'女'}}</span></li>
              <li>邮箱：<span>{{userInfo.email?userInfo.email:'暂无信息'}}</span></li>
            </ul>
           </div>
@@ -91,6 +91,7 @@ s<template>
                 :on-success="handleAvatarSuccess"
                 :on-change="beforeAvatarUpload"
                 :auto-upload="false"
+                :file-list="fileList"
             >
               <img v-if="imageUrl" :src="imageUrl" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -133,6 +134,7 @@ export default {
     return {
       centerDialogVisible: false,
       imageUrl: '',
+      fileList: [],
     }
   },
   async mounted(){
@@ -145,6 +147,7 @@ export default {
         let result = await this.$axios.userControllerList.updateInfo(this.userInfo)
         if (result.code === 20000){
           let result = await this.$axios.userControllerList.getUserInfo()
+          console.log(result)
           this.$store.commit("modUserInfo",{
             userInfo:result.data.user,
           });
@@ -152,10 +155,9 @@ export default {
       }
       //this.imageUrl = URL.createObjectURL(file.raw);
     },
-    beforeAvatarUpload(file) {
+    beforeAvatarUpload(file,fileList) {
       this.imageUrl = URL.createObjectURL(file.raw);
       const isLt2M = file.size / 1024 / 1024 < 2;
-
       if (!isLt2M) {
         this.$message.error('上传头像图片大小不能超过 2MB!');
       }
@@ -163,7 +165,19 @@ export default {
     },
     async updateInfo(){
       this.centerDialogVisible = false
-      await this.$refs.avatarUpload.submit()
+      if(this.fileList.length === 0){
+        this.userInfo.avatar = this.$store.getters.getUserInfo.avatar
+        let result = await this.$axios.userControllerList.updateInfo(this.userInfo)
+        if (result.code === 20000){
+          let result = await this.$axios.userControllerList.getUserInfo()
+          console.log(result)
+          this.$store.commit("modUserInfo",{
+            userInfo:result.data.user,
+          });
+        }
+      }else {
+        await this.$refs.avatarUpload.submit()
+      }
     }
   },
   computed:{

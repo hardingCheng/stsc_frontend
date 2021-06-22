@@ -149,7 +149,6 @@ export default {
       }
     },
     async submitOrderInfo() {
-      console.log(this.fileList)
       if (this.fileList.length !== 0) {
         await this.$refs.upload.submit();
       } else {

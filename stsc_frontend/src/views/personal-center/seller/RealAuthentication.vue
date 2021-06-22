@@ -163,7 +163,7 @@ export default {
       return this.$store.getters.getUserInfo.isQualification
     },
     qualificationInfo(){
-      return this.$store.getters.getUserInfo.qualificationInfo
+      return this.$store.getters.getRealauth.qualificationInfo;
     }
   }
 }
