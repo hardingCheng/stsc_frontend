@@ -49,12 +49,15 @@
       <p>{{this.info_all.content}}</p>
     </div>
     <div class="technological_process" >
-        <div class="map">
+      <div class="map">
         <heihei :arrangeList="arrangeInfo"></heihei>
         </div>
-      <div class="button_group" >
+      <div class="button_group" v-if="requireState!==6">
       <el-button type="primary" @click="verify" :disabled="forbidden">确定</el-button>
         <el-button type="primary" :disabled="reOpen" @click="resoution">重新拆分</el-button>
+      </div>
+      <div class="button_group" v-if="requireState===6">
+       <p>已提交订单</p>
       </div>
 
     </div>
@@ -352,8 +355,13 @@ export default {
   }
   .technological_process{
     display: flex;
-
     border: 1px solid #E7E7E7;
+    p{
+      margin-bottom: 50px;
+      margin-left: 40px;
+      font-size: 30px;
+      color: #909399;
+    }
     /deep/ .el-button{
       margin: 0 0 0 20px;
     }
