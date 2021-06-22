@@ -236,20 +236,29 @@ export default {
   methods: {
     // 需求信息提交
     async onSubmit() {
-      await this.$refs['demandform'].validate(async (valid) => {
-        if (valid) {
-          // 根据文件信息提交
-          if(this.filerReadyUploadList1.length !== 0){
-            await this.$refs.uploadimage.submit();
+      if (this.$store.getters.getUserInfo.isRealNameCertification === 0) {
+        this.$message({
+          message: '请先进行实名认证。',
+          type: 'error',
+        });
+        await this.$router.push("/buyer/realauth")
+      }else {
+        await this.$refs['demandform'].validate(async (valid) => {
+          if (valid) {
+            // 根据文件信息提交
+            if(this.filerReadyUploadList1.length !== 0){
+              await this.$refs.uploadimage.submit();
+            }
+            if(this.filerReadyUploadList.length !== 0){
+              await this.$refs.upload.submit();
+            }
+            if(this.filerReadyUploadList1.length === 0 && this.filerReadyUploadList.length === 0){
+              await this.releaseRequire()
+            }
           }
-          if(this.filerReadyUploadList.length !== 0){
-            await this.$refs.upload.submit();
-          }
-          if(this.filerReadyUploadList1.length === 0 && this.filerReadyUploadList.length === 0){
-            await this.releaseRequire()
-          }
-        }
-      });
+        });
+      }
+
     },
     // 发布需求
     async releaseRequire(){

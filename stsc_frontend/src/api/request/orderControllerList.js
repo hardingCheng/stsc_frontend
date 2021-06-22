@@ -49,7 +49,7 @@ const orderControllerList = {
     },
     getOrderInfo(params){
         return axios({
-            url: `/ph/stcsp/order/getDetailInfo/${params.id}`,
+            url: `/ph/stcsp/order/getOrderInfo/${params.orderId}`,
             method: "get",
         });
 

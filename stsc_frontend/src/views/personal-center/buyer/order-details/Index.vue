@@ -64,6 +64,11 @@ export default {
         case 1:
           if (this.orderSplitInfo.status >=2) {
             this.$router.push(`/buyer/orderdetail/inprogress/${this.orderid}/${this.type}`)
+          }else{
+            this.$message({
+              message: '等待所有卖家上传，即可进行。',
+              type: 'warning'
+            });
           }
           break
         case 2:

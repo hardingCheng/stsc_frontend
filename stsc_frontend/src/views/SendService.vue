@@ -280,23 +280,31 @@ export default {
     },
     // 提交服务
     async onSubmit() {
-      this.form.categoryId = this.category.toString();
-      await this.$refs['serviceform'].validate(async (valid) => {
-        if (valid) {
-          // this.disabled = true
-          if(this.filerReadyUploadList1.length !== 0){
-            this.$refs.uploadimage.submit();
+      if (this.$store.getters.getUserInfo.isRealNameCertification === 0) {
+        this.$message({
+          message: '请先进行资质认证。',
+          type: 'error',
+        });
+        await this.$router.push("/seller/realauth")
+      }else {
+        this.form.categoryId = this.category.toString();
+        await this.$refs['serviceform'].validate(async (valid) => {
+          if (valid) {
+            // this.disabled = true
+            if(this.filerReadyUploadList1.length !== 0){
+              this.$refs.uploadimage.submit();
+            }
+            if(this.filerReadyUploadList.length !== 0){
+              this.$refs.upload.submit();
+            }
+            if(this.filerReadyUploadList1.length === 0 && this.filerReadyUploadList.length === 0){
+              await this.releaseServe()
+            }
+          } else {
+            return false;
           }
-          if(this.filerReadyUploadList.length !== 0){
-            this.$refs.upload.submit();
-          }
-          if(this.filerReadyUploadList1.length === 0 && this.filerReadyUploadList.length === 0){
-            await this.releaseServe()
-          }
-        } else {
-          return false;
-        }
-      });
+        });
+      }
     },
     // 发布服务
     async releaseServe(){
