@@ -12,6 +12,8 @@ export default new Vuex.Store({
     isLogin:false,
     userInfo:{},
     activeName:'first',
+    qualificationInfo:{},
+    realNameCertificationInfo:{},
     num:0
   },
   mutations: {
@@ -30,13 +32,13 @@ export default new Vuex.Store({
       state.userInfo = payload.userInfo
     },
     modRealNameCertification: (state,payload) => {
-      state.userInfo.realNameCertificationInfo = payload.realNameCertificationInfo
+      state.realNameCertificationInfo = payload.realNameCertificationInfo
       if(payload.isRealNameCertification){
         state.userInfo.isRealNameCertification = payload.isRealNameCertification
       }
     },
     modQualification: (state,payload) => {
-      state.userInfo.qualificationInfo = payload.qualificationInfo
+      state.qualificationInfo = payload.qualificationInfo
       if(payload.isQualification){
         state.userInfo.isQualification = payload.isQualification
       }
@@ -59,6 +61,12 @@ export default new Vuex.Store({
     },
     getUserInfo: (state) => {
       return state.userInfo
+    },
+    getRealauth: (state) => {
+      return {
+        realNameCertificationInfo:state.realNameCertificationInfo,
+        qualificationInfo:state.qualificationInfo
+      }
     }
   },
   modules: {},
@@ -66,7 +74,7 @@ export default new Vuex.Store({
     adapterOptions: SecureAdapter(),
     name: "userInfo1",
     local: {
-      list: ["isLogin","userInfo","token"],
+      list: ["isLogin","userInfo","token","qualificationInfo","realNameCertificationInfo"],
     },
   })]
 });
