@@ -59,7 +59,7 @@
 
     </div>
 
-    <div class="indicators" v-if="hid">
+    <div class="indicators" v-if="hid&&requireState!==6">
       <div class="recommend">
         <h3 style="margin-bottom: 20px">推荐服务商</h3>
         <span style="margin-bottom: 50px">推荐策略</span>
@@ -175,28 +175,35 @@ export default {
 
     };
   },
+  created() {
+    //根据需求状态设置确定按钮的可用状态
+    this.getRequireState()
+  },
   async mounted() {
     await this.getArrangeInfo()
-    //获取推荐服务商列表
-    const detail_result = await this.$axios.serveControllerList.getServeById({
-      requirementId: this.id
-    })
-    //item用于存储推荐服务商
-    this.item = detail_result.data.res
-    const results =  await  this.$axios.requirementControllerList.getRequireDetailById({
-      id:this.id
-    })
-    //info_all存储需求详情
-    this.info_all =results.data.requirement
-    //moment时间格式化插件
-    const moment = require('moment');
-    this.date = moment(results.data.requirement.createTime).format(("YYYY-MM-DD"))
+    await this.getBuyer()
 
-    //根据需求状态设置确定按钮的可用状态
-    await this.getRequireState()
   },
 
   methods: {
+    //获取服务商方法
+    async getBuyer(){
+      //获取推荐服务商列表
+      const detail_result = await this.$axios.serveControllerList.getServeById({
+        requirementId: this.id
+      })
+      //item用于存储推荐服务商
+      this.item = detail_result.data.res
+      const results =  await  this.$axios.requirementControllerList.getRequireDetailById({
+        id:this.id
+      })
+      //info_all存储需求详情
+      this.info_all =results.data.requirement
+      //moment时间格式化插件
+      const moment = require('moment');
+      this.date = moment(results.data.requirement.createTime).format(("YYYY-MM-DD"))
+
+    },
     //获取编排的方法
     async getArrangeInfo() {
       let result = await this.$axios.requirementControllerList.getArrangeInfo({
@@ -221,8 +228,8 @@ export default {
           type: 'success'
         });
         this.reOpen = true
-        //重新刷新页面，重新渲染数据
-        this.$router.go(0)
+        // 重新刷新页面，重新渲染数据
+        // this.$router.go(0)
       }
 
     },
@@ -239,6 +246,7 @@ export default {
       })
       console.log(result.data.num)
       if(result.code===20000){
+        await this.getBuyer()
           console.log("我被点了")
           this.forbidden = true//禁用确定按钮
           this.reOpen = true//重新拆分是否隐藏
@@ -251,8 +259,9 @@ export default {
       let result =await this.$axios.requirementControllerList.getRequireDetailById({
         id:this.$route.params.id
       })
-      if(result.code===20000&&result.data.requirement.status===5){
+      if(result.code===20000&&(result.data.requirement.status===5||result.data.requirement.status===6)){
         this.requireState=result.data.requirement.status
+        console.log("状态",this.requireState)
         this.forbidden = true//禁用确定按钮
         this.reOpen = true//重新拆分是否隐藏
         this.hid = 1//推荐服务商是否隐藏
