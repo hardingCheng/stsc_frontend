@@ -47,12 +47,13 @@
     <div class="demand_overview container">
       <h4>需求概述</h4>
       <p>{{this.info_all.content}}</p>
+      {{ requireState }}
     </div>
-    <div class="technological_process" >
+    <div class="technological_process" v-if="requireState>3&&requireState!==6" >
       <div class="map">
         <heihei :arrangeList="arrangeInfo"></heihei>
         </div>
-      <div class="button_group" v-if="lengthInfo&&requireState!==6">
+      <div class="button_group"  v-if="lengthInfo&&requireState===4">
       <el-button type="primary" @click="verify" :disabled="forbidden">确定</el-button>
         <el-button type="primary" :disabled="reOpen" @click="resoution">重新拆分</el-button>
       </div>
@@ -62,7 +63,7 @@
 
     </div>
 
-    <div class="indicators" v-if="hid&&requireState!==6">
+    <div class="indicators" v-if="hid&&requireState===5">
       <div class="recommend">
         <h3 style="margin-bottom: 20px">推荐服务商</h3>
         <span style="margin-bottom: 50px">推荐策略</span>
@@ -85,7 +86,7 @@
         </el-select>
 
 <!--        推荐服务商-->
-        <div class="children_demand"  v-for="(items,index) in item" v-bind:key="index" v-if="item[0].sellerList.length">
+        <div class="children_demand"  v-for="(items,index) in item" v-bind:key="index"  v-if="items.subRequireName">
           <span class="children_demand_title" >{{items.subRequireName}}</span>
           <div class="company ">
             <el-radio-group v-model="company_radio[index]" @change="changeVal" v-for="(itemss,index1) in items.sellerList" v-bind:key="index1">
@@ -124,7 +125,7 @@
         </div>
       </div>
       <div class="submit">
-        <el-button type="primary"><span class="font" @click="submit">提交</span></el-button>
+        <el-button type="primary" @click="submit"><span class="font" >提交</span></el-button>
       </div>
     </div>
   </div>
@@ -132,6 +133,7 @@
 
 <script>
 import axios from "axios";
+
 import heihei from "../../../components/showGraph/ShowGraph";
 export default {
   props: ['id'],
@@ -200,6 +202,7 @@ export default {
       const results =  await  this.$axios.requirementControllerList.getRequireDetailById({
         id:this.id
       })
+      console.log("服务商",this.item)
       //info_all存储需求详情
       this.info_all =results.data.requirement
       //moment时间格式化插件
@@ -249,7 +252,7 @@ export default {
       })
       console.log(result.data.num)
       if(result.code===20000){
-        await this.getBuyer()
+         await this.getBuyer()
           console.log("我被点了")
           this.forbidden = true//禁用确定按钮
           this.reOpen = true//重新拆分是否隐藏
@@ -262,12 +265,15 @@ export default {
       let result =await this.$axios.requirementControllerList.getRequireDetailById({
         id:this.$route.params.id
       })
-      if(result.code===20000&&(result.data.requirement.status===5||result.data.requirement.status===6)){
+      if(result.code===20000){
         this.requireState=result.data.requirement.status
-        console.log("状态",this.requireState)
-        this.forbidden = true//禁用确定按钮
-        this.reOpen = true//重新拆分是否隐藏
-        this.hid = 1//推荐服务商是否隐藏
+        if(result.data.requirement.status===5||result.data.requirement.status===6){
+          this.hid = 1//推荐服务商是否隐藏
+          console.log("状态",this.requireState)
+          this.forbidden = true//禁用确定按钮
+          this.reOpen = true//重新拆分是否隐藏
+        }
+
       }
     },
     getVal(val){
@@ -306,19 +312,26 @@ export default {
     async submit() {
       let orderList = []
       this.item.map((item, index) => {
-        orderList.push( item.subRequireId + ',' + this.company_radio[index])
+        orderList.push(item.subRequireId + ',' + this.company_radio[index])
       })
       console.log(orderList)
       await this.$axios.orderControllerList.saveForSelect(orderList)
           .then(response =>{
+            this.hid=0
+            // const loading = this.$loading({
+            //   lock: true,
+            //   text: 'Loading',
+            //   spinner: 'el-icon-loading',
+            //   background: 'rgba(0, 0, 0, 0.7)'
+            // });
+            // setTimeout(() => {
+            //   loading.close();
+            // }, 1000);
             this.$message({
-          type: 'success',
-          message: '提交成功'
+            type: 'success',
+            message: '提交成功'
         })
-
-        this.hid=0
         //重新刷新页面，重新渲染数据
-        this.$router.go(0)
           }
       ).catch(error =>{
         console.log(error)
