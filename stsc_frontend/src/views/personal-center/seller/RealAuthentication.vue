@@ -25,6 +25,7 @@
       <div class="qualification-certificate-upload">
         <h3>上传相关资质图片！</h3>
         <el-upload
+            action="/ph/stcsp/fileoss/upload"
             ref="upload"
             list-type="picture-card"
             :on-preview="handlePictureCardPreview"
@@ -34,8 +35,11 @@
             :on-success="handleSuccess"
             :file-list="fileList"
             multiple
-            action="/ph/stcsp/fileoss/upload">
+            :limit="1"
+            :on-exceed="handleExceed1"
+          >
           <i class="el-icon-plus"></i>
+          <div slot="tip" class="el-upload__tip">只能上传jpg/jpeg/png文件，且不超过3M。</div>
         </el-upload>
         <el-dialog :visible.sync="dialogVisible">
           <img width="100%" :src="dialogImageUrl" alt="">
@@ -94,15 +98,55 @@ export default {
     }
   },
   methods: {
+    // 获取文件后缀
+    getFileType(name) {
+      let startIndex = name.lastIndexOf('.')
+      if (startIndex !== -1) {
+        return name.slice(startIndex + 1).toLowerCase()
+      } else {
+        return ''
+      }
+    },
+    // 文件信息判断
+    fileLimit(file,options){
+      let isFileSize = true,isFileType = true;
+      if (file.size / (1024 * 1024) > options.fileSize) {   // 限制文件大小
+        this.$message.warning(`当前限制文件大小不能大于${options.fileSize}M`)
+        isFileSize = false
+      }
+      let suffix = this.getFileType(file.name) //获取文件后缀名
+      let suffixArray = options.fileType  //限制的文件类型，根据情况自己定义
+      if (suffixArray.indexOf(suffix) === -1) {
+        this.$message({
+          message: '文件格式错误',
+          type: 'error',
+          duration: 2000
+        })
+        isFileType = false
+      }
+      return isFileSize && isFileType
+    },
+    handleExceed1(files, fileList){
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+    },
     handleRemove(file, fileList) {
       console.log(file, fileList);
     },
-    handlePictureCardPreview(url) {
-      this.dialogImageUrl = url;
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url;
       this.dialogVisible = true;
     },
     handleChange(file, fileList) {
-      this.fileList = fileList
+      let options = {
+        fileType:['jpg','png','jpeg'],
+        fileSize:3
+      }
+      let fileResult = this.fileLimit(file,options)
+      if (!fileResult) {
+        this.fileList = []
+      }else {
+        this.fileList = fileList
+      }
     },
     async handleSuccess(response, file, fileList){
       if (response.code === 20000 && response.data.url !== ""){
@@ -124,6 +168,12 @@ export default {
           message:'请您上传资质认证相关证明图片！'
         })
       }else {
+        this.loading = this.$loading.service({
+          lock: true,
+          text: '资质认证中...',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)'
+        });
         await this.$refs.upload.submit()
       }
     },
@@ -133,9 +183,10 @@ export default {
           cerUrl:this.cerUrl
         })
         if(result.code === 20000){
+          this.loading.close();
           let result1 = await this.$axios.userControllerList.getAuthInfo()
           this.certificateIinfo = "资质认证成功"
-          this.cerUrl =result.qualificationUrl
+          this.cerUrl =result1.qualificationUrl
           await this.getAuthInfo()
         }
       }

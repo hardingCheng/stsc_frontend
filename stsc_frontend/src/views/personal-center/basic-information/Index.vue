@@ -182,6 +182,7 @@ export default {
   },
   computed:{
     userInfo(){
+      this.imageUrl = this.$store.getters.getUserInfo.avatar
       return this.$store.getters.getUserInfo
     }
   }

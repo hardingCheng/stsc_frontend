@@ -37,11 +37,14 @@
                   :file-list="fileList1"
                   :auto-upload="false"
                   list-type="picture"
+                  :limit="1"
                   :on-change = "changeUpload1"
+                  :on-exceed="handleExceed1"
+                  multiple
               >
                 <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
                 <!--                <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>-->
-                <!--                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+                <div slot="tip" class="el-upload__tip">只能上传jpg/jpeg/png文件，且不超过10M。</div>
               </el-upload>
             </el-form-item>
             <el-form-item label="服务价格：" prop="price">
@@ -99,12 +102,12 @@
                   :auto-upload="false">
                 <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
                 <!--                <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>-->
-                <!--                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+                <div slot="tip" class="el-upload__tip">只能上传pdf文件，且不超过10M。</div>
               </el-upload>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="onSubmit" v-if="!id">立即发布</el-button>
-              <el-button type="primary" @click="onUpdate" v-else>立即更新</el-button>
+              <el-button type="primary" :disabled="disabled" @click="onSubmit" v-if="!id">立即发布</el-button>
+              <el-button type="primary" :disabled="disabled" @click="onUpdate" v-else>立即更新</el-button>
               <el-button>重置</el-button>
             </el-form-item>
           </div>
@@ -192,6 +195,7 @@ export default {
       filerReadyUploadList: [],
       filerReadyUploadList1: [],
       updateStatus:false,
+      loading:{}
     }
   },
   async mounted() {
@@ -287,6 +291,13 @@ export default {
         });
         await this.$router.push("/seller/realauth")
       }else {
+        this.loading = this.$loading.service({
+          lock: true,
+          text: '发布服务中...',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)'
+        });
+        this.disable = true
         this.form.categoryId = this.category.toString();
         await this.$refs['serviceform'].validate(async (valid) => {
           if (valid) {
@@ -310,6 +321,8 @@ export default {
     async releaseServe(){
       let releaseResult = await this.$axios.serveControllerList.releaseServe(this.form)
       if (releaseResult.code === 20000){
+        this.loading.close()
+        this.disable = false
         this.$message({
           message: '发布服务成功,请前往个人中心查看！',
           type: 'success'
@@ -321,6 +334,7 @@ export default {
     async updateServe(){
       let updateResult =  await this.$axios.serveControllerList.updateServeById(this.form)
       if (updateResult.code === 20000){
+        this.disable = false
         this.$message({
           message: '修改服务成功,请前往个人中心查看！',
           type: 'success'
@@ -353,14 +367,60 @@ export default {
     handlePreview(file) {
       console.log(file);
     },
+    // 获取文件后缀
+    getFileType(name) {
+      let startIndex = name.lastIndexOf('.')
+      if (startIndex !== -1) {
+        return name.slice(startIndex + 1).toLowerCase()
+      } else {
+        return ''
+      }
+    },
+    // 文件信息判断
+    fileLimit(file,options){
+      let isFileSize = true,isFileType = true;
+      if (file.size / (1024 * 1024) > options.fileSize) {   // 限制文件大小
+        this.$message.warning(`当前限制文件大小不能大于${options.fileSize}M`)
+        isFileSize = false
+      }
+      let suffix = this.getFileType(file.name) //获取文件后缀名
+      let suffixArray = options.fileType  //限制的文件类型，根据情况自己定义
+      if (suffixArray.indexOf(suffix) === -1) {
+        this.$message({
+          message: '文件格式错误',
+          type: 'error',
+          duration: 2000
+        })
+        isFileType = false
+      }
+      return isFileSize && isFileType
+    },
     changeUpload(file,fileList){
-      if(file.status === "ready") {
-        // this.filerReadyUploadList.push(file)
+      let options = {
+        fileType:['pdf'],
+        fileSize:10
+      }
+      let fileResult = this.fileLimit(file,options)
+      if (fileResult) {
+        if(file.status === "ready") {
+          this.filerReadyUploadList.push(file)
+        }
+      }else {
+        this.fileList = []
       }
     },
     changeUpload1(file,fileList){
-      if(file.status === "ready") {
-        this.filerReadyUploadList1.push(file)
+      let options = {
+        fileType:['jpg','png','jpeg'],
+        fileSize:10
+      }
+      let fileResult = this.fileLimit(file,options)
+      if (fileResult) {
+        if(file.status === "ready") {
+          this.filerReadyUploadList1.push(file)
+        }
+      }else {
+        this.fileList1 = []
       }
     },
     handleClose(tag) {
@@ -385,7 +445,14 @@ export default {
     },
     // 点击更新服务
     async onUpdate(){
+      this.disable = true
       this.updateStatus = true
+      this.loading = this.$loading.service({
+        lock: true,
+        text: '修改服务中...',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      });
       if (this.fileRemoveList.length !== 0){
         await this.fileRemoveList.map(async(item)=>{
           let delResult = await this.$axios.ossControllerList.delFile({

@@ -120,7 +120,7 @@ export default {
           setTimeout(async () => {
             await loading.close();
             await this.setLoginInfo(resultLogin)
-          }, 2000);
+          }, 1000);
         }else if (resultLogin.code === 20001) {
           loading.close();
           errors.errorlogin = "账号或者密码错误！"

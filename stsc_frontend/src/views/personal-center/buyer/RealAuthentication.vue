@@ -50,12 +50,19 @@ export default {
     async submitAuthForm(formName){
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
+          this.loading = this.$loading.service({
+            lock: true,
+            text: '实名认证中...',
+            spinner: 'el-icon-loading',
+            background: 'rgba(0, 0, 0, 0.7)'
+          });
          let result = await this.$axios.userControllerList.authAccount({
            currentUserId: this.$store.getters.getUserInfo.id,
            idCard: this.formLabelAlign._id,
            realName: this.formLabelAlign._name
          })
           if (result.code === 20000){
+            this.loading.close()
             this.$store.commit('modRealNameCertification',{
               realNameCertificationInfo:{
                 realname:this.formLabelAlign._name,

@@ -39,11 +39,14 @@
                 :file-list="fileList1"
                 :auto-upload="false"
                 list-type="picture"
+                :limit="1"
                 :on-change = "changeUpload1"
+                :on-exceed="handleExceed1"
+                multiple
             >
               <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
               <!--                <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>-->
-              <!--                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+              <div slot="tip" class="el-upload__tip">只能上传jpg/jpeg/png文件，且不超过10M。</div>
             </el-upload>
           </el-form-item>
 <!--          <el-form-item label="预算价格：" prop="budget">-->
@@ -84,6 +87,7 @@
                 :on-change = "changeUpload"
             >
               <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+              <div slot="tip" class="el-upload__tip">只能上传pdf文件，且不超过10M。</div>
             </el-upload>
           </el-form-item>
           <el-form-item>
@@ -165,6 +169,7 @@ export default {
       filerReadyUploadList: [],
       filerReadyUploadList1: [],
       updateStatus:false,
+      loading:{}
     }
   },
   watch: {
@@ -243,6 +248,13 @@ export default {
         });
         await this.$router.push("/buyer/realauth")
       }else {
+        this.disable = true
+        this.loading = this.$loading.service({
+          lock: true,
+          text: '发布需求中...',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)'
+        });
         await this.$refs['demandform'].validate(async (valid) => {
           if (valid) {
             // 根据文件信息提交
@@ -264,10 +276,19 @@ export default {
     async releaseRequire(){
       let releaseResult =  await this.$axios.requirementControllerList.releaseRequire(this.form)
       if (releaseResult.code === 20000){
-        this.$message({
-          message: '修改需求成功,请前往个人中心查看！',
-          type: 'success'
-        });
+        this.loading.close();
+        this.disable = false
+        if (this.updateStatus) {
+          this.$message({
+            message: '修改需求成功,请前往个人中心查看！',
+            type: 'success'
+          });
+        }else {
+          this.$message({
+            message: '发布需求成功,请前往个人中心查看！',
+            type: 'success'
+          });
+        }
         await this.$router.push("/buyer/mydemand")
       }
     },
@@ -293,9 +314,19 @@ export default {
       }
       this.fileList = fileList
     },
+    handleExceed1(files, fileList){
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+    },
     // 更新需求数据提交
     async onUpdate(){
       this.updateStatus = true
+      this.disable = true
+      this.loading = this.$loading.service({
+        lock: true,
+        text: '修改需求中...',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      });
       if (this.fileRemoveList.length !== 0){
         await this.fileRemoveList.map(async(item)=>{
           let delResult = await this.$axios.ossControllerList.delFile({
@@ -312,6 +343,7 @@ export default {
       if (this.filerReadyUploadList1.length === 0 && this.filerReadyUploadList.length === 0){
         let updaterResult =  await this.$axios.requirementControllerList.updateRequireById(this.form)
         if (updaterResult.code === 20000){
+          this.loading.close()
           await this.$router.push("/buyer/mydemand")
         }
       }
@@ -320,13 +352,59 @@ export default {
 
     },
     changeUpload(file,fileList){
-      if(file.status === "ready") {
-        this.filerReadyUploadList.push(file)
+      let options = {
+        fileType:['pdf'],
+        fileSize:10
+      }
+      let fileResult = this.fileLimit(file,options)
+      if (fileResult) {
+        if(file.status === "ready") {
+          this.filerReadyUploadList.push(file)
+        }
+      }else {
+        this.fileList = []
       }
     },
+    // 获取文件后缀
+    getFileType(name) {
+      let startIndex = name.lastIndexOf('.')
+      if (startIndex !== -1) {
+        return name.slice(startIndex + 1).toLowerCase()
+      } else {
+        return ''
+      }
+    },
+    // 文件信息判断
+    fileLimit(file,options){
+      let isFileSize = true,isFileType = true;
+      if (file.size / (1024 * 1024) > options.fileSize) {   // 限制文件大小
+        this.$message.warning(`当前限制文件大小不能大于${options.fileSize}M`)
+        isFileSize = false
+      }
+      let suffix = this.getFileType(file.name) //获取文件后缀名
+      let suffixArray = options.fileType  //限制的文件类型，根据情况自己定义
+      if (suffixArray.indexOf(suffix) === -1) {
+        this.$message({
+          message: '文件格式错误',
+          type: 'error',
+          duration: 2000
+        })
+        isFileType = false
+      }
+      return isFileSize && isFileType
+    },
     changeUpload1(file,fileList){
-      if(file.status === "ready") {
-        this.filerReadyUploadList1.push(file)
+      let options = {
+        fileType:['jpg','png','jpeg'],
+        fileSize:10
+      }
+      let fileResult = this.fileLimit(file,options)
+      if (fileResult) {
+        if(file.status === "ready") {
+          this.filerReadyUploadList1.push(file)
+        }
+      }else {
+        this.fileList1 = []
       }
     },
     // 获取更新数据
