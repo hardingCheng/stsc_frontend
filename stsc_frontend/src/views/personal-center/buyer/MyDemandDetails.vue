@@ -48,13 +48,12 @@
     <div class="demand_overview container">
       <h4>需求概述</h4>
       <p>{{ this.info_all.content }}</p>
-      {{ requireState }}
     </div>
-    <div class="technological_process" v-if="requireState>3&&requireState!==6">
+    <div class="technological_process" v-if="requireState>3">
       <div class="map">
         <heihei :arrangeList="arrangeInfo"></heihei>
       </div>
-      <div class="button_group" v-if="lengthInfo&&requireState===4">
+      <div class="button_group" v-if="lengthInfo&&requireState===4||requireState===5">
         <el-button type="primary" @click="verify" :disabled="forbidden">确定</el-button>
         <el-button type="primary" :disabled="reOpen" @click="resoution">重新拆分</el-button>
       </div>
@@ -255,11 +254,11 @@ export default {
       })
       console.log(result.data.num)
       if (result.code === 20000) {
-        await this.getBuyer()
         console.log("我被点了")
         this.forbidden = true//禁用确定按钮
         this.reOpen = true//重新拆分是否隐藏
         this.hid = 1//推荐服务商是否隐藏
+        await this.getBuyer()
       }
 
     },
