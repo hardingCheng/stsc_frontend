@@ -249,6 +249,7 @@ export default {
     },
     //用户核实拆分
     async verify() {
+      await this.getBuyer()
       let result = await this.$axios.requirementControllerList.confirmResult({
         requirementId: this.$route.params.id
       })
@@ -258,7 +259,7 @@ export default {
         this.forbidden = true//禁用确定按钮
         this.reOpen = true//重新拆分是否隐藏
         this.hid = 1//推荐服务商是否隐藏
-        await this.getBuyer()
+
       }
 
     },
