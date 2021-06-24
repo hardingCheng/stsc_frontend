@@ -76,7 +76,6 @@ export default {
     },
     //点击其他成功案例，重新渲染页面
     seeOther(val){
-      console.log(val)
        this.$router.push(`/successCaseDetail/${val}`)
         //重新刷新页面，重新渲染数据
         this.$router.go(0)

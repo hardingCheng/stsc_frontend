@@ -73,7 +73,6 @@ export default {
     })
     //存放需求详情的信息
     this.info = detail_result.data.requirement
-    console.log(this.info)
     //存放需求评价的星数
     this.value = parseInt(this.info.star)
   },

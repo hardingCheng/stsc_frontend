@@ -97,16 +97,13 @@ export default {
         messageId:val
       })
       await this.getMessageListNoRead()
-      console.log("已读",val)
     },
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
     },
     async handleCurrentChange() {
       await this.getMessageList()
     },
     handleSizeChange1(val) {
-      console.log(`每页 ${val} 条`);
     },
     async handleCurrentChange1() {
       await this.getMessageListNoRead()

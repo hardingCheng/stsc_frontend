@@ -57,7 +57,6 @@ export default {
       .then(response => {
             this.successList=response.data.pageInfo.records
             this.total = response.data.pageInfo.total
-        console.log(this.successList,this.total)
       })
       .catch(error =>{
         console.log(error)
@@ -68,11 +67,11 @@ export default {
       this.$router.push(`/successCaseDetail/${val}`)
     },
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
+      //console.log(`每页 ${val} 条`);
 
     },
     async handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+   //   console.log(`当前页: ${val}`);
       this.getSuccessAllInfo()
     },
   }

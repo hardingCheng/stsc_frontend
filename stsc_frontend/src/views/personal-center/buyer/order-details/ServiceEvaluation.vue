@@ -161,7 +161,7 @@ export default {
   async created() {
     //获取订单
     await this.getOrderInfo()
-    //获取订单的买家信息
+    //获取订单的买家信
     await this.getSellerInfo(this.order.sellerId,this.num)
     //获取子订单子的详细信息
     await this.getSubInfo(this.order.subOrderId,this.num)
@@ -173,7 +173,6 @@ export default {
         id:val
       })
       this.orderBuyInfo=result.data.user
-      console.log("买家信息",this.orderBuyInfo)
     },
     //获取订单信息
     async getOrderInfo(){
@@ -183,7 +182,6 @@ export default {
       //子订单列表
       this.sum=result.data.subOrderInfo.subOrderInfoVoList.length//子订单的数目
       this.order=result.data.subOrderInfo.subOrderInfoVoList[this.num]//子订单信息，默认是第一个订单的数据
-      console.log("订单", this.order,this.sum)
 
     },
     //获取子订单子的详细信息
@@ -193,7 +191,6 @@ export default {
       })
       this.orderChildrenInfo=results.data.orderInfo//子订单的信息
       this.serveId=results.data.orderInfo.serveId//服务id
-      console.log( "xxx",this.orderChildrenInfo)
     },
 
     //发布评论
@@ -205,7 +202,6 @@ export default {
           star:this.value
       })
       this.$message.success("评论成功！");
-      console.log("num",this.num)
 
       //如果当前订单的索引小于订单的总数,调用方法
       if(this.num<this.sum){

@@ -204,7 +204,6 @@ export default {
       const results = await this.$axios.requirementControllerList.getRequireDetailById({
         id: this.id
       })
-      console.log("服务商", this.item)
       //info_all存储需求详情
       this.info_all = results.data.requirement
       //moment时间格式化插件
@@ -249,7 +248,6 @@ export default {
       let result = await this.$axios.requirementControllerList.confirmResult({
         requirementId: this.$route.params.id
       })
-      console.log(result.data.num)
       if (result.code === 20000) {
         this.forbidden = true//禁用确定按钮
         this.reOpen = true//重新拆分是否隐藏
@@ -268,7 +266,6 @@ export default {
         this.requireState = result.data.requirement.status
         if (result.data.requirement.status === 5 || result.data.requirement.status === 6) {
           this.hid = 1//推荐服务商是否隐藏
-          console.log("状态", this.requireState)
           this.forbidden = true//禁用确定按钮
           this.reOpen = true//重新拆分是否隐藏
         }
@@ -276,10 +273,8 @@ export default {
       }
     },
     getVal(val) {
-      console.log(val)
     },
     changeVal(val) {
-      console.log(this.company_radio)
     },
     changeSelect(label) {
       this.radio = label

@@ -77,8 +77,6 @@ props:['id'],
       this.message_total = message_result.data.messageList.total//获取全部消息总数
       this.message_list = message_result.data.messageList.records//获取消息列表
       this.is_read = message_result.data.messageList.records.isRead//获取消息的状态，已读或者未读
-      console.log(this.$store.getters.getUserInfo.id)
-
     },
     //获取未读消息的方法
     async getMessageListNoRead(){
@@ -107,13 +105,13 @@ props:['id'],
       await this.getMessageListNoRead()
     },
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
+      // console.log(`每页 ${val} 条`);
     },
     async handleCurrentChange() {
       await this.getMessageList()
       },
     handleSizeChange1(val) {
-      console.log(`每页 ${val} 条`);
+      // console.log(`每页 ${val} 条`);
     },
     async handleCurrentChange1() {
       await this.getMessageListNoRead()

@@ -40,7 +40,6 @@ export default {
         id:this.id
       })
       this.info=result.data.serve
-      console.log("xx",this.info)
     }
   }
 }
