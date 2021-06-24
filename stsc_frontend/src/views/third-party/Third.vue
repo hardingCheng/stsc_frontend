@@ -54,7 +54,7 @@
 import SIdentify from "../../components/SIdentify";
 import { validatorInput } from "../../tools/verification/validata"
 export default {
-  name: "Third_1",
+  name: "Third",
   // components: {SIdentify},
   data() {
     return {
@@ -75,31 +75,38 @@ export default {
     if (Object.keys(this.$route.query).length !== 0){
       this.jumpRouting = this.$route.query
     }
+    console.log("ccc",this.$route.query)
   },
   methods: {
     // 提交登录表单
     async loginForm() {
-      console.log("执行")
+
       const { errors, isValid } = validatorInput(this.form)
-        let result = await this.$axios.userControllerList.thirdLogin({
-          source:"陕西中小企业科技服务平台"
-        },{
+        let result = await this.$axios.userControllerList.thirdLogin(
+          this.jumpRouting
+        ,{
               username:this.form.username,
               password:this.form.password
             })
         if (result.code === 20000) {
-          console.log(result)
           this.$store.commit("modTokenLogin",{
             userInfo:result.data.user,
             token:result.data.token,
             isLogin:true
           });
-          console.log(result.data.token)
+          this.$message({
+            type: 'success',
+            message: '登录成功!'
+          })
           if (this.jumpRouting) {
-            await this.$router.push(this.jumpRouting?.url)
-          }else {
             await this.$router.push('/index')
+          }else {
           }
+        }else{
+          this.$message({
+            type: 'error',
+            message: '登录失败'
+          })
         }
 
     },

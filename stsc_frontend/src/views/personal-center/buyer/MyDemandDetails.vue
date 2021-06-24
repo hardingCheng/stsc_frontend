@@ -220,9 +220,6 @@ export default {
       if (result.code === 20000) {
         this.arrangeInfo = JSON.parse(result.data.layout)
         this.lengthInfo = this.arrangeInfo.cells.length
-        console.log(result.data.layout)
-        console.log(this.arrangeInfo)
-        console.log(this.lengthInfo)
       }
     },
     //对结果重新拆分
@@ -239,7 +236,6 @@ export default {
         // 重新刷新页面，重新渲染数据
         // this.$router.go(0)
       }
-
     },
     downFile() {
     },
@@ -255,11 +251,11 @@ export default {
       })
       console.log(result.data.num)
       if (result.code === 20000) {
-        console.log("我被点了")
         this.forbidden = true//禁用确定按钮
         this.reOpen = true//重新拆分是否隐藏
         this.hid = 1//推荐服务商是否隐藏
-
+        // 重新刷新页面，重新渲染数据
+          this.$router.go(0)
       }
 
     },

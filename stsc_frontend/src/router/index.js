@@ -323,16 +323,10 @@ const routes = [
   {
     path: "/third1",
     name: "third1",
-    component: () => import("../views/third-party/Third_1"),
+    component: () => import("../views/third-party/Third"),
     meta: { requiresAuth: false },
     hidden:true
-  }, {
-    path: "/third2",
-    name: "third2",
-    component: () => import("../views/third-party/Third_2"),
-    meta: { requiresAuth: false },
-    hidden:true
-     },
+  },
   {
     path: "/login",
     name: "login",

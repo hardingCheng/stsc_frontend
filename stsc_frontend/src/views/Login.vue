@@ -41,11 +41,11 @@
         <span>第三方登录</span>
         <div class="third-party-login">
           <div class="third-party-item">
-            <img src="http://www.114cxy.com/app/images/PC/logo.png" alt="" @click="third1">
+            <img src="http://www.114cxy.com/app/images/PC/logo.png" alt="" @click="third1(source1)">
             <span>陕科</span>
           </div>
           <div class="third-party-item">
-            <img src="http://www.114cxy.com/app/images/PC/logo.png" alt="" @click="third2">
+            <img src="http://www.114cxy.com/app/images/PC/logo.png" alt="" @click="third1(source2)">
             <span>114产学研</span>
           </div>
           <div class="third-party-item">
@@ -91,7 +91,9 @@ export default {
       dialogVisible: false,
       errors: {},
       isValid: false,
-      jumpRouting: ''
+      jumpRouting: '',
+      source1:"陕西中小企业科技服务平台",
+      source2:"上海114产学研",
     }
   },
   // 根据没登录前的点击的路由  登陆后跳转到相关页面
@@ -138,12 +140,10 @@ export default {
       this.$refs[formName].resetFields();
     },
     //模拟第三方登录
-    third1() {
-      this.$router.push('/third1')
+    third1(source) {
+      this.$router.push({name:`third1`,query:{source:source}})
     },
-    third2(){
-      this.$router.push(`/third2`)
-    },
+
     async setLoginInfo(resultLogin){
       // 保存用户信息
       let { user,token } = resultLogin.data
