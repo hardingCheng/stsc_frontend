@@ -1,7 +1,7 @@
 <template>
   <div class="message">
 
-    <el-tabs v-model="this.$store.state.activeName" @tab-click="handleClick">
+    <el-tabs v-model=this.$store.state.activeName @tab-click="handleClick">
       <el-tab-pane name="first">
         <template slot="label">全部({{ total }})</template>
         <!--      折叠面板-->
@@ -30,7 +30,7 @@
               <slot name="no_manage_title"></slot>
             </template>
             <p>{{ item.content }}</p>
-            <el-button class="delete" type="primary" @click="have_manage(index,item.id)">已读</el-button>
+            <el-button class="delete" type="primary" @click="have_manage(index,item.id)">标记已读</el-button>
           </el-collapse-item>
         </el-collapse>
         <slot name="page_2"></slot>

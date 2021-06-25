@@ -170,7 +170,7 @@ const routes = [
             props: true,
           },
             {
-              path: "/buyer/comanydetail",
+              path: "/buyer/comanydetail/:id",
               name: "comanydetail",
               component: () => import("../views/personal-center/buyer/CompanyDetail"),
               meta: {

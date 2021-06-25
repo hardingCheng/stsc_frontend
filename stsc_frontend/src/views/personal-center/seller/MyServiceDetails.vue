@@ -22,10 +22,9 @@
     <el-tab-pane label="附件" name="fourth" class="tab">
       <div class="accessory ">
         <img src="" class="file_img"/>
-        <p class="accessory_name">附件</p>
+        <p class="accessory_name">{{ filename }}</p>
         <a class="down" :href="this.info.attachment">下载</a>
       </div>
-
     </el-tab-pane>
   </el-tabs>
 
@@ -40,11 +39,15 @@ export default {
     return{
       info_all:[],
       activeName: 'first',
-      info:[]
+      info:[],
+      filename:''
     }
   },
+  created() {
+    this.getRequireDetailById()
+  },
   mounted() {
-     this.getRequireDetailById()
+
   },
   methods:{
     async getRequireDetailById(){
@@ -52,7 +55,12 @@ export default {
         id:this.id
       })
       this.info=result.data.serve
+      let regex="[^\\/\\\\]+$"
+      this.filename=result.data.serve.attachment.match(regex)[0]
+
+
     }
+
 }
 }
 </script>
@@ -72,7 +80,8 @@ export default {
       li{
         span{
           margin-left: 10px;
-          font-size: 14px;
+          font-size: 16px;
+          line-height: 40px;
           .text{
             width: 500px;
             word-break: break-all;
@@ -87,8 +96,10 @@ export default {
 
       }
       .text-title-title {
-      background-color: #F3F3F3;
+        background-color: #F3F3F3;
         line-height: 50px;
+        width: 780px;
+        font-size: 17px;
       }
     }
     .my_demand-details-inner-text {
@@ -138,7 +149,6 @@ export default {
           .accessory_name {
             display: inline-block;
             width: 400px;
-            margin-left: 20px;
 
           }
 

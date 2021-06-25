@@ -114,5 +114,12 @@ const userControllerList = {
             data
         });
     },
+    // 获取服务商信息
+    getBuyerInfo(params){
+        return axios({
+            url: `/ph/stcsp/user/admin/info/${params.id}`,
+            method: "get",
+        });
+    },
 }
 export default userControllerList

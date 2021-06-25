@@ -58,6 +58,8 @@ import {
   Step,
   Tooltip,
   Popover,
+  Ul,
+  InfiniteScroll,
 } from "element-ui";
 
 const element = {
@@ -119,6 +121,8 @@ const element = {
     Vue.use(Tooltip)
     Vue.use(Step)
     Vue.use(Popover)
+    Vue.use(InfiniteScroll)
+
     Vue.prototype.$message = Message;
     Vue.prototype.$loading = Loading;
     // Vue.prototype.$confirm = MessageBox.confirm;

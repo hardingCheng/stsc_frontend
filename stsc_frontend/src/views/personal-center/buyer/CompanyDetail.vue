@@ -1,18 +1,19 @@
 <template>
   <div class="commpany_detail">
     <div class="my_company-details container ">
-      <div class="my_company-details-img"><img :src="this.info.image" width="300px" height="300px"></div>
+      <div class="my_company-details-img"><img :src="this.info.avatar" width="300px" height="300px"></div>
       <ul >
-        <li>单位名称:<span class="text">{{ !this.info.name ?"暂无数据":this.info.name }}</span></li>
-        <li class="text-title-title">单位地址:<span>{{ !this.info.company ?"暂无数据":this.info.company}}</span></li>
-        <li>联系人:<span>{{ !this.info.contact ?"暂无数据":this.info.contact }}</span></li>
+        <li>单位名称:<span class="text">{{ !this.info.company ?"暂无数据":this.info.company }}</span></li>
+        <li class="text-title-title">单位地址:<span>{{ !this.info.address ?"暂无数据":this.info.address}}</span></li>
+        <li>联系人:<span>{{ !this.info.realname ?"暂无数据":this.info.realname }}</span></li>
         <li>联系方式:<span>{{ !this.info.telephone ?"暂无数据":this.info.telephone}}</span></li>
-        <li>所属分类:<span>{{ !this.info.categoryName ?"暂无数据":!this.info.categoryName}}</span></li>
+        <li>邮箱:<span>{{ !this.info.email ?"暂无数据":this.info.email}}</span></li>
+        <li>所属平台:<span>{{ !this.info.source ?"暂无数据":this.info.source}}</span></li>
       </ul>
       <div></div>
     </div>
     <el-tabs v-model="activeName" type="card" class="serve-details-text-bottom container">
-      <el-tab-pane label="企业简介" name="first" ><div class="indicators_text"><p class="p_text">{{ this.info.companyIntroduction }}</p></div></el-tab-pane>
+      <el-tab-pane label="企业简介" name="first" ><div class="indicators_text"><p class="p_text">{{ this.info.businessScope }}</p></div></el-tab-pane>
       <el-tab-pane label="成功案例" name="second" class="tab"><div class="indicators_text"><p class="p_text">{{ this.info.serviceDescription }}</p></div></el-tab-pane>
       <el-tab-pane label="专家描述" name="third" class="tab"><div class="indicators_text"><p class="p_text">{{ this.info.expertIntroduction }}</p></div></el-tab-pane>
     </el-tabs>
@@ -36,10 +37,11 @@ export default {
   },
   methods:{
     async getRequireDetailById(){
-      const  result =await this.$axios.serveControllerList.getServesDetailById({
-        id:this.id
+      const  result =await this.$axios.userControllerList.getBuyerInfo({
+        id:this.$route.params.id
       })
-      this.info=result.data.serve
+      this.info=result.data.user
+      console.log( this.info)
     }
   }
 }
@@ -60,7 +62,8 @@ export default {
       li{
         span{
           margin-left: 10px;
-          font-size: 14px;
+          font-size: 16px;
+          line-height: 40px;
           .text{
             width: 500px;
             word-break: break-all;
@@ -77,6 +80,7 @@ export default {
       .text-title-title {
         background-color: #F3F3F3;
         line-height: 50px;
+        width: 880px;
       }
     }
     .my_company-details-inner-text {

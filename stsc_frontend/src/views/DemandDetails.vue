@@ -17,8 +17,8 @@
           <div class="text-title-title ">联系地址：<span class="text-service-text ">{{ info.address }}</span></div>
         </div>
         <div class="text-title-title ">电子邮箱：<span class="text-service-text">{{ info.email }}</span></div>
-        <div class="text-title-title1 "><span>附件：</span><img src="../assets/images/fileimg.png" class="file_img" v-bind:href="info.attachments" /></div>
-
+        <div class="text-title-title ">附件：<a class="text-service-text1" :href=info.attachments>{{ filename }}</a></div>
+<!--        <img src="../assets/images/fileimg.png" class="file_img" v-bind:href="info.attachments" />-->
         <el-button><span class="font">立即下单</span></el-button>
       </div>
       <div></div>
@@ -62,7 +62,8 @@ export default {
     return {
       activeName: 'first',
       info: {},//存放需求信息
-      value: 2
+      value: 2,
+      filename:""
       //存放后端获取的数据
     };
   },
@@ -73,6 +74,9 @@ export default {
     })
     //存放需求详情的信息
     this.info = detail_result.data.requirement
+    let regex="[^\\/\\\\]+$"
+    this.filename=detail_result.data.requirement.attachments.match(regex)[0]
+    console.log("111",  this.info)
     //存放需求评价的星数
     this.value = parseInt(this.info.star)
   },
@@ -201,6 +205,9 @@ export default {
       margin-left: 10px;
       .text-service-text {
         color: #333333;
+      }
+      .text-service-text1 {
+       color: #1794FF;
       }
     }
     .text-title-title1 {

@@ -136,6 +136,14 @@ const requirementControllerList = {
         });
     },
 
+    //获取订单信息
+    getOrderInfo: (params) => {
+        return axios({
+            url: `/ph/stcsp/requirement/getServicePlan/${params.reqId}`,
+            method: "get",
+        });
+    },
+
 }
 export default requirementControllerList
 

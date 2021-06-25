@@ -20,7 +20,6 @@
       <div class="each-text ">{{ evaluationText }}</div>
       <div class="each-evaluation-data">{{ evaluationData }}</div>
     </div>
-
   </div>
 </template>
 
@@ -61,7 +60,7 @@ export default {
     }
   }
   .star-div{
-    width: 800px;
+    width:780px;
     .each-star{
       display: flex;
       margin-top: 20px;

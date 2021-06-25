@@ -47,8 +47,6 @@
         :description="info.serviceDescription"
         :professional-talents="info.expertIntroduction">
 <!--      成功案例-->
-
-
       <div class="evaluation-box" slot="fifth">
         <div class="praise-of">
           <div class="praise-of-text">
@@ -60,7 +58,7 @@
             <div class="praise-tag-div fl"><span class="praise-tag">态度好(0)</span></div>
             <div class="praise-tag-div fl"><span class="praise-tag">态度好(0)</span></div>
           </div>
-          <div class="praise-of-num">0%</div>
+          <div class="praise-of-num">100%</div>
         </div>
         <div class="all-evaluation">
           <span class="allEvaluation">全部评价(0)</span>
@@ -70,25 +68,25 @@
           <span class="allEvaluation">中评(0)</span>
           <span class="allEvaluation">差评(0)</span>
         </div>
-
         <Evaluation
-            v-for="(item,index) in commentListRequire.records" :key="index"
+            v-for="(item,index) in commentListRequire" :key="index"
             :img-src=item.usernameAvatarVo.avatar
             :eachValue="item.star"
             :nick-name="item.usernameAvatarVo.username"
             :evaluation-data=item.createTime
-            :evaluation-text=item.content>
+            :evaluation-text=item.content
+        >
         </Evaluation>
         <div class="common-pagination">
           <div class="pagination">
             <el-pagination
                 background
                 @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
+                @current-change="handleCurrentChange1"
                 :current-page.sync="currentPage"
-                :page-size="1"
+                :page-size="4"
                 layout="total, prev, pager, next"
-                :total="total">
+                :total=this.total>
             </el-pagination>
           </div>
         </div>
@@ -104,9 +102,7 @@
       <div class="see-detail-div"><span class="see-detail">机器人关键零部件先进制造</span></div>
       <img src="../assets/staticImgs/seeandsee.png" height="160px" width="160px">
       <div class="see-detail-div"><span class="see-detail">机器人关键零部件先进制造</span></div>
-
     </div>
-
   </div>
 </template>
 
@@ -132,55 +128,45 @@ export default {
       commentListRequire:[],//存放评论数据
     };
   },
+ created() {
+
+    this.getEvaluation()
+ },
   async mounted() {
-      //通过id获取服务的详细信息
-      const detail_result = await this.$axios.serveControllerList.getServesDetailById({
+    const detail_result = await this.$axios.serveControllerList.getServesDetailById({
       id: this.id
     })
-    //通过id获取评论
-    const commentList = await  this.$axios.requirementControllerList.getCommentList({
-      page:this.currentPage,
-      limit:4,
-      id:this.$route.params.id
-    })
-    this.commentListRequire=commentList.data.evaluationList//评价列表
-     this.total=commentList.data.evaluationList.records.length;//评价总数
-     this.currentPage=commentList.data.evaluationList.current//当前页
     this.info = detail_result.data.serve//服务信息
-    this.keywords = this.info.keywords.split(',')//以逗号分割获取的关键字
-    this.value = parseInt(this.info.star)
-    if (!this.value) {
-      this.value = 0
-    }
   },
-
   methods: {
+    async getEvaluation() {
+      //通过id获取评论
+      const commentList = await this.$axios.requirementControllerList.getCommentList({
+        page: this.currentPage,
+        limit: 4,
+        serveId: this.$route.params.id
+      })
+      this.commentListRequire = commentList.data.evaluationList.records//评价列表
+      console.log("皮", this.commentListRequire)
+      this.total = commentList.data.evaluationList.total//评价总数
+      // this.currentPage=commentList.data.evaluationList.current//当前页
+
+      this.keywords = this.info.keywords.split(',')//以逗号分割获取的关键字
+      this.value = parseInt(this.info.star)
+      if (!this.value) {
+        this.value = 0
+      }
+    },
     handleSizeChange1(val) {
-      // console.log(`每页 ${val} 条`);
     },
     async handleCurrentChange1() {
-      //await this.getMessageListNoRead()
+      await this.getEvaluation()
     },
-    // async getData(i){
-    //   this.currentPage=i||this.currentPage;
-    //     const commentList = await  this.$axios.requirementControllerList.getCommentList({
-    //     page:this.currentPage,
-    //     limit:1,
-    //     id:this.$route.params.id
-    //   })
-    //   this.commentListRequire=commentList.data.evaluationList
-    //     console.log( this.commentListRequire)
-    //   this.total=commentList.data.evaluationList.records.length;
-    //   this.currentPage=commentList.data.evaluationList.current
-    //
-    // },
+
     handleSizeChange(val) {
-      // console.log(`每页 ${val} 条`);
       this.size = val
     },
     async handleCurrentChange(val) {
-      // console.log(`当前页: ${val}`);
-      // await this.getData(val)
     },
 
   },
@@ -191,9 +177,7 @@ export default {
 <style scoped lang="scss">
 @import '../styles/mixin';
 .ServiceDetails {
-
   font-family: PingFangSC-Regular, PingFang SC;
-
   .details-category {
     height: 17px;
     font-size: 12px;
@@ -382,7 +366,6 @@ export default {
     padding-top: 5px;
     background: #F3F3F3;
     margin-bottom: 20px;
-
   }
 
   .cumulative-evaluation {

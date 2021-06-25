@@ -11,7 +11,7 @@
         <a @click="seeDetail(item.id)">了解更多</a>
     </div>
   </div>
-
+  <p v-if="total===0">暂无数据</p>
   </div>
   <div class="pagination">
     <el-pagination

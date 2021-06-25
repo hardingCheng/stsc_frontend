@@ -16,8 +16,7 @@
         <div class="address">
           <div class="text-title-title ">联系地址：<span class="text-service-text ">{{ this.info_all.address }}</span></div>
         </div>
-        <div class="text-title-title1 "><span>附件：</span><img src="../../../assets/images/fileimg.png" class="file_img"
-                                                             v-bind:href="this.info_all.attachments"/>
+        <div class="text-title-title1 "><span>附件：</span><a :href=this.info_all.attachments>{{ filename }}</a>
           <!--        <a :href=this.info_all.attachments>下载</a>-->
         </div>
         <!--        <div class="text-title-title ">电子邮箱：<span class="text-service-text">xxxxx</span></div>-->
@@ -53,14 +52,17 @@
       <div class="map">
         <heihei :arrangeList="arrangeInfo"></heihei>
       </div>
-      <div class="button_group" v-if="lengthInfo&&requireState===4||requireState===5">
+      <div class="button_group1" v-if="lengthInfo&&requireState===4||requireState===5">
         <el-button type="primary" @click="verify" :disabled="forbidden">确定</el-button>
         <el-button type="primary" :disabled="reOpen" @click="resoution">重新拆分</el-button>
       </div>
-      <div class="button_group" v-if="requireState===6">
-        <p>已提交订单</p>
+      <div class="button_group" v-if="requireState===6" >
+        <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
+          <li v-for="i in 1" class="infinite-list-item">已提交订单：</li>
+          <li v-for="item in orderInfo" class="infinite-list-item">{{item.subReqName}}：
+            <router-link :to="'/buyer/comanydetail/'+item.sellerId">{{item.sellerName}}</router-link></li>
+        </ul>
       </div>
-
     </div>
 
     <div class="indicators" v-if="hid&&requireState===5">
@@ -84,7 +86,6 @@
               :value="item_select.value">
           </el-option>
         </el-select>
-
         <!--        推荐服务商-->
         <div class="children_demand" v-for="(items,index) in item" v-bind:key="index" v-if="items.subRequireName">
           <span class="children_demand_title">{{ items.subRequireName }}</span>
@@ -92,7 +93,7 @@
             <el-radio-group v-model="company_radio[index]" @change="changeVal"
                             v-for="(itemss,index1) in items.sellerList" v-bind:key="index1">
               <el-radio :label="itemss.serveId">{{ itemss.sellerName }}</el-radio>
-              <img src="../../../assets/images/detaillogo.png" class="detail_logo" @click="company_detail">
+              <img src="../../../assets/images/detaillogo.png" class="detail_logo" @click="companyDetail">
             </el-radio-group>
           </div>
         </div>
@@ -136,6 +137,7 @@
 import axios from "axios";
 
 import heihei from "../../../components/showGraph/ShowGraph";
+import $axios from "../../../api/api";
 
 export default {
   props: ['id'],
@@ -157,6 +159,8 @@ export default {
       arrangeInfo: {},
       lengthInfo: 0,
       requireState: 0,
+      filename:"",
+      orderInfo:{},//存放订单信息
       options: [{
         value: '选项1',
         label: '综合排序'
@@ -185,6 +189,8 @@ export default {
   created() {
     //根据需求状态设置确定按钮的可用状态
     this.getRequireState()
+    this.getArrangeInfo()
+
   },
   async mounted() {
     await this.getArrangeInfo()
@@ -193,6 +199,16 @@ export default {
   },
 
   methods: {
+    //获取订单信息
+    async getOrderInfo(){
+        let result= await this.$axios.requirementControllerList.getOrderInfo({
+          reqId:this.$route.params.id
+        })
+      this.orderInfo=result.data.res
+    },
+    load(){
+
+    },
     //获取服务商方法
     async getBuyer() {
       //获取推荐服务商列表
@@ -206,6 +222,8 @@ export default {
       })
       //info_all存储需求详情
       this.info_all = results.data.requirement
+      let regex="[^\\/\\\\]+$"
+      this.filename =results.data.requirement.attachments.match(regex)[0]
       //moment时间格式化插件
       const moment = require('moment');
       this.date = moment(results.data.requirement.createTime).format(("YYYY-MM-DD"))
@@ -239,7 +257,7 @@ export default {
     downFile() {
     },
     //跳转推荐服务商的详情页的方法
-    company_detail() {
+    companyDetail() {
       this.$router.push(`/buyer/comanydetail`)
     },
     //用户核实拆分
@@ -249,11 +267,13 @@ export default {
         requirementId: this.$route.params.id
       })
       if (result.code === 20000) {
+        await this.getBuyer()
         this.forbidden = true//禁用确定按钮
         this.reOpen = true//重新拆分是否隐藏
         this.hid = 1//推荐服务商是否隐藏
-        // 重新刷新页面，重新渲染数据
-          this.$router.go(0)
+        await this.getRequireState()
+        // // 重新刷新页面，重新渲染数据
+        //   this.$router.go(0)
       }
 
     },
@@ -268,6 +288,9 @@ export default {
           this.hid = 1//推荐服务商是否隐藏
           this.forbidden = true//禁用确定按钮
           this.reOpen = true//重新拆分是否隐藏
+          if(this.requireState===6){
+            await this.getOrderInfo()
+          }
         }
 
       }
@@ -304,6 +327,7 @@ export default {
     },
     //勾选服务商后点击提交按钮的方法
     async submit() {
+      await this.getRequireState()
       const loading = this.$loading.service({
         lock: true,
         text: '提交中...',
@@ -317,15 +341,16 @@ export default {
       this.item.map((item, index) => {
         orderList.push(item.subRequireId + ',' + this.company_radio[index])
       })
-      console.log(orderList)
+
       await this.$axios.orderControllerList.saveForSelect(orderList)
           .then(response => {
                 this.hid = 0
+                this.getRequireState()
                 this.$message({
                   type: 'success',
                   message: '提交成功'
                 })
-                //重新刷新页面，重新渲染数据
+              //显示订单信息
               }
           ).catch(error => {
             console.log(error)
@@ -383,12 +408,24 @@ export default {
 
 
     }
-
+    .button_group1{
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      flex-direction:column-reverse,
+    }
     .button_group {
       display: flex;
-      flex-direction: column-reverse;
-      align-content: center;
-      justify-content: space-evenly;
+      height: 340px;
+    ul{
+      width: 420px;
+      margin-top: 4px;
+      margin-left: 5px;
+      li{
+          color: #8c939d;
+          line-height: 30px;
+      }
+    }
     }
   }
 
@@ -581,6 +618,7 @@ export default {
       display: flex;
       align-items: center;
       height: 20px;
+      width: 700px;
       font-size: 14px;
       font-weight: 400;
       color: #999999;
