@@ -147,7 +147,6 @@ export default {
         serveId: this.$route.params.id
       })
       this.commentListRequire = commentList.data.evaluationList.records//评价列表
-      console.log("皮", this.commentListRequire)
       this.total = commentList.data.evaluationList.total//评价总数
       // this.currentPage=commentList.data.evaluationList.current//当前页
 

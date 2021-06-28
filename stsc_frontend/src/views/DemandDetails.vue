@@ -1,11 +1,11 @@
 <template>
   <div class="DemandDetails container">
 
-    <div class="container"><P class="details-category">首页 > 找需求 > {{ info.name }}</P></div>
+    <div class="container"><p class="details-category">首页 > 找需求 > {{ info.name }}</p></div>
     <div class="demand-details  container">
       <div class="demand-details-img"><img :src="info.image" width="400px" height="400px"></div>
       <div class="demand-details-inner-text">
-        <div class="demand-title">{{ info ? info.name : "" }}</div>
+        <div class="demand-title">{{ info.name }}</div>
         <div class="mechanism-classification">
           <div class="text-title-title">需求机构：<span class="text-service-text">{{ info.company }}</span></div>
         </div>
@@ -61,13 +61,16 @@ export default {
   data() {
     return {
       activeName: 'first',
-      info: {},//存放需求信息
+      info: {
+        name:"暂无数据",
+        attachments:""
+      },//存放需求信息
       value: 2,
       filename:""
       //存放后端获取的数据
     };
   },
-  async mounted() {
+  async created() {
     //通过id获取需求详情
     const detail_result = await this.$axios.requirementControllerList.getRequireDetailById({
       id: this.id
@@ -76,7 +79,6 @@ export default {
     this.info = detail_result.data.requirement
     let regex="[^\\/\\\\]+$"
     this.filename=detail_result.data.requirement.attachments.match(regex)[0]
-    console.log("111",  this.info)
     //存放需求评价的星数
     this.value = parseInt(this.info.star)
   },
