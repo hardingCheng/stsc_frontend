@@ -76,7 +76,7 @@ export default {
       this.orderList = result?.data?.orderList
     },
     getOrderDetail(id,orderType){
-      this.$router.push(`/seller/orderdetail/waitingcommunication/${id}/${orderType}`)
+      this.$router.push(`/pc/sellerorderdetail/waitingcommunication/${id}/${orderType}`)
     }
   },
   async mounted() {

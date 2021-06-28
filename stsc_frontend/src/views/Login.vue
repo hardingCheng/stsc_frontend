@@ -89,7 +89,9 @@ export default {
       },
       // 对话框显示和隐藏
       dialogVisible: false,
-      errors: {},
+      errors: {
+        errorlogin:''
+      },
       isValid: false,
       jumpRouting: ''
     }
@@ -104,7 +106,7 @@ export default {
   methods: {
     // 提交登录表单
     async loginForm() {
-      const { errors, isValid } = validatorInput(this.form)
+      let { errors, isValid } = validatorInput(this.form)
       if (isValid) {
         const loading = this.$loading.service({
           lock: true,
@@ -122,8 +124,8 @@ export default {
             await this.setLoginInfo(resultLogin)
           }, 1000);
         }else if (resultLogin.code === 20001) {
-          loading.close();
-          errors.errorlogin = "账号或者密码错误！"
+          this.$set(this.errors, "errorlogin",  "账号或者密码错误！")
+          loading.close()
         }
       } else {
         this.errors = errors
@@ -156,7 +158,6 @@ export default {
       let resultAuthInfo = await this.$axios.userControllerList.getAuthInfo()
       if (resultAuthInfo.code === 20000 && resultAuthInfo.data.idCard) {
         let { realname,idCard } = resultAuthInfo.data
-        console.log(realname,idCard)
         this.$store.commit('modRealNameCertification', {
           realNameCertificationInfo: {
             realname,

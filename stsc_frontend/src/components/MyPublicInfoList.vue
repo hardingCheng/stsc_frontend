@@ -2,7 +2,7 @@
   <div>
     <div class="public-info-list-item" v-for="(item) in infoList" :key="item.id">
       <div class="info-img fl">
-        <img src="http://n.sinaimg.cn/news/crawl/117/w550h367/20210311/8edb-kmeeius6993674.jpg" alt="">
+        <img :src="item.image || 'http://n.sinaimg.cn/news/crawl/117/w550h367/20210311/8edb-kmeeius6993674.jpg'" alt="">
       </div>
       <div class="info-details fl">
         <ul class="details" v-if="type === 1">

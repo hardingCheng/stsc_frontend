@@ -13,183 +13,209 @@ const routes = [
     path: "/",
     name: "home",
     component: () => import("../views/Home.vue"),
-    redirect: "/index",
+    meta: {
+      name: "首页",
+      title: "科技服务协同系统平台"
+    },
+    redirect: "index",
     children: [
       {
-        path: "/index",
+        path: "index",
         name: "index",
         component: () => import("../views/Index.vue"),
         meta: {
-          name: "首页 "
+          name: "首页",
+          title: "科技服务协同系统平台"
         }
       },
       {
-        path: "/successCase",
+        path: "successCase",
         name: "successCase",
         component: () => import("../views/SuccessCase.vue"),
         meta: {
-          name: "成功案例 "
+          name: "成功案例",
+          title: "科技服务协同系统平台|成功案例"
         },
       },
       {
-        path: "/successCaseDetail/:id",
-        name: "SuccessCaseDetail",
+        path: "successCaseDetail/:id",
+        name: "successCaseDetail",
         component: () => import("../views/SuccessCaseDetail"),
         props: true,
         meta: {
-          name: "成功案例详情"
+          name: "成功案例详情",
+          title: "科技服务协同系统平台|成功案例"
         },
       },
       {
-        path: "/ld",
+        path: "ld",
         name: "ld",
         component: () => import("../views/LookingDemand.vue"),
         meta: {
-          name: "找需求 "
+          name: "找需求",
+          title: "科技服务协同系统平台|找需求"
         },
       },
       {
-        path: "/ls",
+        path: "ls",
         name: "ls",
         component: () => import("../views/LookingService.vue"),
         meta: {
-          name: "找服务 "
+          name: "找服务",
+          title: "科技服务协同系统平台|找服务"
         },
       },
       {
-        path: "/sc",
+        path: "sc",
         name: "sc",
         component: () => import("../views/ScienceConsulting.vue"),
         meta: {
           requiresAuth: true,
-          name: "科技沟通"
+          name: "科技咨询沟通",
+          title: "科技服务协同系统平台|科技咨询沟通"
         },
       },
       {
-        path: "/pc",
+        path: "pc",
         name: "pc",
         component: () => import("../views/personal-center/PersonalCenter"),
         meta: {
           requiresAuth: true,
-          name: "个人中心"
+          name: "个人中心",
+          title: "科技服务协同系统平台|个人中心"
         },
-        redirect: "/basicinfo",
+        redirect: "pc/basicinfo",
         children:[{
-          path: "/basicinfo",
+          path: "basicinfo",
           name: "basicinfo",
           component: () => import("../views/personal-center/basic-information/Index"),
           meta: {
             requiresAuth: true,
-            name: "基础信息"
+            name: "个人基础信息",
+            title: "科技服务协同系统平台|个人基础信息"
           },
         },{
-          path: "/buyer",
+          path: "buyer",
           name: "buyer",
-          component: () => import("../views/personal-center/buyer/Home"),
+          component: () => import("../views/personal-center/buyer/Index"),
           meta: {
             requiresAuth: true,
-            name: "我是买家"
+            name: "我是买家",
+            title: "科技服务协同系统平台|我是买家"
           },
-          redirect: "/buyer/index",
+          redirect: "buyer/realauth",
           children:[{
-            path: "/buyer/index",
-            name: "index",
-            component: () => import("../views/personal-center/buyer/Index"),
+            path: "mydemand",
+            name: "buyermydemand",
+            component: () => import("../views/personal-center/buyer/MyDemand"),
             meta: {
               requiresAuth: true,
-              name: "我是买家"
+              name: "我的需求",
+              title: "科技服务协同系统平台|我是买家我的需求"
             },
-            redirect: "/buyer/realauth",
-            children: [{
-              path: "/buyer/mydemand",
-              name: "buyermydemand",
-              component: () => import("../views/personal-center/buyer/MyDemand"),
-              meta: {
-                requiresAuth: true,
-                name: "我的需求"
-              },
-            },{
-              path: "/buyer/mynews",
-              name: "buyermynews",
-              component: () => import("../views/personal-center/buyer/MyNews"),
-              meta: {
-                requiresAuth: true,
-                name: "我的消息"
-              },
-            },{
-              path: "/buyer/myorder",
-              name: "buyermyorder",
-              component: () => import("../views/personal-center/buyer/MyOrder"),
-              meta: {
-                requiresAuth: true,
-                name: "我的订单"
-              },
-            },{
-              path: "/buyer/realauth",
-              name: "buyerrealauth",
-              component: () => import("../views/personal-center/buyer/RealAuthentication"),
-              meta: {
-                requiresAuth: true,
-                name: "我是买家实名认证"
-              },
-            }]
           },{
-            path: "/buyer/orderdetail",
-            name: "buyerorderdetail",
-            component: () => import("../views/personal-center/buyer/order-details/Index"),
-            redirect: "/buyer/orderdetail/waitingcommunication/1/1",
-            children:[{
-              path: "/buyer/orderdetail/inprogress/:orderid/:type",
-              name: "buyerinprogress",
-              component: () => import("../views/personal-center/buyer/order-details/InProgress"),
-              props: true,
-            },{
-              path: "/buyer/orderdetail/serviceacceptance/:orderid/:type",
-              name: "buyerserviceacceptance",
-              component: () => import("../views/personal-center/buyer/order-details/ServiceAcceptance"),
-              props: true,
-            },{
-              path: "/buyer/orderdetail/serviceevaluation/:orderid/:type",
-              name: "buyerserviceevaluation",
-              component: () => import("../views/personal-center/buyer/order-details/ServiceEvaluation"),
-              props: true,
-            },{
-              path: "/buyer/orderdetail/waitingcommunication/:orderid/:type",
-              name: "buyerwaitingcommunication",
-              component: () => import("../views/personal-center/buyer/order-details/WaitingCommunication"),
-              props: true,
-            }]
-          },{
-            path: "/buyer/mydemand/:id",
-            name: "mydemand",
-            component: () => import("../views/personal-center/buyer/MyDemandDetails"),
+            path: "mynews",
+            name: "buyermynews",
+            component: () => import("../views/personal-center/buyer/MyNews"),
             meta: {
               requiresAuth: true,
-              name: "我的需求详情"
+              name: "我的消息",
+              title: "科技服务协同系统平台|我是买家我的消息"
+            },
+          },{
+            path: "myorder",
+            name: "buyermyorder",
+            component: () => import("../views/personal-center/buyer/MyOrder"),
+            meta: {
+              requiresAuth: true,
+              name: "我的订单",
+              title: "科技服务协同系统平台|我是买家我的订单"
+            },
+          },{
+            path: "realauth",
+            name: "buyerrealauth",
+            component: () => import("../views/personal-center/buyer/RealAuthentication"),
+            meta: {
+              requiresAuth: true,
+              name: "我是买家实名认证",
+              title: "科技服务协同系统平台|我是买家实名认证"
+            },
+          }],
+        },{
+          path: "mydemand/:id",
+          name: "mydemand",
+          component: () => import("../views/personal-center/buyer/MyDemandDetails"),
+          meta: {
+            requiresAuth: true,
+            name: "我的需求详情"
+          },
+          props: true,
+        },{
+          path: "comanydetail",
+          name: "comanydetail",
+          component: () => import("../views/personal-center/buyer/CompanyDetail"),
+          meta: {
+            requiresAuth: true,
+            name: "公司详情"
+          },
+          props: true,
+        },{
+          path: "buyerorderdetail",
+          name: "buyerorderdetail",
+          component: () => import("../views/personal-center/buyer/order-details/Index"),
+          meta: {
+            requiresAuth: true,
+            name: "买家订单详情",
+          },
+          children:[{
+            path: "inprogress/:orderid/:type",
+            name: "buyerinprogress",
+            component: () => import("../views/personal-center/buyer/order-details/InProgress"),
+            meta: {
+              requiresAuth: true,
+              name: "进行中",
             },
             props: true,
-          },
-            {
-              path: "/buyer/comanydetail",
-              name: "comanydetail",
-              component: () => import("../views/personal-center/buyer/CompanyDetail"),
-              meta: {
-                requiresAuth: true,
-                name: "公司详情"
-              },
-              props: true,
-            }],
+          },{
+            path: "serviceacceptance/:orderid/:type",
+            name: "buyerserviceacceptance",
+            component: () => import("../views/personal-center/buyer/order-details/ServiceAcceptance"),
+            meta: {
+              requiresAuth: true,
+              name: "服务验收",
+            },
+            props: true,
+          },{
+            path: "serviceevaluation/:orderid/:type",
+            name: "buyerserviceevaluation",
+            component: () => import("../views/personal-center/buyer/order-details/ServiceEvaluation"),
+            meta: {
+              requiresAuth: true,
+              name: "服务评价",
+            },
+            props: true,
+          },{
+            path: "waitingcommunication/:orderid/:type",
+            name: "buyerwaitingcommunication",
+            component: () => import("../views/personal-center/buyer/order-details/WaitingCommunication"),
+            meta: {
+              requiresAuth: true,
+              name: "沟通中",
+            },
+            props: true,
+          }]
         },{
-          path: "/seller",
+          path: "seller",
           name: "seller",
           component: () => import("../views/personal-center/seller/Index"),
           meta: {
             requiresAuth: true,
-            name: "我是卖家"
+            name: "我是卖家",
+            title: "科技服务协同系统平台|我是卖家"
           },
-          redirect: "/seller/realauth",
+          redirect: "seller/realauth",
           children:[{
-            path: "/seller/myservice",
+            path: "myservice",
             name: "sellermyservice",
             component: () => import("../views/personal-center/seller/MyService"),
             meta: {
@@ -197,7 +223,7 @@ const routes = [
               name: "我的服务"
             },
           },{
-            path: "/seller/mynews",
+            path: "mynews",
             name: "sellermynews",
             component: () => import("../views/personal-center/seller/MyNews"),
             meta: {
@@ -205,7 +231,7 @@ const routes = [
               name: "我的消息"
             },
           },{
-            path: "/seller/realauth",
+            path: "realauth",
             name: "sellerrealauth",
             component: () => import("../views/personal-center/seller/RealAuthentication"),
             meta: {
@@ -213,43 +239,52 @@ const routes = [
               name: "我是卖家实名认证"
             },
           },{
-            path: "/seller/myorder",
+            path: "myorder",
             name: "sellermyorder",
             component: () => import("../views/personal-center/seller/MyOrder"),
             meta: {
               requiresAuth: true,
               name: "我的订单"
-            }
+            },
           }]
         },{
-          path: "/seller/orderdetail",
+          path: "sellerorderdetail",
           name: "sellerorderdetail",
           component: () => import("../views/personal-center/seller/order-details/Index"),
-          redirect: "/seller/orderdetail/waitingcommunication/1/1",
+          meta: {
+            requiresAuth: true,
+            name: "卖家订单详情"
+          },
           children:[{
-            path: "/seller/orderdetail/inprogress/:orderid/:type",
+            path: "inprogress/:orderid/:type",
             name: "sellerinprogress",
             component: () => import("../views/personal-center/seller/order-details/InProgress"),
+            meta: {
+              requiresAuth: true,
+              name: "进行中"
+            },
             props: true,
           },{
-            path: "/seller/orderdetail/serviceacceptance/:orderid/:type",
+            path: "serviceacceptance/:orderid/:type",
             name: "sellerserviceacceptance",
             component: () => import("../views/personal-center/seller/order-details/ServiceAcceptance"),
+            meta: {
+              requiresAuth: true,
+              name: "服务验收"
+            },
             props: true,
           },{
-            path: "/seller/orderdetail/serviceevaluation/:orderid/:type",
-            name: "sellerserviceevaluation",
-            component: () => import("../views/personal-center/seller/order-details/ServiceEvaluation"),
-            props: true,
-          },{
-            path: "/seller/orderdetail/waitingcommunication/:orderid/:type",
+            path: "waitingcommunication/:orderid/:type",
             name: "sellerwaitingcommunication",
             component: () => import("../views/personal-center/seller/order-details/WaitingCommunication"),
+            meta: {
+              requiresAuth: true,
+              name: "沟通中"
+            },
             props: true,
           }]
-        },
-          {
-            path: "/seller/myservice/:id",
+        },{
+            path: "myservice/:id",
             name: "myserve",
             component: () => import("../views/personal-center/seller/MyServiceDetails"),
             meta: {
@@ -257,10 +292,10 @@ const routes = [
               name: "我的服务详情"
             },
             props: true,
-          }]
+        }]
       },
       {
-        path: "/sd",
+        path: "sd",
         name: "sd",
         component: () => import("../views/SendDemand.vue"),
         meta: {
@@ -269,7 +304,7 @@ const routes = [
         },
       },
       {
-        path: "/sd/:id",
+        path: "sd/:id",
         name: "sd",
         component: () => import("../views/SendDemand.vue"),
         meta: {
@@ -279,7 +314,7 @@ const routes = [
         props: true,
       },
       {
-        path: "/ss",
+        path: "ss",
         name: "ss",
         component: () => import("../views/SendService.vue"),
         meta: {
@@ -288,7 +323,7 @@ const routes = [
         },
       },
       {
-        path: "/ss/:id",
+        path: "ss/:id",
         name: "ss",
         component: () => import("../views/SendService.vue"),
         meta: {
@@ -298,7 +333,7 @@ const routes = [
         props: true,
       },
       {
-        path: "/sdetail/:id",
+        path: "sdetail/:id",
         name: "sdetail",
         component: () => import("../views/ServiceDetails.vue"),
         meta: {
@@ -308,7 +343,7 @@ const routes = [
         props: true,
       },
       {
-        path: "/ddetail/:id",
+        path: "ddetail/:id",
         name: "ddetail",
         component: () => import("../views/DemandDetails.vue"),
         meta: {
@@ -337,20 +372,32 @@ const routes = [
     path: "/login",
     name: "login",
     component: () => import("../views/Login.vue"),
-    meta: { requiresAuth: false },
+    meta: {
+      requiresAuth: false ,
+      title: "科技服务协同系统平台|登录",
+      name:"科技服务协同系统平台|登录"
+    },
   },
 
   {
     path: "/signup",
     name: "signup",
     component: () => import("../views/SignUp"),
-    meta: { requiresAuth: false },
+    meta: {
+      requiresAuth: false,
+      title: "科技服务协同系统平台|注册",
+      name:"科技服务协同系统平台|注册"
+    },
   },
   {
     path: "/error/:type",
     name: "error",
     component: () => import("../views/Error.vue"),
-    meta: { requiresAuth: false },
+    meta: {
+      requiresAuth: false,
+      title: "科技服务协同系统平台|错误",
+      name:"科技服务协同系统平台|错误"
+    },
     props: true,
   },
   {
@@ -358,6 +405,10 @@ const routes = [
     name: "404",
     component: () => import("../views/404Page.vue"),
     props: true,
+    meta: {
+      title: "科技服务协同系统平台|404",
+      name:"科技服务协同系统平台|404"
+    }
   },
 ];
 
@@ -368,6 +419,11 @@ const router = new VueRouter({
 // 导航守卫  全局前置守卫
 // 路由元信息
 router.beforeEach((to, fromss, next) => {
+  if(to.meta.title){
+    document.title = to.meta.title
+  }else {
+    document.title = "科技服务协同平台"
+  }
   // const token = localStorage.getItem("token");
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     // 此路由需要身份验证，请检查是否已登录

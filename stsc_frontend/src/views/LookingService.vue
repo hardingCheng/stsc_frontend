@@ -164,7 +164,7 @@ export default {
         type:0
       })
       if (result.code === 20000){
-        await this.$router.push('/buyer/myorder')
+        await this.$router.push('/pc/buyer/myorder')
       }
     },
     handleSizeChange(val) {

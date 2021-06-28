@@ -13,10 +13,10 @@
               <el-input v-model="form.name" placeholder="请填写需求名称"></el-input>
             </el-form-item>
             <el-form-item label="单位名称：" prop="company">
-              <el-input v-model="form.company" placeholder="请填写需求单位"></el-input>
+              <span>{{ form.company }}</span>
             </el-form-item>
             <el-form-item label="单位地址：" prop="address">
-              <el-input v-model="form.address"></el-input>
+              <span>{{ form.address }}</span>
             </el-form-item>
             <span class="form-group-title">联系人信息</span>
             <el-form-item label="联系人：" prop="contact">
@@ -127,8 +127,8 @@ export default {
     return {
       form: {
         name: '',
-        company: '',
-        address:'',
+        company: this.$store.getters.getRealauth.qualificationInfo.companyName,
+        address: this.$store.getters.getRealauth.qualificationInfo.address,
         contact:'',
         telephone:'',
         price:'',
@@ -145,12 +145,12 @@ export default {
         name: [
           {required: true, message: '请输入服务名称', trigger: 'blur'},
         ],
-        company: [
-          {required: true, message: '请输入单位名称', trigger: 'blur'},
-        ],
-        address: [
-          {required: true, message: '请输入单位地址', trigger: 'blur'},
-        ],
+        // company: [
+        //   {required: true, message: '请输入单位名称', trigger: 'blur'},
+        // ],
+        // address: [
+        //   {required: true, message: '请输入单位地址', trigger: 'blur'},
+        // ],
         contact: [
           {required: true, message: '请输入联系人', trigger: 'blur'},
         ],
@@ -199,15 +199,24 @@ export default {
     }
   },
   async mounted() {
-    // 获取服务分类
-    await this.getCategory()
-    // 修改服务信息
-    if (this.id) {
-      await this.getServesDetailById()
+    if (this.userInfo.isQualification === 1) {
+      // 获取服务分类
+      await this.getCategory()
+      // 修改服务信息
+      if (this.id) {
+        await this.getServesDetailById()
+      }
+    }else {
+      this.$message({
+        message: '请先进行资质认证！才可以进行发服务。',
+        type: 'error'
+      })
+      await this.$router.push('/pc/seller/realauth')
     }
   },
   watch: {
-    formUrlObj:{
+    form:{
+      deep: true,//对于对象设置为深度 监听
       // 用来监听我们上传文件的url返回来
       async handler (newValue, oldName) {
         if(!this.updateStatus){
@@ -240,7 +249,6 @@ export default {
           }
         }
       },
-      deep: true //对于对象设置为深度 监听
     }
   },
   computed: {
@@ -249,6 +257,9 @@ export default {
         attachment:this.form.attachment,
         image:this.form.image
       }
+    },
+    userInfo(){
+      return this.$store.getters.getUserInfo
     }
   },
   methods:{
@@ -289,7 +300,7 @@ export default {
           message: '请先进行资质认证。',
           type: 'error',
         });
-        await this.$router.push("/seller/realauth")
+        await this.$router.push({name:"sellerrealauth"})
       }else {
         this.loading = this.$loading.service({
           lock: true,
@@ -326,8 +337,8 @@ export default {
         this.$message({
           message: '发布服务成功,请前往个人中心查看！',
           type: 'success'
-        });1
-        await this.$router.push("/seller/myservice")
+        });
+        await this.$router.push({name:"sellermyservice"})
       }
     },
     // 更新服务
@@ -339,7 +350,7 @@ export default {
           message: '修改服务成功,请前往个人中心查看！',
           type: 'success'
         });
-        await this.$router.push("/seller/myservice")
+        await this.$router.push({name:"sellermyservice"})
       }
     },
     async handleSuccess(response, file, fileList) {
@@ -422,6 +433,9 @@ export default {
       }else {
         this.fileList1 = []
       }
+    },
+    handleExceed1(files, fileList) {
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
     },
     handleClose(tag) {
       this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);

@@ -147,7 +147,6 @@ export default {
         let result = await this.$axios.userControllerList.updateInfo(this.userInfo)
         if (result.code === 20000){
           let result = await this.$axios.userControllerList.getUserInfo()
-          console.log(result)
           this.$store.commit("modUserInfo",{
             userInfo:result.data.user,
           });
@@ -156,6 +155,10 @@ export default {
       //this.imageUrl = URL.createObjectURL(file.raw);
     },
     beforeAvatarUpload(file,fileList) {
+      if (file.status === 'ready'){
+        this.fileList = []
+        this.fileList.push(file)
+      }
       this.imageUrl = URL.createObjectURL(file.raw);
       const isLt2M = file.size / 1024 / 1024 < 2;
       if (!isLt2M) {
@@ -170,7 +173,6 @@ export default {
         let result = await this.$axios.userControllerList.updateInfo(this.userInfo)
         if (result.code === 20000){
           let result = await this.$axios.userControllerList.getUserInfo()
-          console.log(result)
           this.$store.commit("modUserInfo",{
             userInfo:result.data.user,
           });

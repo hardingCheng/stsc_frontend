@@ -67,18 +67,18 @@ export default {
       switch(index) {
         case 1:
           this.tabIndex=index
-          this.$router.push("/buyer")
+          this.$router.push("/pc/buyer")
           break
         case 2:
           this.tabIndex=index
-          this.$router.push("/seller")
+          this.$router.push("/pc/seller")
           break
         case 3:
           this.tabIndex=index
-          this.$router.push("/basicinfo")
+          this.$router.push("/pc/basicinfo")
           break
         default:
-          this.$router.push("/basicinfo")
+          this.$router.push("/pc/basicinfo")
           break
       }
     }

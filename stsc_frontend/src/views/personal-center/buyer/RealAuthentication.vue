@@ -68,7 +68,7 @@ export default {
                 realname:this.formLabelAlign._name,
                 idCard:this.formLabelAlign._id
               },
-              isRealNameCertification:'1'
+              isRealNameCertification:1
             })
           }else {
             this.$message({
