@@ -58,14 +58,14 @@ export default {
       switch(index) {
         case 0:
           await this.getOrderInfo()
-          if (this.orderSplitInfo.status >=1) {
-            this.$router.push(`/buyer/orderdetail/waitingcommunication/${this.orderid}/${this.type}`)
+          if (this.orderSplitInfo.status >=1 || this.orderInfo.status>=1) {
+            await this.$router.push(`/buyer/orderdetail/waitingcommunication/${this.orderid}/${this.type}`)
           }
           break
         case 1:
           await this.getOrderInfo()
-          if (this.orderSplitInfo.status >=2) {
-            this.$router.push(`/buyer/orderdetail/inprogress/${this.orderid}/${this.type}`)
+          if (this.orderSplitInfo.status >=2 || this.orderInfo.status>=1) {
+            await this.$router.push(`/buyer/orderdetail/inprogress/${this.orderid}/${this.type}`)
           }else{
             this.$message({
               message: '等待所有卖家上传，即可进行。',
@@ -75,14 +75,24 @@ export default {
           break
         case 2:
           await this.getOrderInfo()
-          if (this.orderSplitInfo.status >=3) {
-            this.$router.push(`/buyer/orderdetail/serviceacceptance/${this.orderid}/${this.type}`)
+          if (this.orderSplitInfo.status >=3 || this.orderInfo.status>=1) {
+            await this.$router.push(`/buyer/orderdetail/serviceacceptance/${this.orderid}/${this.type}`)
+          }else{
+            this.$message({
+              message: '等待所有卖家服务流程完毕，即可查看服务验收。',
+              type: 'warning'
+            });
           }
           break
         case 3:
           await this.getOrderInfo()
-          if (this.orderSplitInfo.status >=4) {
-            this.$router.push(`/buyer/orderdetail/serviceevaluation/${this.orderid}/${this.type}`)
+          if (this.orderSplitInfo.status >=4 || this.orderInfo.status>=1) {
+            await this.$router.push(`/buyer/orderdetail/serviceevaluation/${this.orderid}/${this.type}`)
+          }else{
+            this.$message({
+              message: '等待所有卖家服务验收完毕，即可进行服务评价。',
+              type: 'warning'
+            });
           }
           break
       }

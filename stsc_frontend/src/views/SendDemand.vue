@@ -431,9 +431,17 @@ export default {
     }
   },
   async mounted(){
-    // 修改需求的情况
-    if (this.id) {
-      await this.getUpdateRequirement()
+    if (this.userInfo.isRealNameCertification === 1) {
+      // 修改需求的情况
+      if (this.id) {
+        await this.getUpdateRequirement()
+      }
+    }else {
+      this.$message({
+        message: '请先进行实名认证！才可以进行发需求。',
+        type: 'error'
+      })
+      await this.$router.push('/buyer/realauth')
     }
   }
 }

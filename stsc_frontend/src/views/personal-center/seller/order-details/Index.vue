@@ -43,9 +43,11 @@ export default {
       orderInfo:{}
     }
   },
-  mounted() {
+  async mounted() {
     this.orderid = this.$route.params.orderid
     this.type = this.$route.params.type
+    await this.getOrderInfo()
+
   },
   watch: {
     $route: {
@@ -60,9 +62,6 @@ export default {
           case 'sellerserviceacceptance':
             this.routerIndex = 2
             break
-          case 'sellerserviceevaluation':
-            this.routerIndex = 3
-            break
         }
       },
       deep: true,
@@ -75,26 +74,22 @@ export default {
         case 0:
           await this.getOrderInfo()
           if (this.orderInfo.status >=1) {
-            this.$router.push(`/seller/orderdetail/waitingcommunication/${this.orderid}/${this.type}`)
+            await this.$router.push(`/pc/sellerorderdetail/waitingcommunication/${this.orderid}/${this.type}`)
           }
           break
         case 1:
           await this.getOrderInfo()
-          if (this.orderInfo.status >=2) {
-            this.$router.push(`/seller/orderdetail/inprogress/${this.orderid}/${this.type}`)
-          }
+          await this.$router.push(`/pc/sellerorderdetail/inprogress/${this.orderid}/${this.type}`)
           break
         case 2:
           await this.getOrderInfo()
-          console.log(this.orderInfo.status)
           if (this.orderInfo.status >=3) {
-            this.$router.push(`/seller/orderdetail/serviceacceptance/${this.orderid}/${this.type}`)
-          }
-          break
-        case 3:
-          await this.getOrderInfo()
-          if (this.orderInfo.status >=4) {
-            this.$router.push(`/seller/orderdetail/serviceevaluation/${this.orderid}/${this.type}`)
+            await this.$router.push(`/pc/sellerorderdetail/serviceacceptance/${this.orderid}/${this.type}`)
+          }else {
+            this.$message({
+              message: '此流程完成后，即可进行服务验收。',
+              type: 'warning'
+            });
           }
           break
       }

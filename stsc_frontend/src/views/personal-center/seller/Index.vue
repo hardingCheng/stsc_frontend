@@ -8,19 +8,19 @@
             @open="handleOpen"
             @close="handleClose"
             router>
-          <el-menu-item index="1" route="/seller/realauth">
+          <el-menu-item index="1" route="realauth">
             <i class="el-icon-location"></i>
             <span>资质认证</span>
           </el-menu-item>
-          <el-menu-item index="2" route="/seller/myservice">
+          <el-menu-item index="2" route="myservice">
             <i class="el-icon-menu"></i>
             <span slot="title">我的服务</span>
           </el-menu-item>
-          <el-menu-item index="3" route="/seller/myorder">
+          <el-menu-item index="3" route="myorder">
             <i class="el-icon-document"></i>
             <span slot="title">我的订单</span>
           </el-menu-item>
-          <el-menu-item index="4" route="/seller/mynews">
+          <el-menu-item index="4" route="mynews">
             <i class="el-icon-setting"></i>
             <span slot="title">我的消息</span>
           </el-menu-item>
@@ -43,16 +43,16 @@ export default {
   },
   mounted() {
     switch(this.$route.path){
-      case '/seller/realauth':
+      case '/pc/seller/realauth':
         this.activeIndex = '1'
         break
-      case '/seller/mydemand':
+      case '/pc/seller/mydemand':
         this.activeIndex = '2'
         break
-      case '/seller/myorder':
+      case '/pc/seller/myorder':
         this.activeIndex = '3'
         break
-      case '/seller/mynews':
+      case '/pc/seller/mynews':
         this.activeIndex = '4'
         break
       default:

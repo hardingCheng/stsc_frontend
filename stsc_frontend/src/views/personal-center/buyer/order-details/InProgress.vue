@@ -209,11 +209,6 @@ export default {
       })
       this.type1OrderInfo = result1.data.subOrderInfo
       this.subOrderInfoVoListLength = result1.data.subOrderInfo.subOrderInfoVoList.length
-      // let result = await this.$axios.arrangeController.getArrangeList({
-      //   requirementId:this.type1OrderInfo.requirementId
-      // })
-      // this.arrangeList = result.data.arrange
-      // await this.getNodeInfo(result.data.arrange.nodeList[0].id)
       let arrangeResult = await this.$axios.layoutControllerList.getLayoutResult({
         requirementId:this.type1OrderInfo.requirementId
       })

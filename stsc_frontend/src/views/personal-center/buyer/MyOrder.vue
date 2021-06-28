@@ -78,16 +78,16 @@ export default {
     getOrderDetail(id,orderType,orderStatus){
       switch(orderStatus) {
         case 1:
-          this.$router.push(`/buyer/orderdetail/waitingcommunication/${id}/${orderType}`)
+          this.$router.push(`/pc/buyerorderdetail/waitingcommunication/${id}/${orderType}`)
           break
         case 2:
-          this.$router.push(`/buyer/orderdetail/inprogress/${id}/${orderType}`)
+          this.$router.push(`/pc/buyerorderdetail/inprogress/${id}/${orderType}`)
           break
         case 3:
-          this.$router.push(`/buyer/orderdetail/serviceacceptance/${id}/${orderType}`)
+          this.$router.push(`/pc/buyerorderdetail/serviceacceptance/${id}/${orderType}`)
           break
         case 4:
-          this.$router.push(`/buyer/orderdetail/serviceevaluation/${id}/${orderType}`)
+          this.$router.push(`/pc/buyerorderdetail/serviceevaluation/${id}/${orderType}`)
           break
       }
     }

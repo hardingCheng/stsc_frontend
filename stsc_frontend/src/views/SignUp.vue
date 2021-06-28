@@ -18,7 +18,7 @@
           </el-form-item>
           <el-form-item label="验证码" prop="verificationCode">
             <el-row :gutter="10">
-              <el-col :span="10"><el-input type="password" placeholder="验证码" @input="errors.verificationCode =''" v-model="form.verificationCode"/></el-col>
+              <el-col :span="10"><el-input type="text" placeholder="验证码" @input="errors.verificationCode =''" v-model="form.verificationCode"/></el-col>
               <el-col :span="12"><div  @click="getNewCode"><SIdentify ref="sidentify"></SIdentify></div></el-col>
               <div class="el-form-item__error">{{errors.verificationCode}}</div>
             </el-row>

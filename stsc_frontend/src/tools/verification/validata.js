@@ -1,9 +1,9 @@
 import axios from "../../api/request";
 const _ = require("lodash")
 const validator = require('validator');
-let errors = {}
 // login
 export const validatorInput = (data) => {
+    let errors = {}
     if (validator.isEmpty(data.username)) {
         errors.username = "请输入手机号"
     }else if(!/^1[3-9]\d{9}$/.test(data.username)){
@@ -21,8 +21,8 @@ export const validatorInput = (data) => {
     }
 }
 // signup
-export const validatorSignUpInput =async function(data){
-    validatorInput(data)
+export const validatorSignUpInput = async function(data){
+    let { errors,isValid } = validatorInput(data)
     let username = data.username
     let isExistUsername = await axios.userControllerList.isExist({
         username

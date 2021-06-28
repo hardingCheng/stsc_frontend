@@ -127,7 +127,17 @@ export default {
               center: true,
               type: 'success'
             })
-            await this.$router.push(`/seller/orderdetail/inprogress/${this.orderid}/${this.type}`)
+            let orderResult = await this.getOrderInfo()
+            let { status } =orderResult.data.orderInfo
+            if(status >= 2){
+              await this.$router.push(`/seller/orderdetail/inprogress/${this.orderid}/${this.type}`)
+            }else {
+              this.$message({
+                message: '等待买家上传合同',
+                center: true,
+                type: 'warning'
+              })
+            }
           }, 1000)
         }
       }
@@ -143,7 +153,7 @@ export default {
               center: true,
               type: 'success'
             })
-            await this.$router.push(`/seller/orderdetail/inprogress/${this.orderid}/${this.type}`)
+            await this.$router.push(`/pc/sellerorderdetail/inprogress/${this.orderid}/${this.type}`)
           }, 1000)
         }
       }

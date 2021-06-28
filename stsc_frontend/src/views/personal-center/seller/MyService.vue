@@ -59,7 +59,7 @@ export default {
       this.infoList = result.data.requireList
     },
     async infoDetail(id){
-      await this.$router.push(`/seller/myservice/${id}`)
+      await this.$router.push(`/pc/myservice/${id}`)
     },
     async modInfo(id){
       await this.$router.push(`/ss/${id}`)
@@ -79,7 +79,7 @@ export default {
           page:1,
           limit:15
         })
-        this.infoList = result.data.serveList
+        this.infoList= result.data.serveList
       }
     },
   },

@@ -116,7 +116,7 @@ export default {
             type:'success',
             message:'此订单已经完成'
           })
-          await this.$router.push(`seller/orderdetail/serviceacceptance/${this.orderid}/${this.type}`);
+          await this.$router.push(`/pc/sellerorderdetail/serviceacceptance/${this.orderid}/${this.type}`);
           this.completeCon = true
         }else {
           this.completeCon = false
