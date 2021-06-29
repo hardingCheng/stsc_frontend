@@ -2,9 +2,9 @@
   <div class="message-notification">
     <div class="message-notification-tab">
       <ul class="message-notification-tab-ul">
-        <li @click="liswitch(1)" :class="[isTabActive === 1 ? 'active' :'']">买家({{ messageObj.notice}})</li>
-        <li @click="liswitch(2)" :class="[isTabActive === 2 ? 'active' :'']">卖家({{ messageObj.handle}})</li>
-<!--        <li @click="liswitch(3)" :class="[isTabActive === 3 ? 'active' :'']">其他({{ messageObj.other}})</li>-->
+        <li @click="liswitch(1)" :class="[isTabActive === 1 ? 'active' :'']">买家({{ messageObj.notice }})</li>
+        <li @click="liswitch(2)" :class="[isTabActive === 2 ? 'active' :'']">卖家({{ messageObj.handle }})</li>
+        <!--        <li @click="liswitch(3)" :class="[isTabActive === 3 ? 'active' :'']">其他({{ messageObj.other}})</li>-->
       </ul>
     </div>
     <div class="message-notification-tab-content">
@@ -12,11 +12,11 @@
         <div class="message-notification-tab-content-item-main">
           <div v-infinite-scroll="loadMore" infinite-scroll-disabled="disabled" infinite-scroll-distance="10">
             <div v-for="(item,index) in message_text" :key="index" class="message-notification-tab-content-item-detail">
-              <el-row type="flex" align="middle" :gutter="10"  >
+              <el-row type="flex" align="middle" :gutter="10">
                 <el-col :span="4">
-<!--                  <div class="message-notification-tab-content-item-left">-->
-<!--                    <img src="../assets/logo.png" alt="">-->
-<!--                  </div>-->
+                  <!--                  <div class="message-notification-tab-content-item-left">-->
+                  <!--                    <img src="../assets/logo.png" alt="">-->
+                  <!--                  </div>-->
                 </el-col>
                 <el-col :span="20">
                   <div class="message-notification-tab-content-item-right" @click="inBuyerMessage(index)">
@@ -27,14 +27,14 @@
               </el-row>
             </div>
           </div>
-<!--          <div class="message-status">-->
-<!--            <p v-if="loading">加载中...</p>-->
-<!--            <p v-if="noMore">没有更多了...</p>-->
-<!--          </div>-->
+          <!--          <div class="message-status">-->
+          <!--            <p v-if="loading">加载中...</p>-->
+          <!--            <p v-if="noMore">没有更多了...</p>-->
+          <!--          </div>-->
         </div>
         <div class="message-notification-tab-content-item-footer">
           <div class="message-clear">
-<!--            <a @click="messageClear(isTabActive,$event)">消息通知</a>-->
+            <!--            <a @click="messageClear(isTabActive,$event)">消息通知</a>-->
 
           </div>
         </div>
@@ -42,12 +42,13 @@
       <div class="message-notification-tab-content-item" v-if="isTabActive === 2">
         <div class="message-notification-tab-content-item-main">
           <div v-infinite-scroll="loadMore" infinite-scroll-disabled="disabled" infinite-scroll-distance="10">
-            <div v-for="(item,index) in message_text_seller" :key="index" class="message-notification-tab-content-item-detail">
+            <div v-for="(item,index) in message_text_seller" :key="index"
+                 class="message-notification-tab-content-item-detail">
               <el-row type="flex" align="middle" :gutter="10">
                 <el-col :span="4">
-<!--                  <div class="message-notification-tab-content-item-left">-->
-<!--                    <img src="../assets/logo.png" alt="">-->
-<!--                  </div>-->
+                  <!--                  <div class="message-notification-tab-content-item-left">-->
+                  <!--                    <img src="../assets/logo.png" alt="">-->
+                  <!--                  </div>-->
                 </el-col>
                 <el-col :span="20">
                   <div class="message-notification-tab-content-item-right" @click="inSellerMessage(index)">
@@ -58,14 +59,14 @@
               </el-row>
             </div>
           </div>
-<!--          <div class="message-status">-->
-<!--            <p v-if="loading">加载中...</p>-->
-<!--            <p v-if="noMore">没有更多了...</p>-->
-<!--          </div>-->
+          <!--          <div class="message-status">-->
+          <!--            <p v-if="loading">加载中...</p>-->
+          <!--            <p v-if="noMore">没有更多了...</p>-->
+          <!--          </div>-->
         </div>
         <div class="message-notification-tab-content-item-footer">
           <div class="message-clear">
-<!--            <a @click="messageClear(isTabActive,$event)">消息通知</a>-->
+            <!--            <a @click="messageClear(isTabActive,$event)">消息通知</a>-->
           </div>
         </div>
       </div>
@@ -106,21 +107,22 @@
 
 <script>
 import store from '../store/index.js';
+
 export default {
   name: "MessageNotification",
-  props:["message_text","total","message_text_seller","total_seller","notice_reduce"],
-  data () {
+  props: ["message_text", "total", "message_text_seller", "total_seller", "notice_reduce"],
+  data() {
     return {
       count: 0,
-      data: ['s','x'],
+      data: ['s', 'x'],
       busy: false,
-      isTabActive:1,
+      isTabActive: 1,
       loading: false,
-      message_active:"",
-      messageObj:{
-        notice:this.total,
-        handle:this.total_seller,
-        other:0
+      message_active: "",
+      messageObj: {
+        notice: this.total,
+        handle: this.total_seller,
+        other: 0
       }
     }
   },
@@ -128,60 +130,56 @@ export default {
 
   },
   computed: {
-    noMore () {
+    noMore() {
       return this.count >= 20
     },
-    disabled () {
+    disabled() {
       return this.loading || this.noMore
     }
   },
   methods: {
-    noticeReduce(val){
-
+    noticeReduce(val) {
     },
-    inBuyerMessage(val){
-
-      this.$store.commit('messageActive','second')
-      console.log("xxx",this.$store.state.activeName)
+    inBuyerMessage(val) {
+      this.$store.commit('messageActive', 'second')
+      console.log("xxx", this.$store.state.activeName)
       // this.messageObj.notice=this.notice_reduce-1
       // this.notice_reduce=this.notice_reduce-1
-      if(this.message_text.splice(val,1)){
+      if (this.message_text.splice(val, 1)) {
         this.messageObj.notice--
         this.notice_reduce--
       }
-      this.$emit('noticeEvent',this.notice_reduce)
-      this.$router.push(`/buyer/mynews`,)
-
-      console.log("我被点了")
-      this.notice_reduce=this.notice_reduce-1
-      this.$emit('noticeEvent',this.notice_reduce)
+      this.$emit('noticeEvent', this.notice_reduce)
+      this.$router.push(`/pc/buyer/mynews`)
+      this.notice_reduce = this.notice_reduce - 1
+      this.$emit('noticeEvent', this.notice_reduce)
       // this.message_active="second"
       // this.$emit("active",this.message_active)
     },
 
-    inSellerMessage(val){
-      if(this.message_text_seller.splice(val,1)){
+    inSellerMessage(val) {
+      if (this.message_text_seller.splice(val, 1)) {
         this.messageObj.handle--
         this.notice_reduce--
       }
 
       this.$router.push(`/seller/mynews`)
     },
-    loadMore: function() {
+    loadMore: function () {
       this.loading = true
       setTimeout(() => {
         for (var i = 0, j = 10; i < j; i++) {
-          this.data.push({name: this.count++ })
+          this.data.push({name: this.count++})
         }
         this.loading = false
       }, 1000)
     },
-    liswitch(num){
+    liswitch(num) {
       this.isTabActive = num
     },
-    messageClear(clearTab,e){
+    messageClear(clearTab, e) {
       e.preventDefault()
-      switch (clearTab){
+      switch (clearTab) {
         case 1:
           this.messageObj.notice = 0
           break
@@ -201,63 +199,77 @@ export default {
 .message-notification {
   width: 300px;
   height: 450px;
-  background:#FFFFFF;
+  background: #FFFFFF;
   border-radius: 5px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
   .message-notification-tab {
-    height:40px;
+    height: 40px;
     text-align: center;
+
     .message-notification-tab-ul {
       display: flex;
+
       li {
-        height:39px;
+        height: 39px;
         line-height: 39px;
         flex: 1;
         cursor: pointer;
       }
+
       .active {
         color: #2d8cf0;
-        border-bottom:1px solid #2d8cf0;
+        border-bottom: 1px solid #2d8cf0;
       }
     }
   }
-  .message-notification-tab-content{
-    height:410px;
+
+  .message-notification-tab-content {
+    height: 410px;
     overflow: auto;
+
     .message-notification-tab-content-item {
       .message-notification-tab-content-item-main {
         position: relative;
-        .message-notification-tab-content-item-detail{
+
+        .message-notification-tab-content-item-detail {
           box-sizing: border-box;
           padding: 12px 0px;
           border-bottom: 1px solid #e8eaec;
           cursor: pointer;
+
           .message-notification-tab-content-item-left {
-            height:100%;
+            height: 100%;
+
             img {
               display: block;
-              height:auto;
+              height: auto;
               width: 100%;
             }
           }
-          .message-notification-tab-content-item-right{
+
+          .message-notification-tab-content-item-right {
             h4 {
               font-size: 14px;
               font-weight: 400;
               line-height: 22px;
               color: #515a6e;
             }
+
             p {
               font-size: 12px;
               color: #808695;
             }
           }
+
           &:hover {
-            background:rgb(242, 250, 254);
+            background: rgb(242, 250, 254);
           }
         }
+
         .message-status {
           margin-bottom: 40px;
+
           p {
             text-align: center;
             font-size: 14px;
@@ -266,19 +278,22 @@ export default {
           }
         }
       }
+
       .message-notification-tab-content-item-footer {
         position: absolute;
-        bottom:0;
+        bottom: 0;
         width: 100%;
+
         .message-clear {
           height: 20px;
           cursor: pointer;
           border-top: 1px solid #e8eaec;
-          background:#FFF;
+          background: #FFF;
+
           a {
             text-align: center;
             display: block;
-            height:100%;
+            height: 100%;
             width: 100%;
           }
         }

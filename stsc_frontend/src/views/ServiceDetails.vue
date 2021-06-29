@@ -33,7 +33,7 @@
         <!--        <div class="address">-->
         <!--        <div class="text-title-title ">联系地址：<span class="text-service-text ">陕西省西安市幸福街道</span></div>-->
         <!--        </div>-->
-        <div class="text-title-title ">电子邮箱：<span class="text-service-text">{{ info.email }}</span></div>
+        <div class="text-title-title ">电子邮箱：<span class="text-service-text">{{ info.email==null?"无": info.email }}</span></div>
         <div class="show-reviews">
           <div class="show-reviews-text fl" v-for="(item,index) in keywords" v-bind:key="index"><span class="tag-text">{{
               item
@@ -47,26 +47,26 @@
         :description="info.serviceDescription"
         :professional-talents="info.expertIntroduction">
 <!--      成功案例-->
-      <div class="evaluation-box" slot="fifth">
-        <div class="praise-of">
-          <div class="praise-of-text">
-            <div class="degree-of-praise fl"><span class="praise-of-text-praise">好评度</span></div>
-            <div class="praise-tag-div fl"><span class="praise-tag">态度好(0)</span></div>
-            <div class="praise-tag-div fl"><span class="praise-tag">态度好(0)</span></div>
-            <div class="praise-tag-div fl"><span class="praise-tag">态度好(0)</span></div>
-            <div class="praise-tag-div fl"><span class="praise-tag">态度好(0)</span></div>
-            <div class="praise-tag-div fl"><span class="praise-tag">态度好(0)</span></div>
-            <div class="praise-tag-div fl"><span class="praise-tag">态度好(0)</span></div>
-          </div>
-          <div class="praise-of-num">100%</div>
-        </div>
+      <div class="evaluation-box" slot="fifth" v-if="total>0">
+<!--        <div class="praise-of">-->
+<!--          <div class="praise-of-text">-->
+<!--            <div class="degree-of-praise fl"><span class="praise-of-text-praise">好评度</span></div>-->
+<!--            <div class="praise-tag-div fl"><span class="praise-tag">态度好(0)</span></div>-->
+<!--            <div class="praise-tag-div fl"><span class="praise-tag">态度好(0)</span></div>-->
+<!--            <div class="praise-tag-div fl"><span class="praise-tag">态度好(0)</span></div>-->
+<!--            <div class="praise-tag-div fl"><span class="praise-tag">态度好(0)</span></div>-->
+<!--            <div class="praise-tag-div fl"><span class="praise-tag">态度好(0)</span></div>-->
+<!--            <div class="praise-tag-div fl"><span class="praise-tag">态度好(0)</span></div>-->
+<!--          </div>-->
+<!--          <div class="praise-of-num">100%</div>-->
+<!--        </div>-->
         <div class="all-evaluation">
-          <span class="allEvaluation">全部评价(0)</span>
-          <span class="allEvaluation">有图(0)</span>
-          <span class="allEvaluation">追加(0)</span>
-          <span class="allEvaluation">好评(0)</span>
-          <span class="allEvaluation">中评(0)</span>
-          <span class="allEvaluation">差评(0)</span>
+          <span class="allEvaluation">全部评价({{info.evaluationAmount }})</span>
+<!--          <span class="allEvaluation">有图(0)</span>-->
+<!--          <span class="allEvaluation">追加(0)</span>-->
+<!--          <span class="allEvaluation">好评(0)</span>-->
+<!--          <span class="allEvaluation">中评(0)</span>-->
+<!--          <span class="allEvaluation">差评(0)</span>-->
         </div>
         <Evaluation
             v-for="(item,index) in commentListRequire" :key="index"
@@ -91,6 +91,7 @@
           </div>
         </div>
       </div>
+      <div class="evaluation-box"  slot="fifth" style="height: 300px;padding-left: 10px;margin-top: 10px" v-else>暂无评价</div>
     </Tabs>
     <div class="see-and-see container ">
       <span class="see-and-see-title">---看了又看---</span>
@@ -118,7 +119,9 @@ export default {
     return {
       currentPage2:1,
       activeName: 'first',
-      info: {},
+      info: {
+        email:"无"
+      },
       value: 0,
       eachValue: 3,
       evaluate: {},

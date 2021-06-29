@@ -60,7 +60,7 @@
         <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
           <li v-for="i in 1" class="infinite-list-item">已提交订单：</li>
           <li v-for="item in orderInfo" class="infinite-list-item">{{item.subReqName}}：
-            <router-link :to="'/buyer/comanydetail/'+item.sellerId">{{item.sellerName}}</router-link></li>
+            <router-link :to="'/comanydetail/'+item.sellerId+'/'+requireState">{{item.sellerName}}</router-link></li>
         </ul>
       </div>
     </div>
@@ -92,8 +92,8 @@
           <div class="company ">
             <el-radio-group v-model="company_radio[index]" @change="changeVal"
                             v-for="(itemss,index1) in items.sellerList" v-bind:key="index1">
-              <el-radio :label="itemss.serveId">{{ itemss.sellerName }}</el-radio>
-              <img src="../../../assets/images/detaillogo.png" class="detail_logo" @click="companyDetail">
+              <el-radio :label="itemss.serveId" >{{ itemss.sellerName }}</el-radio>
+              <img src="../../../assets/images/detaillogo.png" class="detail_logo" @click="companyDetail(itemss.serveId)">
             </el-radio-group>
           </div>
         </div>
@@ -170,9 +170,6 @@ export default {
       }, {
         value: '选项3',
         label: '时间段'
-      }, {
-        value: '选项4',
-        label: '龙须面'
       }],
       options1: [{
         value: '选项1',
@@ -190,12 +187,11 @@ export default {
     //根据需求状态设置确定按钮的可用状态
     this.getRequireState()
     this.getArrangeInfo()
-
   },
   async mounted() {
     await this.getArrangeInfo()
     await this.getBuyer()
-
+    await this.getOrderInfo()
   },
 
   methods: {
@@ -205,7 +201,9 @@ export default {
           reqId:this.$route.params.id
         })
       this.orderInfo=result.data.res
+
     },
+
     load(){
 
     },
@@ -223,7 +221,10 @@ export default {
       //info_all存储需求详情
       this.info_all = results.data.requirement
       let regex="[^\\/\\\\]+$"
-      this.filename =results.data.requirement.attachments.match(regex)[0]
+      if(results.data.requirement.attachments.match(regex)==null){
+      }else {
+        this.filename =results.data.requirement.attachments.match(regex)[0]
+      }
       //moment时间格式化插件
       const moment = require('moment');
       this.date = moment(results.data.requirement.createTime).format(("YYYY-MM-DD"))
@@ -250,6 +251,7 @@ export default {
           type: 'success'
         });
         this.reOpen = true
+        await this.getRequireState()
         // 重新刷新页面，重新渲染数据
         // this.$router.go(0)
       }
@@ -257,8 +259,11 @@ export default {
     downFile() {
     },
     //跳转推荐服务商的详情页的方法
-    companyDetail() {
-      this.$router.push(`/buyer/comanydetail`)
+    companyDetail(id) {
+      let requireId=this.$route.params.id
+     // this.$router.push(`/pc/comanydetail/${id}`)
+       let requireState=this.requireState
+      this.$router.push(`/comanydetail/${id}/${requireState}`)
     },
     //用户核实拆分
     async verify() {
@@ -350,10 +355,10 @@ export default {
                   type: 'success',
                   message: '提交成功'
                 })
+
               //显示订单信息
               }
           ).catch(error => {
-            console.log(error)
             this.$message({
               type: 'error',
               message: '提交失败'
@@ -470,18 +475,21 @@ export default {
           flex: 1;
           width: 100%;
           display: flex;
+          height: 24px;
           justify-content: flex-start;
           flex-wrap: wrap;
-
+          align-items: center;
+          justify-items: center;
           /deep/ .el-radio-group {
             margin-right: 20px;
+            height: 24px;
           }
-
           /deep/ .el-radio {
             margin-bottom: 5px !important;
           }
-
           img {
+            display: inline-block;
+            position: absolute;
             height: 15px;
           }
         }
@@ -737,5 +745,7 @@ export default {
 /deep/ .el-tabs__header {
   margin: 0;
 }
-
+/deep/ .el-radio{
+  margin-right: 10px;
+}
 </style>
