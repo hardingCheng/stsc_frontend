@@ -16,7 +16,6 @@
         <h3>需求方相关合同</h3>
         <div class="service-contract-main">
           <div class="service-contract-item">
-            <span>服务1：</span>
             <el-upload
                 class="upload-demo"
                 action="/ph/stcsp/fileoss/upload"
@@ -26,11 +25,24 @@
                 :auto-upload="false"
                 :on-success="handleSuccess"
                 :before-upload="handleBeforeUpload"
+                :on-change="changeUpload"
                 ref="upload"
                 v-if="contractForBuyer.length === 0"
             >
+              <span>服务1：</span>
               <el-button size="small" type="primary">点击上传</el-button>
             </el-upload>
+            <el-form v-if="contractForBuyer.length === 0" style="margin-top: 20px" :inline="true" :model="formInline" class="demo-form-inline">
+              <el-form-item label="价格：">
+                <el-select style="width:140px" v-model="formInline.region" placeholder="设置价格">
+                  <el-option label="保密" value="1"></el-option>
+                  <el-option label="成交价格" value="2"></el-option>
+                </el-select>
+              </el-form-item>
+              <template  v-if="formInline.region === '2'">
+                <el-input-number style="margin-left: 5px; width:150px" v-model="formInline.price" :precision="2" :step="0.1" :max="10000"></el-input-number> 万
+              </template>
+            </el-form>
             <ul>
               <li v-for="(item,index) in contractForBuyer" :key="index">
                 <a @click="pdfShow(item.fileUrl)">{{item.fileName}}</a>
@@ -100,13 +112,22 @@ export default {
       orderInfo:{},
       orderSplitInfo:{},
       contractSplitInfo:[],
-      contractSplitInfoNum:0
+      contractSplitInfoNum:0,
+      formInline: {
+        region: '1',
+        price:'保密',
+        contractUrl:'',
+        orderId:''
+      }
     }
   },
   async created(){
     await this.getOrderInfo()
   },
   methods: {
+    onSubmit() {
+      console.log('submit!');
+    },
     uploadFile(file,name) {
       this.fd.append('file'+name,file)
     },
@@ -117,12 +138,18 @@ export default {
       console.log(file);
     },
     changeUpload(file, fileList){
-      console.log(fileList)
+      if (file.status === 'ready'){
+        this.fileList.push(file)
+      }
     },
-    handleBeforeUpload(file){
+    handleBeforeUpload(file,fileList){
+
     },
     async submitOrderInfo(){
       if (this.fileList.length !==0 ) {
+        if (this.formInline.region === '1'){
+          this.formInline.price = '保密'
+        }
         await this.$refs.upload.submit();
       }else {
         this.$message({
@@ -139,8 +166,8 @@ export default {
         })
         if (result.code === 20000){
           this.orderInfo = result.data.orderInfo
-          if (result.data.orderInfo.contractForBuyer !== null){
-            result.data.orderInfo.contractForBuyer.split(',').slice(-1).map((item)=>{
+          if (result.data.orderInfo.contractForBuyer !== "" && result.data.orderInfo.contractForBuyer !==null){
+            result.data.orderInfo.contractForBuyer.split(',').slice(0,-1).map((item)=>{
               this.contractForBuyer.push({
                 fileName:item.split('/').slice(-1)[0].split('_')[1],
                 fileUrl:item
@@ -202,7 +229,22 @@ export default {
     },
     async handleSuccess(response, file){
       if (response.code === 20000){
-        await this.getOrderInfo()
+        this.formInline.contractUrl = response.data.url + ','
+        this.formInline.orderId = this.orderid
+        let result = await this.$axios.orderControllerList.nextForUpload(this.formInline)
+        if (result.code === 20000){
+          let result = await this.$axios.orderControllerList.getOrderInfo({
+            orderId:this.orderid
+          })
+          if(result.data.contracts) {
+            result.data.contracts.split(',').slice(0,-1).map((item)=>{
+              this.contractForBuyer.push({
+                fileName:item.split('/').slice(-1)[0].split('_')[1],
+                fileUrl:item
+              })
+            })
+          }
+        }
       }
     },
     async handleSplitSuccess(response, file, subOrderId,index){
@@ -283,8 +325,9 @@ export default {
         justify-content: space-between;
         flex-wrap: wrap;
         .service-contract-item {
-          width: 30%;
+          width: 40%;
           display:flex;
+          flex-direction:column;
           justify-content:space-between;
           flex-wrap: wrap;
           margin-right: 20px;
@@ -302,6 +345,7 @@ export default {
           ul {
             li {
               a {
+                color: #0a84ff;
                 cursor: pointer;
               }
             }
@@ -375,21 +419,17 @@ export default {
           flex-wrap: wrap;
           margin-right: 20px;
           margin-bottom: 30px;
-
           .upload-demo {
             margin-top: 10px;
             display: inline-block;
             flex: 1;
           }
-
           span {
             display: inline-block;
           }
-
           &:last-child {
             margin-right: 0;
           }
-
           a {
             color: #0a84ff;
             cursor: pointer;

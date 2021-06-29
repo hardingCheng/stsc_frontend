@@ -29,16 +29,17 @@ const orderControllerList = {
             data
         });
     },
-    setpDoing(params){
+    stepDoing(params){
         return axios({
-            url: `/ph/stcsp/order/setpDoing/${params.id}`,
+            url: `/ph/stcsp/order/stepDoing/${params.id}`,
             method: "get",
         });
     },
-    setServerUploadFile(params){
+    setServerUploadFile(data,params){
         return axios({
             url: `/ph/stcsp/order/uploadfile/${params.orderId}`,
             method: "post",
+            data
         });
     },
     getAcceptanceUploadFle(params){
@@ -52,7 +53,6 @@ const orderControllerList = {
             url: `/ph/stcsp/order/getOrderInfo/${params.orderId}`,
             method: "get",
         });
-
     },
     // 通过服务ID查看子订单详情
     getSubOrderDetailById: (params) => {
@@ -118,6 +118,12 @@ const orderControllerList = {
             method: "get",
         });
     },
+    getOrderAcceptanceList: (params) => {
+        return axios({
+            url: `/ph/stcsp/order/lookfile/${params.orderId}`,
+            method: "get",
+        });
+    },
     getSubOrderInfo: (params) => {
         return axios({
             url: `/ph/stcsp/suborder/getOrderInfo/${params.subOrderId}`,
@@ -144,9 +150,23 @@ const orderControllerList = {
             data
         });
     },
+    setNextSmallOrderStepForSeller(data){
+        return axios({
+            url: `/ph/stcsp/order/nextStepForSeller`,
+            method: "post",
+            data
+        });
+    },
     setNextStepForBuyer(data){
         return axios({
             url: `/ph/stcsp/suborder/nextStepForBuyer`,
+            method: "post",
+            data
+        });
+    },
+    setNextSmallOrderStepForBuyer(data){
+        return axios({
+            url: `/ph/stcsp/order/nextStepForBuyer`,
             method: "post",
             data
         });
@@ -167,6 +187,12 @@ const orderControllerList = {
     getSuccessDetailInfo: (params) => {
         return axios({
             url: `/ph/stcsp/admin/successCase/successCaseInfo/${params.id}`,
+            method: "get",
+        });
+    },
+    setAcceptAttachment: (params) => {
+        return axios({
+            url: `/ph/stcsp/order/acceptAttachment/${params.orderId}`,
             method: "get",
         });
     },

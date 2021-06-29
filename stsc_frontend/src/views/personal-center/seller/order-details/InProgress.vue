@@ -14,13 +14,18 @@
         <h3>流程进度</h3>
         <div class="order-info-flow">
           <div class="order-info-flow-left">
-            子服务1：
+            <span>{{type0OrderInfo.order.name}}</span>
             <div>
-              <el-button size="small" style="margin-top: 12px;" @click="next" type="primary" >申请异常</el-button>
+              <el-button size="small" style="margin-top: 12px;"  type="danger" >申请异常</el-button>
+              <el-button size="small" style="margin-top: 12px;" @click="next" type="primary" :disabled="completeCon" v-if="!completeCon">下一步</el-button>
+              <el-button size="small" style="margin-top: 12px;"  type="primary" :disabled="completeCon" v-else>已完成</el-button>
             </div>
           </div>
           <div class="order-info-flow-right">
-            <order-steps></order-steps>
+            <el-steps :active="active" finish-status="success" align-center>
+              <el-step :title="item" v-for="(item,index) in type0OrderInfo.nodes" :key="index">
+              </el-step>
+            </el-steps>
           </div>
         </div>
       </div>
@@ -93,7 +98,7 @@ export default {
         }
       },
       orderInfo:{},
-      completeCon:true
+      completeCon:false
     }
   },
   components: {
@@ -101,35 +106,67 @@ export default {
   },
   methods: {
     async next() {
-      let result = await this.$axios.orderControllerList.setNextStepForSeller({
-        orderId: this.orderid,
-        step:this.active
-      })
-      if (result.code === 20000) {
-        let result = await this.$axios.orderControllerList.getSubOrderSellerInfo({
-          subOrderId:this.orderid
-        })
-        this.orderInfo = result.data
-        this.active = (this.orderInfo.sellerStep+1)
-        if (this.orderInfo.sellerStep+1 === this.orderInfo.nodes.length){
-          this.$message({
-            type:'success',
-            message:'此订单已经完成'
-          })
-          await this.$router.push(`/pc/sellerorderdetail/serviceacceptance/${this.orderid}/${this.type}`);
-          this.completeCon = true
-        }else {
-          this.completeCon = false
-        }
-      }
+     if (this.type === '0'){
+       let result = await this.$axios.orderControllerList.setNextSmallOrderStepForSeller({
+         orderId: this.orderid,
+         step:this.active
+       })
+       if (result.code === 20000) {
+         let result = await this.$axios.orderControllerList.stepDoing({
+           id:this.orderid
+         })
+         this.type0OrderInfo = result.data
+         console.log(this.type0OrderInfo.order.sellerStep)
+         this.active = (this.type0OrderInfo.order.sellerStep+1)
+         console.log(this.active)
+         if (this.type0OrderInfo.order.sellerStep+1 === this.type0OrderInfo.nodes.length){
+           this.$message({
+             type:'success',
+             message:'此订单已经完成'
+           })
+           await this.$router.push(`/pc/sellerorderdetail/serviceacceptance/${this.orderid}/${this.type}`);
+           this.completeCon = true
+         }else {
+           this.completeCon = false
+         }
+       }
+     }else {
+       let result = await this.$axios.orderControllerList.setNextStepForSeller({
+         orderId: this.orderid,
+         step:this.active
+       })
+       if (result.code === 20000) {
+         let result = await this.$axios.orderControllerList.getSubOrderSellerInfo({
+           subOrderId:this.orderid
+         })
+         this.orderInfo = result.data
+         this.active = (this.orderInfo.sellerStep+1)
+         if (this.orderInfo.sellerStep+1 === this.orderInfo.nodes.length){
+           this.$message({
+             type:'success',
+             message:'此订单已经完成'
+           })
+           await this.$router.push(`/pc/sellerorderdetail/serviceacceptance/${this.orderid}/${this.type}`);
+           this.completeCon = true
+         }else {
+           this.completeCon = false
+         }
+       }
+     }
     }
   },
   async mounted() {
     if (this.orderid && this.type === '0'){
-      let result = await this.$axios.orderControllerList.setpDoing({
+      let result = await this.$axios.orderControllerList.stepDoing({
         id:this.orderid
       })
       this.type0OrderInfo = result.data
+      this.active = (this.type0OrderInfo.order.sellerStep+1)
+      if (this.type0OrderInfo.order.sellerStep+1 === this.type0OrderInfo.nodes.length){
+        this.completeCon = true
+      }else {
+        this.completeCon = false
+      }
     }
     if (this.orderid && this.type === '1'){
       let result = await this.$axios.orderControllerList.getSubOrderSellerInfo({

@@ -32,22 +32,6 @@ export default function $axios(options) {
         // TODO: 1
         // 请求开始的时候可以结合 vuex 开启全屏的 loading 动画
         store.commit("modGlobalLoding");
-        // TODO: 2
-
-        /*
-        这里说一下token，一般是在登录完成之后，将用户的token通过localStorage或者cookie存在本地，然后用户每次在进入页面的时候（即在main.js中），
-        会首先从本地存储中读取token，如果token存在说明用户已经登陆过，则更新vuex中的token状态。然后，在每次请求接口的时候，
-        都会在请求的header中携带token，后台人员就可以根据你携带的token来判断你的登录是否过期，如果没有携带，则说明没有登录过。
-        每次发送请求之前判断vuex中是否存在token
-        如果存在，则统一在http请求的header都加上token，这样后台根据token判断你的登录情况
-        即使本地存在token，也有可能token是过期的，所以在响应拦截器中要对返回状态进行判断
-         */
-
-        //带上 token , 可以结合 vuex 或者重 localStorage
-        //前期先使用vuex 后期localStorage  方便拿取
-
-        // TODO: 有个小BUG
-        // const userInfo = JSON.parse(localStorage.getItem("userInfo1"))
         if (store.state.token) {
           config.headers["token"] = store.state.token ;
         } else {
@@ -56,16 +40,6 @@ export default function $axios(options) {
             router.push({ path: "/login" });
           }
         }
-
-        // TODO: 3
-        // 根据请求方法，序列化传来的参数，根据后端需求是否序列化   post put delete
-        // if (
-        //   config.method.toLocaleLowerCase() === "post" ||
-        //   config.method.toLocaleLowerCase() === "put" ||
-        //   config.method.toLocaleLowerCase() === "delete"
-        // ) {
-        //   config.data = qs.stringify(config.data);
-        // }
         return config;
       },
       (error) => {

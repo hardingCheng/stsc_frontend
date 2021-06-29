@@ -48,7 +48,22 @@
               </el-upload>
             </el-form-item>
             <el-form-item label="服务价格：" prop="price">
-              <el-input-number v-model="form.price" :precision="2" :step="0.1" :max="10000"></el-input-number> 万
+              <el-select v-model="priceType.type" placeholder="请选择" >
+                <el-option
+                    v-for="item in priceOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                </el-option>
+              </el-select>
+              <template v-if="priceType.type === 2" >
+                <el-input-number style="margin-left: 10px;" v-model="form.price" :precision="2" :step="0.1" :max="10000"></el-input-number> 万
+              </template>
+              <template v-if="priceType.type === 3" >
+                <el-input-number style="margin-left: 10px;" v-model="price.startPrice" :precision="2" :step="0.1" :max="10000"></el-input-number> -
+                <el-input-number  v-model="price.endPrice":precision="2" :step="0.1" :max="10000"></el-input-number> 万
+              </template>
+              <div class="el-form-item__error" v-if="errors.priceError">{{errors.priceError}}</div>
             </el-form-item>
             <el-form-item label="服务工期：" prop="deadline">
               <el-input style="width:200px" v-model="form.deadline"></el-input> 天
@@ -131,7 +146,7 @@ export default {
         address: this.$store.getters.getRealauth.qualificationInfo.address,
         contact:'',
         telephone:'',
-        price:'',
+        price:'面议',
         deadline:'',
         companyIntroduction:'',
         serviceDescription:'',
@@ -183,6 +198,16 @@ export default {
       fileList1: [],
       disabled:false,
       options: [],
+      priceOptions:[{
+        value: 1,
+        label: '面议'
+      },{
+        value: 2,
+        label: '服务价格确定'
+      },{
+        value: 3,
+        label: '服务价格范围'
+      }],
       category:[],
       info:[{
         title:'发服务',
@@ -195,7 +220,17 @@ export default {
       filerReadyUploadList: [],
       filerReadyUploadList1: [],
       updateStatus:false,
-      loading:{}
+      loading:{},
+      priceType:{
+        type: 1,
+      },
+      price:{
+        startPrice:0,
+        endPrice:0
+      },
+      errors:{
+        priceError:""
+      }
     }
   },
   async mounted() {
@@ -249,6 +284,31 @@ export default {
           }
         }
       },
+    },
+    priceType:{
+      deep:true,
+      immediate:true,
+      handler(newValue,oldValue){
+        if(newValue.type === 1) {
+          this.form.price = '面议'
+        }else if (newValue.type === 2) {
+          // el-form-item__error
+        }else {
+          // el-form-item__error
+          this.form.price =`${this.price.startPrice},${this.price.endPrice}`
+        }
+      }
+    },
+    price:{
+      deep:true,
+      handler(newValue,oldValue){
+        if (newValue.startPrice >=  newValue.endPrice){
+          this.errors.priceError = "价格区间错误"
+        }else {
+          this.form.price =`${this.price.startPrice},${this.price.endPrice}`
+          this.errors.priceError = ""
+        }
+      }
     }
   },
   computed: {
@@ -260,7 +320,7 @@ export default {
     },
     userInfo(){
       return this.$store.getters.getUserInfo
-    }
+    },
   },
   methods:{
     //  获取修改数据
@@ -302,17 +362,16 @@ export default {
         });
         await this.$router.push({name:"sellerrealauth"})
       }else {
-        this.loading = this.$loading.service({
-          lock: true,
-          text: '发布服务中...',
-          spinner: 'el-icon-loading',
-          background: 'rgba(0, 0, 0, 0.7)'
-        });
-        this.disable = true
         this.form.categoryId = this.category.toString();
         await this.$refs['serviceform'].validate(async (valid) => {
-          if (valid) {
-            // this.disabled = true
+          if (valid && this.errors.priceError === '') {
+            this.loading = this.$loading.service({
+              lock: true,
+              text: '发布服务中...',
+              spinner: 'el-icon-loading',
+              background: 'rgba(0, 0, 0, 0.7)'
+            });
+            this.disable = true
             if(this.filerReadyUploadList1.length !== 0){
               this.$refs.uploadimage.submit();
             }
@@ -323,6 +382,10 @@ export default {
               await this.releaseServe()
             }
           } else {
+            this.$message({
+              message: '填写信息有错误！请进行处理。',
+              type: 'error',
+            });
             return false;
           }
         });
@@ -339,6 +402,13 @@ export default {
           type: 'success'
         });
         await this.$router.push({name:"sellermyservice"})
+      }else {
+        this.loading.close()
+        this.disable = false
+        this.$message({
+          message: '发布服务失败！',
+          type: 'danger'
+        });
       }
     },
     // 更新服务
@@ -483,7 +553,7 @@ export default {
       if (this.filerReadyUploadList1.length === 0 && this.filerReadyUploadList.length === 0){
         let updateServeResult =  await this.$axios.serveControllerList.updateServeById(this.form)
         if (updateServeResult.code === 20000){
-          await this.$router.push("/seller/myservice")
+          await this.$router.push("/pc/seller/myservice")
         }
       }
 
