@@ -31,7 +31,7 @@ export default {
     }
   },
   beforeMount() {
-    switch(this.$route.path.split("/")[1]){
+    switch(this.$route.path.split("/")[2]){
       case 'seller':
         this.tabIndex = 2
         break;
@@ -46,7 +46,7 @@ export default {
   watch: {
     $route: {
       handler(to,from) {
-        switch(to.path.split("/")[1]){
+        switch(to.path.split("/")[2]){
           case 'seller':
             this.tabIndex = 2
             break;

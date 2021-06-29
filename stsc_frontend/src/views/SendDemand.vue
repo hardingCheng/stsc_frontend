@@ -246,7 +246,7 @@ export default {
           message: '请先进行实名认证。',
           type: 'error',
         });
-        await this.$router.push("/buyer/realauth")
+        await this.$router.push("/pc/buyer/realauth")
       }else {
         this.disable = true
         this.loading = this.$loading.service({
@@ -289,7 +289,7 @@ export default {
             type: 'success'
           });
         }
-        await this.$router.push("/buyer/mydemand")
+        await this.$router.push("/pc/buyer/mydemand")
       }
     },
     async handleSuccess(response, file, fileList) {
@@ -344,7 +344,7 @@ export default {
         let updaterResult =  await this.$axios.requirementControllerList.updateRequireById(this.form)
         if (updaterResult.code === 20000){
           this.loading.close()
-          await this.$router.push("/buyer/mydemand")
+          await this.$router.push("/pc/buyer/mydemand")
         }
       }
     },
@@ -441,7 +441,7 @@ export default {
         message: '请先进行实名认证！才可以进行发需求。',
         type: 'error'
       })
-      await this.$router.push('/buyer/realauth')
+      await this.$router.push('/pc/buyer/realauth')
     }
   }
 }

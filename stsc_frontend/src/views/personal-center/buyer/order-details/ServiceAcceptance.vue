@@ -14,8 +14,9 @@
         <li v-for="(item,index) in  acceptanceUploadFleList" :key="index"><el-button type="text" @click="pdfShow(item.fileUrl)">{{item.fileName}}</el-button></li>
       </ul>
     </div>
-   <div class="service-acceptance-operation">
-     <el-button type="primary">确认验收</el-button>
+<!--    TODO 大订单的服务验收-->
+   <div class="service-acceptance-operation" v-if="acceptIf">
+     <el-button type="primary"  @click="setAcceptAttachment">确认验收</el-button>
    </div>
 
   </div>
@@ -27,7 +28,8 @@ export default {
   name: "ServiceAcceptance",
   data(){
     return {
-      acceptanceUploadFleList:[]
+      acceptanceUploadFleList:[],
+      acceptIf:true
     }
   },
   methods:{
@@ -35,22 +37,49 @@ export default {
       window.open('/pdf/web/viewer.html?file=' + fileUrl);
     },
     async getAcceptanceUploadFle(){
-      let result = await this.$axios.orderControllerList.getAcceptanceUploadFle({
-        orderId:this.orderid
-      })
-      if (result.code === 20000){
-        result.data.fileurls.split(',').slice(0,-1).map((item) => {
-          this.acceptanceUploadFleList.push({
-            fileName:item.split('/').slice(-1)[0].split('_').slice(1).toString(),
-            fileUrl:item
-          })
+      if (this.type === '0'){
+        let result = await this.$axios.orderControllerList.getOrderAcceptanceList({
+          orderId:this.orderid
         })
+        if (result.code === 20000){
+          result.data.fileurls.split(',').slice(0,-1).map((item) => {
+            this.acceptanceUploadFleList.push({
+              fileName:item.split('/').slice(-1)[0].split('_').slice(1).toString(),
+              fileUrl:item
+            })
+          })
+        }
+      }else {
+        let result = await this.$axios.orderControllerList.getAcceptanceUploadFle({
+          orderId:this.orderid
+        })
+        if (result.code === 20000){
+          result.data.fileurls.split(',').slice(0,-1).map((item) => {
+            this.acceptanceUploadFleList.push({
+              fileName:item.split('/').slice(-1)[0].split('_').slice(1).toString(),
+              fileUrl:item
+            })
+          })
+        }
       }
     },
     async getOrderInfo(){
-      let result = await this.$axios.orderControllerList.getOrderInfo({
-        orderId:this.orderid
-      })
+      if (this.type === '0'){
+        let result = await this.$axios.orderControllerList.getOrderInfo({
+          orderId:this.orderid
+        })
+        if (result.data.orderInfo.status === 4) {
+          this.acceptIf = false
+        }
+      }else {
+        let result = await this.$axios.orderControllerList.getSplitDetailInfo({
+          id:this.orderid
+        })
+        if (result.data.subOrderInfo.status === 4) {
+          this.acceptIf = false
+        }
+      }
+
     },
     async getInfo(){
       if(this.type === '0'){
@@ -59,6 +88,18 @@ export default {
       }else if (this.type === '1'){
         await this.getAcceptanceUploadFle()
         await this.getOrderInfo()
+      }
+    },
+    async setAcceptAttachment(){
+      let result = await this.$axios.orderControllerList.setAcceptAttachment({
+        orderId:this.orderid
+      })
+      if (result.code === 20000){
+        this.$message({
+          type:'success',
+          message:'此订单已经完成,进行服务评价！'
+        })
+        await this.$router.push(`/pc/buyerorderdetail/serviceevaluation/${this.orderid}/${this.type}`);
       }
     }
   },
@@ -73,7 +114,7 @@ export default {
   width: 100%;
   box-sizing: border-box;
   padding:40px;
-  height: 340px;
+  height: 400px;
   background: #FFFFFF;
   box-shadow: 0px 2px 4px 3px #E1E1E1;
   border-radius: 4px;

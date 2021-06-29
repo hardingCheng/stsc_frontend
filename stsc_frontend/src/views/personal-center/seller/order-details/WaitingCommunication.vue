@@ -117,7 +117,7 @@ export default {
     async handleSuccess(response, file, fileList) {
       if (this.type === '0' && response.code === 20000) {
         let result = await this.$axios.orderControllerList.nextForUpload({
-          contractUrl: response.data.url,
+          contractUrl: response.data.url + ',',
           orderId: this.orderid
         })
         if (result.code === 20000) {
@@ -177,7 +177,7 @@ export default {
         if (result.code === 20000) {
           this.orderInfo = result.data.orderInfo
           if (result.data.orderInfo.contractForSeller !== null) {
-            result.data.orderInfo.contractForSeller.split(',').slice(-1).map((item) => {
+            result.data.orderInfo.contractForSeller.split(',').slice(0,-1).map((item) => {
               this.contractForSeller.push({
                 fileName: item.split('/').slice(-1)[0].split('_')[1],
                 fileUrl: item

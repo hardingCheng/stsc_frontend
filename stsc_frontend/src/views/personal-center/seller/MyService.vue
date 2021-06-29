@@ -75,7 +75,7 @@ export default {
         })
         let userInfo = this.$store.getters.getUserInfo
         let result = await this.$axios.serveControllerList.getAllServesByUserId({
-          buyerId:userInfo.id,
+          sellerId:userInfo.id,
           page:1,
           limit:15
         })

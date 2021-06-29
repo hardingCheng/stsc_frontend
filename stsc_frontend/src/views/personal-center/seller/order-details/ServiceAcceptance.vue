@@ -74,6 +74,9 @@ export default {
             },{
               orderId:this.orderid
             })
+            if (result.code === 20000){
+              await this.getAcceptanceUploadFle()
+            }
           }
         } else if(this.type === '1'){
           if (this.uploadFileNum === this.filerReadyUploadList.length){
@@ -82,6 +85,9 @@ export default {
             },{
               subOrderId:this.orderid
             })
+            if (result.code === 20000){
+              await this.getAcceptanceUploadFle()
+            }
           }
         }
       }
@@ -93,7 +99,7 @@ export default {
     },
     async getAcceptanceUploadFle(){
      if (this.type === '0'){
-       let result = await this.$axios.orderControllerList.getAcceptanceUploadFle({
+       let result = await this.$axios.orderControllerList.getOrderAcceptanceList({
          orderId:this.orderid
        })
        if (result.code === 20000){

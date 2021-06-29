@@ -223,7 +223,7 @@ export default {
 <style scoped lang="scss">
 .real-auth{
   width: 100%;
-  min-height:450px;
+  min-height:500px;
   h3 {
     margin-bottom: 30px;
   }
