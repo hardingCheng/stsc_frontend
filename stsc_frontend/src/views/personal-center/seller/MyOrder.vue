@@ -107,7 +107,7 @@ export default {
     },
     modPrice(value){
       if (value){
-        return '￥'+value.toFixed(2)+'万'
+        return '￥'+(value)+'万'
       }else {
         return ''
       }
