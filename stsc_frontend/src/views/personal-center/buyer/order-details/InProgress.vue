@@ -112,7 +112,7 @@
           {{ subOrderDetailsInfo[0].orderName ? subOrderDetailsInfo[0].orderName : '' }}
           <div>
             <el-button size="small" style="margin-top: 12px;" @click="next" type="danger">申请异常</el-button>
-            <el-button size="small" style="margin-top: 12px;" @click="next" type="primary">已完成</el-button>
+            <el-button size="small" style="margin-top: 12px;" :disabled="completeCon" v-if="completeCon" type="primary">已完成</el-button>
           </div>
         </div>
         <div class="order-info-flow-right">
@@ -251,6 +251,7 @@ export default {
         requirementId: this.type1OrderInfo.requirementId
       })
       this.arrangeList = JSON.parse(arrangeResult.data.layout)
+      await this.getNodeInfo(this.arrangeList.cells[1].id)
     }
   },
   filters: {

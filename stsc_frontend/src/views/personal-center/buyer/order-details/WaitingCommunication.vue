@@ -32,15 +32,15 @@
               <span>服务1：</span>
               <el-button size="small" type="primary">点击上传</el-button>
             </el-upload>
-            <el-form v-if="contractForBuyer.length === 0" style="margin-top: 20px" :inline="true" :model="formInline" class="demo-form-inline">
+            <el-form v-if="contractForBuyer.length === 0" style="margin-top: 20px" :inline="true" :model="formSmallOrder" class="demo-form-inline">
               <el-form-item label="价格：">
-                <el-select style="width:140px" v-model="formInline.region" placeholder="设置价格">
+                <el-select style="width:140px" v-model="formSmallOrder.region" placeholder="设置价格">
                   <el-option label="保密" value="1"></el-option>
                   <el-option label="成交价格" value="2"></el-option>
                 </el-select>
               </el-form-item>
-              <template  v-if="formInline.region === '2'">
-                <el-input-number style="margin-left: 5px; width:150px" v-model="formInline.price" :precision="2" :step="0.1" :max="10000"></el-input-number> 万
+              <template  v-if="formSmallOrder.region === '2'">
+                <el-input-number style="margin-left: 5px; width:150px" v-model="formSmallOrder.price" :precision="2" :step="0.1" :max="10000"></el-input-number> 万
               </template>
             </el-form>
             <ul>
@@ -70,7 +70,6 @@
         <div class="service-contract-split" >
           <div class="service-contract-main">
             <div class="service-contract-item"  v-if="contractForBuyer.length === 0" v-for="(item,index) in orderSplitInfo.subOrderInfoVoList" :key="index">
-              <span >{{item.subOrderName}}</span>
               <el-upload
                   class="upload-demo"
                   action="/ph/stcsp/fileoss/upload/"
@@ -83,8 +82,23 @@
                   :before-upload="handleSplitBeforeUpload"
                   ref="uploadSplit"
               >
+                <span style="margin-right: 15px">{{item.subOrderName}}:</span>
                 <el-button size="small" type="primary">点击上传</el-button>
               </el-upload>
+
+              <el-form v-if="contractForBuyer.length === 0" style="margin-top: 20px" :inline="true" :model="formBigOrder[index]" class="demo-form-inline">
+                <el-form-item label="价格：">
+                  <el-select style="width:140px" v-model="formBigOrder[index].region" placeholder="设置价格">
+                    <el-option label="保密" value="1"></el-option>
+                    <el-option label="成交价格" value="2"></el-option>
+                  </el-select>
+                </el-form-item>
+                <template  v-if="formBigOrder[index].region === '2'">
+                  <el-input-number style="margin-left: 5px; width:150px" v-model="formBigOrder[index].price" :precision="2" :step="0.1" :max="10000"></el-input-number> 万
+                </template>
+              </el-form>
+
+
             </div>
             <div class="service-contract-item"   v-if="contractForBuyer.length > 0" v-for="(item,index) in orderSplitInfo.subOrderInfoVoList" :key="index">
               <span >{{item.subOrderName}}: <a @click="pdfShow(contractForBuyer[index].fileUrl)">{{contractForBuyer[index].fileName}}</a></span>
@@ -113,12 +127,13 @@ export default {
       orderSplitInfo:{},
       contractSplitInfo:[],
       contractSplitInfoNum:0,
-      formInline: {
+      formSmallOrder: {
         region: '1',
         price:'保密',
         contractUrl:'',
         orderId:''
-      }
+      },
+      formBigOrder: []
     }
   },
   async created(){
@@ -147,8 +162,8 @@ export default {
     },
     async submitOrderInfo(){
       if (this.fileList.length !==0 ) {
-        if (this.formInline.region === '1'){
-          this.formInline.price = '保密'
+        if (this.formSmallOrder.region === '1'){
+          this.formSmallOrder.price = '保密'
         }
         await this.$refs.upload.submit();
       }else {
@@ -182,6 +197,14 @@ export default {
         })
         if (result1.code === 20000){
           this.orderSplitInfo =result1.data.subOrderInfo
+          for (let i = 0; i <this.orderSplitInfo.subOrderInfoVoList.length;i++){
+            this.formBigOrder.push({
+              region: '1',
+              price:'保密',
+              contractUrl:'',
+              orderId:''
+            })
+          }
           let result2 = await this.$axios.orderControllerList.getContractsForBuyer({
             orderId:this.orderid
           })
@@ -229,14 +252,13 @@ export default {
     },
     async handleSuccess(response, file){
       if (response.code === 20000){
-        this.formInline.contractUrl = response.data.url + ','
-        this.formInline.orderId = this.orderid
-        let result = await this.$axios.orderControllerList.nextForUpload(this.formInline)
+        this.formSmallOrder.contractUrl = response.data.url + ','
+        this.formSmallOrder.orderId = this.orderid
+        let result = await this.$axios.orderControllerList.nextForUpload(this.formSmallOrder)
         if (result.code === 20000){
           let result = await this.$axios.orderControllerList.getOrderInfo({
             orderId:this.orderid
           })
-          console.log(result.data.contractForBuyer)
           if(result.data.contractForBuyer) {
             result.data.contractForBuyer.split(',').slice(0,-1).map((item)=>{
               this.contractForBuyer.push({
@@ -250,7 +272,7 @@ export default {
     },
     async handleSplitSuccess(response, file, subOrderId,index){
       if (response.code === 20000){
-        this.contractSplitInfo[index] = `${subOrderId},${response.data.url}`
+        this.contractSplitInfo[index] = `${subOrderId},${response.data.url},${this.formBigOrder[index].price}`
         this.contractSplitInfoNum++
         if (this.contractSplitInfoNum === this.orderSplitInfo.subOrderInfoVoList.length){
           let result = await this.$axios.orderControllerList.setUploadContracts(this.contractSplitInfo)
@@ -413,7 +435,7 @@ export default {
         justify-content: space-between;
         flex-wrap: wrap;
         .service-contract-item {
-          width: 30%;
+          width: 40%;
           display: flex;
           flex-direction: column;
           justify-content: space-between;

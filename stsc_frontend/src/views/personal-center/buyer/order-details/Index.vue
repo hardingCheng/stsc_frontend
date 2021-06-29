@@ -55,7 +55,6 @@ export default {
   },
   methods: {
     async routerJump(index){
-      console.log(index)
       switch(index) {
         case 0:
           await this.getOrderInfo()
@@ -65,6 +64,7 @@ export default {
           break
         case 1:
           await this.getOrderInfo()
+          console.log(this.orderSplitInfo.status)
           if (this.orderSplitInfo.status >=2 || this.orderInfo.status>=2) {
             await this.$router.push(`/pc/buyerorderdetail/inprogress/${this.orderid}/${this.type}`)
           }else{

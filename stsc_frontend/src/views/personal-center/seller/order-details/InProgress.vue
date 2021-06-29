@@ -116,9 +116,7 @@ export default {
            id:this.orderid
          })
          this.type0OrderInfo = result.data
-         console.log(this.type0OrderInfo.order.sellerStep)
          this.active = (this.type0OrderInfo.order.sellerStep+1)
-         console.log(this.active)
          if (this.type0OrderInfo.order.sellerStep+1 === this.type0OrderInfo.nodes.length){
            this.$message({
              type:'success',

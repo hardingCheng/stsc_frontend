@@ -143,7 +143,7 @@ export default {
       }
       if (this.type === '1' && response.code === 20000) {
         let result = await this.$axios.orderControllerList.setSubOrderUploadContract({
-          contractUrl: response.data.url,
+          contractUrl: response.data.url + ',',
           orderId: this.orderid
         })
         if (result.code === 20000) {
