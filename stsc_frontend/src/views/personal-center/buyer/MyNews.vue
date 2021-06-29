@@ -1,5 +1,5 @@
 <template>
-  <div class="my-news">
+  <div class="my-news" v-if="message_total>0">
     <Message
         :indexss_inform=message_list
         :indexss_no_read=this.message_list_no
@@ -34,6 +34,9 @@
       </div>
     </Message>
 
+  </div>
+  <div class="public-order-info-null" v-else>
+    当前暂无数据，请刷新重试。
   </div>
 </template>
 
@@ -121,6 +124,9 @@ props:['id'],
 </script>
 
 <style lang="scss" scoped>
+.public-order-info-null {
+  height:500px;
+}
 .my-news {
   .common-pagination{
     height:60px;

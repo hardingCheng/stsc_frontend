@@ -46,8 +46,15 @@ const routes = [
           name: "成功案例详情",
           title: "科技服务协同系统平台|成功案例"
         },
-      },
-      {
+      }, {
+        path: "comanydetail/:id/:requireState",
+        name: "comanydetail",
+        component: () => import("../views/CompanyDetail"),
+        meta: {
+          requiresAuth: true,
+          name: "公司详情"
+          }
+        },{
         path: "ld",
         name: "ld",
         component: () => import("../views/LookingDemand.vue"),
@@ -150,14 +157,6 @@ const routes = [
             name: "我的需求详情"
           },
           props: true,
-        },{
-          path: "comanydetail",
-          name: "comanydetail",
-          component: () => import("../views/personal-center/buyer/CompanyDetail"),
-          meta: {
-            requiresAuth: true,
-            name: "公司详情"
-          },
         },{
           path: "buyerorderdetail",
           name: "buyerorderdetail",

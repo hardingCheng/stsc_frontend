@@ -1,13 +1,14 @@
 <template>
-  <div class="commpany_detail">
+  <div class="commpany_detail container">
+    <BreadCrumb>企业详情</BreadCrumb>
     <div class="my_company-details container ">
-      <div class="my_company-details-img"><img :src="this.info.avatar" width="300px" height="300px"></div>
+      <div class="my_company-details-img"><img :src="this.info.avatar?this.info.avatar:default_img"   width="300px" height="300px"></div>
       <ul >
-        <li>单位名称:<span class="text">{{ !this.info.company ?"暂无数据":this.info.company }}</span></li>
-        <li class="text-title-title">单位地址:<span>{{ !this.info.address ?"暂无数据":this.info.address}}</span></li>
+        <li>单位名称:<span class="text">{{ this.$route.params.requireState!=6 ? "下单后可见":this.info.company }}</span></li>
+        <li class="text-title-title">单位地址:<span>{{ this.$route.params.requireState==6?this.info.address:"下单后可见" }}</span></li>
         <li>联系人:<span>{{ !this.info.realname ?"暂无数据":this.info.realname }}</span></li>
-        <li>联系方式:<span>{{ !this.info.telephone ?"暂无数据":this.info.telephone}}</span></li>
-        <li>邮箱:<span>{{ !this.info.email ?"暂无数据":this.info.email}}</span></li>
+        <li>联系方式:<span>{{ this.$route.params.requireState==6?this.info.telephone :"下单后可见"}}</span></li>
+        <li>邮箱:<span>{{ this.$route.params.requireState==6?this.info.email :"下单后可见" }}</span></li>
         <li>所属平台:<span>{{ !this.info.source ?"暂无数据":this.info.source}}</span></li>
       </ul>
       <div></div>
@@ -23,24 +24,49 @@
 </template>
 
 <script>
+import BreadCrumb from "../components/BreadCrumb";
 export default {
+  components:{BreadCrumb},
   name: "CommpanyDetail",
   data(){
     return{
       info_all:[],
       activeName: 'first',
-      info:[]
+      info:{
+        company:"暂无数据",
+        address:"暂无数据",
+        telephone:"暂无数据",
+        email:"暂无数据",
+        businessScope:"暂无数据",
+        serviceDescription:"暂无数据",
+        expertIntroduction:"暂无数据",
+      },
+      default_img: require("../assets/images/detaillogo.png"),
+      requireState:0//获取需求状态
     }
   },
-  mounted() {
+  created() {
     this.getRequireDetailById()
+
   },
   methods:{
+    // //获取需求状态
+    // async getRequireState() {
+    //   let result = await this.$axios.requirementControllerList.getRequireDetailById({
+    //     id: this.$route.params.id
+    //   })
+    //   if (result.code === 20000) {
+    //     this.requireState = result.data.requirement.status
+    //     console.log( "ccc",this.requireState)
+    //   }
+    // },
+
     async getRequireDetailById(){
       const  result =await this.$axios.userControllerList.getBuyerInfo({
         id:this.$route.params.id
       })
       this.info=result.data.user
+      console.log(this.info)
     }
   }
 }
@@ -52,8 +78,11 @@ export default {
   .my_company-details {
     display: flex;
     box-sizing: border-box;
-    @include wh(953px, 300px);
-    margin: 20px 330px 33px auto;
+    @include wh(1200px, 300px);
+    margin-top: 50px;
+    .my_company-details-img{
+
+    }
     ul{
       margin-top: 5px;
       margin-left: 20px;
@@ -73,13 +102,11 @@ export default {
             overflow: hidden; /** 隐藏超出的内容 **/
           }
         }
-
-
       }
       .text-title-title {
         background-color: #F3F3F3;
         line-height: 50px;
-        width: 880px;
+        width:880px;
       }
     }
     .my_company-details-inner-text {
@@ -105,7 +132,8 @@ export default {
   }
   .serve-details-text-bottom {
     width: 1200px;
-    margin: 50px 330px 33px auto;
+    margin-top: 80px;
+    margin-bottom: 100px;
     border: 1px solid #E7E7E7;
     .indicators_text {
       .p_text {
