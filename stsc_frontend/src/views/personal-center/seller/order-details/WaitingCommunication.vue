@@ -192,7 +192,7 @@ export default {
         if (result.code === 20000) {
           this.orderInfo = result.data.orderInfo
           if (result.data.orderInfo.contractForSeller !== null) {
-            result.data.orderInfo.contractForSeller.split(',').slice(-1).map((item) => {
+            result.data.orderInfo.contractForSeller.split(',').slice(0,-1).map((item) => {
               this.contractForSeller.push({
                 fileName: item.split('/').slice(-1)[0].split('_')[1],
                 fileUrl: item

@@ -4,7 +4,7 @@
       <div class="public-order-info-item" v-for="(item,index) in orderList" :key="index">
         <div class="public-order-info-item-top">
           <ul class="public-order-info-item-top-detail">
-            <li>{{item.createTime}}</li>
+            <li>订单创建时间：{{item.createTime}}</li>
             <li>订单号：<span>{{item.orderId}}</span></li>
             <li>需求方：<span>{{item.sellerName}}</span></li>
           </ul>
@@ -107,7 +107,11 @@ export default {
     },
     modPrice(value){
       if (value){
-        return '￥'+(value)+'万'
+        if (value === '保密'){
+          return '价格：' + value
+        }else {
+          return '价格：￥'+(value)+'万'
+        }
       }else {
         return ''
       }
