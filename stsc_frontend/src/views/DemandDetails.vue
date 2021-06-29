@@ -16,8 +16,8 @@
         <div class="address">
           <div class="text-title-title ">联系地址：<span class="text-service-text ">{{ info.address }}</span></div>
         </div>
-        <div class="text-title-title ">电子邮箱：<span class="text-service-text">{{ info.email }}</span></div>
-        <div class="text-title-title ">附件：<a class="text-service-text1" :href=info.attachments>{{ filename }}</a></div>
+        <div class="text-title-title ">电子邮箱：<span class="text-service-text">{{ info.email==null?"无": info.email }}</span></div>
+        <div class="text-title-title ">附件：<a class="text-service-text1" :href=info.attachments>{{ filename}}</a></div>
 <!--        <img src="../assets/images/fileimg.png" class="file_img" v-bind:href="info.attachments" />-->
         <el-button><span class="font">立即下单</span></el-button>
       </div>
@@ -63,7 +63,7 @@ export default {
       activeName: 'first',
       info: {
         name:"暂无数据",
-        attachments:""
+        attachments:"",
       },//存放需求信息
       value: 2,
       filename:""
@@ -78,7 +78,10 @@ export default {
     //存放需求详情的信息
     this.info = detail_result.data.requirement
     let regex="[^\\/\\\\]+$"
-    this.filename=detail_result.data.requirement.attachments.match(regex)[0]
+    if(detail_result.data.requirement.attachments.match(regex)==null){
+    }else {
+      this.filename=detail_result.data.requirement.attachments.match(regex)[0]
+    }
     //存放需求评价的星数
     this.value = parseInt(this.info.star)
   },
