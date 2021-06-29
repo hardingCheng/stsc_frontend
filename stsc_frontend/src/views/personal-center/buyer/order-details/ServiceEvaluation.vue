@@ -24,22 +24,23 @@
       <div class="content">
 
         <div class="serve_order">
-          <img :src=orderChildrenInfo.orderImg class="order_style">
+          <img :src=order.orderImg class="order_style">
           <ul>
             <li>
-              订单编号:<span>{{ !orderChildrenInfo.id ? "暂无数据" : orderChildrenInfo.id }}</span>
+              订单编号:<span>{{ !order.id ? "暂无数据" : order.id }}</span>
             </li>
             <li>
-              子服务名称:<span>{{ !orderChildrenInfo.name ? "暂无数据" : orderChildrenInfo.name }}</span>
+              服务名称:<span>{{ !order.name ? "暂无数据" : order.name }}</span>
             </li>
             <li>
-              开始时间:<span>{{ !orderChildrenInfo.createTime ? "暂无数据" : orderChildrenInfo.createTime }}</span>
+              价格:<span>{{ !order.price ? "暂无数据" : order.price }}</span>
             </li>
             <li>
-              结束时间:<span>{{ !orderChildrenInfo.endTime ? "暂无数据" : orderChildrenInfo.endTime }}</span>
+              开始时间:<span>{{ !order.createTime ? "暂无数据" : order.createTime }}</span>
             </li>
-
-
+            <li>
+              结束时间:<span>{{ !order.updateTime ? "暂无数据" : order.updateTime }}</span>
+            </li>
           </ul>
           <div class="evaluation_source">
             <!--        评分-->
@@ -58,8 +59,9 @@
 
           </div>
         </div>
-        <div class="service-acceptance-operation">
-          <el-button type="primary" @click="submitComment">下一步</el-button>
+        <div class="service-acceptance-operation" >
+          <el-button type="primary" @click="submitComment" v-if="status!==4">提交评价</el-button>
+          <el-button type="primary" disabled>已完成评价</el-button>
         </div>
       </div>
     </div>
@@ -84,7 +86,7 @@
           </ul>
         </div>
       </div>
-      <div class="evaluation_title"><span class="order">第{{this.num+1}}订单</span><span class="evaluation_text">评论</span></div>
+      <div class="evaluation_title"><span class="order">第{{this.num+1}}个订单</span><span class="evaluation_text">评论</span></div>
       <div class="content">
 
         <div class="serve_order">
@@ -123,7 +125,8 @@
           </div>
         </div>
         <div class="service-acceptance-operation">
-          <el-button type="primary" @click="submitComment">下一步</el-button>
+          <el-button type="primary" @click="submitComment" v-if="status!==4">下一步</el-button>
+          <el-button type="primary"  v-if="status===4" disabled>下一步</el-button>
         </div>
       </div>
     </div>
@@ -151,6 +154,7 @@ export default {
       img_default: [],
       orderBuyInfo: [],
       orderChildrenInfo: [],
+      status:0,//存储订单的状态
       deadTime: ['0'],
       serveId: null,//存放服务ID
       num: 0,//当前是第几个子订单，默认值为0
@@ -164,7 +168,10 @@ export default {
     //获取订单的买家信
     await this.getSellerInfo(this.order.sellerId, this.num)
     //获取子订单子的详细信息
-    await this.getSubInfo(this.order.subOrderId, this.num)
+    if(this.type==1){
+      await this.getSubInfo(this.order.subOrderId, this.num)
+    }
+
   },
   methods: {
     //获取订单的买家信息
@@ -177,11 +184,22 @@ export default {
     //获取订单信息
     async getOrderInfo() {
       let result = await this.$axios.orderControllerList.getOrderInfo({
-        id: this.orderid
+        orderId: this.orderid
       })
-      //子订单列表
-      this.sum = result.data.subOrderInfo.subOrderInfoVoList.length//子订单的数目
-      this.order = result.data.subOrderInfo.subOrderInfoVoList[this.num]//子订单信息，默认是第一个订单的数据
+
+      if(this.type==0){
+        this.sum = result.data.orderInfo.length//子订单的数目
+        this.order = result.data.orderInfo//子订单信息，默认是第一个订单的数据
+        this.serveId=result.data.orderInfo.serveId
+        this.status=result.data.orderInfo.status
+
+      }else {
+        //子订单列表
+        this.sum = result.data.subOrderInfo.subOrderInfoVoList.length//子订单的数目
+        this.order = result.data.subOrderInfo.subOrderInfoVoList[this.num]//子订单信息，默认是第一个订单的数据
+      }
+
+
 
     },
     //获取子订单子的详细信息
@@ -213,8 +231,9 @@ export default {
       } else {
         this.$message.success("全部评论成功！");
         await this.$router.push({
-          path: "/buyer/myorder"//要跳转的页面的路由
+          path: "/pc/buyer/myorder"//要跳转的页面的路由
         });
+        await this.getOrderInfo()
       }
     }
   }
