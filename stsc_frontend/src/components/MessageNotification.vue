@@ -147,7 +147,8 @@ export default {
       // this.notice_reduce=this.notice_reduce-1
       if (this.message_text.splice(val, 1)) {
         this.messageObj.notice--
-        this.notice_reduce--
+
+
       }
       this.$emit('noticeEvent', this.notice_reduce)
       this.$router.push(`/pc/buyer/mynews`)
@@ -156,7 +157,6 @@ export default {
       // this.message_active="second"
       // this.$emit("active",this.message_active)
     },
-
     inSellerMessage(val) {
       if (this.message_text_seller.splice(val, 1)) {
         this.messageObj.handle--
