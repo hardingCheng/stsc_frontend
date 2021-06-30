@@ -46,7 +46,7 @@ export default function $axios(options) {
         // 请求错误时做些事(接口错误、超时等)
         // TODO: 4
         // 关闭loadding
-        store.commit("modGlobalLoding");
+
         //  1.判断请求超时
         if (
           error.code === "ECONNABORTED" &&
@@ -81,6 +81,24 @@ export default function $axios(options) {
         switch (response.status) {
           case 200:
             data = JSON.parse(data);
+            if (data.code === 20002) {
+              Message.error({
+                message:`ERROR: 您的登录状态已过期。请重新登录。`,
+                offset:40
+              });
+              store.commit("modTokenLogin",{
+                token:null,
+                isLogin:false,
+                userInfo:{}
+              });
+              store.commit("modRealNameCertification",{
+                realNameCertificationInfo:{}
+              });
+              store.commit("modQualification",{
+                qualificationInfo:{}
+              });
+              router.push('/login')
+            }
             break;
           default:
         }
@@ -141,7 +159,6 @@ export default function $axios(options) {
             default:
           }
         }
-
         // 此处使用的是 element UI 的提示组件
         Message.error({
           message:`ERROR: ${err.message}`,
