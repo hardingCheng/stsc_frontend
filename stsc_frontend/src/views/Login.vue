@@ -21,7 +21,8 @@
               </el-col>
               <el-col :span="12">
                 <div @click="getNewCode">
-                  <SIdentify ref="sidentify"></SIdentify>
+<!--                  <SIdentify ref="sidentify"></SIdentify>-->
+                  <img :src="verificationCodeImage" alt="">
                 </div>
               </el-col>
               <div class="el-form-item__error">{{ errors.verificationCode }}</div>
@@ -74,12 +75,12 @@
 </template>
 
 <script>
-import SIdentify from "../components/SIdentify";
+// import SIdentify from "../components/SIdentify";
 import {validatorInput} from "../tools/verification/validata"
 
 export default {
   name: "Login",
-  components: {SIdentify},
+  // components: {SIdentify},
   data() {
     return {
       form: {
@@ -96,16 +97,24 @@ export default {
       jumpRouting: '',
       source1:"陕西中小企业科技服务平台",
       source2:"上海114产学研",
+      verificationCodeImage:""
     }
   },
   // 根据没登录前的点击的路由  登陆后跳转到相关页面
   mounted() {
+    this.getCode()
     // 查看是否是从其他页面跳转到登录页面。登录后跳转回去
     if (Object.keys(this.$route.query).length !== 0) {
       this.jumpRouting = this.$route.query
     }
   },
   methods: {
+    async getCode(){
+      let result = await this.$axios.userControllerList.getCode();
+      if(result.code === 20000){
+        this.verificationCodeImage = result.data.code;
+      }
+    },
     // 提交登录表单
     async loginForm() {
       let { errors, isValid } = validatorInput(this.form)
@@ -118,7 +127,8 @@ export default {
         });
         let resultLogin = await this.$axios.userControllerList.login({
           username: this.form.username,
-          password: this.form.password
+          password: this.form.password,
+          verifyCode: this.form.verificationCode
         })
         if (resultLogin.code === 20000) {
           setTimeout(async () => {
@@ -126,7 +136,8 @@ export default {
             await this.setLoginInfo(resultLogin)
           }, 1000);
         }else if (resultLogin.code === 20001) {
-          this.$set(this.errors, "errorlogin",  "账号或者密码错误！")
+          this.$set(this.errors, "errorlogin",  resultLogin.message)
+          this.getCode()
           loading.close()
         }
       } else {
@@ -135,7 +146,7 @@ export default {
     },
     // 获取验证码
     getNewCode() {
-      this.$refs.sidentify.getCode()
+      this.getCode()
     },
     // 重置表单
     resetForm(formName) {
@@ -202,6 +213,14 @@ export default {
         await this.$router.push(this.jumpRouting?.url)
       } else {
         await this.$router.push('/index')
+      }
+    }
+  },
+  watch: {
+    form:{
+      deep:true,
+      handler(newValue,oldValue){
+        this.errors={}
       }
     }
   }

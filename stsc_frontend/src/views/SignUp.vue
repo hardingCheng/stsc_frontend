@@ -19,7 +19,12 @@
           <el-form-item label="验证码" prop="verificationCode">
             <el-row :gutter="10">
               <el-col :span="10"><el-input type="text" placeholder="验证码" @input="errors.verificationCode =''" v-model="form.verificationCode"/></el-col>
-              <el-col :span="12"><div  @click="getNewCode"><SIdentify ref="sidentify"></SIdentify></div></el-col>
+              <el-col :span="12">
+                <div  @click="getNewCode">
+<!--                  <SIdentify ref="sidentify"></SIdentify>-->
+                  <img :src="verificationCodeImage" alt="">
+                </div>
+              </el-col>
               <div class="el-form-item__error">{{errors.verificationCode}}</div>
             </el-row>
           </el-form-item>
@@ -41,11 +46,11 @@
 
 <script>
 import { Message } from "element-ui"; // 全局错误弹窗
-import SIdentify from "../components/SIdentify";
+// import SIdentify from "../components/SIdentify";
 import {validatorSignUpInput} from "../tools/verification/validata"
 export default {
   name: "SignUp",
-  components: {SIdentify},
+  // components: {SIdentify},
   data() {
     return {
       form: {
@@ -57,13 +62,23 @@ export default {
       errors:{
         username:""
       },
-      isValid:false
+      isValid:false,
+      verificationCodeImage:""
     }
   },
+  mounted() {
+    this.getCode()
+  },
   methods: {
+    async getCode(){
+      let result = await this.$axios.userControllerList.getCode();
+      if(result.code === 20000){
+        this.verificationCodeImage = result.data.code;
+      }
+    },
     // 获取验证码
     getNewCode(){
-      this.$refs.sidentify.getCode()
+      this.getCode()
     },
     // 注册信息提交
     async registerForm(){
@@ -79,6 +94,7 @@ export default {
           Message.error({
             message:"注册失败"
           })
+          await this.getCode()
         }
       }else {
         this.errors = errors

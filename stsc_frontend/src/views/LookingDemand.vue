@@ -39,7 +39,7 @@
     <div class="info-list" v-if="demandList2.length !== 0">
       <div class="info-list-main" v-for="(item,index) in demandList2" :key="index">
         <div class="container">
-          <info-list-item2  v-for="(info,index) in item" :key="index"  :info="info" :detailurl="'/ddetail/'+info.id" :listtype="0" @requireImmediately="requireImmediately"></info-list-item2>
+          <info-list-item2  v-for="(info,index) in item" :key="index"  :info="info" :detailurl="'/ddetail/'+info.id" :listtype="0" @requireImmediately="requireImmediately(info.id)"></info-list-item2>
         </div>
       </div>
       <div class="common-pagination">
@@ -178,8 +178,23 @@ export default {
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
     },
-    requireImmediately(value){
-      console.log(value)
+    async requireImmediately(id){
+      let immediatelyResult = await this.$axios.orderControllerList.getOrderNowForRequire({
+        requireId:id
+      })
+      console.log(immediatelyResult)
+      if (immediatelyResult.code === 20001){
+        this.$message({
+          message: immediatelyResult.message,
+          type: 'error'
+        })
+      }
+      if (immediatelyResult.code === 20000){
+        this.$message({
+          message: immediatelyResult.message,
+          type: 'success'
+        })
+      }
     },
     // 分页待做
     async handleCurrentChange(val) {

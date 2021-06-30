@@ -196,5 +196,12 @@ const orderControllerList = {
             method: "get",
         });
     },
+    // /stcsp//{requireId}
+    getOrderNowForRequire: (params) => {
+        return axios({
+            url: `/ph/stcsp/order/orderNowForRequire/${params.requireId}`,
+            method: "post",
+        });
+    },
 }
 export default orderControllerList

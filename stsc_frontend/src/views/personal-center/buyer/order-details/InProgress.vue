@@ -93,7 +93,7 @@
               align="center"
           >
             <template slot-scope="scope">
-              <span type="success">{{ '￥' + (scope.row.price | modPrice) +'万' }}</span>
+              <span type="success">{{ '￥' + (scope.row.price) +'万' }}</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -112,6 +112,7 @@
           {{ subOrderDetailsInfo[0].orderName ? subOrderDetailsInfo[0].orderName : '' }}
           <div>
             <el-button size="small" style="margin-top: 12px;" @click="next" type="danger">申请异常</el-button>
+<!--            TODO:每个子订单的完成-->
             <el-button size="small" style="margin-top: 12px;" :disabled="completeCon" v-if="completeCon" type="primary">已完成</el-button>
           </div>
         </div>
