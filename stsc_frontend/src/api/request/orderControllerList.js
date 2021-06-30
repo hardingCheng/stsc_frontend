@@ -196,5 +196,13 @@ const orderControllerList = {
             method: "get",
         });
     },
+    //根据订单id查询评论
+    getOrderEvaluation: (params) => {
+        return axios({
+            url: `/bh/stcsp/evaluation/getEvaluationByOrderId/${params.id}`,
+            method: "get",
+        });
+    },
+
 }
 export default orderControllerList

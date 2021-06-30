@@ -101,25 +101,14 @@
       <!--        抢单-->
       <div class="grab">
         <h3 style="margin-bottom: 20px">抢单商家</h3>
-        <div class="grab_name" v-for="(items,index) in grab_item" v-bind:key="index">
-          <div class="grab_title">拆弹机器人专利信息检索</div>
+        <div class="grab_name" v-for="(items,index) in grabOrderInfo" v-bind:key="index">
+          <div class="grab_title">{{items.subRequireName}}</div>
           <div class="grab_content">
             <div class="company ">
-              <el-radio-group v-model="grab_radio[index]">
+              <el-radio-group v-model="grab_radio[index]"
+                              v-for="(itemss,index1) in items.sellerList" v-bind:key="index1">
                 <div class="grab_company_list">
-                  <el-radio :label="1">公司公司公司公司公司公司</el-radio>
-                </div>
-                <div class="grab_company_list">
-                  <el-radio :label="2">公司公司公公司公司司公司</el-radio>
-                </div>
-                <div class="grab_company_list">
-                  <el-radio :label="3">公司公公司公司公司司公司公司</el-radio>
-                </div>
-                <div class="grab_company_list">
-                  <el-radio :label="4">公司公公司公司公司司公司公司</el-radio>
-                </div>
-                <div class="grab_company_list">
-                  <el-radio :label="5">公司公公司公司公司司公司公司</el-radio>
+                  <el-radio :label="itemss.serveId">{{ itemss.sellerName }}</el-radio>
                 </div>
               </el-radio-group>
             </div>
@@ -147,7 +136,7 @@ export default {
     return {
       reOpen: false,//是否重新拆分
       company_radio: {},
-      grab_radio: ['1', '1', '1'],//抢单商家
+      grab_radio:{},//抢单商家
       activeName: 'first',
       info: {},
       info_all: [],
@@ -161,6 +150,7 @@ export default {
       requireState: 0,
       filename:"",
       orderInfo:{},//存放订单信息
+      grabOrderInfo:{},//存放抢单的信息
       options: [{
         value: '选项1',
         label: '综合排序'
@@ -187,6 +177,7 @@ export default {
     //根据需求状态设置确定按钮的可用状态
     this.getRequireState()
     this.getArrangeInfo()
+    this.grabOrder()
   },
   async mounted() {
     await this.getArrangeInfo()
@@ -195,6 +186,14 @@ export default {
   },
 
   methods: {
+    //服务商抢单
+    async grabOrder(){
+      let result = await this.$axios.serveControllerList.grabOrder({
+        requirementId:this.id
+      })
+      this.grabOrderInfo =result.data.res
+      console.log( this.grabOrderInfo)
+    },
     //获取订单信息
     async getOrderInfo(){
         let result= await this.$axios.requirementControllerList.getOrderInfo({
@@ -346,7 +345,14 @@ export default {
       this.item.map((item, index) => {
         orderList.push(item.subRequireId + ',' + this.company_radio[index])
       })
-
+      this.grabOrderInfo.map((item, index) => {
+        if (item.subRequireId===this.id){
+          orderList=[]
+          orderList.push(item.subRequireId + ',' + this.grab_radio[index])
+        }else{
+          orderList.push(item.subRequireId + ',' + this.grab_radio[index])
+        }
+      })
       await this.$axios.orderControllerList.saveForSelect(orderList)
           .then(response => {
                 this.hid = 0

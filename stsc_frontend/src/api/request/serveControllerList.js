@@ -64,6 +64,13 @@ const serveControllerList = {
             method: "get",
         });
     },
+  //服务商抢单需求
+    grabOrder: (params) => {
+        return axios({
+            url: `/ph/stcsp/serve/getOrderNowList/${params.requirementId}`,
+            method: "get",
+        });
+    },
 
 
 }
