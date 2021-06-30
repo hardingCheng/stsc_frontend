@@ -126,7 +126,7 @@
         </div>
 <!--        <div class="evaluation_title" ><span class="order">共{{ this.sum  }}个子订单</span><span-->
 <!--            class="evaluation_text">评论</span></div>-->
-        <div class="serve_order1" v-if="status==5" v-for="(item,index) in subOrderInfo" v-bind:key="index">
+        <div class="serve_order1" v-if="status===5" v-for="(item,index) in subOrderInfo" v-bind:key="index">
           <img :src=orderChildrenInfo.orderImg class="order_style">
           <ul>
             <li>
@@ -156,9 +156,10 @@
                       placeholder="请输入内容"
                       v-model="textarea2">
             </el-input>
-            <p class="input_style" v-if="status==5">{{ orderEvaluation[index].content }} </p>
+            <p class="input_style" v-if="status===5">{{ orderEvaluation[index].content }} </p>
           </div>
         </div>
+
         <div class="service-acceptance-operation">
           <el-button type="primary" @click="submitComment" v-if="status!==5">下一步</el-button>
         </div>
@@ -267,8 +268,6 @@ export default {
           this.subOrderId[i] = order.subOrderId
         }
         this.status = result.data.orderInfo.status
-
-
       }
 
 
