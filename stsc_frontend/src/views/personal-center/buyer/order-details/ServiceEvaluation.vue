@@ -86,8 +86,10 @@
           </ul>
         </div>
       </div>
-      <div class="evaluation_title" v-if="status!==5"><span class="order">第{{ this.num+1  }}个子订单{{status}}</span><span
-          class="evaluation_text">评论</span></div>
+      <div class="evaluation_title" v-if="status!==5">
+        <span class="order">第{{num + 1}}个子订单</span>
+        <span class="evaluation_text">评论</span>
+      </div>
       <div class="content">
         <div class="serve_order" v-if="status!==5">
           <img :src=orderChildrenInfo.orderImg class="order_style">
@@ -124,46 +126,47 @@
 
           </div>
         </div>
-<!--        <div class="evaluation_title" ><span class="order">共{{ this.sum  }}个子订单</span><span-->
-<!--            class="evaluation_text">评论</span></div>-->
-        <div class="serve_order1" v-if="status===5" v-for="(item,index) in subOrderInfo" v-bind:key="index">
-          <img :src=orderChildrenInfo.orderImg class="order_style">
-          <ul>
-            <li>
-              订单编号:<span>{{ !item.id ? "暂无数据" : item.id }}</span>
-            </li>
-            <li>
-              子订单名称:<span>{{ !item.name ? "暂无数据" : item.name }}</span>
-            </li>
-            <li>
-              开始时间:<span>{{ !item.createTime ? "暂无数据" : item.createTime }}</span>
-            </li>
-            <li>
-              结束时间:<span>{{ !item.endTime ? "暂无数据" : item.endTime }}</span>
-            </li>
-          </ul>
-          <div class="evaluation_source">
-            <!--        评分-->
-
-            <el-rate class="star_style"
-                     v-model="value?value:orderEvaluation[index].star"
-                     show-text>
-            </el-rate>
-            <!--          文本输入框-->
-            <el-input class="input_style" v-if="status!==5"
-                      type="textarea"
-                      :autosize="{ minRows: 4, maxRows: 4}"
-                      placeholder="请输入内容"
-                      v-model="textarea2">
-            </el-input>
-            <p class="input_style" v-if="status===5">{{ orderEvaluation[index].content }} </p>
+        <!--        <div class="evaluation_title" ><span class="order">共{{ this.sum  }}个子订单</span><span-->
+        <!--            class="evaluation_text">评论</span></div>-->
+        <template v-if="status==5">
+          <div class="serve_order1" v-for="(item,index) in subOrderInfo" :key="index">
+            <img :src=orderChildrenInfo.orderImg class="order_style">
+            <ul>
+              <li>
+                订单编号:<span>{{ !item.id ? "暂无数据" : item.id }}</span>
+              </li>
+              <li>
+                子订单名称:<span>{{ !item.name ? "暂无数据" : item.name }}</span>
+              </li>
+              <li>
+                开始时间:<span>{{ !item.createTime ? "暂无数据" : item.createTime }}</span>
+              </li>
+              <li>
+                结束时间:<span>{{ !item.endTime ? "暂无数据" : item.endTime }}</span>
+              </li>
+            </ul>
+              <template v-if="orderEvaluation.length > 0">
+                <div class="evaluation_source">
+                  <!--        评分-->
+                  <el-rate class="star_style"
+                           v-model="orderEvaluation[index].star"
+                           show-text>
+                  </el-rate>
+                  <!--          文本输入框-->
+                  <el-input class="input_style" v-if="status!==5"
+                            type="textarea"
+                            :autosize="{ minRows: 4, maxRows: 4}"
+                            placeholder="请输入内容"
+                            v-model="textarea2">
+                  </el-input>
+                  <p class="input_style" v-if="status===5">{{ orderEvaluation[index].content }} </p>
+                </div>
+              </template>
           </div>
-        </div>
-
+        </template>
         <div class="service-acceptance-operation">
           <el-button type="primary" @click="submitComment" v-if="status!==5">下一步</el-button>
         </div>
-
       </div>
     </div>
 
@@ -199,7 +202,8 @@ export default {
       deadTime: ['0'],
       serveId: null,//存放服务ID
       num: 0,//当前是第几个子订单，默认值为0
-      sum: 0,//存放订单的总数
+      sum: 0,//存放订单的总数,
+      orderInfo:[]
     }
   },
   async created() {
@@ -211,10 +215,7 @@ export default {
       await this.getOrderEvaluation()
       for (this.num; this.num < this.sum; this.num++) {
         await this.getSubInfo(this.subOrderId[this.num], this.num)
-        console.log(this.num)
       }
-      console.log("子订单", this.subOrderInfo)
-
     }
     //获取子订单子的详细信息
     if (this.type == 1 && this.status != 5) {
@@ -235,9 +236,8 @@ export default {
           let result = await this.$axios.orderControllerList.getOrderEvaluation({
             id: this.subOrderId[i]
           })
-          this.orderEvaluation[i] = result.data.evaluation
+          this.orderEvaluation.push(result.data.evaluation)
         }
-        console.log("评价", this.orderEvaluation)
       }
     },
     //获取订单的买家信息
@@ -263,14 +263,12 @@ export default {
         })
         this.sum = result1.data.subOrderInfo.subOrderInfoVoList.length//子订单的数目
         this.order = result1.data.subOrderInfo.subOrderInfoVoList[this.num]//子订单信息，默认是第一个订单的数据
+        this.status = result.data.orderInfo.status
         for (let i = 0; i < this.sum; i++) {
           let order = result1.data.subOrderInfo.subOrderInfoVoList[i]
           this.subOrderId[i] = order.subOrderId
         }
-        this.status = result.data.orderInfo.status
       }
-
-
     },
     //获取子订单子的详细信息
     async getSubInfo(val, i) {
@@ -279,8 +277,7 @@ export default {
       })
       this.orderChildrenInfo = results.data.orderInfo//子订单的信息
       this.serveId = results.data.orderInfo.serveId//服务id
-      this.subOrderInfo[i] = results.data.orderInfo//子订单的信息
-
+      this.subOrderInfo.push(results.data.orderInfo)//子订单的信息
     },
 
     //发布评论
