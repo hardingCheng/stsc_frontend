@@ -259,8 +259,8 @@ export default {
           let result = await this.$axios.orderControllerList.getOrderInfo({
             orderId:this.orderid
           })
-          if(result.data.contractForBuyer) {
-            result.data.contractForBuyer.split(',').slice(0,-1).map((item)=>{
+          if(result.data.orderInfo.contractForBuyer) {
+            result.data.orderInfo.contractForBuyer.split(',').slice(0,-1).map((item)=>{
               this.contractForBuyer.push({
                 fileName:item.split('/').slice(-1)[0].split('_')[1],
                 fileUrl:item

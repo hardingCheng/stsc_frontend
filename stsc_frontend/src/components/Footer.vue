@@ -29,7 +29,7 @@
     <div class="footer-bottom">
       <div class="container">
         <img src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.xuanchuanyi.com%2Fxuanchuanyi%2F20151014%2F109b01a632ce5f18e2666ec1240effed.jpg&refer=http%3A%2F%2Fimg.xuanchuanyi.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1621177287&t=13f71f80a8be7b9058d5e519e16ea0b4" alt="">
-        <p>京ICP备13026945号</p>
+        <p>京ICP备2021018953号-1</p>
       </div>
     </div>
   </div>
