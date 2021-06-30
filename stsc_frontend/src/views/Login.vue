@@ -137,6 +137,7 @@ export default {
           }, 1000);
         }else if (resultLogin.code === 20001) {
           this.$set(this.errors, "errorlogin",  resultLogin.message)
+          this.form.verificationCode = ''
           this.getCode()
           loading.close()
         }

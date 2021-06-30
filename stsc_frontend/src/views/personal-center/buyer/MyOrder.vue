@@ -86,7 +86,10 @@ export default {
         case 3:
           this.$router.push(`/pc/buyerorderdetail/serviceacceptance/${id}/${orderType}`)
           break
-        case 4:
+        case 4 :
+          this.$router.push(`/pc/buyerorderdetail/serviceevaluation/${id}/${orderType}`)
+          break
+        case 5 :
           this.$router.push(`/pc/buyerorderdetail/serviceevaluation/${id}/${orderType}`)
           break
       }

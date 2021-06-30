@@ -93,7 +93,7 @@
               align="center"
           >
             <template slot-scope="scope">
-              <span type="success">{{ '￥' + (scope.row.price) +'万' }}</span>
+              <span type="success">{{scope.row.price | modPrice}}</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -269,7 +269,11 @@ export default {
       }
     },
     modPrice(value) {
-      console.log(value)
+      if(value === '保密'){
+        return '保密'
+      }else{
+        return `￥${value}万`
+      }
     }
   }
 }

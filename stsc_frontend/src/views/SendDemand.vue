@@ -177,7 +177,6 @@ export default {
       deep: true,
       // 用来监听我们上传文件的url返回来
       async handler (newValue, oldValue) {
-        console.log(oldValue)
        if(!this.updateStatus){
          if (this.filerReadyUploadList1.length!==0&&this.filerReadyUploadList.length!==0){
            if (newValue.image!==''&&newValue.attachments!==''){
