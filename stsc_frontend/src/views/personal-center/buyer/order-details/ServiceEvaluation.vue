@@ -50,7 +50,7 @@
                      show-text>
             </el-rate>
             <!--          文本输入框-->
-            <el-input class="input_style" v-if="status!==4"
+            <el-input class="input_style" v-if="status!==5"
                       type="textarea"
                       :autosize="{ minRows: 4, maxRows: 4}"
                       placeholder="请输入内容"
@@ -61,7 +61,7 @@
           </div>
         </div>
         <div class="service-acceptance-operation">
-          <el-button type="primary" @click="submitComment" v-if="status!==4">提交评价</el-button>
+          <el-button type="primary" @click="submitComment" v-if="status!==5">提交评价</el-button>
         </div>
       </div>
     </div>
@@ -86,10 +86,10 @@
           </ul>
         </div>
       </div>
-      <div class="evaluation_title" v-if="status!==4"><span class="order">第{{ this.num + 1 }}个子订单</span><span
+      <div class="evaluation_title" v-if="status!==5"><span class="order">第{{ this.num+1  }}个子订单{{status}}</span><span
           class="evaluation_text">评论</span></div>
       <div class="content">
-        <div class="serve_order" v-if="status!==4">
+        <div class="serve_order" v-if="status!==5">
           <img :src=orderChildrenInfo.orderImg class="order_style">
           <ul>
             <li>
@@ -124,9 +124,9 @@
 
           </div>
         </div>
-        <div class="evaluation_title"><span class="order">共{{ this.num + 1 }}个子订单</span><span
-            class="evaluation_text">评论</span></div>
-        <div class="serve_order1" v-if="status==4" v-for="(item,index) in subOrderInfo" v-bind:key="index">
+<!--        <div class="evaluation_title" ><span class="order">共{{ this.sum  }}个子订单</span><span-->
+<!--            class="evaluation_text">评论</span></div>-->
+        <div class="serve_order1" v-if="status===5" v-for="(item,index) in subOrderInfo" v-bind:key="index">
           <img :src=orderChildrenInfo.orderImg class="order_style">
           <ul>
             <li>
@@ -150,17 +150,18 @@
                      show-text>
             </el-rate>
             <!--          文本输入框-->
-            <el-input class="input_style" v-if="status!==4"
+            <el-input class="input_style" v-if="status!==5"
                       type="textarea"
                       :autosize="{ minRows: 4, maxRows: 4}"
                       placeholder="请输入内容"
                       v-model="textarea2">
             </el-input>
-            <p class="input_style">{{ orderEvaluation[index].content }} </p>
+            <p class="input_style" v-if="status===5">{{ orderEvaluation[index].content }} </p>
           </div>
         </div>
+
         <div class="service-acceptance-operation">
-          <el-button type="primary" @click="submitComment" v-if="status!==4">下一步</el-button>
+          <el-button type="primary" @click="submitComment" v-if="status!==5">下一步</el-button>
         </div>
 
       </div>
@@ -206,7 +207,7 @@ export default {
     await this.getOrderInfo()
     //获取订单的买家信
     await this.getSellerInfo(this.order.sellerId, this.num)
-    if (this.status == 4) {
+    if (this.status == 5) {
       await this.getOrderEvaluation()
       for (this.num; this.num < this.sum; this.num++) {
         await this.getSubInfo(this.subOrderId[this.num], this.num)
@@ -216,7 +217,7 @@ export default {
 
     }
     //获取子订单子的详细信息
-    if (this.type == 1 && this.status != 4) {
+    if (this.type == 1 && this.status != 5) {
       await this.getSubInfo(this.order.subOrderId, this.num)
     }
   },
@@ -267,8 +268,6 @@ export default {
           this.subOrderId[i] = order.subOrderId
         }
         this.status = result.data.orderInfo.status
-
-
       }
 
 
@@ -300,7 +299,7 @@ export default {
           serveId: this.serveId,
           content: this.textarea2,
           star: this.value,
-          orderId: this.subOrderId,
+          orderId: this.order.subOrderId,
         })
       }
       if (this.type === 1) {

@@ -55,7 +55,7 @@ export default {
         id:this.id
       })
       this.info=result.data.serve
-      let regex="[^\\/\\\\]+$"
+      let regex="[^\\/\\_]+$"
       this.filename=result.data.serve.attachment.match(regex)[0]
 
 

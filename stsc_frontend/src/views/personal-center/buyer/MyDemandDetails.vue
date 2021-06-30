@@ -220,7 +220,7 @@ export default {
       //info_all存储需求详情
       this.info_all = results.data.requirement
       let regex="[^\\/\\_]+$"
-      if(results.data.requirement.attachments.match(regex)==null){
+      if(results.data.requirement.attachments==null){
       }else {
         this.filename =results.data.requirement.attachments.match(regex)[0]
       }
