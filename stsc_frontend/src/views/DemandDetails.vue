@@ -77,7 +77,7 @@ export default {
     })
     //存放需求详情的信息
     this.info = detail_result.data.requirement
-    let regex="[^\\/\\\\]+$"
+    let regex="[^\\/\\_]+$"
     if(detail_result.data.requirement.attachments.match(regex)==null){
     }else {
       this.filename=detail_result.data.requirement.attachments.match(regex)[0]

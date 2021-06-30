@@ -219,7 +219,7 @@ export default {
       })
       //info_all存储需求详情
       this.info_all = results.data.requirement
-      let regex="[^\\/\\\\]+$"
+      let regex="[^\\/\\_]+$"
       if(results.data.requirement.attachments.match(regex)==null){
       }else {
         this.filename =results.data.requirement.attachments.match(regex)[0]
@@ -345,14 +345,14 @@ export default {
       this.item.map((item, index) => {
         orderList.push(item.subRequireId + ',' + this.company_radio[index])
       })
-      this.grabOrderInfo.map((item, index) => {
-        if (item.subRequireId===this.id){
-          orderList=[]
-          orderList.push(item.subRequireId + ',' + this.grab_radio[index])
-        }else{
-          orderList.push(item.subRequireId + ',' + this.grab_radio[index])
-        }
-      })
+      // this.grabOrderInfo.map((item, index) => {
+      //   if (item.subRequireId===this.id){
+      //     orderList=[]
+      //     orderList.push(item.subRequireId + ',' + this.grab_radio[index])
+      //   }else{
+      //     orderList.push(item.subRequireId + ',' + this.grab_radio[index])
+      //   }
+      // })
       await this.$axios.orderControllerList.saveForSelect(orderList)
           .then(response => {
                 this.hid = 0

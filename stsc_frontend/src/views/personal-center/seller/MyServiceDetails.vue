@@ -8,7 +8,7 @@
       <li>单位地址:<span>{{ !this.info.address ?"暂无数据":this.info.address}}</span></li>
       <li>联系人:<span>{{ !this.info.contact ?"暂无数据":this.info.contact }}</span></li>
       <li>联系方式:<span>{{ !this.info.telephone ?"暂无数据":this.info.telephone}}</span></li>
-      <li>服务价格:<span>{{ this.info.price }}万</span></li>
+      <li>服务价格:<span>{{ this.info.price }}</span></li>
       <li>服务工期:<span>{{ this.info.deadline }}天</span></li>
       <li>所属分类:<span>{{ this.info.categoryName }}</span></li>
       <li>关键字:<span>{{ this.info.keywords }}</span></li>
