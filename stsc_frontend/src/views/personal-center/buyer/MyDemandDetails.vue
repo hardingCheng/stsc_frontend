@@ -219,6 +219,7 @@ export default {
       })
       //info_all存储需求详情
       this.info_all = results.data.requirement
+      console.log( this.info_all)
       let regex="[^\\/\\_]+$"
       if(results.data.requirement.attachments==null){
       }else {

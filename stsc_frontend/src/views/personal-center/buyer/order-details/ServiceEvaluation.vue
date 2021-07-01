@@ -211,13 +211,15 @@ export default {
     await this.getOrderInfo()
     //获取订单的买家信
     await this.getSellerInfo(this.order.sellerId, this.num)
+    //如果订单状态为无代表已经评价，获取评论，以及订单信息
     if (this.status == 5) {
       await this.getOrderEvaluation()
+      //获取子订单信息,并存储到subOrderInfo列表
       for (this.num; this.num < this.sum; this.num++) {
         await this.getSubInfo(this.subOrderId[this.num], this.num)
       }
     }
-    //获取子订单子的详细信息
+    //获取子订单子的详细信息，如果是大订单并且未评论，获取订单信息
     if (this.type == 1 && this.status != 5) {
       await this.getSubInfo(this.order.subOrderId, this.num)
     }
@@ -225,17 +227,22 @@ export default {
   methods: {
     //回显订单评论
     async getOrderEvaluation() {
+      //小订单
       if (this.type == 0) {
         let result = await this.$axios.orderControllerList.getOrderEvaluation({
           id: this.orderid
         })
+        //存储评论
         this.orderEvaluation = result.data.evaluation
+        //存放评价中的评分
         this.value = result.data.evaluation.star
       } else if (this.type == 1) {
+        //大订单
         for (let i = 0; i < this.sum; i++) {
           let result = await this.$axios.orderControllerList.getOrderEvaluation({
             id: this.subOrderId[i]
           })
+          //存放大订单的评价
           this.orderEvaluation.push(result.data.evaluation)
         }
       }
@@ -253,9 +260,10 @@ export default {
         orderId: this.orderid
       })
       if (this.type == 0) {
-        this.sum = result.data.orderInfo.length//子订单的数目
-        this.order = result.data.orderInfo//子订单信息，默认是第一个订单的数据
+        this.sum = result.data.orderInfo.length
+        this.order = result.data.orderInfo
         this.serveId = result.data.orderInfo.serveId
+        //存放小订单状态
         this.status = result.data.orderInfo.status
       } else {
         let result1 = await this.$axios.orderControllerList.getSplitDetailInfo({
@@ -263,9 +271,11 @@ export default {
         })
         this.sum = result1.data.subOrderInfo.subOrderInfoVoList.length//子订单的数目
         this.order = result1.data.subOrderInfo.subOrderInfoVoList[this.num]//子订单信息，默认是第一个订单的数据
+        //存放大订单态
         this.status = result.data.orderInfo.status
         for (let i = 0; i < this.sum; i++) {
           let order = result1.data.subOrderInfo.subOrderInfoVoList[i]
+          //订单id列表
           this.subOrderId[i] = order.subOrderId
         }
       }
