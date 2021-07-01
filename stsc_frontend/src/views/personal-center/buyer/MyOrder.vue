@@ -117,6 +117,8 @@ export default {
           return '已验收'
         case 4:
           return '已验收'
+        case 5:
+          return '已完成'
         default:
           return '待沟通'
       }
