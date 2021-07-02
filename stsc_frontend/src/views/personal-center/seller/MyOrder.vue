@@ -101,13 +101,15 @@ export default {
           return '已验收'
         case 4:
           return '已验收'
+        case 5:
+          return '已完成'
         default:
           return '待沟通'
       }
     },
     modPrice(value){
       if (value){
-        if (value === '保密'){
+        if (value === '保密' || value === '暂无价格' ){
           return '价格：' + value
         }else {
           return '价格：￥'+(value)+'万'
