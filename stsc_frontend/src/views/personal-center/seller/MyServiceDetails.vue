@@ -56,9 +56,11 @@ export default {
       })
       this.info=result.data.serve
       let regex="[^\\/\\_]+$"
-      this.filename=result.data.serve.attachment.match(regex)[0]
-
-
+      if(result.data.serve.attachment==null){
+        this.filename="无附件"
+      }else {
+        this.filename=result.data.serve.attachment.match(regex)[0]
+      }
     }
 
 }

@@ -10,7 +10,7 @@
         </div>
         <!--        <div class="text-title-title">单位所在地：<span class="text-service-text">{{ info.address }}</span></div>-->
         <div class="text-title-title">创造时间：<span class="text-service-text">{{ this.date }}</span></div>
-        <div class="text-title-title">联系人：<span class="text-service-text">{{ this.info_all.telephone }}</span></div>
+        <div class="text-title-title">联系人：<span class="text-service-text">{{ this.info_all.contact }}</span></div>
         <div class="text-title-title">手机号：<span class="text-service-text">{{ this.info_all.telephone }}</span></div>
 
         <div class="address">
@@ -123,10 +123,8 @@
 </template>
 
 <script>
-import axios from "axios";
 
 import heihei from "../../../components/showGraph/ShowGraph";
-import $axios from "../../../api/api";
 
 export default {
   props: ['id'],
@@ -176,11 +174,10 @@ export default {
   created() {
     //根据需求状态设置确定按钮的可用状态
     this.getRequireState()
-    this.getArrangeInfo()
     this.grabOrder()
   },
   async mounted() {
-    await this.getArrangeInfo()
+    this.getArrangeInfo()
     await this.getBuyer()
     await this.getOrderInfo()
   },
@@ -192,7 +189,6 @@ export default {
         requirementId:this.id
       })
       this.grabOrderInfo =result.data.res
-      console.log( this.grabOrderInfo)
     },
     //获取订单信息
     async getOrderInfo(){
@@ -219,16 +215,15 @@ export default {
       })
       //info_all存储需求详情
       this.info_all = results.data.requirement
-      console.log( this.info_all)
       let regex="[^\\/\\_]+$"
       if(results.data.requirement.attachments==null){
+        this.filename="无附件"
       }else {
         this.filename =results.data.requirement.attachments.match(regex)[0]
       }
       //moment时间格式化插件
       const moment = require('moment');
       this.date = moment(results.data.requirement.createTime).format(("YYYY-MM-DD"))
-
     },
     //获取编排的方法
     async getArrangeInfo() {
@@ -403,6 +398,10 @@ export default {
   .technological_process {
     display: flex;
     border: 1px solid #E7E7E7;
+    height: 400px;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 40px;
 
     p {
       margin-bottom: 50px;
@@ -414,11 +413,10 @@ export default {
     /deep/ .el-button {
       margin: 0 0 0 20px;
     }
-
     .map {
-      height: 400px;
-
-
+      height: 100%;
+      box-sizing: border-box;
+      flex: 1;
     }
     .button_group1{
       display: flex;
@@ -428,10 +426,10 @@ export default {
     }
     .button_group {
       display: flex;
-      height: 340px;
+      height: 375px;
     ul{
       width: 420px;
-      margin-top: 4px;
+      margin-top: 5px;
       margin-left: 5px;
       li{
           color: #8c939d;
@@ -502,16 +500,13 @@ export default {
         }
       }
     }
-
     .grab {
       padding: 20px;
       border: 1px solid #E7E7E7;
       margin-top: 20px;
-
       .grab_name {
         position: relative; /*定位*/
         margin: 20px 20px 20px 0;
-
         .grab_title {
           display: inline-block;
           margin-right: 20px;
@@ -521,25 +516,20 @@ export default {
           top: 50%;
           transform: translateY(-50%); /*定位*/
         }
-
         .grab_content {
           display: inline-block;
           margin-left: 200px;
           padding-top: 10px;
-
           .company {
             .grab_company_list {
               width: 250px;
               display: inline-block;
               height: 30px;
             }
-
           }
-
         }
       }
     }
-
     .submit {
       display: flex;
       /*项目位于容器的中心*/
@@ -557,11 +547,8 @@ export default {
     .tab {
       margin-left: 10px;
       padding-top: 5px;
-
-
     }
   }
-
   .details-category {
     height: 17px;
     font-size: 12px;
@@ -570,7 +557,6 @@ export default {
     line-height: 17px;
     margin-top: 20px;
   }
-
   .my_demand-details {
     box-sizing: border-box;
     @include wh(953px, 440px);
@@ -579,14 +565,11 @@ export default {
     padding-left: 20px;
     margin: 20px 330px 33px auto;
   }
-
   .my_demand-details-text-bottom {
     width: 953px;
     margin: 20px 330px 33px auto;
     border: 1px solid #E7E7E7;
-
   }
-
   .my_demand-details-img {
     display: inline-block;
     margin-right: 30px;

@@ -85,7 +85,7 @@ props:['id'],
     async getMessageListNoRead(){
       const message_result =  await this.$axios.requirementControllerList.lookMessageById({
         userId: this.$store.getters.getUserInfo.id,
-        page: this.currentPage1,
+        page: this.currentPage2,
         limit: 10,
         isRead:0
       })
