@@ -50,7 +50,7 @@
     </div>
     <div class="technological_process" v-if="requireState>3">
       <div class="map">
-        <heihei :arrangeList="arrangeInfo"></heihei>
+        <graph :arrangeList="arrangeInfo"></graph>
       </div>
       <div class="button_group1" v-if="lengthInfo&&requireState===4||requireState===5">
         <el-button type="primary" @click="verify" :disabled="forbidden">确定</el-button>
@@ -124,12 +124,12 @@
 
 <script>
 
-import heihei from "../../../components/showGraph/ShowGraph";
+import graph from "../../../components/showGraph/ShowGraph";
 
 export default {
   props: ['id'],
   name: "MyDemandDetails",
-  components: {heihei},
+  components: {graph},
   data() {
     return {
       reOpen: false,//是否重新拆分
@@ -414,12 +414,11 @@ export default {
       margin: 0 0 0 20px;
     }
     .map {
-      height: 100%;
-      box-sizing: border-box;
-      flex: 1;
+      height: 400px;
     }
     .button_group1{
       display: flex;
+      height: 400px;
       align-items: center;
       justify-content: space-around;
       flex-direction:column-reverse,
