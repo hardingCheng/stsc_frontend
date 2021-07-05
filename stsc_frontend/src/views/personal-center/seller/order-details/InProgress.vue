@@ -77,15 +77,14 @@
               </div>
             </div>
             <div class="order-info-flow-right">
-
               <el-steps :active="active" finish-status="success" align-center>
                 <el-step :title="item" v-for="(item,index) in orderInfo.nodes" :key="index" @mouseenter.native="mouseenter1(index)">
-                  <template v-slot:description v-if="index+1 <= orderInfo.order.sellerStep+1" >
+                  <template v-slot:description v-if="index+1 <= orderInfo.sellerStep+1" >
                     <el-popover
                         placement="right"
                         width="300"
                         trigger="hover"
-                        v-if="index <= orderInfo.order.sellerStep && showConfirm && index === showConfirmIndex"
+                        v-if="index <= orderInfo.sellerStep && showConfirm && index === showConfirmIndex"
                     >
                       <div class="step-info-confirm">
                         <ul>
@@ -241,7 +240,10 @@ export default {
     async type1Submit() {
       let result = await this.$axios.orderControllerList.setNextStepForSeller({
         orderId: this.orderid,
-        step: this.active
+        step: this.active,
+        curStepFileUrl: this.stepForm.curStepFileUrl,
+        curStepInfo: this.stepForm.curStepInfo,
+        hasFile: this.stepForm.hasFile
       })
       if (result.code === 20000) {
         this.dialogFormVisible = false

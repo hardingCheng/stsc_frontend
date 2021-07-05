@@ -140,36 +140,35 @@
           {{ subOrderDetailsInfo[0].orderName ? subOrderDetailsInfo[0].orderName : '' }}
           <div>
             <el-button size="small" style="margin-top: 12px;" @click="next" type="danger">申请异常</el-button>
-<!--            TODO:每个子订单的完成-->
             <el-button size="small" style="margin-top: 12px;" :disabled="completeCon" v-if="completeCon" type="primary">已完成</el-button>
           </div>
         </div>
         <div class="order-info-flow-right">
-          <el-steps :active="subOrderDetailsInfo[0].sellerStep+1" finish-status="success" v-if="subOrderDetailsInfo[0]"
-                    align-center>
-            <el-step v-for="(item,index) in subOrderDetailsInfo[0].nodes ? subOrderDetailsInfo[0].nodes :[]"
-                     :title="item" :key="index" @mouseenter.native="mouseenter1(index)" >
-              <template v-slot:description
-                        v-if="index+1 <= subOrderDetailsInfo[0].sellerStep+1 && index>subOrderDetailsInfo[0].buyerStep">
+          <el-steps :active="subOrderDetailsInfo[0].sellerStep+1" finish-status="success" v-if="subOrderDetailsInfo[0]" align-center>
+            <el-step v-for="(item,index) in subOrderDetailsInfo[0].nodes ? subOrderDetailsInfo[0].nodes :[]"  :title="item" :key="index" @mouseenter.native="mouseenter1(index)" >
+              <template v-slot:description v-if="index+1 <= subOrderDetailsInfo[0].sellerStep+1">
                 <el-popover
                     placement="right"
                     width="300"
-                    trigger="click">
+                    trigger="click"
+                    v-if="index+1 <= subOrderDetailsInfo[0].sellerStep+1 && index>subOrderDetailsInfo[0].buyerStep"
+                >
                   <div class="step-info-confirm">
                     <ul>
                       <li ><b>服务商此节点完成信息：</b></li>
                       <li style="margin-bottom: 10px;">{{ subOrderDetailsInfo[0].nodeInfoList[index].curStepInfo}}</li>
                       <li><b>节点附加文件：</b></li>
                       <li><el-button type="text" @click="showFile(subOrderDetailsInfo[0].nodeInfoList[index].curStepFileUrl)">{{subOrderDetailsInfo[0].nodeInfoList[index].curStepFileUrl ? subOrderDetailsInfo[0].nodeInfoList[index].curStepFileUrl.split('/').slice(-1)[0].split('_')[1] : '暂无附加文件'}}</el-button></li>
+                      <li style="text-align: right;" v-if="index+1 <= subOrderDetailsInfo[0].sellerStep+1 && index>subOrderDetailsInfo[0].buyerStep"><el-button size="small" type="danger">申请异常</el-button><el-button  size="small" type="primary" @click="stepSubmit(index,subOrderDetailsInfo[0].id)">确认</el-button></li>
                     </ul>
-                    <el-button type="text" slot="reference">步骤节点信息</el-button>
                   </div>
+                  <el-button type="text" slot="reference">步骤节点信息</el-button>
                 </el-popover>
                 <el-popover
                     placement="right"
                     width="300"
-                    trigger="click"
-                    v-if="(index <= subOrderDetailsInfo[0].sellerStep && showConfirm && index === showConfirmIndex)"
+                    trigger="hover"
+                    v-if="(index <= subOrderDetailsInfo[0].buyerStep && showConfirm && index === showConfirmIndex)"
                 >
                   <div class="step-info-confirm">
                     <ul>
@@ -178,8 +177,8 @@
                       <li><b>节点附加文件：</b></li>
                       <li><el-button type="text" @click="showFile(subOrderDetailsInfo[0].nodeInfoList[index].curStepFileUrl)">{{subOrderDetailsInfo[0].nodeInfoList[index].curStepFileUrl ? subOrderDetailsInfo[0].nodeInfoList[index].curStepFileUrl.split('/').slice(-1)[0].split('_')[1] : '暂无附加文件'}}</el-button></li>
                     </ul>
-                    <el-button type="text" slot="reference">节点信息</el-button>
                   </div>
+                  <el-button type="text" slot="reference">节点信息</el-button>
                 </el-popover>
               </template>
             </el-step>
@@ -225,7 +224,8 @@ export default {
       currentSubRequirementId: '',
       completeCon:false,
       showConfirm:false,
-      showConfirmIndex:-1
+      showConfirmIndex:-1,
+      visible:false
     }
   },
   components: {
@@ -327,6 +327,7 @@ export default {
   },
   filters: {
     modStatus(value) {
+      console.log(value)
       switch (value) {
         case 1:
           return '待沟通'
@@ -336,11 +337,13 @@ export default {
           return '已验收'
         case 4:
           return '已评价'
+        case 5:
+          return '已完成'
       }
     },
     modPrice(value) {
-      if(value === '保密'){
-        return '保密'
+      if(value === '保密' || value === '暂无价格'){
+        return value
       }else{
         return `￥${value}万`
       }
