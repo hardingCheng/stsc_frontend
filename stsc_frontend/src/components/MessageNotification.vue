@@ -119,6 +119,7 @@ export default {
       isTabActive: 1,
       loading: false,
       message_active: "",
+      notice_re:this.notice_reduce,//通知栏消息总数
       messageObj: {
         notice: this.total,
         handle: this.total_seller,
@@ -127,7 +128,6 @@ export default {
     }
   },
   mounted() {
-
   },
   computed: {
     noMore() {
@@ -142,18 +142,16 @@ export default {
     },
     inBuyerMessage(val) {
       this.$store.commit('messageActive', 'second')
-      console.log("xxx", this.$store.state.activeName)
       // this.messageObj.notice=this.notice_reduce-1
       // this.notice_reduce=this.notice_reduce-1
       if (this.message_text.splice(val, 1)) {
         this.messageObj.notice--
-
-
       }
-      this.$emit('noticeEvent', this.notice_reduce)
+    //  this.$emit('noticeEvent', this.notice_reduce)
       this.$router.push(`/pc/buyer/mynews`)
-      this.notice_reduce = this.notice_reduce - 1
-      this.$emit('noticeEvent', this.notice_reduce)
+      //有问题
+      this.notice_re = this.notice_re - 1
+      this.$emit('noticeEvent', this.notice_re)
       // this.message_active="second"
       // this.$emit("active",this.message_active)
     },
@@ -162,7 +160,6 @@ export default {
         this.messageObj.handle--
         this.notice_reduce--
       }
-
       this.$router.push(`/seller/mynews`)
     },
     loadMore: function () {

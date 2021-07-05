@@ -1,7 +1,7 @@
 <template>
   <div class="message">
 
-    <el-tabs v-model=this.$store.state.activeName @tab-click="handleClick">
+    <el-tabs v-model=activeName  @tab-click="handleClick">
       <el-tab-pane name="first">
         <template slot="label">全部({{ total }})</template>
         <!--      折叠面板-->
@@ -51,9 +51,18 @@ export default {
   data() {
     return {
       activeName: 'first',
-      activeNames: [''],
+      activeNames: ''
     };
   },
+  created() {
+    if(this.$store.state.activeName==null){
+      this.activeName='second'
+    }else if(this.$store.state.activeName==='second') {
+      this.activeName='second'
+    }else {
+      this.activeName='second'
+    }
+    },
   methods: {
     delete_message(val) {
       this.indexss_no_read.splice(val, this.indexss_no_read.length)
