@@ -12,12 +12,13 @@
         <div class="text-title-title">创造时间：<span class="text-service-text">{{ info.createTime }}</span></div>
         <div class="text-title-title">联系人：<span class="text-service-text">{{ info.contact }}</span></div>
         <div class="text-title-title">手机号：<span class="text-service-text">{{ info.telephone }}</span></div>
-
         <div class="address">
           <div class="text-title-title ">联系地址：<span class="text-service-text ">{{ info.address }}</span></div>
         </div>
         <div class="text-title-title ">电子邮箱：<span class="text-service-text">{{ info.email==null?"无": info.email }}</span></div>
-        <div class="text-title-title ">附件：<a class="text-service-text1" :href=info.attachments>{{ filename}}</a></div>
+        <div class="text-title-title ">附件：
+          <a class="text-service-text1" :href=info.attachments >{{ filename}}</a>
+        </div>
 <!--        <img src="../assets/images/fileimg.png" class="file_img" v-bind:href="info.attachments" />-->
         <el-button><span class="font">立即下单</span></el-button>
       </div>
@@ -53,7 +54,6 @@
     </div>
   </div>
 </template>
-
 <script>
 export default {
   props: ['id'],
@@ -64,10 +64,11 @@ export default {
       info: {
         name:"暂无数据",
         attachments:"",
+        createTime:''
       },//存放需求信息
+      createTime:'',
       value: 2,
       filename:""
-      //存放后端获取的数据
     };
   },
   async created() {
@@ -77,15 +78,18 @@ export default {
     })
     //存放需求详情的信息
     this.info = detail_result.data.requirement
+    //moment时间格式化插件
+    const moment = require('moment');
+    this.info.createTime = moment(this.info.createTime).format(("YYYY-MM-DD"))
     let regex="[^\\/\\_]+$"
-    if(detail_result.data.requirement.attachments.match(regex)==null){
+    if(detail_result.data.requirement.attachments==null){
+      this.filename="无附件"
     }else {
       this.filename=detail_result.data.requirement.attachments.match(regex)[0]
     }
     //存放需求评价的星数
     this.value = parseInt(this.info.star)
   },
-
   methods: {
     downloadClick(row) {
       let entity = {
@@ -94,7 +98,6 @@ export default {
       }
       this.download(this.info.data, row)
     },
-
     // 下载文件
     download(data, row) {
       if (!data) {
@@ -110,17 +113,12 @@ export default {
       document.body.appendChild(link)
       link.click()
     }
-
-
   },
-
 };
 </script>
 
 <style scoped lang="scss">
-
 @import '../styles/mixin';
-
 .DemandDetails {
   font-family: PingFangSC-Regular, PingFang SC;
   position: relative;
@@ -132,20 +130,17 @@ export default {
     padding-left: 20px;
     margin: 20px 330px 33px auto;
     border:  #E7E7E7 1px solid;
-
   }
   .serve-details-text-bottom {
     width: 940px;
     margin: 50px 330px 33px auto;
     border: 1px solid #E7E7E7;
-
     .tab {
       height: 800px;
       margin-left: 10px;
       padding-top: 5px;
     }
   }
-
   .details-category {
     height: 17px;
     font-size: 12px;
@@ -154,7 +149,6 @@ export default {
     line-height: 17px;
     margin-top: 20px;
   }
-
   .demand-details {
     box-sizing: border-box;
     @include wh(953px, 440px);
@@ -163,28 +157,23 @@ export default {
     padding-left: 20px;
     margin: 20px 330px 33px auto;
   }
-
   .demand-details-text-bottom {
     width: 953px;
     margin: 20px 330px 33px auto;
     border: 1px solid #E7E7E7;
-
   }
-
   .demand-details-img {
     display: inline-block;
     margin-right: 30px;
     @include wh(400px, 400px);
     float: left;
   }
-
   .demand-details-inner-text {
     display: inline-block;
     box-sizing: border-box;
     @include wh(500px, 400px);
     float: left;
     border-right: 1px solid #F3F3F3;
-
     .demand-title {
       @include wh(468px, 55px);
       font-size: 18px;
@@ -212,7 +201,6 @@ export default {
         color: #333333;
       }
       .text-service-text1 {
-       color: #1794FF;
       }
     }
     .text-title-title1 {
@@ -235,16 +223,13 @@ export default {
   .font {
     font-size: 18px;
   }
-
   .mechanism-classification {
     box-sizing: border-box;
     @include wh(480px, 50px);
     padding-top: 5px;
     background: #F3F3F3;
     margin-bottom: 15px;
-
   }
-
   .demand-evaluation {
     margin-left: 130px;
     padding-top: 5px;
@@ -254,7 +239,6 @@ export default {
     font-weight: 400;
     color: #999999;
   }
-
   .see-and-see {
     width: 160px;
     height: 300px;
@@ -272,14 +256,12 @@ export default {
       color: #999999;
       line-height: 20px;
     }
-
     .see-detail-div {
       width: 160px;
       height: 26px;
       text-align: center;
       margin-bottom: 20px;
       background: rgba(255, 255, 255, 0.8);
-
       .see-detail {
         width: 144px;
         height: 17px;
@@ -290,7 +272,6 @@ export default {
       }
     }
   }
-
   .demand-description {
     @include wh(940px, 500px);
     background: #FFFFFF;
@@ -299,14 +280,12 @@ export default {
     padding: 20px;
     box-sizing: border-box;
     margin: 50px 330px 33px auto;
-
     .des-title {
       text-align: center;
       height: 40px;
     }
   }
 }
-
 /deep/ .el-tabs__item {
   @include wh(130px, 52px);
   text-align: center;

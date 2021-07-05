@@ -110,21 +110,19 @@
 <script>
 import Evaluation from "../components/Evaluation";
 import Tabs from "../components/Tabs";
-
 export default {
   name: "ServiceDetails",
   props:['id'],
   components: {Evaluation, Tabs},
   data() {
     return {
-      currentPage2:1,
       activeName: 'first',
       info: {
-        email:"无"
+        email:"无",
+        createTime:''
       },
       value: 0,
       eachValue: 3,
-      evaluate: {},
       keywords: [],
       currentPage: 1,
       total:0,
@@ -132,7 +130,6 @@ export default {
     };
   },
  created() {
-
     this.getEvaluation()
  },
   async mounted() {
@@ -140,6 +137,11 @@ export default {
       id: this.id
     })
     this.info = detail_result.data.serve//服务信息
+    this.value= this.info.star
+    this.keywords = this.info.keywords.split(',')//以逗号分割获取的关键字
+    //moment时间格式化插件
+    const moment = require('moment');
+    this.info.createTime= moment(this.info.createTime).format(("YYYY-MM-DD"))
   },
   methods: {
     async getEvaluation() {
@@ -151,9 +153,6 @@ export default {
       })
       this.commentListRequire = commentList.data.evaluationList.records//评价列表
       this.total = commentList.data.evaluationList.total//评价总数
-      // this.currentPage=commentList.data.evaluationList.current//当前页
-
-      this.keywords = this.info.keywords.split(',')//以逗号分割获取的关键字
       this.value = parseInt(this.info.star)
       if (!this.value) {
         this.value = 0
@@ -282,13 +281,11 @@ export default {
     }
 
     .common-pagination {
+      display: flex;
       height: 60px;
-      position: relative;
+      align-items: center;
+      justify-content: center;
       .pagination {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
       }
     }
 

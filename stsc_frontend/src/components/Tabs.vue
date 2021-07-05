@@ -4,7 +4,7 @@
 <!--    <el-tab-pane label="成功案例" name="second" ><slot name="second"></slot></el-tab-pane>-->
     <el-tab-pane label="专业人才" name="third" class="tab">{{ professionalTalents }}</el-tab-pane>
     <el-tab-pane label="资质证明" name="fourth" class="tab" >{{ credentials }}</el-tab-pane>
-    <el-tab-pane label="评价" name="fifth"  ><slot name="fifth"></slot></el-tab-pane>
+    <el-tab-pane label="评价" name="fifth"  class="tab" ><slot name="fifth"></slot></el-tab-pane>
   </el-tabs>
 </template>
 

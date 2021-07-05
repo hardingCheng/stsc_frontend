@@ -10,7 +10,7 @@ export default class ShowGraph {
         enabled: true,
         pageVisible: false,
         pageBreak: false,
-        pannable: false
+        pannable: true
       },
       //滚动滑轮缩放画布大小
       mousewheel: {
