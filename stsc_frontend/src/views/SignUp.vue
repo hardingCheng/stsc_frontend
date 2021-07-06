@@ -87,6 +87,7 @@ export default {
         const result = await this.$axios.userControllerList.register({
           username:this.form.username,
           password:this.form.password,
+          verifyCode:this.form.verificationCode,
         });
         if (result.code === 20000) {
           await this.$router.push("/login")
