@@ -136,10 +136,10 @@ export default {
             await this.setLoginInfo(resultLogin)
           }, 1000);
         }else if (resultLogin.code === 20001) {
+          loading.close()
           this.$set(this.errors, "errorlogin",  resultLogin.message)
           this.form.verificationCode = ''
-          this.getCode()
-          loading.close()
+          await this.getCode()
         }
       } else {
         this.errors = errors
@@ -218,10 +218,19 @@ export default {
     }
   },
   watch: {
-    form:{
+    formValue:{
       deep:true,
       handler(newValue,oldValue){
         this.errors={}
+      }
+    }
+  },
+  computed:{
+    formValue(){
+      let {username,password} = this.form
+      return {
+        username,
+        password
       }
     }
   }
