@@ -26,7 +26,7 @@
           <el-form-item label="联系地址：" prop="address">
             <el-input v-model="form.address" placeholder="请填写联系地址"></el-input>
           </el-form-item>
-          <span class="form-group-title">需求预算及背景</span>
+          <span class="form-group-title">需求背景</span>
 <!--          需要修改 文件大小和类型-->
           <el-form-item label="上传图片：">
             <el-upload

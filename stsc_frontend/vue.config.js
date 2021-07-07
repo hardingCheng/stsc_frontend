@@ -11,14 +11,16 @@ module.exports = {
     proxy: {
       // 配置多个跨域
       "/ph": {
-        target: "http://192.168.31.235:8001",
+        target: "http://60.205.217.212:8001",
+      //  target: "http://192.168.31.235:8001",
         changeOrigin: true,
         pathRewrite: {
           "^/ph": "",
         },
       },
       "/bh": {
-        target: "http://60.205.217.212:8003",
+        //target: "http://60.205.217.212:8003",
+        target: "http://192.168.31.65:8003",
         changeOrigin: true,
         pathRewrite: {
           "^/bh": "",
@@ -55,7 +57,6 @@ module.exports = {
   chainWebpack: (config) => {
     config.resolve.symlinks(true) // 修复热更新失效
   },
-
   publicPath: './',
   outputDir: 'dist'
 };

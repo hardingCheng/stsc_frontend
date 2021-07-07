@@ -357,7 +357,6 @@ export default {
                   type: 'success',
                   message: '提交成功'
                 })
-
               //显示订单信息
               }
           ).catch(error => {
@@ -366,7 +365,6 @@ export default {
               message: '提交失败'
             })
           })
-
     }
   },
 
