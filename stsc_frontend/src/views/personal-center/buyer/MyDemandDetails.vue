@@ -367,22 +367,22 @@ export default {
         }
       })
       console.log(this.keyPlan)
-      // await this.$axios.orderControllerList.saveForSelect(orderList)
-      //     .then(response => {
-      //           this.hid = 0
-      //           this.getRequireState()
-      //           this.$message({
-      //             type: 'success',
-      //             message: '提交成功'
-      //           })
-      //         //显示订单信息
-      //         }
-      //     ).catch(error => {
-      //       this.$message({
-      //         type: 'error',
-      //         message: '提交失败'
-      //       })
-      //     })
+      await this.$axios.orderControllerList.saveForSelect(orderList)
+          .then(response => {
+                this.hid = 0
+                this.getRequireState()
+                this.$message({
+                  type: 'success',
+                  message: '提交成功'
+                })
+              //显示订单信息
+              }
+          ).catch(error => {
+            this.$message({
+              type: 'error',
+              message: '提交失败'
+            })
+          })
     }
   },
 
