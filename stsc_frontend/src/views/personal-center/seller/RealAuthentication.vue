@@ -55,8 +55,8 @@
     <div class="qualification-certificate-yes-certified" v-else>
       <div class="qualification-certificate-info">
         <ul>
-          <li>企业名称: <span>{{qualificationInfo.address}}</span></li>
-          <li>企业地址: <span>{{qualificationInfo.companyName}}</span></li>
+          <li>企业名称: <span>{{qualificationInfo.companyName}}</span></li>
+          <li>企业地址: <span>{{qualificationInfo.address}}</span></li>
           <li>营业范围: <span>{{qualificationInfo.businessScope}}</span></li>
         </ul>
       </div>
@@ -68,7 +68,7 @@
           </a>
         </div>
         <el-dialog :visible.sync="dialogVisible">
-          <img width="100%" :src="dialogImageUrl" alt="">
+          <img width="100%" :src="dialogImageUrl || qualificationInfo.qualificationUrl" alt="">
         </el-dialog>
       </div>
     </div>
