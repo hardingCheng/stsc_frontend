@@ -119,7 +119,7 @@
             </el-input>
           </div>
         </div>
-        <template v-show="status===5">
+        <template v-if="status===5">
           <div class="serve_order1" v-for="(item,index) in subOrderInfo" :key="index">
             <img :src=orderChildrenInfo.orderImg class="order_style">
             <ul>

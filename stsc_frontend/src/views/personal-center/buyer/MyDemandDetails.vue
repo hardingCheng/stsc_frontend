@@ -87,13 +87,14 @@
           </el-option>
         </el-select>
         <!--        推荐服务商-->
-        <div class="children_demand" v-for="(items,index) in item" v-bind:key="index" v-if="items.subRequireName">
-          <span class="children_demand_title">{{ items.subRequireName }}</span>
+        <div class="children_demand"  v-for="(items,index) in item" v-bind:key="index" v-if="items.subRequireName" >
+          <span class="children_demand_title" >{{ items.subRequireName }}</span>
           <div class="company ">
-            <el-radio-group v-model="company_radio[index]" @change="changeVal"
+            <el-radio-group v-model="company_radio[index]" @change="changeVal(index)"
                             v-for="(itemss,index1) in items.sellerList" v-bind:key="index1">
               <el-radio :label="itemss.serveId" >{{ itemss.sellerName }}</el-radio>
               <img src="../../../assets/images/detaillogo.png" class="detail_logo" @click="companyDetail(itemss.serveId)">
+
             </el-radio-group>
           </div>
         </div>
@@ -105,11 +106,10 @@
           <div class="grab_title">{{items.subRequireName}}</div>
           <div class="grab_content">
             <div class="company ">
-              <el-radio-group v-model="grab_radio[index]"
-                              v-for="(itemss,index1) in items.sellerList" v-bind:key="index1">
-                <div class="grab_company_list">
+              <el-radio-group v-model="grab_radio[index]" @change="changeVal(index)"
+                              v-for="(itemss,index1) in items.sellerList" v-bind:key="index1"  >
                   <el-radio :label="itemss.serveId">{{ itemss.sellerName }}</el-radio>
-                </div>
+                <img src="../../../assets/images/detaillogo.png" class="detail_logo" @click="companyDetail(itemss.serveId)">
               </el-radio-group>
             </div>
           </div>
@@ -149,6 +149,7 @@ export default {
       filename:"",
       orderInfo:{},//存放订单信息
       grabOrderInfo:{},//存放抢单的信息
+      keyPlan:1000,//存放索引
       options: [{
         value: '选项1',
         label: '综合排序'
@@ -166,8 +167,8 @@ export default {
         value: '选项2',
         label: '否'
       }],
-      value: '',
-      value1: '',
+      value: '综合排序',
+      value1: '是',
 
     };
   },
@@ -298,6 +299,13 @@ export default {
     getVal(val) {
     },
     changeVal(val) {
+      console.log(val)
+      this.keyPlan=val
+      // if(val){
+      //   this.keyPlan=true
+      // }else if (val===0){
+      // }
+
     },
     changeSelect(label) {
       this.radio = label
@@ -339,34 +347,34 @@ export default {
       }, 500);
       let orderList = []
       this.item.map((item, index) => {
-        orderList.push(item.subRequireId + ',' + this.company_radio[index])
+        if(!this.company_radio[index]){
+        }else {
+          orderList.push(item.subRequireId + ',' + this.company_radio[index])
+        }
       })
-      // this.grabOrderInfo.map((item, index) => {
-      //   if (item.subRequireId===this.id){
-      //     orderList=[]
-      //     orderList.push(item.subRequireId + ',' + this.grab_radio[index])
-      //   }else{
-      //     orderList.push(item.subRequireId + ',' + this.grab_radio[index])
-      //   }
-      // })
-      await this.$axios.orderControllerList.saveForSelect(orderList)
-          .then(response => {
-                this.hid = 0
-                this.getRequireState()
-                this.$message({
-                  type: 'success',
-                  message: '提交成功'
-                })
-
-              //显示订单信息
-              }
-          ).catch(error => {
-            this.$message({
-              type: 'error',
-              message: '提交失败'
-            })
-          })
-
+      this.grabOrderInfo.map((item, index) => {
+        if(!this.grab_radio[index]){
+        }else {
+          orderList.push(item.subRequireId + ',' + this.grab_radio[index])
+        }
+      })
+      console.log(this.keyPlan)
+      // await this.$axios.orderControllerList.saveForSelect(orderList)
+      //     .then(response => {
+      //           this.hid = 0
+      //           this.getRequireState()
+      //           this.$message({
+      //             type: 'success',
+      //             message: '提交成功'
+      //           })
+      //         //显示订单信息
+      //         }
+      //     ).catch(error => {
+      //       this.$message({
+      //         type: 'error',
+      //         message: '提交失败'
+      //       })
+      //     })
     }
   },
 
@@ -421,7 +429,7 @@ export default {
       height: 400px;
       align-items: center;
       justify-content: space-around;
-      flex-direction:column-reverse,
+      flex-direction:column-reverse;
     }
     .button_group {
       display: flex;
@@ -524,6 +532,11 @@ export default {
               width: 250px;
               display: inline-block;
               height: 30px;
+            }
+            img {
+              display: inline-block;
+              position: absolute;
+              height: 15px;
             }
           }
         }

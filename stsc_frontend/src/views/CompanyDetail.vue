@@ -66,7 +66,6 @@ export default {
         id:this.$route.params.id
       })
       this.info=result.data.user
-      console.log(this.info)
     }
   }
 }
