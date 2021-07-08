@@ -87,14 +87,18 @@
           </el-option>
         </el-select>
         <!--        推荐服务商-->
-        <div class="children_demand"  v-for="(items,index) in item" v-bind:key="index" v-if="items.subRequireName" >
+        <div class="children_demand"  v-for="(items,index) in item " v-bind:key="index" v-if="items.subRequireName" >
           <span class="children_demand_title" >{{ items.subRequireName }}</span>
           <div class="company ">
-            <el-radio-group v-model="company_radio[index]" @change="changeVal(index)"
+            <el-radio-group v-model="company_radio[index]" @change="changeVal(index)" v-if="index!==keyPlanGrab[index]"
                             v-for="(itemss,index1) in items.sellerList" v-bind:key="index1">
               <el-radio :label="itemss.serveId" >{{ itemss.sellerName }}</el-radio>
               <img src="../../../assets/images/detaillogo.png" class="detail_logo" @click="companyDetail(itemss.serveId)">
-
+            </el-radio-group>
+            <el-radio-group v-model="company_radio[index]" @change="changeVal(index)" v-if="index===keyPlanGrab[index]" disabled
+                            v-for="(itemss,index1) in items.sellerList" v-bind:key="index1">
+              <el-radio :label="itemss.serveId" >{{ itemss.sellerName }}</el-radio>
+              <img src="../../../assets/images/detaillogo.png" class="detail_logo" @click="companyDetail(itemss.serveId)">
             </el-radio-group>
           </div>
         </div>
@@ -106,9 +110,14 @@
           <div class="grab_title">{{items.subRequireName}}</div>
           <div class="grab_content">
             <div class="company ">
-              <el-radio-group v-model="grab_radio[index]" @change="changeVal(index)"
+              <el-radio-group v-model="grab_radio[index]"  @change="changeValGrab(index)" v-if="index!==keyPlan[index]"
                               v-for="(itemss,index1) in items.sellerList" v-bind:key="index1"  >
                   <el-radio :label="itemss.serveId">{{ itemss.sellerName }}</el-radio>
+                <img src="../../../assets/images/detaillogo.png" class="detail_logo" @click="companyDetail(itemss.serveId)">
+              </el-radio-group>
+              <el-radio-group v-model="grab_radio[index]"   v-if="index===keyPlan[index]" disabled
+                              v-for="(itemss,index1) in items.sellerList" v-bind:key="index1"  >
+                <el-radio :label="itemss.serveId">{{ itemss.sellerName }}</el-radio>
                 <img src="../../../assets/images/detaillogo.png" class="detail_logo" @click="companyDetail(itemss.serveId)">
               </el-radio-group>
             </div>
@@ -149,7 +158,8 @@ export default {
       filename:"",
       orderInfo:{},//存放订单信息
       grabOrderInfo:{},//存放抢单的信息
-      keyPlan:1000,//存放索引
+      keyPlan:[],//存放索引
+      keyPlanGrab:[],//存放抢单的索引
       options: [{
         value: '选项1',
         label: '综合排序'
@@ -299,13 +309,11 @@ export default {
     getVal(val) {
     },
     changeVal(val) {
-      console.log(val)
-      this.keyPlan=val
-      // if(val){
-      //   this.keyPlan=true
-      // }else if (val===0){
-      // }
-
+      this.keyPlan.push(val)
+      console.log(this.keyPlan)
+    },
+    changeValGrab(val){
+    this.keyPlanGrab.push(val)
     },
     changeSelect(label) {
       this.radio = label
