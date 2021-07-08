@@ -132,6 +132,10 @@ export default function $axios(options) {
               err.message = "请求超时";
               break;
 
+            case 413:
+              err.message = "上传文件过大";
+              break;
+
             case 500:
               err.message = "服务器内部错误";
               break;
