@@ -121,6 +121,7 @@ export default {
       let demandBaseResult
       // 全部需求
       if (id === null) {
+        this.getSecondCategoryList = []
         demandBaseResult = await this.$axios.requirementControllerList.getRequireSubRequire({
           page: this.currentPage1,
           limit: 15

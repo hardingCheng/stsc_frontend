@@ -124,7 +124,9 @@ export default {
       }
     },
     modPrice(value){
-      if (value){
+      if (value === '面议' || value === '暂无价格'  ){
+        return value
+      }else if(parseInt(value).toString() !== 'NaN'){
         return '￥'+(+value)+'万'
       }else {
         return ''

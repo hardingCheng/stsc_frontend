@@ -40,7 +40,7 @@
                 </el-select>
               </el-form-item>
               <template  v-if="formSmallOrder.region === '2'">
-                <el-input-number style="margin-left: 5px; width:150px" v-model="formSmallOrder.price" :precision="2" :step="0.1" :max="10000"></el-input-number> 万
+                <el-input-number style="margin-left: 5px; width:150px" v-model="formSmallOrder.price" :precision="2" :step="0.1" :min="0"  :max="10000"></el-input-number> 万
               </template>
             </el-form>
             <ul>
@@ -94,11 +94,9 @@
                   </el-select>
                 </el-form-item>
                 <template  v-if="formBigOrder[index].region === '2'">
-                  <el-input-number style="margin-left: 5px; width:150px" v-model="formBigOrder[index].price" :precision="2" :step="0.1" :max="10000"></el-input-number> 万
+                  <el-input-number style="margin-left: 5px; width:150px" v-model="formBigOrder[index].price" :precision="2" :step="0.1" :min="0" :max="10000"></el-input-number> 万
                 </template>
               </el-form>
-
-
             </div>
             <div class="service-contract-item"   v-if="contractForBuyer.length > 0" v-for="(item,index) in orderSplitInfo.subOrderInfoVoList" :key="index">
               <span >{{item.subOrderName}}: <a @click="pdfShow(contractForBuyer[index].fileUrl)">{{contractForBuyer[index].fileName}}</a></span>
@@ -129,7 +127,7 @@ export default {
       contractSplitInfoNum:0,
       formSmallOrder: {
         region: '1',
-        price:'保密',
+        price: 0.00,
         contractUrl:'',
         orderId:''
       },
@@ -200,7 +198,7 @@ export default {
           for (let i = 0; i <this.orderSplitInfo.subOrderInfoVoList.length;i++){
             this.formBigOrder.push({
               region: '1',
-              price:'保密',
+              price: 0.00,
               contractUrl:'',
               orderId:''
             })
@@ -272,6 +270,9 @@ export default {
     },
     async handleSplitSuccess(response, file, subOrderId,index){
       if (response.code === 20000){
+        if (this.formBigOrder[index].region === '1'){
+          this.formBigOrder[index].price = '保密'
+        }
         this.contractSplitInfo[index] = `${subOrderId},${response.data.url},${this.formBigOrder[index].price}`
         this.contractSplitInfoNum++
         if (this.contractSplitInfoNum === this.orderSplitInfo.subOrderInfoVoList.length){

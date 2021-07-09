@@ -112,6 +112,7 @@ export default {
     // 获取第一次全部的服务或者一级分类的服务
     async getFirstServiceList(id){
       if (id === null) {
+        this.getSecondCategoryList = []
         const servciceBaseResult = await this.$axios.serveControllerList.getServesByCondition({
           page: 1,
           limit: 15
