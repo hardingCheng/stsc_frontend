@@ -183,17 +183,16 @@ export default {
       let immediatelyResult = await this.$axios.orderControllerList.getOrderNowForRequire({
         requireId:id
       })
-      console.log(immediatelyResult)
-      if (immediatelyResult.code === 20001){
-        this.$message({
-          message: immediatelyResult.message,
-          type: 'error'
-        })
-      }
       if (immediatelyResult.code === 20000){
         this.$message({
           message: immediatelyResult.message,
           type: 'success'
+        })
+      }
+      if (immediatelyResult.code === 20001){
+        this.$message({
+          message: immediatelyResult.message,
+          type: 'error'
         })
       }
     },

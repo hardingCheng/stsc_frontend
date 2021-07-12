@@ -3,7 +3,7 @@
     <div class="container">
      <bread-crumb :info="info"></bread-crumb>
       <div class="send-service-title">
-        <h1>免费发布服务</h1>
+        <h1>{{id ? '更新发布服务':'免费发布服务'}}</h1>
       </div>
       <div class="send-service-form">
         <el-form ref="serviceform" :model="form" :rules="rules" label-position="right" label-width="100px" @submit.native.prevent >
@@ -415,6 +415,7 @@ export default {
     async updateServe(){
       let updateResult =  await this.$axios.serveControllerList.updateServeById(this.form)
       if (updateResult.code === 20000){
+        this.loading.close()
         this.disable = false
         this.$message({
           message: '修改服务成功,请前往个人中心查看！',
@@ -553,6 +554,11 @@ export default {
       if (this.filerReadyUploadList1.length === 0 && this.filerReadyUploadList.length === 0){
         let updateServeResult =  await this.$axios.serveControllerList.updateServeById(this.form)
         if (updateServeResult.code === 20000){
+          this.loading.close();
+          this.$message({
+            message: '修改服务成功。',
+            type: 'success'
+          });
           await this.$router.push("/pc/seller/myservice")
         }
       }

@@ -4,10 +4,10 @@
     <div class="container">
      <bread-crumb :info="info"></bread-crumb>
       <div class="send-demand-title">
-        <h1>免费发布需求</h1>
+        <h1>{{id ? '更新发布需求':'免费发布需求'}}</h1>
       </div>
       <div class="send-demand-form">
-        <el-form ref="demandform" :model="form" :rules="rules"  label-position="right" label-width="100px" @submit.native.prevent >
+        <el-form ref="demandform" :model="form" :rules="rules"  label-position="right" label-width="100px" @submit.native.prevent>
         <div class="form-main">
           <span class="form-group-title">需求基本信息</span>
           <el-form-item label="需求名称：" prop="name">
@@ -343,6 +343,10 @@ export default {
         let updaterResult =  await this.$axios.requirementControllerList.updateRequireById(this.form)
         if (updaterResult.code === 20000){
           this.loading.close()
+          this.$message({
+            message: '修改需求成功！',
+            type: 'success'
+          });
           await this.$router.push("/pc/buyer/mydemand")
         }
       }
@@ -430,7 +434,7 @@ export default {
     }
   },
   async mounted(){
-    if (this.userInfo.isRealNameCertification === 1) {
+    if (this.$store.getters.getUserInfo.isRealNameCertification === 1) {
       // 修改需求的情况
       if (this.id) {
         await this.getUpdateRequirement()

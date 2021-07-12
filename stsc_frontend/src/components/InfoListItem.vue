@@ -2,7 +2,7 @@
   <div class="info-list-item" v-if="info !== null">
     <div class="enterprise-top">
       <a href="#">
-        <img src="../assets/images/hotbg.png" alt="">
+        <img v-lazy="require('../assets/images/hotbg.png')" alt="">
         <div class="enterprise-name">
           <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
         </div>

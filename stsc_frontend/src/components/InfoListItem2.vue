@@ -2,7 +2,7 @@
   <div class="info-list-item" v-if="info !== null">
     <div class="enterprise-top">
       <a @click="goDetail(detailurl)">
-        <img :src="imageSrc" alt="">
+        <img v-lazy="imageSrc" alt="">
         <div class="enterprise-name">
           <h1>{{ info.name }}</h1>
         </div>

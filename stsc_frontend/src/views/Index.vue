@@ -21,7 +21,7 @@
         <div class="container">
           <div class="data-presentation-item">
             <div class="data-presentation-item-left">
-              <img src="../assets/images/dataimage/data1.png" alt="">
+              <img v-lazy="require('../assets/images/dataimage/data1.png')" alt="">
             </div>
             <div class="data-presentation-item-right">
               <div class="data-presentation-item-title">机构数量</div>
@@ -30,7 +30,7 @@
           </div>
           <div class="data-presentation-item">
             <div class="data-presentation-item-left">
-              <img src="../assets/images/dataimage/data2.png" alt="">
+              <img v-lazy="require('../assets/images/dataimage/data2.png')" alt="">
             </div>
             <div class="data-presentation-item-right">
               <div class="data-presentation-item-title">需求数量</div>
@@ -39,7 +39,7 @@
           </div>
           <div class="data-presentation-item">
             <div class="data-presentation-item-left">
-              <img src="../assets/images/dataimage/data3.png" alt="">
+              <img v-lazy="require('../assets/images/dataimage/data3.png')" alt="">
             </div>
             <div class="data-presentation-item-right">
               <div class="data-presentation-item-title">服务数量</div>
@@ -48,7 +48,7 @@
           </div>
           <div class="data-presentation-item">
             <div class="data-presentation-item-left">
-              <img src="../assets/images/dataimage/data4.png" alt="">
+              <img v-lazy="require('../assets/images/dataimage/data4.png')" alt="">
             </div>
             <div class="data-presentation-item-right">
               <div class="data-presentation-item-title">订单数量</div>
@@ -57,7 +57,7 @@
           </div>
           <div class="data-presentation-item">
             <div class="data-presentation-item-left">
-              <img src="../assets/images/dataimage/data4.png" alt="">
+              <img v-lazy="require('../assets/images/dataimage/data4.png')" alt="">
             </div>
             <div class="data-presentation-item-right">
               <div class="data-presentation-item-title">数据数量</div>
@@ -73,25 +73,25 @@
             <div class="service-category-tab">
               <div class="service-category-tab-item" :class="[sindex === 1?'tab-active':'']">
                 <a @click="servicecategory(1)">
-                  <img src="../assets/images/serviceimage/service1.png" alt="">
+                  <img v-lazy="require('../assets/images/serviceimage/service1.png')" alt="">
                   <span>研究开发</span>
                 </a>
               </div>
               <div class="service-category-tab-item" :class="[sindex === 2?'tab-active':'']">
                 <a @click="servicecategory(2)">
-                  <img src="../assets/images/serviceimage/service2.png" alt="">
+                  <img v-lazy="require('../assets/images/serviceimage/service2.png')" alt="">
                   <span>技术转移</span>
                 </a>
               </div>
               <div class="service-category-tab-item" :class="[sindex === 3?'tab-active':'']">
                 <a @click="servicecategory(3)">
-                  <img src="../assets/images/serviceimage/service3.png" alt="">
+                  <img v-lazy="require('../assets/images/serviceimage/service3.png')" alt="">
                   <span>知识产权</span>
                 </a>
               </div>
               <div class="service-category-tab-item" :class="[sindex === 4?'tab-active':'']">
                 <a @click="servicecategory(4)">
-                  <img src="../assets/images/serviceimage/service4.png" alt="">
+                  <img v-lazy="require('../assets/images/serviceimage/service4.png')" alt="">
                   <span>检验检测</span>
                 </a>
               </div>
@@ -226,7 +226,7 @@
               <router-link :to="'/successCaseDetail/'+successfulCaseList[0][0].id">
                 <div class="sucess-left-img">
                   <img
-                      :src="successfulCaseList[0][0].imageUrl"
+                      v-lazy="successfulCaseList[0][0].imageUrl"
                       alt="">
                 </div>
                 <div class="sucess-left-info">
@@ -240,7 +240,7 @@
                 <router-link :to="'/successCaseDetail/'+item.id">
                   <div class="sucess-right-img">
                     <img
-                        :src="item.imageUrl"
+                        v-lazy="item.imageUrl"
                         alt="">
                   </div>
                   <div class="sucess-right-info">
@@ -266,7 +266,7 @@
           <div class="platform-news-main">
             <div class="platform-news-main-item">
               <div class="platform-news-main-item-top">
-                <img src="../assets/images/news.png" alt="">
+                <img v-lazy="require('../assets/images/news.png')" alt="">
               </div>
               <div class="platform-news-main-item-bottom">
                 <h1>服务“太白山地质地貌研究”</h1>
@@ -277,7 +277,7 @@
             </div>
             <div class="platform-news-main-item">
               <div class="platform-news-main-item-top">
-                <img src="../assets/images/news.png" alt="">
+                <img v-lazy="require('../assets/images/news.png')" alt="">
               </div>
               <div class="platform-news-main-item-bottom">
                 <h1>服务“太白山地质地貌研究”</h1>
@@ -288,7 +288,7 @@
             </div>
             <div class="platform-news-main-item">
               <div class="platform-news-main-item-top">
-                <img src="../assets/images/news.png" alt="">
+                <img v-lazy="require('../assets/images/news.png')" alt="">
               </div>
               <div class="platform-news-main-item-bottom">
                 <h1>服务“太白山地质地貌研究”</h1>
@@ -299,7 +299,7 @@
             </div>
             <div class="platform-news-main-item">
               <div class="platform-news-main-item-top">
-                <img src="../assets/images/news.png" alt="">
+                <img v-lazy="require('../assets/images/news.png')" alt="">
               </div>
               <div class="platform-news-main-item-bottom">
                 <h1>服务“太白山地质地貌研究”</h1>
@@ -330,23 +330,23 @@
           </div>
           <div class="cooperative-partner-bottom">
             <ul class="cooperative-partner-ul">
-              <li><img src="../assets/shanghai.png" alt=""></li>
-              <li><img src="https://cn.vuejs.org/images/vueschool.png" alt=""></li>
-              <li><img src="https://cn.vuejs.org/images/vehikl.png" alt=""></li>
-              <li><img src="https://cn.vuejs.org/images/retool.png" alt=""></li>
-              <li><img src="https://cn.vuejs.org/images/passionate_people.png" alt=""></li>
+              <li><img v-lazy="require('../assets/shanghai.png')" alt=""></li>
+              <li><img v-lazy="'https://cn.vuejs.org/images/vueschool.png'" alt=""></li>
+              <li><img v-lazy="'https://cn.vuejs.org/images/vehikl.png'" alt=""></li>
+              <li><img v-lazy="'https://cn.vuejs.org/images/retool.png'" alt=""></li>
+              <li><img v-lazy="'https://cn.vuejs.org/images/passionate_people.png'" alt=""></li>
 
-              <li><img src="https://cn.vuejs.org/images/storyblok.png" alt=""></li>
-              <li><img src="https://cn.vuejs.org/images/neds.png" alt=""></li>
-              <li><img src="https://cn.vuejs.org/images/vpsserver_com.png" alt=""></li>
-              <li><img src="https://cn.vuejs.org/images/vpn_review.png" alt=""></li>
-              <li><img src="https://cn.vuejs.org/images/litslink.png" alt=""></li>
+              <li><img v-lazy="'https://cn.vuejs.org/images/storyblok.png'" alt=""></li>
+              <li><img v-lazy="'https://cn.vuejs.org/images/neds.png'" alt=""></li>
+              <li><img v-lazy="'https://cn.vuejs.org/images/vpsserver_com.png'" alt=""></li>
+              <li><img v-lazy="'https://cn.vuejs.org/images/vpn_review.png'" alt=""></li>
+              <li><img v-lazy="'https://cn.vuejs.org/images/litslink.png'" alt=""></li>
 
-              <li><img src="https://cn.vuejs.org/images/line_corporation.png" alt=""></li>
-              <li><img src="https://cn.vuejs.org/images/flatlogic_templates.svg" alt=""></li>
-              <li><img src="https://cn.vuejs.org/images/usave.png" alt=""></li>
-              <li><img src="https://cn.vuejs.org/images/lowdefy.png" alt=""></li>
-              <li><img src="https://cn.vuejs.org/images/devexpress.png" alt=""></li>
+              <li><img v-lazy="'https://cn.vuejs.org/images/line_corporation.png'" alt=""></li>
+              <li><img v-lazy="'https://cn.vuejs.org/images/flatlogic_templates.svg'" alt=""></li>
+              <li><img v-lazy="'https://cn.vuejs.org/images/usave.png'" alt=""></li>
+              <li><img v-lazy="'https://cn.vuejs.org/images/lowdefy.png'" alt=""></li>
+              <li><img v-lazy="'https://cn.vuejs.org/images/devexpress.png'" alt=""></li>
             </ul>
           </div>
         </div>
