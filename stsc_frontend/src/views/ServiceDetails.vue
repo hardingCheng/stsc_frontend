@@ -28,7 +28,8 @@
           </div>
         </div>
         <!--        <div class="text-title-title">单位所在地：<span class="text-service-text">{{ info.address }}</span></div>-->
-        <div class="text-title-title">创造时间：<span class="text-service-text">{{ info.createTime }}</span></div>
+        <div class="text-title-title">创建时间：<span class="text-service-text">{{ info.createTime }}</span></div>
+        <div class="text-title-title">联系人：<span class="text-service-text">{{ info.contact }}</span></div>
         <div class="text-title-title">手机号：<span class="text-service-text">{{ info.telephone }}</span></div>
         <!--        <div class="address">-->
         <!--        <div class="text-title-title ">联系地址：<span class="text-service-text ">陕西省西安市幸福街道</span></div>-->
@@ -142,6 +143,7 @@ export default {
     //moment时间格式化插件
     const moment = require('moment');
     this.info.createTime= moment(this.info.createTime).format(("YYYY-MM-DD"))
+    console.log(this.info)
   },
   methods: {
     async getEvaluation() {

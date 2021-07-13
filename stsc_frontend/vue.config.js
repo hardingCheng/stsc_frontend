@@ -19,8 +19,8 @@ module.exports = {
         },
       },
       "/bh": {
-        // target: "http://60.205.217.212:8003",
-        target: "http://192.168.31.65:8003",
+        target: "http://60.205.217.212:8003",
+        // target: "http://192.168.31.65:8003",
         changeOrigin: true,
         pathRewrite: {
           "^/bh": "",

@@ -10,7 +10,7 @@
         <img src="../assets/images/icon_list.png" />
         <span>需求方/需求描述</span>
       </div>
-      <p>需求方：<span>哈萨克斯坦</span></p>
+      <p>需求方：<span>{{ successDetail.buyerName }}</span></p>
       <p>所属平台：<span>{{ successDetail.source }}</span></p>
       <p>创建时间：<span>{{ successDetail.createTime }}</span></p>
       <p style="line-height: 25px">需求描述：<span>{{ successDetail.reqDescription }}</span></p>

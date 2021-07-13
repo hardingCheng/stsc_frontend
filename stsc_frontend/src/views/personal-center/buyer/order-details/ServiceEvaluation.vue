@@ -176,6 +176,7 @@ export default {
       orderEvaluation: [],
       serveId: null,//存放服务ID
       num: 0,//当前是第几个子订单，默认值为0
+      num1:0,
       sum: 0,//存放订单的总数,
       orderInfo: []
     }
@@ -187,6 +188,9 @@ export default {
     await this.getSellerInfo(this.order.sellerId, this.num)
     //如果订单状态为无代表已经评价，获取评论，以及订单信息
     let i=0;
+    if (this.type == 1&&this.status=== 4) {
+        await this.getSubInfo(this.subOrderId[this.num], this.num)
+      }
     if (this.type == 1&&this.status=== 5) {
       await this.getBigOrderEvaluation()
       //获取子订单信息,并存储到subOrderInfo列表

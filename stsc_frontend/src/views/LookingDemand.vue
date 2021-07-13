@@ -39,7 +39,7 @@
     <div class="info-list" v-if="demandList2.length !== 0">
       <div class="info-list-main" v-for="(item,index) in demandList2" :key="index">
         <div class="container">
-          <info-list-item2  v-for="(info,index) in item" :key="index"  :info="info" :detailurl="'/ddetail/'+info.id" :listtype="0" @requireImmediately="requireImmediately(info.id)"></info-list-item2>
+          <info-list-item2  v-for="(info,index) in item" :key="index"  :info="info" :detailurl="'/ddetail/'+info.id+'/'+info.flag" :listtype="0" @requireImmediately="requireImmediately(info.id)"></info-list-item2>
         </div>
       </div>
       <div class="common-pagination">
