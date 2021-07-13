@@ -57,7 +57,7 @@
           <h3>订单信息</h3>
           <ul class="order-info-list">
             <li>订单名称：<span>{{ orderInfo.subOrderName }}</span></li>
-            <li>订单编号：<span>{{ orderInfo.subOrderId }}</span></li>
+            <li>订单编号：<span>{{ orderInfo.subOrderNo }}</span></li>
             <li>需求方：<span>{{ orderInfo.buyerName }}</span></li>
             <li>联系方式：<span>{{ orderInfo.telephone }}</span></li>
           </ul>
