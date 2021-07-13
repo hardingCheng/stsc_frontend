@@ -16,10 +16,18 @@ const requirementControllerList = {
         });
     },
     // 通过需求ID查看需求详情
-    getRequireDetailById: (params) => {
+    getBigRequireDetailById: (params) => {
         return axios({
             url: `/bh/stcsp/requirement/getRequireDetailById/${params.id}`,
             method: "get",
+        });
+    },
+
+    // 通过需求ID查看需求详情
+    getRequireDetailById: (params) => {
+        return axios({
+            url: `/bh/stcsp/requirement/getRequireAndSubRequireDetailById/${params.id}/${params.flag}`,
+            method: "post",
         });
     },
     // 根据条件查找需求
