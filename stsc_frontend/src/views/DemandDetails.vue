@@ -56,7 +56,7 @@
 </template>
 <script>
 export default {
-  props: ['id'],
+  props: ['id','flag'],
   name: "demandDetails",
   data() {
     return {
@@ -68,13 +68,15 @@ export default {
       },//存放需求信息
       createTime:'',
       value: 2,
-      filename:""
+      filename:null
     };
   },
   async created() {
+
     //通过id获取需求详情
     const detail_result = await this.$axios.requirementControllerList.getRequireDetailById({
-      id: this.id
+      id: this.id,
+      flag:this.flag
     })
     //存放需求详情的信息
     this.info = detail_result.data.requirement
@@ -89,6 +91,7 @@ export default {
     }
     //存放需求评价的星数
     this.value = parseInt(this.info.star)
+
   },
   methods: {
     downloadClick(row) {

@@ -341,7 +341,7 @@ const routes = [
         props: true,
       },
       {
-        path: "ddetail/:id",
+        path: "ddetail/:id/:flag",
         name: "ddetail",
         component: () => import("../views/DemandDetails.vue"),
         meta: {

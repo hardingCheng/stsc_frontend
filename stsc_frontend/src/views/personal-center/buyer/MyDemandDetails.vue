@@ -221,17 +221,18 @@ export default {
       })
       //item用于存储推荐服务商
       this.item = detail_result.data.res
-      const results = await this.$axios.requirementControllerList.getRequireDetailById({
+      const results = await this.$axios.requirementControllerList.getBigRequireDetailById({
         id: this.id
       })
       //info_all存储需求详情
       this.info_all = results.data.requirement
       let regex="[^\\/\\_]+$"
-      if(results.data.requirement.attachments==null){
+      if(results.data.requirement.attachments==""){
         this.filename="无附件"
       }else {
         this.filename =results.data.requirement.attachments.match(regex)[0]
       }
+      console.log("",results.data.requirement.attachments)
       //moment时间格式化插件
       const moment = require('moment');
       this.date = moment(results.data.requirement.createTime).format(("YYYY-MM-DD"))
@@ -290,7 +291,7 @@ export default {
     },
     //获取需求状态
     async getRequireState() {
-      let result = await this.$axios.requirementControllerList.getRequireDetailById({
+      let result = await this.$axios.requirementControllerList.getBigRequireDetailById({
         id: this.$route.params.id
       })
       if (result.code === 20000) {
