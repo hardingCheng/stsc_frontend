@@ -90,16 +90,17 @@
         <div class="children_demand"  v-for="(items,index) in item " v-bind:key="index" v-if="items.subRequireName" >
           <span class="children_demand_title" >{{ items.subRequireName }}</span>
           <div class="company ">
-            <el-radio-group v-model="company_radio[index]" @change="changeVal(index)" v-if="index!==keyPlanGrab[index]"
+<!--            v-if="index!==keyPlanGrab[index]"-->
+            <el-radio-group v-model="company_radio[index]" @change="changeVal(index)"
                             v-for="(itemss,index1) in items.sellerList" v-bind:key="index1">
               <el-radio :label="itemss.serveId" >{{ itemss.sellerName }}</el-radio>
               <img src="../../../assets/images/detaillogo.png" class="detail_logo" @click="companyDetail(itemss.serveId)">
             </el-radio-group>
-            <el-radio-group v-model="company_radio[index]" @change="changeVal(index)" v-if="index===keyPlanGrab[index]" disabled
-                            v-for="(itemss,index1) in items.sellerList" v-bind:key="index1">
-              <el-radio :label="itemss.serveId" >{{ itemss.sellerName }}</el-radio>
-              <img src="../../../assets/images/detaillogo.png" class="detail_logo" @click="companyDetail(itemss.serveId)">
-            </el-radio-group>
+<!--            <el-radio-group v-model="company_radio[index]" @change="changeVal(index)" v-if="index===keyPlanGrab[index]" disabled-->
+<!--                            v-for="(itemss,index1) in items.sellerList" v-bind:key="index1">-->
+<!--              <el-radio :label="itemss.serveId" >{{ itemss.sellerName }}</el-radio>-->
+<!--              <img src="../../../assets/images/detaillogo.png" class="detail_logo" @click="companyDetail(itemss.serveId)">-->
+<!--            </el-radio-group>-->
           </div>
         </div>
       </div>
@@ -110,16 +111,17 @@
           <div class="grab_title">{{items.subRequireName}}</div>
           <div class="grab_content">
             <div class="company ">
-              <el-radio-group v-model="grab_radio[index]"  @change="changeValGrab(index)" v-if="index!==keyPlan[index]"
+<!--              v-if="index!==keyPlan[index]"-->
+              <el-radio-group v-model="company_radio[index]"  @change="changeValGrab(index)"
                               v-for="(itemss,index1) in items.sellerList" v-bind:key="index1"  >
                   <el-radio :label="itemss.serveId">{{ itemss.sellerName }}</el-radio>
                 <img src="../../../assets/images/detaillogo.png" class="detail_logo" @click="companyDetail(itemss.serveId)">
               </el-radio-group>
-              <el-radio-group v-model="grab_radio[index]"   v-if="index===keyPlan[index]" disabled
-                              v-for="(itemss,index1) in items.sellerList" v-bind:key="index1"  >
-                <el-radio :label="itemss.serveId">{{ itemss.sellerName }}</el-radio>
-                <img src="../../../assets/images/detaillogo.png" class="detail_logo" @click="companyDetail(itemss.serveId)">
-              </el-radio-group>
+<!--              <el-radio-group v-model="grab_radio[index]"    v-if="index===keyPlan[index]" disabled-->
+<!--                              v-for="(itemss,index1) in items.sellerList" v-bind:key="index1"  >-->
+<!--                <el-radio :label="itemss.serveId">{{ itemss.sellerName }}</el-radio>-->
+<!--                <img src="../../../assets/images/detaillogo.png" class="detail_logo" @click="companyDetail(itemss.serveId)">-->
+<!--              </el-radio-group>-->
             </div>
           </div>
         </div>
@@ -190,7 +192,10 @@ export default {
   async mounted() {
     this.getArrangeInfo()
     await this.getBuyer()
-    await this.getOrderInfo()
+    if(this.requireState===6){
+      await this.getOrderInfo()
+    }
+
   },
 
   methods: {
@@ -361,13 +366,13 @@ export default {
           orderList.push(item.subRequireId + ',' + this.company_radio[index])
         }
       })
-      this.grabOrderInfo.map((item, index) => {
-        if(!this.grab_radio[index]){
-        }else {
-          orderList.push(item.subRequireId + ',' + this.grab_radio[index])
-        }
-      })
-      console.log(this.keyPlan)
+      // this.grabOrderInfo.map((item, index) => {
+      //   if(!this.grab_radio[index]){
+      //   }else {
+      //     orderList.push(item.subRequireId + ',' + this.grab_radio[index])
+      //   }
+      // })
+      // console.log(this.keyPlan)
       await this.$axios.orderControllerList.saveForSelect(orderList)
           .then(response => {
                 this.hid = 0
