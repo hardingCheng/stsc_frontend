@@ -29,8 +29,8 @@
         </div>
         <!--        <div class="text-title-title">单位所在地：<span class="text-service-text">{{ info.address }}</span></div>-->
         <div class="text-title-title">创建时间：<span class="text-service-text">{{ info.createTime }}</span></div>
-        <div class="text-title-title">联系人：<span class="text-service-text">{{ info.contact }}</span></div>
-        <div class="text-title-title">手机号：<span class="text-service-text">{{ info.telephone }}</span></div>
+        <div class="text-title-title">联&emsp;系&emsp;人&emsp;：<span class="text-service-text">{{ info.contact }}</span></div>
+        <div class="text-title-title">手&emsp;机&emsp;号&emsp;：<span class="text-service-text">{{ info.telephone }}</span></div>
         <!--        <div class="address">-->
         <!--        <div class="text-title-title ">联系地址：<span class="text-service-text ">陕西省西安市幸福街道</span></div>-->
         <!--        </div>-->
@@ -41,7 +41,7 @@
             }}</span>
           </div>
         </div>
-        <el-button><span class="font">立即下单</span></el-button>
+        <el-button type="primary">立即下单</el-button>
       </div>
     </div>
     <Tabs
@@ -94,17 +94,17 @@
       </div>
       <div class="evaluation-box"  slot="fifth" style="height: 300px;padding-left: 10px;margin-top: 10px" v-else>暂无评价</div>
     </Tabs>
-    <div class="see-and-see container ">
-      <span class="see-and-see-title">---看了又看---</span>
-      <img src="../assets/staticImgs/seeandsee.png" height="160px" width="160px">
-      <div class="see-detail-div"><span class="see-detail">机器人关键零部件先进制造</span></div>
-      <img src="../assets/staticImgs/seeandsee.png" height="160px" width="160px">
-      <div class="see-detail-div"><span class="see-detail">机器人关键零部件先进制造</span></div>
-      <img src="../assets/staticImgs/seeandsee.png" height="160px" width="160px">
-      <div class="see-detail-div"><span class="see-detail">机器人关键零部件先进制造</span></div>
-      <img src="../assets/staticImgs/seeandsee.png" height="160px" width="160px">
-      <div class="see-detail-div"><span class="see-detail">机器人关键零部件先进制造</span></div>
-    </div>
+<!--    <div class="see-and-see container ">-->
+<!--      <span class="see-and-see-title">-&#45;&#45;看了又看-&#45;&#45;</span>-->
+<!--      <img src="../assets/staticImgs/seeandsee.png" height="160px" width="160px">-->
+<!--      <div class="see-detail-div"><span class="see-detail">机器人关键零部件先进制造</span></div>-->
+<!--      <img src="../assets/staticImgs/seeandsee.png" height="160px" width="160px">-->
+<!--      <div class="see-detail-div"><span class="see-detail">机器人关键零部件先进制造</span></div>-->
+<!--      <img src="../assets/staticImgs/seeandsee.png" height="160px" width="160px">-->
+<!--      <div class="see-detail-div"><span class="see-detail">机器人关键零部件先进制造</span></div>-->
+<!--      <img src="../assets/staticImgs/seeandsee.png" height="160px" width="160px">-->
+<!--      <div class="see-detail-div"><span class="see-detail">机器人关键零部件先进制造</span></div>-->
+<!--    </div>-->
   </div>
 </template>
 
@@ -196,7 +196,7 @@ export default {
     padding-top: 20px;
     padding-bottom: 20px;
     padding-left: 20px;
-    margin: 20px 330px 33px auto;
+    margin: 20px 330px 60px auto;
   }
 
   .serve-details-text-bottom {
@@ -344,6 +344,7 @@ export default {
         @include wh(73px, 24px);
         margin-right: 14px;
         border-radius: 1px;
+        margin-bottom: 5px;
         border: 1px solid #E0E0E0;
       }
 
@@ -558,9 +559,8 @@ export default {
 
 /deep/ .el-button {
   @include wh(140px, 50px);
-  margin-top: 20px;
-  bottom: 0;
   margin-bottom: 20px;
+  margin-top: 10px;
   background-color: #1794FF;
   color: #FFFFFF;
   font-size: 18px;

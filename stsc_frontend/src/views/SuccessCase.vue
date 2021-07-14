@@ -19,7 +19,7 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page.sync="currentPage"
-        :page-size="9"
+        :page-size="6"
         layout="total, prev, pager, next"
         :total=this.total>
     </el-pagination>
@@ -97,7 +97,7 @@ export default {
     display: flex;
     margin-bottom: 20px;
     flex-wrap: wrap;
-    height: 650px;
+    height: 450px;
     .case_div{
       display: flex;
       width: calc((100% - 48px) / 3);
