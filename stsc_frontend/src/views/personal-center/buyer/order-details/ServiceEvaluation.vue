@@ -64,7 +64,7 @@
     </div>
 
     <div v-if="type === '1'">
-      <div class="serve_company">
+      <div class="serve_company" v-if="status===4">
         <img :src=orderBuyInfo.avatar class="img_style">
         <div class="company_detail">
           <ul>
@@ -121,13 +121,16 @@
         </div>
         <template v-if="status===5">
           <div class="serve_order1" v-for="(item,index) in subOrderInfo" :key="index">
-            <img :src=orderChildrenInfo.orderImg class="order_style">
+            <img :src=item.image class="order_style">
             <ul>
               <li>
                 订单编号:<span>{{ !item.id ? "暂无数据" : item.id }}</span>
               </li>
               <li>
                 子订单名称:<span>{{ !item.name ? "暂无数据" : item.name }}</span>
+              </li>
+              <li>
+                服务商名称:<span>{{ !item.sellerName ? "暂无数据" : item.sellerName }}</span>
               </li>
               <li>
                 开始时间:<span>{{ !item.createTime ? "暂无数据" : item.createTime }}</span>
@@ -178,7 +181,10 @@ export default {
       num: 0,//当前是第几个子订单，默认值为0
       num1:0,
       sum: 0,//存放订单的总数,
-      orderInfo: []
+      orderInfo: [],
+      img:"",
+      address:"",
+      sellerName:""
     }
   },
   async created() {

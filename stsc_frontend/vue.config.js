@@ -20,7 +20,11 @@ module.exports = {
       },
       "/bh": {
         target: "http://60.205.217.212:8003",
+<<<<<<< HEAD
         // target: "http://192.168.31.65:8003",
+=======
+        //target: "http://192.168.31.65:8003",
+>>>>>>> front_gzx
         changeOrigin: true,
         pathRewrite: {
           "^/bh": "",

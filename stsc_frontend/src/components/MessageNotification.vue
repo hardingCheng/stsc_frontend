@@ -160,7 +160,7 @@ export default {
         this.messageObj.handle--
         this.notice_reduce--
       }
-      this.$router.push(`/seller/mynews`)
+      this.$router.push(`/pc/seller/mynews`)
     },
     loadMore: function () {
       this.loading = true
