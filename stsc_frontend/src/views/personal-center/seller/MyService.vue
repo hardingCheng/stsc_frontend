@@ -56,7 +56,7 @@ export default {
         page:val,
         limit:3
       })
-      this.infoList = result.data.requireList
+      this.infoList = result.data.serveList
     },
     async infoDetail(id){
       await this.$router.push(`/pc/myservice/${id}`)
