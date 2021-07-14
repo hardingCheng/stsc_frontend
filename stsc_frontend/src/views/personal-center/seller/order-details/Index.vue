@@ -9,9 +9,9 @@
 <!--            <li :class="[routerIndex === 3?'active':'']"><a @click="routerJump(3)">服务评价</a></li>-->
           </ul>
         </div>
-    <div class="order-detail-progress">
-      <custom-step-diagram :stepInfo="stepInfo"></custom-step-diagram>
-    </div>
+<!--    <div class="order-detail-progress">-->
+<!--      <custom-step-diagram :stepInfo="stepInfo"></custom-step-diagram>-->
+<!--    </div>-->
     <div class="order-detail-progress-main">
       <router-view></router-view>
     </div>

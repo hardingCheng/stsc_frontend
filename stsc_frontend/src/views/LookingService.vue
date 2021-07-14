@@ -160,12 +160,23 @@ export default {
     },
     // 立即下单产生订单
     async setOrderImmediately(value){
-      let result = await this.$axios.orderControllerList.createOrder({
+      let createOrderResult = await this.$axios.orderControllerList.createOrder({
         serveId:value,
         type:0
       })
-      if (result.code === 20000){
-        await this.$router.push('/pc/buyer/myorder')
+      if (createOrderResult.code === 20000){
+        this.$message({
+          message: createOrderResult.message,
+          type: 'success',
+          duration:500,
+          onClose:() =>  this.$router.push('/pc/buyer/myorder')
+        })
+      }
+      if (createOrderResult.code === 20001){
+        this.$message({
+          message: createOrderResult.message,
+          type: 'error'
+        })
       }
     },
     handleSizeChange(val) {
