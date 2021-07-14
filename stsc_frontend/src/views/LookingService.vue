@@ -10,6 +10,7 @@
           <el-input
               placeholder="请输入内容"
               prefix-icon="el-icon-search"
+
               v-model="findValue">
           </el-input>
         </div>
@@ -232,6 +233,7 @@ export default {
           float:left;
         }
         dd {
+          cursor: pointer;
           &:first-child {
             font-size: 14px;
             font-weight: 400;

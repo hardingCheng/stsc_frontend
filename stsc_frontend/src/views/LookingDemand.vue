@@ -256,7 +256,6 @@ export default {
 
         dd {
           cursor: pointer;
-
           &:first-child {
             font-size: 14px;
             font-weight: 400;
