@@ -7,7 +7,7 @@
       <div class="demand-details-inner-text">
         <div class="demand-title">{{ info.name }}</div>
         <div class="mechanism-classification">
-          <div class="text-title-title">需求机构：<span class="text-service-text">{{ info.company }}</span></div>
+          <div class="text-title-title">需求机构：<span class="text-service-text">{{isLogin ? info.company:"***" }}</span></div>
         </div>
         <div class="text-title-title">创造时间：<span class="text-service-text">{{ info.createTime }}</span></div>
         <div class="text-title-title">联系人：<span class="text-service-text">{{ info.contact }}</span></div>
@@ -68,11 +68,12 @@ export default {
       },//存放需求信息
       createTime:'',
       value: 2,
-      filename:null
+      filename:null,
+      isLogin:null,//判断用户是否登录
     };
   },
   async created() {
-
+      this.isLogin=this.$store.state.isLogin
     //通过id获取需求详情
     const detail_result = await this.$axios.requirementControllerList.getRequireDetailById({
       id: this.id,
