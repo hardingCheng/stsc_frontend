@@ -15,20 +15,20 @@
       <p>创建时间：<span>{{ successDetail.createTime }}</span></p>
       <p style="line-height: 25px">需求描述：<span>{{ successDetail.reqDescription }}</span></p>
     </div>
-    <div class="other">
-      <div class="other_title"><h3>其他成功案例</h3></div>
-      <div class="other_success">
-        <div class="other_success_div" v-for="(item,index) in successList">
-          <div class="img_div"><img :src=item.imageUrl></div>
-          <div class="other_inner">
-            <span>{{ item.title }}</span>
-            <p>{{ item.reqDescription }}</p>
-            <a @click="seeOther(item.id)">了解更多</a>
-          </div>
-        </div>
+<!--    <div class="other">-->
+<!--      <div class="other_title"><h3>其他成功案例</h3></div>-->
+<!--      <div class="other_success">-->
+<!--        <div class="other_success_div" v-for="(item,index) in successList">-->
+<!--          <div class="img_div"><img :src=item.imageUrl></div>-->
+<!--          <div class="other_inner">-->
+<!--            <span>{{ item.title }}</span>-->
+<!--            <p>{{ item.reqDescription }}</p>-->
+<!--            <a @click="seeOther(item.id)">了解更多</a>-->
+<!--          </div>-->
+<!--        </div>-->
 
-      </div>
-    </div>
+<!--      </div>-->
+<!--    </div>-->
     <div style="height: 50px"></div>
   </div>
 </template>
@@ -49,7 +49,8 @@ export default {
   },
   created() {
     this.getSuccessDetailInfo()
-    this.getSuccessAllInfo()
+   // this.getSuccessAllInfo()
+
   },
   methods:{
     //获取成功案例详情信息
@@ -62,6 +63,7 @@ export default {
       }).catch(error =>{
         console.log(error)
       })
+
     },
     //页面中显示其他成功案例详情
     getSuccessAllInfo(){

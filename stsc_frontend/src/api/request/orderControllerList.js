@@ -179,14 +179,14 @@ const orderControllerList = {
     },
     getSuccessAllInfo: (params) => {
         return axios({
-            url: `/ph/stcsp/front/listForCase/${params.page}/${params.limit}`,
+            url: `/ph/stcsp/front/listForCase/${params.page}`,
             method: "post",
             data:params
         });
     },
     getSuccessDetailInfo: (params) => {
         return axios({
-            url: `/ph/stcsp/admin/successCase/successCaseInfo/${params.id}`,
+            url: `/ph/stcsp/front/getInfo/${params.id}`,
             method: "get",
         });
     },
