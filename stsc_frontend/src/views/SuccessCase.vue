@@ -51,12 +51,11 @@ export default {
     //获取全部成功案例
     getSuccessAllInfo(){
       orderControllerList.getSuccessAllInfo({
-        page:this.currentPage,
-        limit:9
+        page:this.currentPage
       })
       .then(response => {
-            this.successList=response.data.pageInfo.records
-            this.total = response.data.pageInfo.total
+            this.successList=response.data.list
+            this.total = response.data.total
       })
       .catch(error =>{
         console.log(error)
@@ -116,6 +115,7 @@ export default {
           border-left:1px solid #F3F3F3 ;
           span{
             font-weight: bold;
+
           }
           p{
             height: 105px;
