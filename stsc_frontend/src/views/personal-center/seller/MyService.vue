@@ -104,47 +104,47 @@ export default {
 <style scoped lang="scss">
 .my-service {
   width: 100%;
-  .public-info-list {
-    .public-info-list-item {
-      position: relative;
-      box-sizing: border-box;
-      padding:20px 0;
-      height:180px;
-      border-bottom:1px solid #E7E7E7;
-      .info-img {
-        height:100%;
-        img {
-          height:100%;
-        }
-      }
-      .info-details {
-        margin-left:20px;
-        .details {
-          font-size: 14px;
-          font-weight: 400;
-          color: #666666;
-          li {
-            margin-bottom: 10px;
-            span {
-              color: #111111;
-            }
-            &:last-child {
-              margin-bottom: 25px;
-            }
-            &:last-child span{
-              color: #F7B500;
-            }
-          }
-        }
-      }
-      .info-operation {
-        position:absolute;
-        right:0;
-        bottom:25px;
-      }
-
-    }
-  }
+  //.public-info-list {
+  //  .public-info-list-item {
+  //    position: relative;
+  //    box-sizing: border-box;
+  //    padding:20px 0;
+  //    height:180px;
+  //    border-bottom:1px solid #E7E7E7;
+  //    .info-img {
+  //      height:100%;
+  //      img {
+  //        height:100%;
+  //      }
+  //    }
+  //    .info-details {
+  //      margin-left:20px;
+  //      .details {
+  //        font-size: 14px;
+  //        font-weight: 400;
+  //        color: #666666;
+  //        li {
+  //          margin-bottom: 10px;
+  //          span {
+  //            color: #111111;
+  //          }
+  //          &:last-child {
+  //            margin-bottom: 25px;
+  //          }
+  //          &:last-child span{
+  //            color: #F7B500;
+  //          }
+  //        }
+  //      }
+  //    }
+  //    .info-operation {
+  //      position:absolute;
+  //      right:0;
+  //      bottom:25px;
+  //    }
+  //
+  //  }
+  //}
   .common-pagination {
     height: 60px;
     position: relative;

@@ -59,7 +59,8 @@
             <el-col :span="4">
               <div class="header-main-logo">
                 <router-link to="/index">
-                  <img src="../assets/Stsclogo.png" alt="">
+<!--                  <img src="../assets/Stsclogo.png" alt="">-->
+                  <h1>科技服务协同平台</h1>
                 </router-link>
               </div>
             </el-col>
@@ -185,7 +186,7 @@ export default {
       let scrollY = document.documentElement.scrollTop
       if (this.$router.history.current.name === 'index') {
         if (scrollY > 250) {
-          document.getElementById('header-bottom').style.setProperty("background", "#1794FF")
+          document.getElementById('header-bottom').style.setProperty("background", "#0c8ce6")
         } else {
           document.getElementById('header-bottom').style.setProperty("background", "transparent")
         }
@@ -197,7 +198,7 @@ export default {
         window.addEventListener("scroll", this.handleScroll)
       } else {
         window.removeEventListener("scroll", this.handleScroll)
-        document.getElementById('header-bottom').style.setProperty("background", "#1794FF")
+        document.getElementById('header-bottom').style.setProperty("background", "#0c8ce6")
       }
     },
     myPanel() {
@@ -308,16 +309,20 @@ export default {
 
     .header-main-nav {
       .header-main-logo {
-        margin-top: 10px;
-
+        //margin-top: 10px;
         a {
-          display: block;
-
-          img {
-            display: inline-block;
-            height: 50px;
-            width: auto;
+          height: 69px;
+          line-height: 69px;
+          color: white;
+          h1 {
+            font-size:22px;
           }
+          display: block;
+          //img {
+          //  display: inline-block;
+          //  height: 50px;
+          //  width: auto;
+          //}
         }
       }
 
@@ -330,7 +335,7 @@ export default {
             height: 69px;
             line-height: 69px;
             cursor: pointer;
-            @include font-config(16px, 'PingFangSC-Regular, PingFang SC', 500, #FFFFFF);
+            @include font-config(20px, 'PingFangSC-Regular, PingFang SC', 500, #FFFFFF);
 
             &:last-child {
               margin-right: 20px;
@@ -355,7 +360,7 @@ export default {
             border: 1px solid #FFFFFF;
             cursor: pointer;
             @include wh(92px, 40px);
-            @include font-config(16px, 'PingFangSC-Regular, PingFang SC', 400, #FFFFFF);
+            @include font-config(20px, 'PingFangSC-Regular, PingFang SC', 400, #FFFFFF);
 
             &:first-child {
               margin-right: 10px;

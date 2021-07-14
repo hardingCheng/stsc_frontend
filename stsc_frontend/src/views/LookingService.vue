@@ -92,7 +92,7 @@ export default {
     // 获取服务分类列表
     await this.getFirstCategory()
     // 获取第一次全部的服务
-    await this.getFirstServiceList(null)
+    await this.getFirstServiceList(null,1)
   },
   methods: {
     // 获取服务分类列表
@@ -114,7 +114,7 @@ export default {
       if (id === null) {
         this.getSecondCategoryList = []
         const servciceBaseResult = await this.$axios.serveControllerList.getServesByCondition({
-          page: 1,
+          page: this.currentPage1,
           limit: 15
         }, {
           status: 1
@@ -122,7 +122,7 @@ export default {
         this.setServiceData(servciceBaseResult)
       } else {
         const servciceBaseResult = await this.$axios.serveControllerList.getServesByCondition({
-          page: 1,
+          page: this.currentPage1,
           limit: 15
         }, {
           categoryId: id,
@@ -134,7 +134,7 @@ export default {
     // 获取二级分类的服务列表
     async getSecondServiceList(id){
       const servciceBaseResult = await this.$axios.serveControllerList.getServesByCondition({
-        page: 1,
+        page: this.currentPage1,
         limit: 15
       }, {
         categoryId:this.firstId+','+id,
@@ -182,7 +182,7 @@ export default {
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
     },
-    async handleCurrentChange(val) {
+    async handleCurrentChange(pageNum) {
       if (this.secondId) {
         await this.getSecondServiceList(this.secondId)
       }else {
@@ -264,76 +264,76 @@ export default {
     .container {
       display:flex;
       justify-content: flex-start;
-      .info-list-item {
-        box-sizing: border-box;
-        width:225px;
-        height: 330px;
-        border: 1px solid #E7E7E7;
-        padding: 16px 22px;
-        margin-bottom: 20px;
-        margin-right: 18px;
-        &:last-child {
-          margin-right: 0;
-        }
-        &:hover {
-          border: 1px solid #1794FF;
-        }
-        img {
-          width:100%;
-          height:auto;
-        }
-        .enterprise-name {
-          height:45px;
-          margin: 14px 0;
-          h1 {
-            font-size: 15px;
-            font-weight: 500;
-            color: #111111;
-            word-break: break-all;
-            text-overflow: ellipsis;
-            display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
-            -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
-            -webkit-line-clamp: 2; /** 显示的行数 **/
-            overflow: hidden;  /** 隐藏超出的内容 **/
-          }
-        }
-        .enterprise-bottom {
-          span {
-            display:inline-block;
-            height:17px;
-            font-size: 12px;
-            font-family: PingFangSC-Regular, PingFang SC;
-            font-weight: 400;
-            color: #FF7C12;
-          }
-        }
-        .enterprise-bottom-operation {
-          overflow: hidden;
-          height:22px;
-          line-height:22px;
-          span:first-child {
-            width:108px;
-            float: left;
-            font-size: 12px;
-            font-weight: 400;
-            color: #666666;
-            word-break: break-all;
-            text-overflow: ellipsis;
-            display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
-            -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
-            -webkit-line-clamp: 1; /** 显示的行数 **/
-            overflow: hidden;  /** 隐藏超出的内容 **/
-          }
-          span:last-child {
-            float: right;
-            font-size: 16px;
-            font-weight: 500;
-            a {
-              color: #1794FF;
-            }
-          }
-        }
-      }
+      //.info-list-item {
+      //  box-sizing: border-box;
+      //  width:225px;
+      //  height: 330px;
+      //  border: 1px solid #E7E7E7;
+      //  padding: 16px 22px;
+      //  margin-bottom: 20px;
+      //  margin-right: 18px;
+      //  &:last-child {
+      //    margin-right: 0;
+      //  }
+      //  &:hover {
+      //    border: 1px solid #1794FF;
+      //  }
+      //  img {
+      //    width:100%;
+      //    height:auto;
+      //  }
+      //  .enterprise-name {
+      //    height:45px;
+      //    margin: 14px 0;
+      //    h1 {
+      //      font-size: 15px;
+      //      font-weight: 500;
+      //      color: #111111;
+      //      word-break: break-all;
+      //      text-overflow: ellipsis;
+      //      display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
+      //      -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+      //      -webkit-line-clamp: 2; /** 显示的行数 **/
+      //      overflow: hidden;  /** 隐藏超出的内容 **/
+      //    }
+      //  }
+      //  .enterprise-bottom {
+      //    span {
+      //      display:inline-block;
+      //      height:17px;
+      //      font-size: 12px;
+      //      font-family: PingFangSC-Regular, PingFang SC;
+      //      font-weight: 400;
+      //      color: #FF7C12;
+      //    }
+      //  }
+      //  .enterprise-bottom-operation {
+      //    overflow: hidden;
+      //    height:22px;
+      //    line-height:22px;
+      //    span:first-child {
+      //      width:108px;
+      //      float: left;
+      //      font-size: 12px;
+      //      font-weight: 400;
+      //      color: #666666;
+      //      word-break: break-all;
+      //      text-overflow: ellipsis;
+      //      display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
+      //      -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+      //      -webkit-line-clamp: 1; /** 显示的行数 **/
+      //      overflow: hidden;  /** 隐藏超出的内容 **/
+      //    }
+      //    span:last-child {
+      //      float: right;
+      //      font-size: 16px;
+      //      font-weight: 500;
+      //      a {
+      //        color: #1794FF;
+      //      }
+      //    }
+      //  }
+      //}
     }
   }
   .list-null {

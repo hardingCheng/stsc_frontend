@@ -73,26 +73,26 @@
             <div class="service-category-tab">
               <div class="service-category-tab-item" :class="[sindex === 1?'tab-active':'']">
                 <a @click="servicecategory(1)">
-                  <img v-lazy="require('../assets/images/serviceimage/service1.png')" alt="">
-                  <span>研究开发</span>
-                </a>
-              </div>
-              <div class="service-category-tab-item" :class="[sindex === 2?'tab-active':'']">
-                <a @click="servicecategory(2)">
-                  <img v-lazy="require('../assets/images/serviceimage/service2.png')" alt="">
-                  <span>技术转移</span>
-                </a>
-              </div>
-              <div class="service-category-tab-item" :class="[sindex === 3?'tab-active':'']">
-                <a @click="servicecategory(3)">
                   <img v-lazy="require('../assets/images/serviceimage/service3.png')" alt="">
                   <span>知识产权</span>
                 </a>
               </div>
-              <div class="service-category-tab-item" :class="[sindex === 4?'tab-active':'']">
-                <a @click="servicecategory(4)">
+              <div class="service-category-tab-item" :class="[sindex === 2?'tab-active':'']">
+                <a @click="servicecategory(2)">
                   <img v-lazy="require('../assets/images/serviceimage/service4.png')" alt="">
                   <span>检验检测</span>
+                </a>
+              </div>
+              <div class="service-category-tab-item" :class="[sindex === 3?'tab-active':'']">
+                <a @click="servicecategory(3)">
+                  <img v-lazy="require('../assets/images/serviceimage/service1.png')" alt="">
+                  <span>研究开发</span>
+                </a>
+              </div>
+              <div class="service-category-tab-item" :class="[sindex === 4?'tab-active':'']">
+                <a @click="servicecategory(4)">
+                  <img v-lazy="require('../assets/images/serviceimage/service2.png')" alt="">
+                  <span>技术转移</span>
                 </a>
               </div>
             </div>

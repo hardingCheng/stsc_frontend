@@ -10,7 +10,7 @@
           <div class="form-main">
             <span class="form-group-title">服务基本信息</span>
             <el-form-item label="服务名称：" prop="name">
-              <el-input v-model="form.name" placeholder="请填写需求名称"></el-input>
+              <el-input v-model="form.name" placeholder="请填写服务名称"></el-input>
             </el-form-item>
             <el-form-item label="单位名称：" prop="company">
               <span>{{ form.company }}</span>
@@ -20,10 +20,10 @@
             </el-form-item>
             <span class="form-group-title">联系人信息</span>
             <el-form-item label="联系人：" prop="contact">
-              <el-input v-model="form.contact"></el-input>
+              <el-input style="width:300px" v-model="form.contact"></el-input>
             </el-form-item>
             <el-form-item label="联系方式：" prop="telephone">
-              <el-input v-model="form.telephone"></el-input>
+              <el-input style="width:300px" v-model="form.telephone"></el-input>
             </el-form-item>
             <span class="form-group-title">服务价格及介绍</span>
             <el-form-item label="上传图片：">
@@ -146,7 +146,7 @@ export default {
         address: this.$store.getters.getRealauth.qualificationInfo.address,
         contact:'',
         telephone:'',
-        price:'面议',
+        price:0,
         deadline:'',
         companyIntroduction:'',
         serviceDescription:'',
@@ -287,12 +287,11 @@ export default {
     },
     priceType:{
       deep:true,
-      immediate:true,
       handler(newValue,oldValue){
         if(newValue.type === 1) {
           this.form.price = '面议'
         }else if (newValue.type === 2) {
-          // el-form-item__error
+          // this.form.price = '面议'
         }else {
           // el-form-item__error
           this.form.price =`${this.price.startPrice},${this.price.endPrice}`
@@ -596,7 +595,7 @@ export default {
     }
     .send-service-form {
       .form-main {
-        width:60%;
+        width:65%;
         .form-group-title {
           display:inline-block;
           margin-bottom: 20px;

@@ -51,8 +51,8 @@ s<template>
             <div class="other-info">
               <ul>
                 <li>职称：<span>{{userInfo.title?userInfo.title:'暂无信息'}}</span></li>
-                <li>单位：<span>{{userInfo.company?userInfo.company:'暂无信息'}}</span></li>
-                <li>个人介绍：<span>{{userInfo.introduction?userInfo.introduction:'暂无信息'}}</span></li>
+                <li>单位：<span>{{userInfo.company || qualificationInfo.companyName ?userInfo.company || qualificationInfo.companyName:'暂无信息'}}</span></li>
+                <li>个人介绍：<span class="order-info-introduction">{{userInfo.introduction?userInfo.introduction:'暂无信息'}}</span></li>
               </ul>
             </div>
           </div>
@@ -186,6 +186,9 @@ export default {
     userInfo(){
       this.imageUrl = this.$store.getters.getUserInfo.avatar
       return this.$store.getters.getUserInfo
+    },
+    qualificationInfo(){
+      return this.$store.getters.getRealauth.qualificationInfo;
     }
   }
 }
@@ -337,6 +340,14 @@ export default {
                 font-weight: 400;
                 color: #666666;
               }
+            }
+            .order-info-introduction {
+              word-break: break-all;
+              text-overflow: ellipsis;
+              display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
+              -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+              -webkit-line-clamp: 1; /** 显示的行数 **/
+              overflow: hidden;  /** 隐藏超出的内容 **/
             }
           }
         }
