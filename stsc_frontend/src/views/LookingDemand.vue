@@ -197,11 +197,11 @@ export default {
       }
     },
     // 分页待做
-    async handleCurrentChange(pageNum) {
+    async handleCurrentChange() {
       if (this.secondId) {
-        await this.getSecendDemandList(this.secondId,pageNum)
+        await this.getSecendDemandList(this.secondId)
       }else {
-        await this.getFirstDemandList(null,pageNum)
+        await this.getFirstDemandList(null)
       }
     }
   },
