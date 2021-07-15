@@ -96,12 +96,14 @@ export default {
     // 获取第一次全部的服务
     await this.getFirstServiceList(null)
   },
-  findValue:{
-    handler(newValue,oldValue) {
-      if (newValue === ""){
-        this.getFirstServiceList(null)
+  watch: {
+    findValue:{
+      handler(newValue,oldValue) {
+        if (newValue === ""){
+          this.getFirstServiceList(null)
+        }
       }
-    }
+    },
   },
   methods: {
     // 获取服务分类列表
