@@ -354,7 +354,7 @@ export default {
     },
     // 提交服务
     async onSubmit() {
-      if (this.$store.getters.getUserInfo.isRealNameCertification === 0) {
+      if (this.$store.getters.getUserInfo.isQualification === 0) {
         this.$message({
           message: '请先进行资质认证。',
           type: 'error',

@@ -330,23 +330,120 @@
           </div>
           <div class="cooperative-partner-bottom">
             <ul class="cooperative-partner-ul">
-              <li><img v-lazy="require('../assets/shanghai.png')" alt=""></li>
-              <li><img v-lazy="'https://cn.vuejs.org/images/vueschool.png'" alt=""></li>
-              <li><img v-lazy="'https://cn.vuejs.org/images/vehikl.png'" alt=""></li>
-              <li><img v-lazy="'https://cn.vuejs.org/images/retool.png'" alt=""></li>
-              <li><img v-lazy="'https://cn.vuejs.org/images/passionate_people.png'" alt=""></li>
-
-              <li><img v-lazy="'https://cn.vuejs.org/images/storyblok.png'" alt=""></li>
-              <li><img v-lazy="'https://cn.vuejs.org/images/neds.png'" alt=""></li>
-              <li><img v-lazy="'https://cn.vuejs.org/images/vpsserver_com.png'" alt=""></li>
-              <li><img v-lazy="'https://cn.vuejs.org/images/vpn_review.png'" alt=""></li>
-              <li><img v-lazy="'https://cn.vuejs.org/images/litslink.png'" alt=""></li>
-
-              <li><img v-lazy="'https://cn.vuejs.org/images/line_corporation.png'" alt=""></li>
-              <li><img v-lazy="'https://cn.vuejs.org/images/flatlogic_templates.svg'" alt=""></li>
-              <li><img v-lazy="'https://cn.vuejs.org/images/usave.png'" alt=""></li>
-              <li><img v-lazy="'https://cn.vuejs.org/images/lowdefy.png'" alt=""></li>
-              <li><img v-lazy="'https://cn.vuejs.org/images/devexpress.png'" alt=""></li>
+              <a href="javascript:void(0)">
+                <li>
+                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/7c012f8e8a9f4f82_首都师范大学.png'" alt="">
+                  <span class="fr">首都师范大学</span>
+                </li>
+              </a>
+              <a href="javascript:void(0)">
+                <li>
+                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/e9693e7165784503_哈尔滨工业大学.png'"  alt="">
+                  <span >哈尔滨工业大学</span>
+                </li>
+              </a>
+              <a href="javascript:void(0)">
+                <li>
+                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/092f9acf512c463f_昆明理工大学.png'"  alt="">
+                  <span >昆明理工大学</span>
+                </li>
+              </a>
+              <a href="javascript:void(0)">
+                <li>
+                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/bbd2d877c1334fbe_北京信息科技大学.png'"  alt="">
+                  <span >北京信息科技大</span>
+                </li>
+              </a>
+              <a href="javascript:void(0)">
+                <li>
+                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/dc38e9159dcd4b53_辽宁工程技术大学.png'"  alt="">
+                  <span >辽宁工程技术大学</span>
+                </li>
+              </a>
+              <a href="javascript:void(0)">
+                <li>
+                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/ec95e64fff9b4358_上海汉邦京泰数码 技术有限公司.png'"  alt="">
+                  <span >上海汉邦京泰数码技术有限公司</span>
+                </li>
+              </a>
+              <a href="javascript:void(0)">
+                <li>
+                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/f53ea889741a4c48_北京大学.png'"  alt="">
+                  <span >北京大学</span>
+                </li>
+              </a>
+              <a href="javascript:void(0)">
+                <li>
+                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/666140d675ea43e5_清华大学.png'"  alt="">
+                  <span >清华大学</span>
+                </li>
+              </a>
+              <a href="javascript:void(0)">
+                <li>
+                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/13bcdc06039746e2_湘潭大学.png'"  alt="">
+                  <span >湘潭大学</span>
+                </li>
+              </a>
+              <a href="javascript:void(0)">
+                <li>
+                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/3feac5d4a1a543a1_北京中机科海科技发展有限公司.png'"  alt="">
+                  <span >北京中机科海科技发展有限公司</span>
+                </li>
+              </a>
+              <a href="javascript:void(0)">
+                <li>
+                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/1359de6f39cb4c13_中科院软件所.png'"  alt="">
+                  <span >中科院软件所</span>
+                </li>
+              </a>
+              <a href="javascript:void(0)">
+                <li>
+                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/b83bf46acae04975_神州数码信息 系统有限公司.png'"  alt="">
+                  <span >神州数码信息系统有限公司</span>
+                </li>
+              </a>
+              <a href="javascript:void(0)">
+                <li>
+                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/85a8507d22f646fb_金陵科技学院.png'"  alt="">
+                  <span >金陵科技学院</span>
+                </li>
+              </a>
+              <a href="javascript:void(0)">
+                <li>
+                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/1e55299d07214f27_北京路客驿站科技有限公司.png'"  alt="">
+                  <span >北京路客驿站科技有限公司</span>
+                </li>
+              </a>
+              <a href="javascript:void(0)">
+                <li>
+                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/bd37296049fb4a3e_北京航空航天大学.png'"  alt="">
+                  <span >北京航空航天大学</span>
+                </li>
+              </a>
+              <a href="javascript:void(0)">
+                <li>
+                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/06545467f4d94256_同方知网.png'"  alt="">
+                  <span >同方知网</span>
+                </li>
+              </a>
+              <a href="javascript:void(0)">
+                <li>
+                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/7520064a12f54554_中国科学院文献情报中心.png'"  alt="">
+                  <span >中国科学院文献情报中心</span>
+                </li>
+              </a>
+              <a href="javascript:void(0)">
+                <li>
+                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/2cbc5ea3c2224472_清华大学出版社有限公司.png'"  alt="">
+                  <span >清华大学出版社有限公司</span>
+                </li>
+              </a>
+              <a href="javascript:void(0)">
+                <li>
+                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/0e77db88be7e43ac_华智数创(北京) 科技发展有限责任公司.png'"  alt="">
+                  <span >华智数创(北京)科技发展有限责任公司</span>
+                </li>
+              </a>
             </ul>
           </div>
         </div>
@@ -1034,7 +1131,7 @@ export default {
     }
 
     .cooperative-partner {
-      height: 512px;
+      height: 100%;
       background: rgba(23, 148, 255, 0.04);
 
       .cooperative-partner-top {
@@ -1067,24 +1164,30 @@ export default {
       }
 
       .cooperative-partner-ul {
-        @include flex(space-between, "", wrap);
-
-        li {
-          display: inline-block;
-          background: #FFFFFF;
-          border-radius: 2px;
-          margin-bottom: 20px;
-          text-align: center;
-          position: relative;
-          @include wh(217px, 72px);
-
-          img {
-            position: absolute;
-            width: 100%;
-            height: 75%;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
+        @include flex(flex-start, "", wrap);
+        a {
+          color:#000;
+          li {
+            background: #FFFFFF;
+            border-radius: 2px;
+            margin-right: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            @include wh(280px, 75px);
+            display:flex;
+            justify-content: flex-start;
+            align-items: center;
+            box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+            img {
+              margin-left: 30px;
+              width: 65px;
+              height: 65px;
+            }
+            span {
+              margin-left: 20px;
+              font-weight: normal;
+              font-size: 17px;
+            }
           }
         }
       }
