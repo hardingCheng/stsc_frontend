@@ -4,7 +4,8 @@
       <div class="container">
         <div class="footer-top-left">
           <p>时间：周一到周五（9:00-16:30）</p>
-          <p>座机：15753711826</p>
+          <p>联系人：刘先生</p>
+          <p>联系方式：15753711826</p>
           <p>邮箱：1214615379@qq.com</p>
         </div>
         <div class="footer-top-right">

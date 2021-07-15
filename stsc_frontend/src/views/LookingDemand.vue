@@ -8,9 +8,11 @@
         </div>
         <div class="common-head-classification-serach fr">
           <el-input
-              placeholder="请输入内容"
+              placeholder="请输入内容(回车)"
               prefix-icon="el-icon-search"
-              v-model="findValue">
+              v-model="findValue"
+              @keyup.enter.native="getFirstDemandList(null,findValue)"
+          >
           </el-input>
         </div>
       </div>
@@ -91,6 +93,15 @@ export default {
     // 初次获取全部的需求列表
     await this.getFirstDemandList(null)
   },
+  watch: {
+    findValue:{
+      handler(newValue,oldValue) {
+        if (newValue === ""){
+          this.getFirstDemandList(null)
+        }
+      }
+    }
+  },
   methods: {
     // 获取分类一级分类id
     async getFirstCategory(){
@@ -117,15 +128,24 @@ export default {
       }
     },
     // 获取一级分类的需求和全部需求内容
-    async getFirstDemandList(id) {
+    async getFirstDemandList(id,...props) {
       let demandBaseResult
       // 全部需求
       if (id === null) {
         this.getSecondCategoryList = []
-        demandBaseResult = await this.$axios.requirementControllerList.getRequireSubRequire({
-          page: this.currentPage1,
-          limit: 15
-        }, {})
+        if (props.length === 0){
+          demandBaseResult = await this.$axios.requirementControllerList.getRequireSubRequire({
+            page: this.currentPage1,
+            limit: 15
+          }, {})
+        }else {
+          demandBaseResult = await this.$axios.requirementControllerList.getRequireSubRequire({
+            page: this.currentPage1,
+            limit: 15
+          }, {
+            name:props[0]
+          })
+        }
         // 此处可以选择数组平铺
         this.handleDemandBaseResult(demandBaseResult)
       } else {

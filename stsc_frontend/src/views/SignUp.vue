@@ -75,7 +75,9 @@ export default {
       this.$store.commit("modVerTime",{
         verTime
       })
-      let result = await this.$axios.userControllerList.getCode();
+      let result = await this.$axios.userControllerList.getCode({
+        time:verTime
+      });
       if(result.code === 20000){
         this.verificationCodeImage = result.data.code;
       }

@@ -8,10 +8,11 @@
         </div>
         <div class="common-head-classification-serach fr">
           <el-input
-              placeholder="请输入内容"
+              placeholder="请输入内容（回车）"
               prefix-icon="el-icon-search"
-
-              v-model="findValue">
+              v-model="findValue"
+              @keyup.enter.native="getFirstServiceList(null,findValue)"
+          >
           </el-input>
         </div>
       </div>
@@ -93,7 +94,14 @@ export default {
     // 获取服务分类列表
     await this.getFirstCategory()
     // 获取第一次全部的服务
-    await this.getFirstServiceList(null,1)
+    await this.getFirstServiceList(null)
+  },
+  findValue:{
+    handler(newValue,oldValue) {
+      if (newValue === ""){
+        this.getFirstServiceList(null)
+      }
+    }
   },
   methods: {
     // 获取服务分类列表
@@ -111,15 +119,26 @@ export default {
       await this.getFirstServiceList(this.firstId)
     },
     // 获取第一次全部的服务或者一级分类的服务
-    async getFirstServiceList(id){
+    async getFirstServiceList(id,...props){
       if (id === null) {
         this.getSecondCategoryList = []
-        const servciceBaseResult = await this.$axios.serveControllerList.getServesByCondition({
-          page: this.currentPage1,
-          limit: 15
-        }, {
-          status: 1
-        })
+        let servciceBaseResult =[]
+        if(props.length === 0){
+           servciceBaseResult = await this.$axios.serveControllerList.getServesByCondition({
+            page: this.currentPage1,
+            limit: 15
+          }, {
+            status: 1
+          })
+        }else {
+           servciceBaseResult = await this.$axios.serveControllerList.getServesByCondition({
+            page: this.currentPage1,
+            limit: 15
+          }, {
+            status: 1,
+            name: props[0]
+          })
+        }
         this.setServiceData(servciceBaseResult)
       } else {
         const servciceBaseResult = await this.$axios.serveControllerList.getServesByCondition({
