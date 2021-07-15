@@ -14,6 +14,7 @@ export default new Vuex.Store({
     activeName:'first',
     qualificationInfo:{},
     realNameCertificationInfo:{},
+    verTime:'',
     num:0
   },
   mutations: {
@@ -45,8 +46,10 @@ export default new Vuex.Store({
     },
     messageActive:(state,payload) =>{
       state.activeName= payload
+    },
+    modVerTime: (state,payload) => {
+      state.verTime = payload.verTime
     }
-
   },
   actions: {},
   getters: {
@@ -67,6 +70,9 @@ export default new Vuex.Store({
         realNameCertificationInfo:state.realNameCertificationInfo,
         qualificationInfo:state.qualificationInfo
       }
+    },
+    getVerTime(state){
+      return state.verTime
     }
   },
   modules: {},
@@ -74,7 +80,7 @@ export default new Vuex.Store({
     adapterOptions: SecureAdapter(),
     name: "userInfo1",
     local: {
-      list: ["isLogin","userInfo","token","qualificationInfo","realNameCertificationInfo"],
+      list: ["isLogin","userInfo","token","qualificationInfo","realNameCertificationInfo","verTime"],
     },
   })]
 });

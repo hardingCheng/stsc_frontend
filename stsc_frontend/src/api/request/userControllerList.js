@@ -18,10 +18,11 @@ const userControllerList = {
         });
     },
     // 获取验证码
-    getCode: () => {
+    getCode: (data) => {
         return axios({
             url: "/ph/stcsp/user/getCode",
-            method: "get",
+            method: "post",
+            data
         });
     },
     // 获取根据token获取用户信息接口

@@ -110,7 +110,13 @@ export default {
   },
   methods: {
     async getCode(){
-      let result = await this.$axios.userControllerList.getCode();
+      const verTime = new Date().getTime() + ""
+      this.$store.commit("modVerTime",{
+        verTime
+      })
+      let result = await this.$axios.userControllerList.getCode({
+        time:verTime
+      });
       if(result.code === 20000){
         this.verificationCodeImage = result.data.code;
       }
@@ -128,7 +134,8 @@ export default {
         let resultLogin = await this.$axios.userControllerList.login({
           username: this.form.username,
           password: this.form.password,
-          verifyCode: this.form.verificationCode
+          verifyCode: this.form.verificationCode,
+          time:this.$store.getters.getVerTime
         })
         if (resultLogin.code === 20000) {
           setTimeout(async () => {
