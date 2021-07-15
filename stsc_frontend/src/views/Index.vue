@@ -264,45 +264,45 @@
           <div class="platform-news-main">
             <div class="platform-news-main-item">
               <div class="platform-news-main-item-top">
-                <img v-lazy="require('../assets/images/news.png')" alt="">
+                <img v-lazy="'https://rms.zbj.com/resource/redirect?key=homesite/task/%E8%A8%80%E7%AE%80%E5%85%AB%E6%88%92%E7%BD%91%E5%A4%B4%E5%9B%BE.jpg/origine/eb812237-21f0-4f77-bbe6-353bd6ccde33'" alt="">
               </div>
               <div class="platform-news-main-item-bottom">
-                <h1>服务“太白山地质地貌研究”</h1>
+                <h1>文化教育酒店餐饮LOGO设计金融地产建筑LOGO原创高端定制</h1>
                 <span>2021-4-12 12:12</span>
-                <p>快节奏的生活总是让我们感觉压力过大，佛系？好像对正当拼搏年纪的我们来…</p>
+                <p>山东言简装饰设计有限公司，是一家专业进行室内装潢设计、展厅展馆设计、展览展示设计的专业公司。作为一个为社会贡献越来越多经济价值的企业，作为一个不断在提升社会地位的企业，言简自成立以来，在壮大自身力量和规模的同时，也从未忘记履行企业的社会责任，积极主动在慈善公益事业中贡献自己一份绵薄之力，努力成为伟大的、具有崇高信仰与理念的、努力实践与传播普世价值观的、以正念正行为导向的企业组织。</p>
                 <a href="#">更多 ></a>
               </div>
             </div>
             <div class="platform-news-main-item">
               <div class="platform-news-main-item-top">
-                <img v-lazy="require('../assets/images/news.png')" alt="">
+                <img v-lazy="'https://rms.zbj.com/resource/redirect?key=homesite/task/1.jpg/origine/812e3293-b39b-416a-8aba-efc9136f72ab'" alt="">
               </div>
               <div class="platform-news-main-item-bottom">
-                <h1>服务“太白山地质地貌研究”</h1>
+                <h1>智能仪表/产品外观设计/工业设计/产品结构设计/小批量生产</h1>
                 <span>2021-4-12 12:12</span>
-                <p>快节奏的生活总是让我们感觉压力过大，佛系？好像对正当拼搏年纪的我们来…</p>
+                <p>前期项目沟通，对该产品的外观和结构进行分析设计；出三维效果讨论修改；确定最终方案进入后期生产制作，小批量化生产。</p>
                 <a href="#">更多 ></a>
               </div>
             </div>
             <div class="platform-news-main-item">
               <div class="platform-news-main-item-top">
-                <img v-lazy="require('../assets/images/news.png')" alt="">
+                <img v-lazy="'https://homesitetask.zbjimg.com/homesite/task/ac.jpg/origine/c5204ab3-3906-454a-b19f-1a10948d1db3?imageMogr2/auto-orient/strip/quality/90/thumbnail/288x'" alt="">
               </div>
               <div class="platform-news-main-item-bottom">
-                <h1>服务“太白山地质地貌研究”</h1>
+                <h1>机器人</h1>
                 <span>2021-4-12 12:12</span>
-                <p>快节奏的生活总是让我们感觉压力过大，佛系？好像对正当拼搏年纪的我们来…</p>
+                <p>基于台达机械手臂高定位精度，配合双CCD检测定位，可实现高定位精度，双机械手臂双工位同时作业，可满足节拍要求。</p>
                 <a href="#">更多 ></a>
               </div>
             </div>
             <div class="platform-news-main-item">
               <div class="platform-news-main-item-top">
-                <img v-lazy="require('../assets/images/news.png')" alt="">
+                <img v-lazy="'https://rms.zbj.com/resource/redirect?key=homesite/task/VOC%E6%B0%94%E4%BD%93%E6%A3%80%E6%B5%8B%E4%BB%AA.jpg/origine/db150382-36df-48a7-b6f5-f54e5f356e73'" alt="">
               </div>
               <div class="platform-news-main-item-bottom">
-                <h1>服务“太白山地质地貌研究”</h1>
+                <h1>VOC气体检测仪-智能硬件设计嵌入式系统硬件设计arm硬件</h1>
                 <span>2021-4-12 12:12</span>
-                <p>快节奏的生活总是让我们感觉压力过大，佛系？好像对正当拼搏年纪的我们来…</p>
+                <p>VOC气体检测仪-智能硬件设计嵌入式系统硬件设计arm硬件</p>
                 <a href="#">更多 ></a>
               </div>
             </div>
@@ -445,12 +445,18 @@
                   <span>华智数创(北京)科技发展有限责任公司</span>
                 </li>
               </a>
+              <a href="javascript:void(0)">
+                <li>
+                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/1f8f11f1ae9d4c65_陕西省科技资源统筹中心.png'"
+                       alt="">
+                  <span>陕西省科技资源统筹中心</span>
+                </li>
+              </a>
             </ul>
           </div>
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -459,7 +465,7 @@ import ScrollingNumbers from "../components/ScrollingNumbers";
 import {Swiper, SwiperSlide} from 'vue-awesome-swiper'
 import 'swiper/css/swiper.css'
 import InfoListItem from "../components/InfoListItem";
-
+import axios from 'axios'
 export default {
   name: "Index",
   data() {
@@ -495,7 +501,8 @@ export default {
       indexData: {},
       demandSelectList:[],
       serviceSelectList:[],
-      commonSelectList:[]
+      commonSelectList:[],
+      threeSuccessCases:[]
     }
   },
   components: {
@@ -508,12 +515,24 @@ export default {
     await this.getCategoryList()
   },
   async mounted() {
+    this.getxxxx()
     await this.getIndexData()
     await this.drawInit()
-    await this.getService()
+    await this.getHotData()
     await this.getSuccessfulCase()
   },
   methods: {
+    getxxxx(){
+      var self = this
+      axios.get('http://www.114cxy.com/orders/successCases')
+          .then(function (response) {
+            self.threeSuccessCases = response.data.data.successCases
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+
+    },
     getRandomArrayElements(arr, count) {
       let shuffled = arr.slice(0), i = arr.length, min = i - count, temp, index;
       while (i-- > min) {
@@ -524,7 +543,7 @@ export default {
       }
       return shuffled.slice(min);
     },
-    async getService() {
+    async getHotData() {
       const servciceBaseResult = await this.$axios.serveControllerList.getServesByCondition({
         page: 1,
         limit: 15
@@ -691,6 +710,9 @@ export default {
       // 使用刚指定的配置项和数据显示图表。
       myChart.setOption(option);
     }
+  },
+  computed:{
+
   }
 };
 </script>
