@@ -317,7 +317,7 @@ const routes = [
         component: () => import("../views/SendService.vue"),
         meta: {
           requiresAuth: true,
-          name: "找服务"
+          name: "发服务"
         },
       },
       {
