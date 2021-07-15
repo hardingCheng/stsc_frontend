@@ -238,12 +238,11 @@
             <div class="successful-cases-main-right">
               <div class="successful-cases-main-right-item" v-for="(item,index) in successfulCaseList[1]" :key="index">
                 <router-link :to="'/successCaseDetail/'+item.id">
-                  <div class="sucess-right-img">
-                    <img
-                        v-lazy="item.imageUrl"
-                        alt="">
+                  <div class="success-right-cover"></div>
+                  <div class="success-right-img">
+                    <img  v-lazy="item.imageUrl" alt="" />
                   </div>
-                  <div class="sucess-right-info">
+                  <div class="success-right-info">
                     <h3>{{item.title}}  ></h3>
                     <p>{{item.reqDescription}}</p>
                   </div>
@@ -318,9 +317,7 @@
           </div>
         </div>
         <div class="container">
-          <div class="resource-space-main" id="resource-space-main">
-
-          </div>
+          <div class="resource-space-main" id="resource-space-main"></div>
         </div>
       </div>
       <div class="cooperative-partner">
@@ -919,36 +916,33 @@ export default {
               height: 50%;
               position: relative;
 
-              .sucess-right-img {
+              .success-right-img {
                 img {
                   display: block;
                   width: 100%;
                   height: 250px;
                   transition: transform .3s ease;
+                  opacity: .7;
                 }
               }
 
-              .sucess-right-info {
-                color: white;
+              .success-right-info {
+                color: #000;
                 width: auto;
                 height: 130px;
                 position: absolute;
                 bottom: 0;
                 left: 0;
                 padding: 24px 14px 15px 20px;
-
                 h3 {
                   font-family: PingFangSC-Medium;
                   font-size: 16px;
-                  color: #fff;
                   letter-spacing: 0;
                   margin-bottom: 20px;
                 }
-
                 p {
                   width:100%;
                   font-size: 13px;
-                  color: #fff;
                   letter-spacing: 0;
                   line-height: 20px;
                   height: 40px;
@@ -961,7 +955,11 @@ export default {
                 }
               }
 
+              .success-right-cover {
+
+              }
               &:hover img {
+                opacity: 1;
                 transform: scale(1.1)
               }
             }
