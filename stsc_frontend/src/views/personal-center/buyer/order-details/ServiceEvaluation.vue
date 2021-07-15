@@ -26,7 +26,7 @@
           <img :src=order.orderImg?order.orderImg:default_img class="order_style">
           <ul>
             <li>
-              订单编号:<span>{{ !order.id ? "暂无数据" : order.id }}</span>
+              订单编号:<span>{{ !order.orderId ? "暂无数据" : order.orderId }}</span>
             </li>
             <li>
               服务名称:<span>{{ !order.name ? "暂无数据" : order.name }}</span>
@@ -47,6 +47,10 @@
                      v-model="value"
                      show-text>
             </el-rate>
+            <el-rate class="star_style" v-if="status===5" disabled
+                     v-model="value"
+                     show-text>
+            </el-rate>
             <!--          文本输入框-->
             <el-input class="input_style" v-if="status!==5"
                       type="textarea"
@@ -54,7 +58,7 @@
                       placeholder="请输入内容"
                       v-model="textarea2">
             </el-input>
-            <p class="input_style">{{ orderEvaluation.content }} </p>
+            <p class="input_style" v-if="status===5">{{ orderEvaluation.content }} </p>
           </div>
         </div>
         <div class="service-acceptance-operation">
@@ -249,6 +253,7 @@ export default {
         id: val
       })
       this.orderBuyInfo = result.data.user
+
     },
     //获取订单信息
     async getOrderInfo() {
@@ -267,7 +272,6 @@ export default {
         })
         this.sum = result1.data.subOrderInfo.subOrderInfoVoList.length//子订单的数目
         this.order = result1.data.subOrderInfo.subOrderInfoVoList[this.num]//子订单信息，默认是第一个订单的数据
-
         //存放大订单态
         this.status = result.data.orderInfo.status
         for (let i = 0; i < this.sum; i++) {

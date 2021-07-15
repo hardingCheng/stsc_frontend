@@ -21,7 +21,6 @@
     <el-tab-pane label="专家描述" name="third" class="tab"><div class="indicators_text"><p class="p_text">{{ this.info.expertIntroduction }}</p></div></el-tab-pane>
     <el-tab-pane label="附件" name="fourth" class="tab">
       <div class="accessory ">
-        <img src="" class="file_img"/>
         <p class="accessory_name">{{ filename }}</p>
         <a class="down" :href="this.info.attachment">下载</a>
       </div>
