@@ -11,7 +11,7 @@
         </div>
         <div class="public-order-info-item-bottom">
           <div class="info-image">
-            <img src="http://n.sinaimg.cn/photo/34/w1089h545/20210416/4bde-knvsnuf5803625.jpg" alt="">
+            <img v-lazy="item.imageUrl" alt="">
           </div>
           <div class="info-detail">
             <h2>{{item.orderName}}</h2>

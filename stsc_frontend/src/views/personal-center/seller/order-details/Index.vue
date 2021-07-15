@@ -79,7 +79,9 @@ export default {
           break
         case 1:
           await this.getOrderInfo()
-          await this.$router.push(`/pc/sellerorderdetail/inprogress/${this.orderid}/${this.type}`)
+          if (this.orderInfo.status >=2) {
+            await this.$router.push(`/pc/sellerorderdetail/inprogress/${this.orderid}/${this.type}`)
+          }
           break
         case 2:
           await this.getOrderInfo()

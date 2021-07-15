@@ -54,7 +54,7 @@ export default {
       let result = await this.$axios.serveControllerList.getAllServesByUserId({
         sellerId:userInfo.id,
         page:val,
-        limit:3
+        limit:4
       })
       this.infoList = result.data.serveList
     },

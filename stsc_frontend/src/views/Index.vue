@@ -10,9 +10,10 @@
     <!--      </swiper>-->
     <!--    </div>-->
     <div class="video-main">
-      <video  src="https://static1.xpccdn.com/mp4/banner.mp4?12448ab"  id="bannerVideo" autoplay="" muted loop="" webkit-playsinline="" playsinline="" data-vscid="8rvymj79w"></video>
+      <video src="https://static1.xpccdn.com/mp4/banner.mp4?12448ab" id="bannerVideo" autoplay="" muted loop=""
+             webkit-playsinline="" playsinline="" data-vscid="8rvymj79w"></video>
       <div class="video-title">
-       <h1> 灵活,准确,智能,快速,低成本</h1>
+        <h1> 灵活,准确,智能,快速,低成本</h1>
         <h2>操作简单，功能强大，让人酣畅淋漓拥有体验！</h2>
       </div>
     </div>
@@ -25,7 +26,8 @@
             </div>
             <div class="data-presentation-item-right">
               <div class="data-presentation-item-title">机构数量</div>
-              <scrolling-numbers class="scrolling-numbers" startVal="0" :endVal="indexData.companyCount"></scrolling-numbers>
+              <scrolling-numbers class="scrolling-numbers" startVal="0"
+                                 :endVal="indexData.companyCount"></scrolling-numbers>
             </div>
           </div>
           <div class="data-presentation-item">
@@ -34,7 +36,8 @@
             </div>
             <div class="data-presentation-item-right">
               <div class="data-presentation-item-title">需求数量</div>
-              <scrolling-numbers class="scrolling-numbers" startVal="0" :endVal="indexData.reqCount"></scrolling-numbers>
+              <scrolling-numbers class="scrolling-numbers" startVal="0"
+                                 :endVal="indexData.reqCount"></scrolling-numbers>
             </div>
           </div>
           <div class="data-presentation-item">
@@ -43,7 +46,8 @@
             </div>
             <div class="data-presentation-item-right">
               <div class="data-presentation-item-title">服务数量</div>
-              <scrolling-numbers class="scrolling-numbers" startVal="0" :endVal="indexData.serviceCount"></scrolling-numbers>
+              <scrolling-numbers class="scrolling-numbers" startVal="0"
+                                 :endVal="indexData.serviceCount"></scrolling-numbers>
             </div>
           </div>
           <div class="data-presentation-item">
@@ -52,7 +56,8 @@
             </div>
             <div class="data-presentation-item-right">
               <div class="data-presentation-item-title">订单数量</div>
-              <scrolling-numbers class="scrolling-numbers" startVal="0" :endVal="indexData.orderCount"></scrolling-numbers>
+              <scrolling-numbers class="scrolling-numbers" startVal="0"
+                                 :endVal="indexData.orderCount"></scrolling-numbers>
             </div>
           </div>
           <div class="data-presentation-item">
@@ -61,7 +66,8 @@
             </div>
             <div class="data-presentation-item-right">
               <div class="data-presentation-item-title">数据数量</div>
-              <scrolling-numbers class="scrolling-numbers" startVal="0" :endVal="indexData.dataTotal" suffix="千万"></scrolling-numbers>
+              <scrolling-numbers class="scrolling-numbers" startVal="0" :endVal="indexData.dataTotal"
+                                 suffix="千万"></scrolling-numbers>
             </div>
           </div>
         </div>
@@ -135,20 +141,13 @@
         <div class="info-list" ref="plist">
           <div class="container">
             <div class="info-list-main" v-if="pindex === 1">
-              <info-list-item></info-list-item>
-              <info-list-item></info-list-item>
-              <info-list-item></info-list-item>
-              <info-list-item></info-list-item>
-              <info-list-item></info-list-item>
+              <info-list-item  v-for="(info,index) in commonSelectList"  :info="info"></info-list-item>
             </div>
             <div class="info-list-main" v-if="pindex === 2">
-              <info-list-item></info-list-item>
+              <info-list-item :info="info" v-for="(info,index) in demandSelectList"></info-list-item>
             </div>
             <div class="info-list-main" v-if="pindex === 3">
-              <info-list-item></info-list-item>
-              <info-list-item></info-list-item>
-              <info-list-item></info-list-item>
-
+              <info-list-item :info="info" v-for="(info,index) in serviceSelectList"></info-list-item>
             </div>
           </div>
         </div>
@@ -230,8 +229,8 @@
                       alt="">
                 </div>
                 <div class="sucess-left-info">
-                  <h3>{{successfulCaseList[0][0].title}} ></h3>
-                  <p>{{successfulCaseList[0][0].reqDescription}}</p>
+                  <h3>{{ successfulCaseList[0][0].title }} ></h3>
+                  <p>{{ successfulCaseList[0][0].reqDescription }}</p>
                 </div>
               </router-link>
             </div>
@@ -240,11 +239,11 @@
                 <router-link :to="'/successCaseDetail/'+item.id">
                   <div class="success-right-cover"></div>
                   <div class="success-right-img">
-                    <img  v-lazy="item.imageUrl" alt="" />
+                    <img v-lazy="item.imageUrl" alt=""/>
                   </div>
                   <div class="success-right-info">
-                    <h3>{{item.title}}  ></h3>
-                    <p>{{item.reqDescription}}</p>
+                    <h3>{{ item.title }} ></h3>
+                    <p>{{ item.reqDescription }}</p>
                   </div>
                 </router-link>
               </div>
@@ -335,110 +334,115 @@
               </a>
               <a href="javascript:void(0)">
                 <li>
-                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/e9693e7165784503_哈尔滨工业大学.png'"  alt="">
-                  <span >哈尔滨工业大学</span>
+                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/e9693e7165784503_哈尔滨工业大学.png'" alt="">
+                  <span>哈尔滨工业大学</span>
                 </li>
               </a>
               <a href="javascript:void(0)">
                 <li>
-                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/092f9acf512c463f_昆明理工大学.png'"  alt="">
-                  <span >昆明理工大学</span>
+                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/092f9acf512c463f_昆明理工大学.png'" alt="">
+                  <span>昆明理工大学</span>
                 </li>
               </a>
               <a href="javascript:void(0)">
                 <li>
-                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/bbd2d877c1334fbe_北京信息科技大学.png'"  alt="">
-                  <span >北京信息科技大</span>
+                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/bbd2d877c1334fbe_北京信息科技大学.png'" alt="">
+                  <span>北京信息科技大学</span>
                 </li>
               </a>
               <a href="javascript:void(0)">
                 <li>
-                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/dc38e9159dcd4b53_辽宁工程技术大学.png'"  alt="">
-                  <span >辽宁工程技术大学</span>
+                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/dc38e9159dcd4b53_辽宁工程技术大学.png'" alt="">
+                  <span>辽宁工程技术大学</span>
                 </li>
               </a>
               <a href="javascript:void(0)">
                 <li>
-                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/ec95e64fff9b4358_上海汉邦京泰数码 技术有限公司.png'"  alt="">
-                  <span >上海汉邦京泰数码技术有限公司</span>
+                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/ec95e64fff9b4358_上海汉邦京泰数码 技术有限公司.png'"
+                       alt="">
+                  <span>上海汉邦京泰数码技术有限公司</span>
                 </li>
               </a>
               <a href="javascript:void(0)">
                 <li>
-                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/f53ea889741a4c48_北京大学.png'"  alt="">
-                  <span >北京大学</span>
+                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/f53ea889741a4c48_北京大学.png'" alt="">
+                  <span>北京大学</span>
                 </li>
               </a>
               <a href="javascript:void(0)">
                 <li>
-                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/666140d675ea43e5_清华大学.png'"  alt="">
-                  <span >清华大学</span>
+                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/666140d675ea43e5_清华大学.png'" alt="">
+                  <span>清华大学</span>
                 </li>
               </a>
               <a href="javascript:void(0)">
                 <li>
-                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/13bcdc06039746e2_湘潭大学.png'"  alt="">
-                  <span >湘潭大学</span>
+                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/13bcdc06039746e2_湘潭大学.png'" alt="">
+                  <span>湘潭大学</span>
                 </li>
               </a>
               <a href="javascript:void(0)">
                 <li>
-                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/3feac5d4a1a543a1_北京中机科海科技发展有限公司.png'"  alt="">
-                  <span >北京中机科海科技发展有限公司</span>
+                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/3feac5d4a1a543a1_北京中机科海科技发展有限公司.png'"
+                       alt="">
+                  <span>北京中机科海科技发展有限公司</span>
                 </li>
               </a>
               <a href="javascript:void(0)">
                 <li>
-                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/1359de6f39cb4c13_中科院软件所.png'"  alt="">
-                  <span >中科院软件所</span>
+                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/1359de6f39cb4c13_中科院软件所.png'" alt="">
+                  <span>中科院软件所</span>
                 </li>
               </a>
               <a href="javascript:void(0)">
                 <li>
-                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/b83bf46acae04975_神州数码信息 系统有限公司.png'"  alt="">
-                  <span >神州数码信息系统有限公司</span>
+                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/b83bf46acae04975_神州数码信息 系统有限公司.png'"
+                       alt="">
+                  <span>神州数码信息系统有限公司</span>
                 </li>
               </a>
               <a href="javascript:void(0)">
                 <li>
-                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/85a8507d22f646fb_金陵科技学院.png'"  alt="">
-                  <span >金陵科技学院</span>
+                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/85a8507d22f646fb_金陵科技学院.png'" alt="">
+                  <span>金陵科技学院</span>
                 </li>
               </a>
               <a href="javascript:void(0)">
                 <li>
-                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/1e55299d07214f27_北京路客驿站科技有限公司.png'"  alt="">
-                  <span >北京路客驿站科技有限公司</span>
+                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/1e55299d07214f27_北京路客驿站科技有限公司.png'"
+                       alt="">
+                  <span>北京路客驿站科技有限公司</span>
                 </li>
               </a>
               <a href="javascript:void(0)">
                 <li>
-                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/bd37296049fb4a3e_北京航空航天大学.png'"  alt="">
-                  <span >北京航空航天大学</span>
+                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/bd37296049fb4a3e_北京航空航天大学.png'" alt="">
+                  <span>北京航空航天大学</span>
                 </li>
               </a>
               <a href="javascript:void(0)">
                 <li>
-                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/06545467f4d94256_同方知网.png'"  alt="">
-                  <span >同方知网</span>
+                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/06545467f4d94256_同方知网.png'" alt="">
+                  <span>同方知网</span>
                 </li>
               </a>
               <a href="javascript:void(0)">
                 <li>
-                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/7520064a12f54554_中国科学院文献情报中心.png'"  alt="">
-                  <span >中国科学院文献情报中心</span>
+                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/7520064a12f54554_中国科学院文献情报中心.png'" alt="">
+                  <span>中国科学院文献情报中心</span>
                 </li>
               </a>
               <a href="javascript:void(0)">
                 <li>
-                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/2cbc5ea3c2224472_清华大学出版社有限公司.png'"  alt="">
-                  <span >清华大学出版社有限公司</span>
+                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/2cbc5ea3c2224472_清华大学出版社有限公司.png'" alt="">
+                  <span>清华大学出版社有限公司</span>
                 </li>
               </a>
               <a href="javascript:void(0)">
                 <li>
-                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/0e77db88be7e43ac_华智数创(北京) 科技发展有限责任公司.png'"  alt="">
-                  <span >华智数创(北京)科技发展有限责任公司</span>
+                  <img v-lazy="'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/0e77db88be7e43ac_华智数创(北京) 科技发展有限责任公司.png'"
+                       alt="">
+                  <span>华智数创(北京)科技发展有限责任公司</span>
                 </li>
               </a>
             </ul>
@@ -446,6 +450,7 @@
         </div>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -487,7 +492,10 @@ export default {
       categoryList: [],
       chartDataList: [],
       successfulCaseList: [],
-      indexData:{}
+      indexData: {},
+      demandSelectList:[],
+      serviceSelectList:[],
+      commonSelectList:[]
     }
   },
   components: {
@@ -502,18 +510,49 @@ export default {
   async mounted() {
     await this.getIndexData()
     await this.drawInit()
+    await this.getService()
     await this.getSuccessfulCase()
   },
   methods: {
-    async getIndexData(){
+    getRandomArrayElements(arr, count) {
+      let shuffled = arr.slice(0), i = arr.length, min = i - count, temp, index;
+      while (i-- > min) {
+        index = Math.floor((i + 1) * Math.random());
+        temp = shuffled[index];
+        shuffled[index] = shuffled[i];
+        shuffled[i] = temp;
+      }
+      return shuffled.slice(min);
+    },
+    async getService() {
+      const servciceBaseResult = await this.$axios.serveControllerList.getServesByCondition({
+        page: 1,
+        limit: 15
+      }, {
+        status: 1
+      })
+      const demandBaseResult = await this.$axios.requirementControllerList.getRequireSubRequire({
+        page: 1,
+        limit: 15
+      }, {})
+      const demandBaseResultNotNull = demandBaseResult.data.list.filter((item,index) => {
+        return item.image !== null
+      })
+      this.demandSelectList = this.getRandomArrayElements(demandBaseResultNotNull,Math.floor(Math.random()*5)+1)
+
+      this.serviceSelectList= this.getRandomArrayElements(servciceBaseResult.data.serveList.records,Math.floor(Math.random()*5)+1)
+
+      this.commonSelectList = this.getRandomArrayElements([...servciceBaseResult.data.serveList.records,...demandBaseResultNotNull],5)
+    },
+    async getIndexData() {
       let result = await this.$axios.mainController.getIndexData()
       this.indexData = result.data.data
       this.indexData.dataTotal /= 10000000
     },
-    async getSuccessfulCase(){
+    async getSuccessfulCase() {
       let result = await this.$axios.mainController.getSuccessfulCase()
       if (result.code === 20000) {
-        this.successfulCaseList.push(result.data.caseList.slice(0,1))
+        this.successfulCaseList.push(result.data.caseList.slice(0, 1))
         this.successfulCaseList.push(result.data.caseList.slice(1))
       }
     },
@@ -672,29 +711,34 @@ export default {
       }
     }
   }
+
   .video-main {
     position: relative;
     top: -70px;
     z-index: -20;
-    width:100%;
+    width: 100%;
+
     video {
       display: inline-block;
       width: 100%;
       height: 600px;
       object-fit: fill;
     }
+
     .video-title {
       width: 100%;
       text-align: center;
       position: absolute;
       top: 50%;
       left: 50%;
-      color:white;
-      transform:translate(-50%,-50%);
-      h1{
-        font-size:55px;
+      color: white;
+      transform: translate(-50%, -50%);
+
+      h1 {
+        font-size: 55px;
         margin-bottom: 30px;
       }
+
       h2 {
         font-weight: 400;
       }
@@ -860,6 +904,7 @@ export default {
 
             .sucess-left-img {
               overflow: hidden;
+
               img {
                 display: block;
                 height: 400px;
@@ -875,6 +920,7 @@ export default {
               padding: 14px 20px 7px;
               background-color: #FEE140;
               background-image: linear-gradient(90deg, #FEE140 0%, #FA709A 100%);
+
               h3 {
                 font-family: PingFangSC-Medium;
                 font-size: 16px;
@@ -882,8 +928,9 @@ export default {
                 letter-spacing: 0;
                 margin-bottom: 10px;
               }
+
               p {
-                width:100%;
+                width: 100%;
                 font-size: 13px;
                 color: #fff;
                 letter-spacing: 0;
@@ -922,26 +969,29 @@ export default {
                   width: 100%;
                   height: 250px;
                   transition: transform .3s ease;
-                  opacity: .7;
+                  //opacity: .7;
                 }
               }
 
               .success-right-info {
-                color: #000;
+                color: #fff;
                 width: auto;
-                height: 130px;
+                height: 90px;
                 position: absolute;
                 bottom: 0;
                 left: 0;
-                padding: 24px 14px 15px 20px;
+                padding: 0 14px 15px 20px;
+                background: rgba(153, 153, 153, 0.5);
+
                 h3 {
                   font-family: PingFangSC-Medium;
                   font-size: 16px;
                   letter-spacing: 0;
                   margin-bottom: 20px;
                 }
+
                 p {
-                  width:100%;
+                  width: 100%;
                   font-size: 13px;
                   letter-spacing: 0;
                   line-height: 20px;
@@ -955,11 +1005,8 @@ export default {
                 }
               }
 
-              .success-right-cover {
-
-              }
               &:hover img {
-                opacity: 1;
+                //opacity: 1;
                 transform: scale(1.1)
               }
             }
@@ -1163,8 +1210,10 @@ export default {
 
       .cooperative-partner-ul {
         @include flex(flex-start, "", wrap);
+
         a {
-          color:#000;
+          color: #000;
+
           li {
             background: #FFFFFF;
             border-radius: 2px;
@@ -1172,15 +1221,17 @@ export default {
             margin-bottom: 20px;
             position: relative;
             @include wh(280px, 75px);
-            display:flex;
+            display: flex;
             justify-content: flex-start;
             align-items: center;
             box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
             img {
-              margin-left: 30px;
+              margin-left: 18px;
               width: 65px;
               height: 65px;
             }
+
             span {
               margin-left: 20px;
               font-weight: normal;
@@ -1222,7 +1273,7 @@ export default {
       margin-bottom: 50px;
 
       a {
-        cursor : pointer;
+        cursor: pointer;
         font-size: 14px;
         font-weight: 400;
         color: #1794FF;

@@ -2,16 +2,16 @@
   <div class="info-list-item" v-if="info !== null">
     <div class="enterprise-top">
       <a href="#">
-        <img v-lazy="require('../assets/images/hotbg.png')" alt="">
+        <img v-lazy="info.image" alt="">
         <div class="enterprise-name">
-          <h1>企业名称企业名称企业名称企 业名称企业名称企业名称</h1>
+          <h1>{{info.name}}</h1>
         </div>
       </a>
     </div>
     <div class="enterprise-bottom">
-      <span>摩擦片、模具</span>
+      <span>{{info.keywords}}</span>
       <div class="enterprise-bottom-operation">
-        <span>西安 - 制造业</span>
+        <span>{{info.company}}</span>
         <span><a href="#">立即下单</a></span>
       </div>
     </div>

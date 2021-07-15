@@ -72,7 +72,7 @@ export default {
       let result = await this.$axios.requirementControllerList.getAllRequiresByUserId({
         buyerId:userInfo.id,
         page:val,
-        limit:3
+        limit:4
       })
       this.infoList = result.data.requireList
     },
