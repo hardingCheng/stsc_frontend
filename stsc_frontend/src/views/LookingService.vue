@@ -231,9 +231,9 @@ export default {
         dt,dd{
           margin-right:28px;
           float:left;
+          cursor: pointer;
         }
         dd {
-          cursor: pointer;
           &:first-child {
             font-size: 14px;
             font-weight: 400;

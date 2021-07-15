@@ -84,8 +84,8 @@ export default {
   data() {
     return {
       form: {
-        username: '15753711826',
-        password: '123456',
+        username: '',
+        password: '',
         verificationCode: ''
       },
       // 对话框显示和隐藏

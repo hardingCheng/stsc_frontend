@@ -4,8 +4,8 @@
       <div class="container">
         <div class="footer-top-left">
           <p>时间：周一到周五（9:00-16:30）</p>
-          <p>座机：010-8329374</p>
-          <p>邮箱：18611319961@163.com</p>
+          <p>座机：15753711826</p>
+          <p>邮箱：1214615379@qq.com</p>
         </div>
         <div class="footer-top-right">
           <dl>
