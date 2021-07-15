@@ -142,6 +142,8 @@ export default {
           await this.getCode()
         }
       } else {
+        this.form.verificationCode = ''
+        await this.getCode()
         this.errors = errors
       }
     },
