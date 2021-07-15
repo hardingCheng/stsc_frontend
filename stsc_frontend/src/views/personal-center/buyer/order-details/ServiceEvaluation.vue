@@ -43,11 +43,12 @@
           </ul>
           <div class="evaluation_source">
             <!--        评分-->
-            <el-rate class="star_style"
+            <el-rate class="star_style" v-if="status===4"
                      v-model="value"
                      show-text>
             </el-rate>
-            <el-rate class="star_style" v-if="status===5" disabled
+            <el-rate class="star_style" v-if="status===5"
+                     disabled
                      v-model="value"
                      show-text>
             </el-rate>
@@ -192,6 +193,7 @@ export default {
     }
   },
   async created() {
+
     //获取订单
     await this.getOrderInfo()
     //获取订单的买家信
@@ -266,6 +268,7 @@ export default {
         this.serveId = result.data.orderInfo.serveId
         //存放小订单状态
         this.status = result.data.orderInfo.status
+        console.log( this.status)
       } else {
         let result1 = await this.$axios.orderControllerList.getSplitDetailInfo({
           id: this.orderid
@@ -299,8 +302,9 @@ export default {
           serveId: this.serveId,
           content: this.textarea2,
           star: this.value,
-          orderId: this.orderId,
+          orderId: this.orderid,
         })
+        await this.getOrderInfo()
       } else {
         const result = await this.$axios.orderControllerList.submitComment({
           userId: this.$store.getters.getUserInfo.id,
