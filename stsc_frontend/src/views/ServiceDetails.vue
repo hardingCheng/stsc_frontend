@@ -2,15 +2,13 @@
   <div class="ServiceDetails container ">
     <div class="container"><P class="details-category">首页 > 找服务 > {{ info.name }}</P></div>
     <div class="serve-details ">
-      <div class="serve-details-img"><img :src=info.image width="400px" height="400px"></div>
+      <div class="serve-details-img"><img :src="info.image?info.image:'https://z3.ax1x.com/2021/05/07/g39Qht.png'"  width="400px" height="400px"></div>
       <div class="serve-details-inner-text">
         <div class="serve-title">{{ info ? info.name : "" }}</div>
-
         <div class="mechanism-classification">
           <div class="text-title-title">服务机构：<span class="text-service-text">{{ info.company }}</span></div>
           <div class="text-title-title ">服务类别：<span class="text-service-text">{{ info.categoryName }}</span></div>
         </div>
-
         <div class="evaluation">
           <div class="fl"><span class="cumulative-evaluation">累计评价：</span><span class="cumulative-num">{{ info.evaluationAmount }}</span></div>
           <div>
@@ -31,22 +29,30 @@
         <div class="text-title-title">创建时间：<span class="text-service-text">{{ info.createTime }}</span></div>
         <div class="text-title-title">联&emsp;系&emsp;人&emsp;：<span class="text-service-text">{{ info.contact }}</span></div>
         <div class="text-title-title">手&emsp;机&emsp;号&emsp;：<span class="text-service-text">{{ info.telephone }}</span></div>
+
         <!--        <div class="address">-->
         <!--        <div class="text-title-title ">联系地址：<span class="text-service-text ">陕西省西安市幸福街道</span></div>-->
         <!--        </div>-->
-        <div class="text-title-title ">电子邮箱：<span class="text-service-text">{{ info.email==null?"无": info.email }}</span></div>
+<!--        <div class="text-title-title ">电子邮箱：<span class="text-service-text">{{ info.email==null?"无": info.email }}</span></div>-->
         <div class="show-reviews">
           <div class="show-reviews-text fl" v-for="(item,index) in keywords" v-bind:key="index"><span class="tag-text">{{
               item
             }}</span>
           </div>
         </div>
-        <el-button type="primary">立即下单</el-button>
+        <el-button type="primary" @click="setOrderImmediately">立即下单</el-button>
       </div>
     </div>
-    <Tabs
+    <Tabs class="tab_space"
         :description="info.serviceDescription"
+          :attachment="info.attachment"
         :professional-talents="info.expertIntroduction">
+<!--      附件-->
+      <div class="accessory "slot="fourth" v-if="info.attachment">
+        <p class="accessory_name">{{ filename }}</p>
+        <a class="down" :href="info.attachment">下载</a>
+      </div>
+      <p v-else slot="fourth">无附件</p>
 <!--      成功案例-->
       <div class="evaluation-box" slot="fifth" v-if="total>0">
 <!--        <div class="praise-of">-->
@@ -94,23 +100,22 @@
       </div>
       <div class="evaluation-box"  slot="fifth" style="height: 300px;padding-left: 10px;margin-top: 10px" v-else>暂无评价</div>
     </Tabs>
-<!--    <div class="see-and-see container ">-->
-<!--      <span class="see-and-see-title">-&#45;&#45;看了又看-&#45;&#45;</span>-->
-<!--      <img src="../assets/staticImgs/seeandsee.png" height="160px" width="160px">-->
-<!--      <div class="see-detail-div"><span class="see-detail">机器人关键零部件先进制造</span></div>-->
-<!--      <img src="../assets/staticImgs/seeandsee.png" height="160px" width="160px">-->
-<!--      <div class="see-detail-div"><span class="see-detail">机器人关键零部件先进制造</span></div>-->
-<!--      <img src="../assets/staticImgs/seeandsee.png" height="160px" width="160px">-->
-<!--      <div class="see-detail-div"><span class="see-detail">机器人关键零部件先进制造</span></div>-->
-<!--      <img src="../assets/staticImgs/seeandsee.png" height="160px" width="160px">-->
-<!--      <div class="see-detail-div"><span class="see-detail">机器人关键零部件先进制造</span></div>-->
-<!--    </div>-->
+
+
+    <div class="see-and-see container ">
+      <span class="see-and-see-title">---看了又看---</span>
+      <div v-for="item in seeAndSeeList" >
+      <img :src="item.image?item.image:'https://z3.ax1x.com/2021/05/07/g39Qht.png'" height="160px" width="160px" @click="seeDetail(item.id)">
+      <div class="see-detail-div"><span class="see-detail">{{ item.name }}</span></div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import Evaluation from "../components/Evaluation";
 import Tabs from "../components/Tabs";
+import router from "../router";
 export default {
   name: "ServiceDetails",
   props:['id'],
@@ -128,24 +133,101 @@ export default {
       currentPage: 1,
       total:0,
       commentListRequire:[],//存放评论数据
+      categoryName:'',
+      firstCategory:["知识产权","检验检测","研究开发","技术转移"],
+      firstCategoryId:null,
+      seeAndSeeList:[],
+      pageNum:1,
+      filename:''
     };
   },
  created() {
+    this.getServeDetail()
     this.getEvaluation()
+    this.getSeeAndSee()
  },
   async mounted() {
-    const detail_result = await this.$axios.serveControllerList.getServesDetailById({
-      id: this.id
-    })
-    this.info = detail_result.data.serve//服务信息
-    this.value= this.info.star
-    this.keywords = this.info.keywords.split(',')//以逗号分割获取的关键字
-    //moment时间格式化插件
-    const moment = require('moment');
-    this.info.createTime= moment(this.info.createTime).format(("YYYY-MM-DD"))
-    console.log(this.info)
+    this.pageNum = Math.floor(Math.random()*3+1);
   },
   methods: {
+    async getServeDetail() {
+      const detail_result = await this.$axios.serveControllerList.getServesDetailById({
+        id: this.id
+      })
+      this.info = detail_result.data.serve//服务信息
+      let regex="[^\\/\\_]+$"
+      if(detail_result.data.serve.attachment==null){
+        this.filename="无附件"
+      }else {
+        this.filename=detail_result.data.serve.attachment.match(regex)[0]
+      }
+      console.log(this.info)
+      this.value = this.info.star
+      this.keywords = this.info.keywords.split(',')//以逗号分割获取的关键字
+      //moment时间格式化插件
+      const moment = require('moment');
+      this.info.createTime = moment(this.info.createTime).format(("YYYY-MM-DD"))
+      this.categoryName = this.info.categoryName.split('->')[0]
+      for (let i = 0; i < this.firstCategory.length; i++) {
+        if (this.categoryName === this.firstCategory[i]) {
+          this.firstCategoryId = i
+        }
+      }
+    },
+    async seeDetail(valId) {
+      this.pageNum = Math.floor(Math.random()*3+1);
+      await this.getSeeAndSee()
+      const detail_result = await this.$axios.serveControllerList.getServesDetailById({
+        id: valId
+      })
+      this.info = detail_result.data.serve//服务信息
+      this.value = this.info.star
+      this.keywords = this.info.keywords.split(',')//以逗号分割获取的关键字
+      //moment时间格式化插件
+      const moment = require('moment');
+      this.info.createTime = moment(this.info.createTime).format(("YYYY-MM-DD"))
+      this.categoryName = this.info.categoryName.split('->')[0]
+      for (let i = 0; i < this.firstCategory.length; i++) {
+        if (this.categoryName === this.firstCategory[i]) {
+          this.firstCategoryId = i
+        }
+      }
+
+    },
+    async getSeeAndSee(){
+      let results =await this.$axios.serveControllerList.getServesByCondition({
+        page: this.pageNum,
+        limit: 4
+      },{
+        categoryId: this.firstCategoryId,
+        status: 1
+      })
+      this.seeAndSeeList=results.data.serveList.records
+      console.log( this.seeAndSeeList)
+      //还没写完
+      let topNum =results.data.serveList.total/4
+    },
+    // 立即下单产生订单
+    async setOrderImmediately(){
+      let createOrderResult = await this.$axios.orderControllerList.createOrder({
+        serveId:this.id,
+        type:0
+      })
+      if (createOrderResult.code === 20000){
+        this.$message({
+          message: createOrderResult.message,
+          type: 'success',
+          duration:500,
+          onClose:() =>  this.$router.push('/pc/buyer/myorder')
+        })
+      }
+      if (createOrderResult.code === 20001){
+        this.$message({
+          message: createOrderResult.message,
+          type: 'error'
+        })
+      }
+    },
     async getEvaluation() {
       //通过id获取评论
       const commentList = await this.$axios.requirementControllerList.getCommentList({
@@ -179,6 +261,25 @@ export default {
 
 <style scoped lang="scss">
 @import '../styles/mixin';
+  .tab_space{white-space: pre-line;
+    .accessory {
+      display: flex;
+      align-items: center;
+      margin-left: 30px;
+      margin-top:15px;
+      .file_img {
+        height: 50px;
+      }
+      .accessory_name {
+        display: inline-block;
+        width: 400px;
+      }
+
+      .down {
+
+      }
+    }
+}
 .ServiceDetails {
   font-family: PingFangSC-Regular, PingFang SC;
   .details-category {

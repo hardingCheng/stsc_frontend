@@ -118,6 +118,7 @@ export default {
   height:500px;
 }
 .my-news {
+  min-height: 500px;
   .common-pagination{
     height:60px;
     position:relative;

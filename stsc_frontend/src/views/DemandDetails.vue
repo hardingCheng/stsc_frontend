@@ -3,13 +3,13 @@
 
     <div class="container"><p class="details-category">首页 > 找需求 > {{ info.name }}</p></div>
     <div class="demand-details  container">
-      <div class="demand-details-img"><img :src="info.image" width="400px" height="400px"></div>
+      <div class="demand-details-img"><img v-lazy="imageSrc" width="400px" height="400px"></div>
       <div class="demand-details-inner-text">
         <div class="demand-title">{{ info.name }}</div>
         <div class="mechanism-classification">
           <div class="text-title-title">需求机构：<span class="text-service-text">{{isLogin ? info.company:"***" }}</span></div>
         </div>
-        <div class="text-title-title">创造时间：<span class="text-service-text">{{ info.createTime }}</span></div>
+        <div class="text-title-title">创建时间：<span class="text-service-text">{{ info.createTime }}</span></div>
         <div class="text-title-title">联系人：<span class="text-service-text">{{ info.contact }}</span></div>
         <div class="text-title-title">手机号：<span class="text-service-text">{{ info.telephone }}</span></div>
         <div class="address">
@@ -20,7 +20,7 @@
           <a class="text-service-text1" :href=info.attachments >{{ filename}}</a>
         </div>
 <!--        <img src="../assets/images/fileimg.png" class="file_img" v-bind:href="info.attachments" />-->
-        <el-button><span class="font">立即下单</span></el-button>
+        <el-button><span class="font" @click="requireImmediately">立即抢单</span></el-button>
       </div>
       <div></div>
     </div>
@@ -40,17 +40,12 @@
         <h4>需求概述</h4>
         <p>{{ info.content }}</p>
     </div>
-
     <div class="see-and-see container">
       <span class="see-and-see-title">---看了又看---</span>
-      <img src="../assets/staticImgs/seeandsee.png" height="160px" width="160px">
-      <div class="see-detail-div"><span class="see-detail">机器人关键零部件先进制造</span></div>
-      <img src="../assets/staticImgs/seeandsee.png" height="160px" width="160px">
-      <div class="see-detail-div"><span class="see-detail">机器人关键零部件先进制造</span></div>
-      <img src="../assets/staticImgs/seeandsee.png" height="160px" width="160px">
-      <div class="see-detail-div"><span class="see-detail">机器人关键零部件先进制造</span></div>
-      <img src="../assets/staticImgs/seeandsee.png" height="160px" width="160px">
-      <div class="see-detail-div"><span class="see-detail">机器人关键零部件先进制造</span></div>
+      <div v-for="item in seeAndSeeList">
+      <img :src="item.image ? item.image : 'https://z3.ax1x.com/2021/05/07/g39Qht.png'" height="160px" width="160px" @click="seeDetail(item.id)">
+      <div class="see-detail-div"><span class="see-detail">{{ item.name }}</span></div>
+      </div>
     </div>
   </div>
 </template>
@@ -70,6 +65,9 @@ export default {
       value: 2,
       filename:null,
       isLogin:null,//判断用户是否登录
+      seeAndSeeList:[],//看了又看
+      firstCategory:["知识产权","检验检测","研究开发","技术转移"],
+      pageNum:1,
     };
   },
   async created() {
@@ -94,7 +92,69 @@ export default {
     this.value = parseInt(this.info.star)
 
   },
+  mounted() {
+    this.pageNum = Math.floor(Math.random()*3+1);
+    this.getSeeAndSeeDetail()
+  },
+  computed:{
+    imageSrc:function (){
+      if (this.info.image){
+        return this.info.image
+      }else {
+        return 'https://z3.ax1x.com/2021/05/07/g39Qht.png'
+      }
+    }
+  },
   methods: {
+    async seeDetail(val) {
+      //通过id获取需求详情
+      const detail_result = await this.$axios.requirementControllerList.getRequireDetailById({
+        id: val,
+        flag: this.flag
+      })
+      //存放需求详情的信息
+      this.info = detail_result.data.requirement
+      //moment时间格式化插件
+      const moment = require('moment');
+      this.info.createTime = moment(this.info.createTime).format(("YYYY-MM-DD"))
+      let regex = "[^\\/\\_]+$"
+      if (detail_result.data.requirement.attachments == null) {
+        this.filename = "无附件"
+      } else {
+        this.filename = detail_result.data.requirement.attachments.match(regex)[0]
+      }
+      //存放需求评价的星数
+      this.value = parseInt(this.info.star)
+      this.pageNum = Math.floor(Math.random()*3+1);
+      await this.getSeeAndSeeDetail()
+    },
+    async getSeeAndSeeDetail() {
+      let demandBaseResult = await this.$axios.requirementControllerList.getRequireSubRequire({
+        page: this.pageNum,
+        limit: 4
+      }, {
+      })
+      this.seeAndSeeList=demandBaseResult.data.list
+    },
+
+    //立即抢单
+    async requireImmediately(){
+      let immediatelyResult = await this.$axios.orderControllerList.getOrderNowForRequire({
+        requireId:this.id
+      })
+      if (immediatelyResult.code === 20000){
+        this.$message({
+          message: immediatelyResult.message,
+          type: 'success'
+        })
+      }
+      if (immediatelyResult.code === 20001){
+        this.$message({
+          message: immediatelyResult.message,
+          type: 'error'
+        })
+      }
+    },
     downloadClick(row) {
       let entity = {
         id: row.id,
@@ -127,8 +187,12 @@ export default {
   font-family: PingFangSC-Regular, PingFang SC;
   position: relative;
   .demand_overview{
+    //换行
+    white-space: pre-line;
     box-sizing: border-box;
-    @include wh(953px, 440px);
+    width: 953px;
+    min-height: 440px ;
+    height: auto;
     padding-top: 20px;
     padding-bottom: 20px;
     padding-left: 20px;

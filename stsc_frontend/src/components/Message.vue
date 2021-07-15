@@ -1,7 +1,6 @@
 <template>
   <div class="message">
-
-    <el-tabs v-model=activeName  @tab-click="handleClick">
+    <el-tabs v-model=activeName  @tab-click="handleClick" class="tabs_message">
       <el-tab-pane name="first">
         <template slot="label">全部({{ total }})</template>
         <!--      折叠面板-->
@@ -17,7 +16,6 @@
         </el-collapse>
         <slot name="page_1"></slot>
       </el-tab-pane>
-
       <el-tab-pane name="second">
         <template slot="label">
           未读({{ total_no_read }})
@@ -97,6 +95,9 @@ export default {
 
 <style scoped lang="scss">
 .message {
+  .tabs_message{
+    min-height: 500px;
+  }
   .delete_message {
     display: block;
     margin-left: 625px;
@@ -107,7 +108,10 @@ export default {
     font-size: 12px;
     margin-top: 20px;
   }
-
+/deep/.el-collapse{
+  min-height: 500px;
+  height: auto;
+}
 }
 
 </style>
