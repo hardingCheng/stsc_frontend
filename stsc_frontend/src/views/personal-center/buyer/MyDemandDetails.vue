@@ -46,7 +46,7 @@
 
     <div class="demand_overview container">
       <h4>需求概述</h4>
-      <p>{{ this.info_all.content }}</p>
+      <span class="demand_content">{{ this.info_all.content }}</span>
     </div>
     <div class="technological_process" v-if="requireState>3">
       <div class="map">
@@ -87,7 +87,7 @@
           </el-option>
         </el-select>
         <!--        推荐服务商-->
-        <div class="children_demand"  v-for="(items,index) in item " v-bind:key="index" v-if="items.subRequireName" >
+        <div class="children_demand"  v-for="(items,index) in item " v-bind:key="index" v-if="requireState===8" >
           <span class="children_demand_title" >{{ items.subRequireName }}</span>
           <div class="company ">
 <!--            v-if="index!==keyPlanGrab[index]"-->
@@ -107,7 +107,7 @@
       <!--        抢单-->
       <div class="grab">
         <h3 style="margin-bottom: 20px">抢单商家</h3>
-        <div class="grab_name" v-for="(items,index) in grabOrderInfo" v-bind:key="index">
+        <div class="grab_name" v-for="(items,index) in grabOrderInfo" v-bind:key="index"  v-if="requireState===8">
           <div class="grab_title">{{items.subRequireName}}</div>
           <div class="grab_content">
             <div class="company ">
@@ -195,9 +195,7 @@ export default {
     if(this.requireState===6){
       await this.getOrderInfo()
     }
-
   },
-
   methods: {
     //服务商抢单
     async grabOrder(){
@@ -411,7 +409,9 @@ export default {
     padding-left: 20px;
     margin: 20px 0px 33px auto;
     border: #E7E7E7 1px solid;
-
+    .demand_content{
+      white-space: pre-line;
+    }
     h4 {
       margin-bottom: 15px;
     }

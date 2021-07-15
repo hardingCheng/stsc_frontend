@@ -144,10 +144,11 @@ export default {
  created() {
     this.getServeDetail()
     this.getEvaluation()
-    this.getSeeAndSee()
+
  },
   async mounted() {
-    this.pageNum = Math.floor(Math.random()*3+1);
+    this.pageNum = Math.floor(Math.random()*2+1);
+    await  this.getSeeAndSee()
   },
   methods: {
     async getServeDetail() {
@@ -175,7 +176,7 @@ export default {
       }
     },
     async seeDetail(valId) {
-      this.pageNum = Math.floor(Math.random()*3+1);
+      this.pageNum = Math.floor(Math.random()*2+1);
       await this.getSeeAndSee()
       const detail_result = await this.$axios.serveControllerList.getServesDetailById({
         id: valId
@@ -186,13 +187,7 @@ export default {
       //moment时间格式化插件
       const moment = require('moment');
       this.info.createTime = moment(this.info.createTime).format(("YYYY-MM-DD"))
-      this.categoryName = this.info.categoryName.split('->')[0]
-      for (let i = 0; i < this.firstCategory.length; i++) {
-        if (this.categoryName === this.firstCategory[i]) {
-          this.firstCategoryId = i
-        }
-      }
-
+      await this.getSeeAndSee()
     },
     async getSeeAndSee(){
       let results =await this.$axios.serveControllerList.getServesByCondition({
@@ -261,7 +256,8 @@ export default {
 
 <style scoped lang="scss">
 @import '../styles/mixin';
-  .tab_space{white-space: pre-line;
+  .tab_space{
+    white-space: pre-line;
     .accessory {
       display: flex;
       align-items: center;
