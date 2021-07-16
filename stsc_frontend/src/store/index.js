@@ -15,6 +15,8 @@ export default new Vuex.Store({
     qualificationInfo:{},
     realNameCertificationInfo:{},
     verTime:'',
+    buyerMessage:0,
+    sellerMessage:0,
     num:0
   },
   mutations: {
