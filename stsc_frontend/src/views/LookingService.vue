@@ -13,6 +13,7 @@
               v-model="findValue"
               @keyup.enter.native="getFirstServiceList(null,findValue)"
           >
+            <el-button slot="append" icon="el-icon-search" type="primary" @click="getFirstServiceList(null,findValue)"></el-button>
           </el-input>
         </div>
       </div>

@@ -47,12 +47,12 @@ export default {
           return '已分发'
         case 4:
           return '已拆分'
-        case 5:
+        case 8:
           return '服务商匹配完成'
-        case 6:
+        case 9:
           return '生成订单'
         default:
-          return '未审核'
+          return '待匹配'
       }
     }
   },

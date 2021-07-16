@@ -557,9 +557,9 @@ export default {
       const demandBaseResultNotNull = demandBaseResult.data.list.filter((item,index) => {
         return item.image !== null
       })
-      this.demandSelectList = this.getRandomArrayElements(demandBaseResultNotNull,Math.floor(Math.random()*5)+1)
+      this.demandSelectList = this.getRandomArrayElements(demandBaseResultNotNull,5)
 
-      this.serviceSelectList= this.getRandomArrayElements(servciceBaseResult.data.serveList.records,Math.floor(Math.random()*5)+1)
+      this.serviceSelectList= this.getRandomArrayElements(servciceBaseResult.data.serveList.records,5)
 
       this.commonSelectList = this.getRandomArrayElements([...servciceBaseResult.data.serveList.records,...demandBaseResultNotNull],5)
     },
@@ -1155,6 +1155,7 @@ export default {
               padding: 16px;
 
               h1 {
+                height:44px;
                 font-size: 16px;
                 font-weight: 500;
                 color: #4E4E4E;
@@ -1168,6 +1169,7 @@ export default {
               }
 
               p {
+                height: 34px;
                 margin-top: 10px;
                 font-size: 12px;
                 font-weight: 400;

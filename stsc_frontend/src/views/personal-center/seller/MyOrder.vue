@@ -24,7 +24,7 @@
           </div>
           <div class="info-menu">
             <ul>
-              <li><a @click="getOrderDetail(item.id,item.orderType)">订单详情</a></li>
+              <li><a @click="getOrderDetail(item.id,item.orderType,item.orderStatus)">订单详情</a></li>
             </ul>
           </div>
           <div class="info-evaluate">
@@ -70,55 +70,65 @@ export default {
     },
     async handleCurrentChange(val) {
       let result = await this.$axios.orderControllerList.getOrderListForSeller({
-        page:val
+        page: val
       })
       this.pageInfo.total = result?.data?.total
       this.orderList = result?.data?.orderList
     },
-    getOrderDetail(id,orderType){
-      this.$router.push(`/pc/sellerorderdetail/waitingcommunication/${id}/${orderType}`)
-    }
-  },
-  async mounted() {
-    let result = await this.$axios.orderControllerList.getOrderListForSeller({
-      page:1
-    })
-    if (result.data?.total){
-      this.pageInfo.total = result.data?.total
-    }
-    if (result.data?.orderList){
-      this.orderList = result.data?.orderList
-    }
-  },
-  filters:{
-    modStatus(value){
-      switch(parseInt(value)) {
+    getOrderDetail(id, orderType, orderStatus) {
+      switch (orderStatus) {
         case 1:
-          return '待沟通'
+          this.$router.push(`/pc/sellerorderdetail/waitingcommunication/${id}/${orderType}`)
+          break
         case 2:
-          return '进行中'
+          this.$router.push(`/pc/sellerorderdetail/inprogress/${id}/${orderType}`)
+          break
         case 3:
-          return '已验收'
-        case 4:
-          return '已验收'
-        case 5:
-          return '已完成'
-        default:
-          return '待沟通'
+          this.$router.push(`/pc/sellerorderdetail/serviceacceptance/${id}/${orderType}`)
+          break
       }
     },
-    modPrice(value){
-      if (value){
-        if (value === '保密' || value === '暂无价格' ){
-          return '价格：' + value
-        }else {
-          return '价格：￥'+(value)+'万'
+    async mounted() {
+      let result = await this.$axios.orderControllerList.getOrderListForSeller({
+        page: 1
+      })
+      if (result.data?.total) {
+        this.pageInfo.total = result.data?.total
+      }
+      if (result.data?.orderList) {
+        this.orderList = result.data?.orderList
+      }
+    },
+    filters: {
+      modStatus(value) {
+        switch (parseInt(value)) {
+          case 1:
+            return '待沟通'
+          case 2:
+            return '进行中'
+          case 3:
+            return '已验收'
+          case 4:
+            return '已验收'
+          case 5:
+            return '已完成'
+          default:
+            return '待沟通'
         }
-      }else {
-        return ''
+      },
+      modPrice(value) {
+        if (value) {
+          if (value === '保密' || value === '暂无价格') {
+            return '价格：' + value
+          } else {
+            return '价格：￥' + (value) + '万'
+          }
+        } else {
+          return ''
+        }
       }
     }
-  },
+  }
 }
 </script>
 
