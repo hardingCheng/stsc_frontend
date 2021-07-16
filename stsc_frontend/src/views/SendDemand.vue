@@ -420,7 +420,7 @@ export default {
     },
     // 获取更新数据
     async getUpdateRequirement(){
-      let result = await this.$axios.requirementControllerList.getRequireDetailById({
+      let result = await this.$axios.requirementControllerList.getBigRequireDetailById({
         id:this.id
       })
       this.form = result.data.requirement

@@ -291,8 +291,12 @@ export default {
       handler(newValue,oldValue){
         if(newValue.type === 1) {
           this.form.price = '面议'
+          this.errors.priceError = ""
         }else if (newValue.type === 2) {
-          // this.form.price = '面议'
+          this.errors.priceError = ""
+          if (this.form.price === '面议'){
+            this.form.price = 0
+          }
         }else {
           // el-form-item__error
           this.form.price =`${this.price.startPrice},${this.price.endPrice}`

@@ -88,44 +88,44 @@ export default {
           break
       }
     },
-    async mounted() {
-      let result = await this.$axios.orderControllerList.getOrderListForSeller({
-        page: 1
-      })
-      if (result.data?.total) {
-        this.pageInfo.total = result.data?.total
-      }
-      if (result.data?.orderList) {
-        this.orderList = result.data?.orderList
+  },
+  async mounted() {
+    let result = await this.$axios.orderControllerList.getOrderListForSeller({
+      page: 1
+    })
+    if (result.data?.total) {
+      this.pageInfo.total = result.data?.total
+    }
+    if (result.data?.orderList) {
+      this.orderList = result.data?.orderList
+    }
+  },
+  filters: {
+    modStatus(value) {
+      switch (parseInt(value)) {
+        case 1:
+          return '待沟通'
+        case 2:
+          return '进行中'
+        case 3:
+          return '已验收'
+        case 4:
+          return '已验收'
+        case 5:
+          return '已完成'
+        default:
+          return '待沟通'
       }
     },
-    filters: {
-      modStatus(value) {
-        switch (parseInt(value)) {
-          case 1:
-            return '待沟通'
-          case 2:
-            return '进行中'
-          case 3:
-            return '已验收'
-          case 4:
-            return '已验收'
-          case 5:
-            return '已完成'
-          default:
-            return '待沟通'
-        }
-      },
-      modPrice(value) {
-        if (value) {
-          if (value === '保密' || value === '暂无价格') {
-            return '价格：' + value
-          } else {
-            return '价格：￥' + (value) + '万'
-          }
+    modPrice(value) {
+      if (value) {
+        if (value === '保密' || value === '暂无价格') {
+          return '价格：' + value
         } else {
-          return ''
+          return '价格：￥' + (value) + '万'
         }
+      } else {
+        return ''
       }
     }
   }

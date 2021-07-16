@@ -557,11 +557,14 @@ export default {
       const demandBaseResultNotNull = demandBaseResult.data.list.filter((item,index) => {
         return item.image !== null
       })
+      const servciceBaseResultNotNull = servciceBaseResult.data.serveList.records.filter((item,index) => {
+        return item.image !== null
+      })
       this.demandSelectList = this.getRandomArrayElements(demandBaseResultNotNull,5)
 
-      this.serviceSelectList= this.getRandomArrayElements(servciceBaseResult.data.serveList.records,5)
+      this.serviceSelectList= this.getRandomArrayElements(servciceBaseResultNotNull,5)
 
-      this.commonSelectList = this.getRandomArrayElements([...servciceBaseResult.data.serveList.records,...demandBaseResultNotNull],5)
+      this.commonSelectList = this.getRandomArrayElements([...servciceBaseResultNotNull,...demandBaseResultNotNull],5)
     },
     async getIndexData() {
       let result = await this.$axios.mainController.getIndexData()
