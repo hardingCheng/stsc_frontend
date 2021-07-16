@@ -32,7 +32,7 @@
               服务名称:<span>{{ !order.name ? "暂无数据" : order.name }}</span>
             </li>
             <li>
-              价格:<span>{{ !price ? "暂无数据" : price }}</span>
+              价格:<span>{{ price }}</span>
             </li>
             <li>
               开始时间:<span>{{ !order.createTime ? "暂无数据" : order.createTime }}</span>
@@ -103,6 +103,9 @@
               子订单名称:<span>{{ !orderChildrenInfo.name ? "暂无数据" : orderChildrenInfo.name }}</span>
             </li>
             <li>
+              价格:<span>{{ price}}</span>
+            </li>
+            <li>
               开始时间:<span>{{ !orderChildrenInfo.createTime ? "暂无数据" : orderChildrenInfo.createTime }}</span>
             </li>
             <li>
@@ -133,6 +136,9 @@
               </li>
               <li>
                 子订单名称:<span>{{ !item.name ? "暂无数据" : item.name }}</span>
+              </li>
+              <li>
+                价格:<span>{{ price }}</span>
               </li>
               <li>
                 服务商名称:<span>{{ !item.sellerName ? "暂无数据" : item.sellerName }}</span>
@@ -268,7 +274,11 @@ export default {
         this.order = result.data.orderInfo
         //价格处理
         if(result.data.orderInfo.price!=="面议"&&result.data.orderInfo.price!=="保密"){
-          this.price=result.data.orderInfo.price+'万'
+          if(result.data.orderInfo.price.includes(',')){
+            this.price=result.data.orderInfo.price.replace(',','~')+'万'
+          }else {
+            this.price=result.data.orderInfo.price+'万'
+          }
         }
 
         this.serveId = result.data.orderInfo.serveId
@@ -280,6 +290,14 @@ export default {
         })
         this.sum = result1.data.subOrderInfo.subOrderInfoVoList.length//子订单的数目
         this.order = result1.data.subOrderInfo.subOrderInfoVoList[this.num]//子订单信息，默认是第一个订单的数据
+        if(this.order.price!=="面议"&&this.order.price!=="保密"){
+          if(this.order.price.includes(',')){
+            this.price=this.order.price.replace(',','~')+'万'
+          }else {
+            this.price=this.order.price+'万'
+          }
+        }
+
         //存放大订单态
         this.status = result.data.orderInfo.status
         for (let i = 0; i < this.sum; i++) {
@@ -295,6 +313,13 @@ export default {
         subOrderId: val
       })
       this.orderChildrenInfo = results.data.orderInfo//子订单的信息
+      if(results.data.orderInfo.price!=="面议"&&results.data.orderInfo.price!=="保密"){
+        if(results.data.orderInfo.price.includes(',')){
+          this.price=results.data.orderInfo.price.replace(',','~')+'万'
+        }else {
+          this.price=results.data.orderInfo.price+'万'
+        }
+      }
       this.serveId = results.data.orderInfo.serveId//服务id
       this.subOrderInfo.push(results.data.orderInfo)//子订单的信息
     },

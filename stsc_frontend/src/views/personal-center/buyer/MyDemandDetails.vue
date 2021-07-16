@@ -45,14 +45,14 @@
     <!--    </el-tabs>-->
 
     <div class="demand_overview container">
-      <h4>需求概述{{requireState}}</h4>
+      <h4>需求概述</h4>
       <span class="demand_content">{{ this.info_all.content }}</span>
     </div>
     <div class="technological_process" v-if="requireState>3">
       <div class="map">
         <graph :arrangeList="arrangeInfo"></graph>
       </div>
-      <div class="button_group1" v-if="lengthInfo&&requireState===4||requireState===5">
+      <div class="button_group1" v-if="lengthInfo&&requireState===4">
         <el-button type="primary" @click="verify" :disabled="forbidden">确定</el-button>
         <el-button type="primary" :disabled="reOpen" @click="resoution">重新拆分</el-button>
       </div>
@@ -282,6 +282,10 @@ export default {
         requirementId: this.$route.params.id
       })
       if (result.code === 20000) {
+        this.$message({
+          type: 'success',
+          message: '已经确认拆分结果，请耐心等待！'
+        })
         await this.getBuyer()
         this.forbidden = true//禁用确定按钮
         this.reOpen = true//重新拆分是否隐藏
@@ -375,10 +379,11 @@ export default {
           .then(response => {
                 this.hid = 0
                 this.getRequireState()
+            if(response.code===20000){
                 this.$message({
                   type: 'success',
                   message: '提交成功'
-                })
+                })}
               //显示订单信息
               }
           ).catch(error => {

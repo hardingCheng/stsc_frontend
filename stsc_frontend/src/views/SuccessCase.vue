@@ -115,7 +115,6 @@ export default {
           border-left:1px solid #F3F3F3 ;
           span{
             font-weight: bold;
-
           }
           p{
             height: 105px;
