@@ -35,7 +35,7 @@
         <!--        <div class="address">-->
         <!--        <div class="text-title-title ">联系地址：<span class="text-service-text ">陕西省西安市幸福街道</span></div>-->
         <!--        </div>-->
-<!--        <div class="text-title-title ">电子邮箱：<span class="text-service-text">{{ info.email==null?"无": info.email }}</span></div>-->
+        <div class="text-title-title ">电子邮箱：<span class="text-service-text">{{ info.email==null?"无": info.email }}</span></div>
         <div class="show-reviews">
           <div class="show-reviews-text fl" v-for="(item,index) in keywords" v-bind:key="index"><span class="tag-text">{{
               item

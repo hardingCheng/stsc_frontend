@@ -102,9 +102,9 @@
             <li>
               子订单名称:<span>{{ !orderChildrenInfo.name ? "暂无数据" : orderChildrenInfo.name }}</span>
             </li>
-            <li>
-              价格:<span>{{ price}}</span>
-            </li>
+<!--            <li>-->
+<!--              价格:<span>{{ price}}</span>-->
+<!--            </li>-->
             <li>
               开始时间:<span>{{ !orderChildrenInfo.createTime ? "暂无数据" : orderChildrenInfo.createTime }}</span>
             </li>
@@ -127,7 +127,7 @@
             </el-input>
           </div>
         </div>
-        <template v-if="status===5">
+        <template v-if="status===5" v-lazy>
           <div class="serve_order1" v-for="(item,index) in subOrderInfo" :key="index">
             <img :src=item.image class="order_style">
             <ul>
@@ -137,9 +137,9 @@
               <li>
                 子订单名称:<span>{{ !item.name ? "暂无数据" : item.name }}</span>
               </li>
-              <li>
-                价格:<span>{{ price }}</span>
-              </li>
+<!--              <li>-->
+<!--                价格:<span>{{ price }}</span>-->
+<!--              </li>-->
               <li>
                 服务商名称:<span>{{ !item.sellerName ? "暂无数据" : item.sellerName }}</span>
               </li>
@@ -290,13 +290,14 @@ export default {
         })
         this.sum = result1.data.subOrderInfo.subOrderInfoVoList.length//子订单的数目
         this.order = result1.data.subOrderInfo.subOrderInfoVoList[this.num]//子订单信息，默认是第一个订单的数据
-        if(this.order.price!=="面议"&&this.order.price!=="保密"){
-          if(this.order.price.includes(',')){
-            this.price=this.order.price.replace(',','~')+'万'
-          }else {
-            this.price=this.order.price+'万'
-          }
-        }
+
+        // if(this.order.price!=="面议"&&this.order.price!=="保密"){
+        //   if(this.order.price.includes(',')){
+        //     this.price=this.order.price.replace(',','~')+'万'
+        //   }else {
+        //     this.price=this.order.price+'万'
+        //   }
+        // }
 
         //存放大订单态
         this.status = result.data.orderInfo.status

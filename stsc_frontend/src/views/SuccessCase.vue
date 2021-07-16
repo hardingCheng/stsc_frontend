@@ -115,6 +115,11 @@ export default {
           border-left:1px solid #F3F3F3 ;
           span{
             font-weight: bold;
+            display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
+            -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+            -webkit-line-clamp: 1; /** 显示的行数 **/
+            overflow: hidden; /** 隐藏超出的内容 **/
+            margin-bottom: 4px;
           }
           p{
             height: 105px;

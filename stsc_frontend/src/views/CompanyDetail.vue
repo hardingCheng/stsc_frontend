@@ -4,11 +4,11 @@
     <div class="my_company-details container ">
       <div class="my_company-details-img"><img :src="this.info.avatar?this.info.avatar:default_img"   width="300px" height="300px"></div>
       <ul >
-        <li>单位名称:<span class="text">{{ this.$route.params.requireState!=6 ? "下单后可见":this.info.company }}</span></li>
-        <li class="text-title-title">单位地址:<span>{{ this.$route.params.requireState==6?this.info.address:"下单后可见" }}</span></li>
-        <li>联系人:<span>{{ !this.info.realname ?"暂无数据":this.info.realname }}</span></li>
-        <li>联系方式:<span>{{ this.$route.params.requireState==6?this.info.telephone :"下单后可见"}}</span></li>
-        <li>邮箱:<span>{{ this.$route.params.requireState==6?this.info.email :"下单后可见" }}</span></li>
+        <li>单位名称:<span class="text">{{ this.$route.params.requireState!=9 ? "下单后可见":this.info.company }}</span></li>
+        <li class="text-title-title">单位地址:<span>{{ this.$route.params.requireState==9?this.info.address:"下单后可见" }}</span></li>
+        <li>联系人:<span>{{ this.$route.params.requireState==9 ?this.info.realname:"下单后可见" }}</span></li>
+        <li>联系方式:<span>{{ this.$route.params.requireState==9?this.info.telephone :"下单后可见"}}</span></li>
+        <li>邮箱:<span>{{ this.$route.params.requireState==9?this.info.email :"下单后可见" }}</span></li>
         <li>所属平台:<span>{{ !this.info.source ?"暂无数据":this.info.source}}</span></li>
       </ul>
       <div></div>
@@ -136,6 +136,7 @@ export default {
     border: 1px solid #E7E7E7;
     .indicators_text {
       .p_text {
+        white-space: pre-line;
         font-size: 14px;
         color: #4E4E4E;
         line-height: 24px;
