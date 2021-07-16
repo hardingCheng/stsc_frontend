@@ -23,6 +23,9 @@
           <el-form-item label="联系方式：" prop="telephone">
             <el-input v-model="form.telephone" placeholder="请填写联系方式"></el-input>
           </el-form-item>
+          <el-form-item label="电子邮件：" prop="email">
+            <el-input v-model="form.email" placeholder="请填写电子邮件"></el-input>
+          </el-form-item>
           <el-form-item label="联系地址：" prop="address">
             <el-input v-model="form.address" placeholder="请填写联系地址"></el-input>
           </el-form-item>
@@ -123,7 +126,8 @@ export default {
         companyIntro:'',//公司简介
         deadline: '',
         attachments: '',
-        image: ''
+        image: '',
+        email:''
       },
       deadlinetiem:'',
       disabled:false,
@@ -148,6 +152,10 @@ export default {
         ],
         telephone: [
           {required: true, message: '请输入联系方式', trigger: 'blur'}
+        ],
+        email: [
+          {required: true, message: '请输入电子邮件', trigger: 'blur'},
+          { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
         ],
         address: [
           {required: true, message: '请输入联系方式', trigger: 'blur'}

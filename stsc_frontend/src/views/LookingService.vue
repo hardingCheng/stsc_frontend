@@ -21,14 +21,14 @@
         <div class="primary-classification">
           <dl>
             <dt>服务分类：</dt>
-            <dd @click="getFirstServiceList(null)">全部</dd>
-            <dd v-for="(item) in getFirstCategoryList" @click="getSecendsList(item.id)" :key="item.id">{{ item.name }}
+            <dd @click="getFirstServiceList(null)" :class="selectActive.selectFirstId === '0' ? 'active':''">全部</dd>
+            <dd v-for="(item,index) in getFirstCategoryList" @click="getSecendsList(item.id)"  :class="selectActive.selectFirstId === item.id ? 'active':''"  :key="item.id">{{ item.name }}
             </dd>
           </dl>
         </div>
         <div class="secondary-classification" v-if="getSecondCategoryList.length !== 0">
           <dl>
-            <dd v-for="(item) in getSecondCategoryList" @click="getSecondServiceList(item.id)" :key="item.id">{{ item.name }}
+            <dd v-for="(item) in getSecondCategoryList" @click="getSecondServiceList(item.id)" :class="selectActive.selectSecondId === item.id ? 'active':''"  :key="item.id">{{ item.name }}
             </dd>
           </dl>
         </div>
@@ -88,7 +88,11 @@ export default {
       info:[{
         title:'找服务',
         path:''
-      }]
+      }],
+      selectActive:{
+        selectFirstId: '0',
+        selectSecondId: '0'
+      }
     }
   },
   async mounted() {
@@ -114,6 +118,7 @@ export default {
     },
     // 获取二级分类列表
     async getSecendsList(id) {
+      this.selectActive.selectFirstId = id
       this.firstId = id
       const secondsResult = await this.$axios.categoryControllerList.getSecondCategoryList({
         firstId: id
@@ -124,6 +129,7 @@ export default {
     // 获取第一次全部的服务或者一级分类的服务
     async getFirstServiceList(id,...props){
       if (id === null) {
+        this.selectActive.selectFirstId = '0'
         this.getSecondCategoryList = []
         let servciceBaseResult =[]
         if(props.length === 0){
@@ -156,6 +162,7 @@ export default {
     },
     // 获取二级分类的服务列表
     async getSecondServiceList(id){
+      this.selectActive.selectSecondId = id
       const servciceBaseResult = await this.$axios.serveControllerList.getServesByCondition({
         page: this.currentPage1,
         limit: 15
@@ -275,11 +282,11 @@ export default {
           overflow: hidden;
         }
         dd {
+          cursor: pointer;
           margin:0 20px;
           float:left;
           font-size: 14px;
           font-weight: 400;
-          color: #111111;
         }
       }
     }
@@ -373,5 +380,8 @@ export default {
       transform:translate(-50%,-50%);
     }
   }
+}
+.active {
+  color: #1794FF
 }
 </style>

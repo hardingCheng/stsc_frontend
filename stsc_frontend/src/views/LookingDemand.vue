@@ -21,14 +21,13 @@
         <div class="primary-classification">
           <dl>
             <dt>需求分类：</dt>
-            <dd @click="getFirstDemandList(null)">全部</dd>
-            <dd v-for="(item) in getFirstCategoryList" @click="getSecendsList(item.id)" :key="item.id">{{ item.name }}
-            </dd>
+            <dd @click="getFirstDemandList(null)" :class="selectActive.selectFirstId === '0' ? 'active':''">全部</dd>
+            <dd v-for="(item,index) in getFirstCategoryList" @click="getSecendsList(item.id)" :key="item.id" :class="selectActive.selectFirstId === item.id ? 'active':''">{{ item.name }} </dd>
           </dl>
         </div>
         <div class="secondary-classification" v-if="getSecondCategoryList.length !== 0">
           <dl>
-            <dd v-for="(item) in getSecondCategoryList" @click="getSecendDemandList(item.id)" :key="item.id">{{ item.name }}
+            <dd v-for="(item) in getSecondCategoryList" @click="getSecendDemandList(item.id)" :key="item.id" :class="selectActive.selectSecondId === item.id ? 'active':''">{{ item.name }}
             </dd>
           </dl>
         </div>
@@ -85,7 +84,11 @@ export default {
       info:[{
         title:'找需求',
         path:''
-      }]
+      }],
+      selectActive:{
+        selectFirstId: '0',
+        selectSecondId: '0'
+      }
     }
   },
   async mounted() {
@@ -111,6 +114,7 @@ export default {
     },
     // 获取二级分类
     async getSecendsList(id) {
+      this.selectActive.selectFirstId = id
       this.firstId = id
       const secondsResult = await this.$axios.categoryControllerList.getSecondCategoryList({
         firstId: id
@@ -133,6 +137,7 @@ export default {
       let demandBaseResult
       // 全部需求
       if (id === null) {
+        this.selectActive.selectFirstId = '0'
         this.getSecondCategoryList = []
         if (props.length === 0){
           demandBaseResult = await this.$axios.requirementControllerList.getRequireSubRequire({
@@ -167,6 +172,7 @@ export default {
     },
     // 获取一级和二级都要选择时候
     async getSecendDemandList(id) {
+      this.selectActive.selectSecondId = id
       let demandBaseResult = await this.$axios.requirementControllerList.getRequireSubRequire({
         page: this.currentPage1,
         limit: 15
@@ -271,6 +277,7 @@ export default {
 
       .primary-classification {
         dt, dd {
+          cursor: pointer;
           margin-right: 28px;
           float: left;
         }
@@ -303,7 +310,6 @@ export default {
           float: left;
           font-size: 14px;
           font-weight: 400;
-          color: #111111;
         }
       }
     }
