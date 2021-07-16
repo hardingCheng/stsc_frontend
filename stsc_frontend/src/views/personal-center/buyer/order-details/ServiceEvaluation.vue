@@ -32,7 +32,7 @@
               服务名称:<span>{{ !order.name ? "暂无数据" : order.name }}</span>
             </li>
             <li>
-              价格:<span>{{ !order.price ? "暂无数据" : order.price }}</span>
+              价格:<span>{{ !price ? "暂无数据" : price }}</span>
             </li>
             <li>
               开始时间:<span>{{ !order.createTime ? "暂无数据" : order.createTime }}</span>
@@ -189,11 +189,11 @@ export default {
       orderInfo: [],
       img:"",
       address:"",
-      sellerName:""
+      sellerName:"",
+      price:0
     }
   },
   async created() {
-
     //获取订单
     await this.getOrderInfo()
     //获取订单的买家信
@@ -209,10 +209,11 @@ export default {
       for (this.num; this.num < this.sum; this.num++) {
         await this.getSubInfo(this.subOrderId[this.num], this.num)
       }
-
     }else if (this.type == 0&&this.status=== 5) {
       await this.getOrderEvaluation()
-      await this.getSubInfo(this.order.subOrderId, this.num)
+      //await this.getSubInfo(this.order.id, this.num)
+      await this.getOrderInfo()
+
     }
   },
   methods: {
@@ -265,10 +266,14 @@ export default {
       if (this.type == 0) {
         this.sum = result.data.orderInfo.length
         this.order = result.data.orderInfo
+        //价格处理
+        if(result.data.orderInfo.price!=="面议"&&result.data.orderInfo.price!=="保密"){
+          this.price=result.data.orderInfo.price+'万'
+        }
+
         this.serveId = result.data.orderInfo.serveId
         //存放小订单状态
         this.status = result.data.orderInfo.status
-        console.log( this.status)
       } else {
         let result1 = await this.$axios.orderControllerList.getSplitDetailInfo({
           id: this.orderid

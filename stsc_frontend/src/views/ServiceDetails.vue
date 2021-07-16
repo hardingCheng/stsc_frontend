@@ -26,9 +26,11 @@
           </div>
         </div>
         <!--        <div class="text-title-title">单位所在地：<span class="text-service-text">{{ info.address }}</span></div>-->
-        <div class="text-title-title">创建时间：<span class="text-service-text">{{ info.createTime }}</span></div>
+        <div class="text-title-title">价&#12288格&#12288&#12288&#12288：<span class="text-service-text">{{ price }}</span></div>
         <div class="text-title-title">联&emsp;系&emsp;人&emsp;：<span class="text-service-text">{{ info.contact }}</span></div>
         <div class="text-title-title">手&emsp;机&emsp;号&emsp;：<span class="text-service-text">{{ info.telephone }}</span></div>
+        <div class="text-title-title">创建时间：<span class="text-service-text">{{ info.createTime }}</span></div>
+
 
         <!--        <div class="address">-->
         <!--        <div class="text-title-title ">联系地址：<span class="text-service-text ">陕西省西安市幸福街道</span></div>-->
@@ -103,7 +105,7 @@
 
 
     <div class="see-and-see container ">
-      <span class="see-and-see-title">---看了又看---</span>
+      <span class="see-and-see-title">---热门推荐---</span>
       <div v-for="item in seeAndSeeList" >
       <img :src="item.image?item.image:'https://z3.ax1x.com/2021/05/07/g39Qht.png'" height="160px" width="160px" @click="seeDetail(item.id)">
       <div class="see-detail-div"><span class="see-detail">{{ item.name }}</span></div>
@@ -138,7 +140,8 @@ export default {
       firstCategoryId:null,
       seeAndSeeList:[],
       pageNum:1,
-      filename:''
+      filename:'',
+      price:''
     };
   },
  created() {
@@ -156,13 +159,22 @@ export default {
         id: this.id
       })
       this.info = detail_result.data.serve//服务信息
+
+      if(detail_result.data.serve.price!=="面议"&&detail_result.data.serve.price!=="保密"){
+        if(detail_result.data.serve.price.includes(',')){
+          this.price=detail_result.data.serve.price.replace(',','~')+'万'
+        }else {
+          this.price=detail_result.data.serve.price+'万'
+        }
+      }else{
+        this.price=detail_result.data.serve.price
+      }
       let regex="[^\\/\\_]+$"
       if(detail_result.data.serve.attachment==null){
         this.filename="无附件"
       }else {
         this.filename=detail_result.data.serve.attachment.match(regex)[0]
       }
-      console.log(this.info)
       this.value = this.info.star
       this.keywords = this.info.keywords.split(',')//以逗号分割获取的关键字
       //moment时间格式化插件
@@ -198,7 +210,6 @@ export default {
         status: 1
       })
       this.seeAndSeeList=results.data.serveList.records
-      console.log( this.seeAndSeeList)
       //还没写完
       let topNum =results.data.serveList.total/4
     },
@@ -438,7 +449,10 @@ export default {
       display: inline-block;
 
       .show-reviews-text {
-        @include wh(73px, 24px);
+        width: auto;
+        height:24px ;
+        padding-left: 2px;
+        padding-right: 2px;
         margin-right: 14px;
         border-radius: 1px;
         margin-bottom: 5px;
