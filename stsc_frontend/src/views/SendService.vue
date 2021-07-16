@@ -287,6 +287,7 @@ export default {
     },
     priceType:{
       deep:true,
+      immediate:true,
       handler(newValue,oldValue){
         if(newValue.type === 1) {
           this.form.price = '面议'
