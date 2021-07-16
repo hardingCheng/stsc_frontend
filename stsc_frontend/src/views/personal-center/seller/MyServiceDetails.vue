@@ -8,7 +8,7 @@
       <li>单位地址:<span>{{ !this.info.address ?"暂无数据":this.info.address}}</span></li>
       <li>联&emsp;系&emsp;人&emsp;:<span>{{ !this.info.contact ?"暂无数据":this.info.contact }}</span></li>
       <li>联系方式:<span>{{ !this.info.telephone ?"暂无数据":this.info.telephone}}</span></li>
-      <li>服务价格:<span>{{ this.info.price }}</span></li>
+      <li>服务价格:<span>{{ price }}</span></li>
       <li>服务工期:<span>{{ this.info.deadline }}天</span></li>
       <li>所属分类:<span>{{ this.info.categoryName }}</span></li>
       <li>关&emsp;键&emsp;字&emsp;:<span>{{ this.info.keywords }}</span></li>
@@ -39,7 +39,8 @@ export default {
       info_all:[],
       activeName: 'first',
       info:[],
-      filename:''
+      filename:'',
+      price:0,
     }
   },
   created() {
@@ -54,6 +55,15 @@ export default {
         id:this.id
       })
       this.info=result.data.serve
+      if(result.data.serve.price!=="面议"&&result.data.serve.price!=="保密"){
+        if(result.data.serve.price.includes(',')){
+          this.price=result.data.serve.price.replace(',','~')+'万'
+        }else {
+          this.price=result.data.serve.price+'万'
+        }
+      }else {
+        this.price=result.data.serve.price
+      }
       let regex="[^\\/\\_]+$"
       if(result.data.serve.attachment==null){
         this.filename="无附件"

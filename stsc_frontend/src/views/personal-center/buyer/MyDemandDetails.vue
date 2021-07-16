@@ -45,7 +45,7 @@
     <!--    </el-tabs>-->
 
     <div class="demand_overview container">
-      <h4>需求概述</h4>
+      <h4>需求概述{{requireState}}</h4>
       <span class="demand_content">{{ this.info_all.content }}</span>
     </div>
     <div class="technological_process" v-if="requireState>3">
@@ -56,7 +56,7 @@
         <el-button type="primary" @click="verify" :disabled="forbidden">确定</el-button>
         <el-button type="primary" :disabled="reOpen" @click="resoution">重新拆分</el-button>
       </div>
-      <div class="button_group" v-if="requireState===6" >
+      <div class="button_group" v-if="requireState===9" >
         <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
           <li v-for="i in 1" class="infinite-list-item">已提交订单：</li>
           <li v-for="item in orderInfo" class="infinite-list-item">{{item.subReqName}}：
@@ -65,7 +65,7 @@
       </div>
     </div>
 
-    <div class="indicators" v-if="hid&&requireState===5">
+    <div class="indicators" v-if="requireState===8">
       <div class="recommend">
         <h3 style="margin-bottom: 20px">推荐服务商</h3>
         <span style="margin-bottom: 50px">推荐策略</span>
@@ -192,7 +192,7 @@ export default {
   async mounted() {
     this.getArrangeInfo()
     await this.getBuyer()
-    if(this.requireState===6){
+    if(this.requireState===9){
       await this.getOrderInfo()
     }
   },
@@ -299,11 +299,11 @@ export default {
       })
       if (result.code === 20000) {
         this.requireState = result.data.requirement.status
-        if (result.data.requirement.status === 5 || result.data.requirement.status === 6) {
+        if (result.data.requirement.status === 8 || result.data.requirement.status === 9) {
           this.hid = 1//推荐服务商是否隐藏
           this.forbidden = true//禁用确定按钮
           this.reOpen = true//重新拆分是否隐藏
-          if(this.requireState===6){
+          if(this.requireState===9){
             await this.getOrderInfo()
           }
         }

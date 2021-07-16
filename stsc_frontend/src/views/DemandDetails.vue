@@ -41,7 +41,7 @@
         <p>{{ info.content }}</p>
     </div>
     <div class="see-and-see container">
-      <span class="see-and-see-title">---看了又看---</span>
+      <span class="see-and-see-title">---热门推荐---</span>
       <div v-for="item in seeAndSeeList">
       <img :src="item.image ? item.image : 'https://z3.ax1x.com/2021/05/07/g39Qht.png'" height="160px" width="160px" @click="seeDetail(item.id)">
       <div class="see-detail-div"><span class="see-detail">{{ item.name }}</span></div>
