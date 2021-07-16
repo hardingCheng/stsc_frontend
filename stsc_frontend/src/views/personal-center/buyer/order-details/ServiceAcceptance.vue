@@ -16,7 +16,7 @@
     </div>
 <!--    TODO 大订单的服务验收-->
    <div class="service-acceptance-operation" v-if="acceptIf">
-     <el-button type="primary"  @click="setAcceptAttachment">确认验收</el-button>
+     <el-button type="primary"   @click="setAcceptAttachment">确认验收</el-button>
    </div>
 
   </div>
@@ -68,14 +68,14 @@ export default {
         let result = await this.$axios.orderControllerList.getOrderInfo({
           orderId:this.orderid
         })
-        if (result.data.orderInfo.status === 4) {
+        if (result.data.orderInfo.status >= 4) {
           this.acceptIf = false
         }
       }else {
         let result = await this.$axios.orderControllerList.getSplitDetailInfo({
           id:this.orderid
         })
-        if (result.data.subOrderInfo.status === 4) {
+        if (result.data.subOrderInfo.status >= 4) {
           this.acceptIf = false
         }
       }
