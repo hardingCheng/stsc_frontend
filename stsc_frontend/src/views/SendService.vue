@@ -329,6 +329,16 @@ export default {
         id:this.id
       })
       this.form = servesDetailResult.data.serve
+      if (this.form.price === '面议'){
+        this.priceType.type = 1
+      }else if (this.form.price.indexOf(',') !== -1){
+        this.priceType.type = 3
+        this.price.startPrice = +this.form.price.split(',')[0]
+        this.price.endPrice = +this.form.price.split(',')[1]
+      }else {
+        this.priceType.type = 2
+        this.form.price = +this.form.price
+      }
       const {categoryId,keywords,attachment,image} = servesDetailResult.data.serve
       this.category = categoryId.split(',')
       this.dynamicTags = keywords.split(',')
