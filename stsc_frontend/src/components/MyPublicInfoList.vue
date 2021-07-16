@@ -18,7 +18,7 @@
         <el-button type="primary" size="small"  plain @click="infoDetail(item.id)">详细信息</el-button>
       </div>
       <div class="info-operation">
-        <el-button type="primary" v-if="item.status < 6" @click="modInfo(item.id)">修改</el-button>
+        <el-button type="primary" v-if="item.status < 9" @click="modInfo(item.id)">修改</el-button>
         <el-button type="primary" @click="deleteInfo(item.id)">撤销</el-button>
       </div>
     </div>
