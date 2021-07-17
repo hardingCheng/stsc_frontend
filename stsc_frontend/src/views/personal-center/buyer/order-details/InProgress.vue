@@ -82,7 +82,6 @@
               服务{{ index + 1 }}：<span>{{ item.subOrderName }}</span>服务商{{ index + 1 }}：<span>{{ item.sellerName }}</span>
             </li>
           </ul>
-          <a> 查看更多</a>
         </div>
         <div class="order-info-right">
           <h3>服务进度</h3>
@@ -394,6 +393,8 @@ export default {
         }
 
         .suborder-info-list {
+          height:130px;
+          overflow: auto;
           li {
             margin-bottom: 8px;
             font-size: 14px;
