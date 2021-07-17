@@ -196,6 +196,11 @@ export default {
       await this.getOrderInfo()
     }
   },
+  watch:{
+    getArrangeInfo(){
+      this.getArrangeInfo()
+    }
+  },
   methods: {
     //服务商抢单
     async grabOrder(){
