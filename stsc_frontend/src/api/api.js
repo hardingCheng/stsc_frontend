@@ -81,7 +81,7 @@ export default function $axios(options) {
         switch (response.status) {
           case 200:
             data = JSON.parse(data);
-            if (data.code === 20002) {
+            if (data.code === 20002 || data.code === 20003) {
               Message.error({
                 message:`ERROR: 您的登录状态已过期。请重新登录。`,
                 offset:40
