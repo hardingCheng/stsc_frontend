@@ -148,9 +148,9 @@
             <el-step v-for="(item,index) in subOrderDetailsInfo[0].nodes ? subOrderDetailsInfo[0].nodes :[]"  :title="item" :key="index" @mouseenter.native="mouseenter1(index)" >
               <template v-slot:description v-if="index+1 <= subOrderDetailsInfo[0].sellerStep+1">
                 <el-popover
-                    placement="right"
+                    placement="bottom"
                     width="300"
-                    trigger="click"
+                    trigger="hover"
                     v-if="index+1 <= subOrderDetailsInfo[0].sellerStep+1 && index>subOrderDetailsInfo[0].buyerStep"
                 >
                   <div class="step-info-confirm">
@@ -165,7 +165,7 @@
                   <el-button type="text" slot="reference">步骤节点信息</el-button>
                 </el-popover>
                 <el-popover
-                    placement="right"
+                    placement="bottom"
                     width="300"
                     trigger="hover"
                     v-if="(index <= subOrderDetailsInfo[0].buyerStep && showConfirm && index === showConfirmIndex)"
@@ -225,7 +225,7 @@ export default {
       completeCon:false,
       showConfirm:false,
       showConfirmIndex:-1,
-      visible:false
+      visible:true
     }
   },
   components: {
@@ -256,6 +256,7 @@ export default {
       this.subOrderDetailsInfo.push(result.data)
     },
     async stepSubmit(index, orderId) {
+      this.visible = false
       if (this.type === '0'){
         let result = await this.$axios.orderControllerList.setNextSmallOrderStepForBuyer({
           orderId: orderId,
