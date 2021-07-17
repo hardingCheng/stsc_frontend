@@ -250,7 +250,7 @@ export default {
     }
   },
   watch: {
-    form:{
+    formUrlObj:{
       deep: true,//对于对象设置为深度 监听
       // 用来监听我们上传文件的url返回来
       async handler (newValue, oldName) {
@@ -407,6 +407,9 @@ export default {
     },
     // 发布服务
     async releaseServe(){
+      if (String(this.form.deadline).indexOf(".") !== -1){
+        this.form.deadline = parseInt(this.form.deadline) + 1
+      }
       let releaseResult = await this.$axios.serveControllerList.releaseServe(this.form)
       if (releaseResult.code === 20000){
         this.loading.close()
@@ -427,6 +430,9 @@ export default {
     },
     // 更新服务
     async updateServe(){
+      if (String(this.form.deadline).indexOf(".") !== -1){
+        this.form.deadline = parseInt(this.form.deadline) + 1
+      }
       let updateResult =  await this.$axios.serveControllerList.updateServeById(this.form)
       if (updateResult.code === 20000){
         this.loading.close()
