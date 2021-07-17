@@ -75,6 +75,7 @@ export default {
               orderId:this.orderid
             })
             if (result.code === 20000){
+              this.$router.push('/pc/seller/myorder')
               await this.getAcceptanceUploadFle()
             }
           }
@@ -86,6 +87,7 @@ export default {
               subOrderId:this.orderid
             })
             if (result.code === 20000){
+              this.$router.push('/pc/seller/myorder')
               await this.getAcceptanceUploadFle()
             }
           }

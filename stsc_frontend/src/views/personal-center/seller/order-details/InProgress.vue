@@ -30,7 +30,7 @@
                 <el-step :title="item" v-for="(item,index) in type0OrderInfo.nodes" :key="index" @mouseenter.native="mouseenter1(index)">
                   <template v-slot:description v-if="index+1 <= type0OrderInfo.order.sellerStep+1" >
                     <el-popover
-                        placement="right"
+                        placement="bottom"
                         width="300"
                         trigger="hover"
                         v-if="index <= type0OrderInfo.order.sellerStep && showConfirm && index === showConfirmIndex"
@@ -81,7 +81,7 @@
                 <el-step :title="item" v-for="(item,index) in orderInfo.nodes" :key="index" @mouseenter.native="mouseenter1(index)">
                   <template v-slot:description v-if="index+1 <= orderInfo.sellerStep+1" >
                     <el-popover
-                        placement="right"
+                        placement="bottom"
                         width="300"
                         trigger="hover"
                         v-if="index <= orderInfo.sellerStep && showConfirm && index === showConfirmIndex"

@@ -17,14 +17,18 @@
             <div class="order-info-flow-left">
               子服务1：
               <div>
-                <el-button size="small" style="margin-top: 12px;" :disabled="completeCon" v-if="completeCon" type="primary" >已完成</el-button>
+                <el-button size="small" style="margin-top: 12px;" :disabled="completeCon" v-if="completeCon"
+                           type="primary">已完成
+                </el-button>
               </div>
             </div>
             <div class="order-info-flow-right">
               <!--          TODO 立即下单  -->
-              <el-steps :active="type0OrderInfo.order.sellerStep+1" finish-status="success" v-if="type0OrderInfo" align-center>
-                <el-step v-for="(item,index) in type0OrderInfo.nodes ? type0OrderInfo.nodes :[]"  :title="item" :key="index" @mouseenter.native="mouseenter1(index)">
-                  <template v-slot:description v-if="index+1 <= type0OrderInfo.order.sellerStep+1" >
+              <el-steps :active="type0OrderInfo.order.sellerStep+1" finish-status="success" v-if="type0OrderInfo"
+                        align-center>
+                <el-step v-for="(item,index) in type0OrderInfo.nodes ? type0OrderInfo.nodes :[]" :title="item"
+                         :key="index" @mouseenter.native="mouseenter1(index)">
+                  <template v-slot:description v-if="index+1 <= type0OrderInfo.order.sellerStep+1">
                     <el-popover
                         placement="right"
                         width="300"
@@ -33,11 +37,21 @@
                     >
                       <div class="step-info-confirm">
                         <ul>
-                          <li ><b>服务商此节点完成信息：</b></li>
-                          <li style="margin-bottom: 10px;">{{ type0OrderInfo.nodeInfoList[index].curStepInfo}}</li>
+                          <li><b>服务商此节点完成信息：</b></li>
+                          <li style="margin-bottom: 10px;">{{ type0OrderInfo.nodeInfoList[index].curStepInfo }}</li>
                           <li><b>节点附加文件：</b></li>
-                          <li><el-button type="text" @click="showFile(type0OrderInfo.nodeInfoList[index].curStepFileUrl)">{{type0OrderInfo.nodeInfoList[index].curStepFileUrl ? type0OrderInfo.nodeInfoList[index].curStepFileUrl.split('/').slice(-1)[0].split('_')[1] : '暂无附加文件'}}</el-button></li>
-                          <li style="text-align: right;" v-if="index+1 <= type0OrderInfo.order.sellerStep+1 && index>type0OrderInfo.order.buyerStep"><el-button size="small" type="danger">申请异常</el-button><el-button  size="small" type="primary" @click="stepSubmit(index,type0OrderInfo.order.id)">确认</el-button></li>
+                          <li>
+                            <el-button type="text" @click="showFile(type0OrderInfo.nodeInfoList[index].curStepFileUrl)">
+                              {{ type0OrderInfo.nodeInfoList[index].curStepFileUrl ? type0OrderInfo.nodeInfoList[index].curStepFileUrl.split('/').slice(-1)[0].split('_')[1] : '暂无附加文件' }}
+                            </el-button>
+                          </li>
+                          <li style="text-align: right;"
+                              v-if="index+1 <= type0OrderInfo.order.sellerStep+1 && index>type0OrderInfo.order.buyerStep">
+                            <el-button size="small" type="danger">申请异常</el-button>
+                            <el-button size="small" type="primary" @click="stepSubmit(index,type0OrderInfo.order.id)">
+                              确认
+                            </el-button>
+                          </li>
                         </ul>
                       </div>
                       <el-button type="text" slot="reference">步骤节点信息</el-button>
@@ -50,10 +64,14 @@
                     >
                       <div class="step-info-confirm">
                         <ul>
-                          <li ><b>服务商此节点完成信息：</b></li>
-                          <li style="margin-bottom: 10px;">{{ type0OrderInfo.nodeInfoList[index].curStepInfo}}</li>
+                          <li><b>服务商此节点完成信息：</b></li>
+                          <li style="margin-bottom: 10px;">{{ type0OrderInfo.nodeInfoList[index].curStepInfo }}</li>
                           <li><b>节点附加文件：</b></li>
-                          <li><el-button type="text" @click="showFile(type0OrderInfo.nodeInfoList[index].curStepFileUrl)">{{type0OrderInfo.nodeInfoList[index].curStepFileUrl ? type0OrderInfo.nodeInfoList[index].curStepFileUrl.split('/').slice(-1)[0].split('_')[1] : '暂无附加文件'}}</el-button></li>
+                          <li>
+                            <el-button type="text" @click="showFile(type0OrderInfo.nodeInfoList[index].curStepFileUrl)">
+                              {{ type0OrderInfo.nodeInfoList[index].curStepFileUrl ? type0OrderInfo.nodeInfoList[index].curStepFileUrl.split('/').slice(-1)[0].split('_')[1] : '暂无附加文件' }}
+                            </el-button>
+                          </li>
                         </ul>
                       </div>
                       <el-button type="text" slot="reference">节点信息</el-button>
@@ -79,7 +97,9 @@
           <h6>子订单数量：<span>{{ subOrderInfoVoListLength }}</span></h6>
           <ul class="suborder-info-list">
             <li v-for="(item,index) in  type1OrderInfo.subOrderInfoVoList" :key="index">
-              服务{{ index + 1 }}：<span>{{ item.subOrderName }}</span>服务商{{ index + 1 }}：<span>{{ item.sellerName }}</span>
+              服务{{ index + 1 }}：<span>{{ item.subOrderName }}</span>服务商{{ index + 1 }}：<span>{{
+                item.sellerName
+              }}</span>
             </li>
           </ul>
         </div>
@@ -120,7 +140,7 @@
               align="center"
           >
             <template slot-scope="scope">
-              <span type="success">{{scope.row.price | modPrice}}</span>
+              <span type="success">{{ scope.row.price | modPrice }}</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -139,12 +159,16 @@
           {{ subOrderDetailsInfo[0].orderName ? subOrderDetailsInfo[0].orderName : '' }}
           <div>
             <el-button size="small" style="margin-top: 12px;" @click="next" type="danger">申请异常</el-button>
-            <el-button size="small" style="margin-top: 12px;" :disabled="completeCon" v-if="completeCon" type="primary">已完成</el-button>
+            <el-button size="small" style="margin-top: 12px;" :disabled="completeCon" v-if="completeCon" type="primary">
+              已完成
+            </el-button>
           </div>
         </div>
         <div class="order-info-flow-right">
-          <el-steps :active="subOrderDetailsInfo[0].sellerStep+1" finish-status="success" v-if="subOrderDetailsInfo[0]" align-center>
-            <el-step v-for="(item,index) in subOrderDetailsInfo[0].nodes ? subOrderDetailsInfo[0].nodes :[]"  :title="item" :key="index" @mouseenter.native="mouseenter1(index)" >
+          <el-steps :active="subOrderDetailsInfo[0].sellerStep+1" finish-status="success" v-if="subOrderDetailsInfo[0]"
+                    align-center>
+            <el-step v-for="(item,index) in subOrderDetailsInfo[0].nodes ? subOrderDetailsInfo[0].nodes :[]"
+                     :title="item" :key="index" @mouseenter.native="mouseenter1(index)">
               <template v-slot:description v-if="index+1 <= subOrderDetailsInfo[0].sellerStep+1">
                 <el-popover
                     placement="bottom"
@@ -154,11 +178,21 @@
                 >
                   <div class="step-info-confirm">
                     <ul>
-                      <li ><b>服务商此节点完成信息：</b></li>
-                      <li style="margin-bottom: 10px;">{{ subOrderDetailsInfo[0].nodeInfoList[index].curStepInfo}}</li>
+                      <li><b>服务商此节点完成信息：</b></li>
+                      <li style="margin-bottom: 10px;">{{ subOrderDetailsInfo[0].nodeInfoList[index].curStepInfo }}</li>
                       <li><b>节点附加文件：</b></li>
-                      <li><el-button type="text" @click="showFile(subOrderDetailsInfo[0].nodeInfoList[index].curStepFileUrl)">{{subOrderDetailsInfo[0].nodeInfoList[index].curStepFileUrl ? subOrderDetailsInfo[0].nodeInfoList[index].curStepFileUrl.split('/').slice(-1)[0].split('_')[1] : '暂无附加文件'}}</el-button></li>
-                      <li style="text-align: right;" v-if="index+1 <= subOrderDetailsInfo[0].sellerStep+1 && index>subOrderDetailsInfo[0].buyerStep"><el-button size="small" type="danger">申请异常</el-button><el-button  size="small" type="primary" @click="stepSubmit(index,subOrderDetailsInfo[0].id)">确认</el-button></li>
+                      <li>
+                        <el-button type="text"
+                                   @click="showFile(subOrderDetailsInfo[0].nodeInfoList[index].curStepFileUrl)">
+                          {{ subOrderDetailsInfo[0].nodeInfoList[index].curStepFileUrl ? subOrderDetailsInfo[0].nodeInfoList[index].curStepFileUrl.split('/').slice(-1)[0].split('_')[1] : '暂无附加文件' }}
+                        </el-button>
+                      </li>
+                      <li style="text-align: right;"
+                          v-if="index+1 <= subOrderDetailsInfo[0].sellerStep+1 && index>subOrderDetailsInfo[0].buyerStep">
+                        <el-button size="small" type="danger">申请异常</el-button>
+                        <el-button size="small" type="primary" @click="stepSubmit(index,subOrderDetailsInfo[0].id)">确认
+                        </el-button>
+                      </li>
                     </ul>
                   </div>
                   <el-button type="text" slot="reference">步骤节点信息</el-button>
@@ -171,10 +205,15 @@
                 >
                   <div class="step-info-confirm">
                     <ul>
-                      <li ><b>服务商此节点完成信息：</b></li>
-                      <li style="margin-bottom: 10px;">{{ subOrderDetailsInfo[0].nodeInfoList[index].curStepInfo}}</li>
+                      <li><b>服务商此节点完成信息：</b></li>
+                      <li style="margin-bottom: 10px;">{{ subOrderDetailsInfo[0].nodeInfoList[index].curStepInfo }}</li>
                       <li><b>节点附加文件：</b></li>
-                      <li><el-button type="text" @click="showFile(subOrderDetailsInfo[0].nodeInfoList[index].curStepFileUrl)">{{subOrderDetailsInfo[0].nodeInfoList[index].curStepFileUrl ? subOrderDetailsInfo[0].nodeInfoList[index].curStepFileUrl.split('/').slice(-1)[0].split('_')[1] : '暂无附加文件'}}</el-button></li>
+                      <li>
+                        <el-button type="text"
+                                   @click="showFile(subOrderDetailsInfo[0].nodeInfoList[index].curStepFileUrl)">
+                          {{ subOrderDetailsInfo[0].nodeInfoList[index].curStepFileUrl ? subOrderDetailsInfo[0].nodeInfoList[index].curStepFileUrl.split('/').slice(-1)[0].split('_')[1] : '暂无附加文件' }}
+                        </el-button>
+                      </li>
                     </ul>
                   </div>
                   <el-button type="text" slot="reference">节点信息</el-button>
@@ -221,10 +260,10 @@ export default {
       subOrderInfoVoListLength: 0,
       subOrderDetailsInfo: [],
       currentSubRequirementId: '',
-      completeCon:false,
-      showConfirm:false,
-      showConfirmIndex:-1,
-      visible:true
+      completeCon: false,
+      showConfirm: false,
+      showConfirmIndex: -1,
+      visible: true,
     }
   },
   components: {
@@ -232,15 +271,15 @@ export default {
     BPaiFlow
   },
   methods: {
-    mouseenter1(index){
+    mouseenter1(index) {
       this.showConfirm = true
       this.showConfirmIndex = index
     },
-    mouseleave1(index){
+    mouseleave1(index) {
       this.showConfirm = false
       this.showConfirmIndex = index
     },
-    showFile(fileUrl){
+    showFile(fileUrl) {
       window.open('/pdf/web/viewer.html?file=' + fileUrl);
     },
     next() {
@@ -255,8 +294,7 @@ export default {
       this.subOrderDetailsInfo.push(result.data)
     },
     async stepSubmit(index, orderId) {
-      this.visible = false
-      if (this.type === '0'){
+      if (this.type === '0') {
         let result = await this.$axios.orderControllerList.setNextSmallOrderStepForBuyer({
           orderId: orderId,
           step: index
@@ -266,18 +304,18 @@ export default {
             id: this.orderid
           })
           this.type0OrderInfo = result.data
-          if (this.type0OrderInfo.order.buyerStep+1 === this.type0OrderInfo.nodes.length && this.type0OrderInfo.order.status === 3){
+          if (this.type0OrderInfo.order.buyerStep + 1 === this.type0OrderInfo.nodes.length && this.type0OrderInfo.order.status === 3) {
             this.$message({
-              type:'success',
-              message:'此订单已经完成'
+              type: 'success',
+              message: '此订单已经完成'
             })
             await this.$router.push(`/pc/buyerorderdetail/serviceacceptance/${this.orderid}/${this.type}`);
             this.completeCon = true
-          }else {
+          } else {
             this.completeCon = false
           }
         }
-      }else {
+      } else {
         let result = await this.$axios.orderControllerList.setNextStepForBuyer({
           orderId: orderId,
           step: index
@@ -342,9 +380,9 @@ export default {
       }
     },
     modPrice(value) {
-      if(value === '保密' || value === '暂无价格'){
+      if (value === '保密' || value === '暂无价格') {
         return value
-      }else{
+      } else {
         return `￥${value}万`
       }
     }
@@ -393,8 +431,9 @@ export default {
         }
 
         .suborder-info-list {
-          height:130px;
+          height: 130px;
           overflow: auto;
+
           li {
             margin-bottom: 8px;
             font-size: 14px;
@@ -481,14 +520,16 @@ export default {
           .order-info-flow-left {
             width: 15%;
           }
+
           .order-info-flow-right {
             flex: 1;
             margin-left: 50px;
+
             .step-info-confirm {
               ul {
                 li {
-                  &:nth-of-type(odd){
-                    margin-bottom:10px;
+                  &:nth-of-type(odd) {
+                    margin-bottom: 10px;
                   }
                 }
               }
@@ -499,7 +540,8 @@ export default {
     }
   }
 }
+
 /deep/ .el-steps {
-  height:80px;
+  height: 80px;
 }
 </style>
