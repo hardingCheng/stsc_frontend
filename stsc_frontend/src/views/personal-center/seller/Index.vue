@@ -46,7 +46,7 @@ export default {
       case '/pc/seller/realauth':
         this.activeIndex = '1'
         break
-      case '/pc/seller/mydemand':
+      case '/pc/seller/myservice':
         this.activeIndex = '2'
         break
       case '/pc/seller/myorder':
