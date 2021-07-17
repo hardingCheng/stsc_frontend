@@ -140,12 +140,14 @@ export default {
     border: 1px solid #E7E7E7;
     .indicators_text {
       .p_text {
+        white-space: pre-line;
         font-size: 14px;
         color: #4E4E4E;
         line-height: 24px;
       }
     }
     .tab {
+      white-space: pre-line;
       margin-left: 10px;
       padding-top: 5px;
         .accessory {

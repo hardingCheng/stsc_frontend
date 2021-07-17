@@ -51,7 +51,15 @@ export default new Vuex.Store({
     },
     modVerTime: (state,payload) => {
       state.verTime = payload.verTime
-    }
+    },
+    //买家消息
+    modBuyerMessage:(state,payload)=>{
+      state.buyerMessage=payload.buyerMessage
+    },
+    //家消息
+    modSellerMessage:(state,payload)=>{
+      state.sellerMessage=payload.sellerMessage
+    },
   },
   actions: {},
   getters: {

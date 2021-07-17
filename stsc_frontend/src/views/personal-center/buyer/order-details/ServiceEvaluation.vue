@@ -127,9 +127,9 @@
             </el-input>
           </div>
         </div>
-        <template v-if="status===5" v-lazy>
+        <template v-if="status===5&&subOrderInfo.length>0" >
           <div class="serve_order1" v-for="(item,index) in subOrderInfo" :key="index">
-            <img :src=item.image class="order_style">
+            <img v-lazy=item.image class="order_style">
             <ul>
               <li>
                 订单编号:<span>{{ !item.id ? "暂无数据" : item.id }}</span>
@@ -313,6 +313,7 @@ export default {
       let results = await this.$axios.orderControllerList.getSubOrderDetailById({
         subOrderId: val
       })
+      this.subOrderInfo.push(results.data.orderInfo)//子订单的信息
       this.orderChildrenInfo = results.data.orderInfo//子订单的信息
       if(results.data.orderInfo.price!=="面议"&&results.data.orderInfo.price!=="保密"){
         if(results.data.orderInfo.price.includes(',')){
@@ -322,7 +323,7 @@ export default {
         }
       }
       this.serveId = results.data.orderInfo.serveId//服务id
-      this.subOrderInfo.push(results.data.orderInfo)//子订单的信息
+
     },
 
     //发布评论
