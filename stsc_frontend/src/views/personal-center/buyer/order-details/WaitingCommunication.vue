@@ -62,7 +62,7 @@
           <div class="service-snapshot-item" v-for="(item,index) in  orderSplitInfo.subOrderInfoVoList" :key="index">
             <span>{{item.subOrderName}}</span>
 <!--            <img src="https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/9f36309266a1497e_机器人技术专利信息检索服务快照.jpg"  alt="">-->
-            <img :src="item.serviceSnapshot[0].serviceSnapshot"/>
+            <img v-if="item.serviceSnapshot" :src="item.serviceSnapshot[0].serviceSnapshot"/>
           </div>
         </div>
       </div>
@@ -198,6 +198,7 @@ export default {
           orderId:this.orderid
         })
         if (result.code === 20000){
+          // TODO 立即下单服务快照
           this.orderInfo = result.data.orderInfo
           if (result.data.orderInfo.contractForBuyer !== "" && result.data.orderInfo.contractForBuyer !==null){
             result.data.orderInfo.contractForBuyer.split(',').slice(0,-1).map((item)=>{

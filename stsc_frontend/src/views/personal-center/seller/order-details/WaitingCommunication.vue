@@ -49,10 +49,9 @@
         <div class="service-snapshot-main">
           <div class="service-snapshot-item" v-if="orderInfo">
             <span>{{ orderInfo.name }}:</span>
-            <img src="http://n.sinaimg.cn/sports/2_img/upload/127d0b3e/107/w1024h683/20210519/0ee5-kqhwhrk1641934.jpg"
+            <img v-if="orderInfo.serviceSnapshot" :src="orderInfo.serviceSnapshot[0].serviceSnapshot"
                  alt="">
           </div>
-
         </div>
       </div>
     </div>
@@ -99,7 +98,26 @@ export default {
     return {
       fileList: [],
       contractForSeller: [],
-      orderInfo: {}
+      orderInfo: {},
+      serviceSnapshot: [{
+        sellerId: '1407977331605364738',
+        serviceSnapshot: 'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/9f36309266a1497e_机器人技术专利信息检索服务快照.jpg'
+      }, {
+        sellerId: '1415480849284993026',
+        serviceSnapshot: 'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/74db3aa123c64740_论文检索服务创新.jpg'
+      }, {
+        sellerId: '1416015773075247106',
+        serviceSnapshot: 'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/d0bb79489be0424a_智能研发服务快照.jpg'
+      }, {
+        sellerId: '1415200899793424385',
+        serviceSnapshot: 'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/a82bbb76cc5e41e4_专利申请服务快照.jpg'
+      }, {
+        sellerId: '1416279268605898753',
+        serviceSnapshot: 'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/8861c79fa8ba490c_第三方快照服务.jpg'
+      }, {
+        sellerId: '1416015315627675649',
+        serviceSnapshot: 'https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/6ec2e353d6d14904_性能检测服务快照.jpg'
+      }]
     }
   },
   methods: {
@@ -176,6 +194,7 @@ export default {
         })
         if (result.code === 20000) {
           this.orderInfo = result.data.orderInfo
+          this.orderInfo.serviceSnapshot = this.serviceSnapshot.filter((item) => item.sellerId === this.orderInfo.sellerId)
           if (result.data.orderInfo.contractForSeller !== null) {
             result.data.orderInfo.contractForSeller.split(',').slice(0,-1).map((item) => {
               this.contractForSeller.push({
@@ -191,6 +210,7 @@ export default {
         })
         if (result.code === 20000) {
           this.orderInfo = result.data.orderInfo
+          this.orderInfo.serviceSnapshot = this.serviceSnapshot.filter((item) => item.sellerId === this.orderInfo.sellerId)
           if (result.data.orderInfo.contractForSeller !== null) {
             result.data.orderInfo.contractForSeller.split(',').slice(0,-1).map((item) => {
               this.contractForSeller.push({
