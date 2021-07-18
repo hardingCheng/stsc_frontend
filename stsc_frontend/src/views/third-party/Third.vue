@@ -3,7 +3,7 @@
     <div class="login-box">
       <div class="login-box-top">
         <el-form ref="loginForm" :model="form"  label-width="60px" label-position="left">
-          <h3 class="login-title">陕西中小企业科技服务平台</h3>
+          <h3 class="login-title">{{ this.$route.query.source }}</h3>
           <div class="login-verificationInfo">{{errors.errorlogin}}</div>
           <el-form-item label="账号" >
             <el-input type="text" placeholder="请输入账号" @input="errors.username =''" v-model="form.username"/>
@@ -59,8 +59,8 @@ export default {
   data() {
     return {
       form: {
-        username: '13892655363',
-        password: '123456',
+        username: '',
+        password: '',
         verificationCode: ''
       },
       // 对话框显示和隐藏
@@ -75,7 +75,6 @@ export default {
     if (Object.keys(this.$route.query).length !== 0){
       this.jumpRouting = this.$route.query
     }
-    console.log("ccc",this.$route.query)
   },
   methods: {
     // 提交登录表单

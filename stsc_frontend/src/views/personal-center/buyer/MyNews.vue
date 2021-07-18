@@ -92,7 +92,6 @@ props:['id'],
       this.message_list_no =message_result.data.messageList.records//未读消息列表
       this.message_list_no_total=message_result.data.messageList.total//未读消息总数
     },
-
      //删除消息的方法
     async delete_inform1(delete_val){
       await this.$axios.requirementControllerList.deleteMessageById({
@@ -100,13 +99,23 @@ props:['id'],
       })
       await this.getMessageList()
     },
+
+
     //改变消息状态已读到全部
     async change_message_state(val){
       await this.$axios.requirementControllerList.changeMessageState({
         messageId:val
       })
       await this.getMessageListNoRead()
+      await this.getVuexBuyerMessage()
     },
+    getVuexBuyerMessage(){
+      this.$store.commit("modBuyerMessage", {
+            buyerMessage:this.message_list_no_total
+          }
+      )
+    },
+
     handleSizeChange(val) {
       // console.log(`每页 ${val} 条`);
     },
