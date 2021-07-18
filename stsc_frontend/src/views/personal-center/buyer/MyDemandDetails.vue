@@ -9,7 +9,7 @@
           <!--          <div class="text-title-title ">服务类别：<span class="text-service-text">设计服务>工业服务</span></div>-->
         </div>
         <!--        <div class="text-title-title">单位所在地：<span class="text-service-text">{{ info.address }}</span></div>-->
-        <div class="text-title-title">创造时间：<span class="text-service-text">{{ this.date }}</span></div>
+        <div class="text-title-title">创建时间：<span class="text-service-text">{{ this.date }}</span></div>
         <div class="text-title-title">联系人：<span class="text-service-text">{{ this.info_all.contact }}</span></div>
         <div class="text-title-title">手机号：<span class="text-service-text">{{ this.info_all.telephone }}</span></div>
 
@@ -232,13 +232,14 @@ export default {
       })
       //info_all存储需求详情
       this.info_all = results.data.requirement
+      console.log("xx", this.info_all)
       let regex="[^\\/\\_]+$"
-      if(results.data.requirement.attachments==""){
+      if(results.data.requirement.attachments==null){
         this.filename="无附件"
       }else {
         this.filename =results.data.requirement.attachments.match(regex)[0]
       }
-      console.log("",results.data.requirement.attachments)
+      console.log("xx",results.data.requirement.attachments)
       //moment时间格式化插件
       const moment = require('moment');
       this.date = moment(results.data.requirement.createTime).format(("YYYY-MM-DD"))
@@ -280,7 +281,7 @@ export default {
     },
     //用户核实拆分
     async verify() {
-      await this.getBuyer()
+      //await this.getBuyer()
       let result = await this.$axios.requirementControllerList.confirmResult({
         requirementId: this.$route.params.id
       })
