@@ -15,7 +15,7 @@ const routes = [
     component: () => import("../views/Home.vue"),
     meta: {
       name: "首页",
-      title: "科技服务协同系统平台"
+      title: "科技服务协同平台"
     },
     redirect: "index",
     children: [
@@ -25,7 +25,7 @@ const routes = [
         component: () => import("../views/Index.vue"),
         meta: {
           name: "首页",
-          title: "科技服务协同系统平台"
+          title: "科技服务协同平台"
         }
       },
       {
@@ -34,7 +34,7 @@ const routes = [
         component: () => import("../views/SuccessCase.vue"),
         meta: {
           name: "成功案例",
-          title: "科技服务协同系统平台|成功案例"
+          title: "科技服务协同平台|成功案例"
         },
       },
       {
@@ -44,7 +44,7 @@ const routes = [
         props: true,
         meta: {
           name: "成功案例详情",
-          title: "科技服务协同系统平台|成功案例"
+          title: "科技服务协同平台|成功案例"
         },
       }, {
         path: "comanydetail/:id/:requireState",
@@ -60,7 +60,7 @@ const routes = [
         component: () => import("../views/LookingDemand.vue"),
         meta: {
           name: "找需求",
-          title: "科技服务协同系统平台|找需求"
+          title: "科技服务协同平台|找需求"
         },
       },
       {
@@ -69,7 +69,7 @@ const routes = [
         component: () => import("../views/LookingService.vue"),
         meta: {
           name: "找服务",
-          title: "科技服务协同系统平台|找服务"
+          title: "科技服务协同平台|找服务"
         },
       },
       {
@@ -79,7 +79,7 @@ const routes = [
         meta: {
           requiresAuth: true,
           name: "科技咨询沟通",
-          title: "科技服务协同系统平台|科技咨询沟通"
+          title: "科技服务协同平台|科技咨询沟通"
         },
       },
       {
@@ -89,7 +89,7 @@ const routes = [
         meta: {
           requiresAuth: true,
           name: "个人中心",
-          title: "科技服务协同系统平台|个人中心"
+          title: "科技服务协同平台|个人中心"
         },
         redirect: "pc/basicinfo",
         children:[{
@@ -99,7 +99,7 @@ const routes = [
           meta: {
             requiresAuth: true,
             name: "个人基础信息",
-            title: "科技服务协同系统平台|个人基础信息"
+            title: "科技服务协同平台|个人基础信息"
           },
         },{
           path: "buyer",
@@ -108,7 +108,7 @@ const routes = [
           meta: {
             requiresAuth: true,
             name: "我是买家",
-            title: "科技服务协同系统平台|我是买家"
+            title: "科技服务协同平台|我是买家"
           },
           redirect: "buyer/realauth",
           children:[{
@@ -118,7 +118,7 @@ const routes = [
             meta: {
               requiresAuth: true,
               name: "我的需求",
-              title: "科技服务协同系统平台|我是买家我的需求"
+              title: "科技服务协同平台|我是买家我的需求"
             },
           },{
             path: "mynews",
@@ -127,7 +127,7 @@ const routes = [
             meta: {
               requiresAuth: true,
               name: "我的消息",
-              title: "科技服务协同系统平台|我是买家我的消息"
+              title: "科技服务协同平台|我是买家我的消息"
             },
           },{
             path: "myorder",
@@ -136,7 +136,7 @@ const routes = [
             meta: {
               requiresAuth: true,
               name: "我的订单",
-              title: "科技服务协同系统平台|我是买家我的订单"
+              title: "科技服务协同平台|我是买家我的订单"
             },
           },{
             path: "realauth",
@@ -145,7 +145,7 @@ const routes = [
             meta: {
               requiresAuth: true,
               name: "我是买家实名认证",
-              title: "科技服务协同系统平台|我是买家实名认证"
+              title: "科技服务协同平台|我是买家实名认证"
             },
           }],
         },{
@@ -366,8 +366,8 @@ const routes = [
     component: () => import("../views/Login.vue"),
     meta: {
       requiresAuth: false ,
-      title: "科技服务协同系统平台|登录",
-      name:"科技服务协同系统平台|登录"
+      title: "科技服务协同平台|登录",
+      name:"科技服务协同平台|登录"
     },
   },
 
@@ -377,8 +377,8 @@ const routes = [
     component: () => import("../views/SignUp"),
     meta: {
       requiresAuth: false,
-      title: "科技服务协同系统平台|注册",
-      name:"科技服务协同系统平台|注册"
+      title: "科技服务协同平台|注册",
+      name:"科技服务协同平台|注册"
     },
   },
   {
@@ -387,8 +387,8 @@ const routes = [
     component: () => import("../views/Error.vue"),
     meta: {
       requiresAuth: false,
-      title: "科技服务协同系统平台|错误",
-      name:"科技服务协同系统平台|错误"
+      title: "科技服务协同平台|错误",
+      name:"科技服务协同平台|错误"
     },
     props: true,
   },
@@ -398,8 +398,8 @@ const routes = [
     component: () => import("../views/404Page.vue"),
     props: true,
     meta: {
-      title: "科技服务协同系统平台|404",
-      name:"科技服务协同系统平台|404"
+      title: "科技服务协同平台|404",
+      name:"科技服务协同平台|404"
     }
   },
 ];
