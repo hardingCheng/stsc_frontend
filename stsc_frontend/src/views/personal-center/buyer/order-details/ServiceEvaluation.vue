@@ -97,7 +97,7 @@
           <img :src=orderChildrenInfo.orderImg class="order_style">
           <ul>
             <li>
-              订单编号:<span>{{ !orderChildrenInfo.id ? "暂无数据" : orderChildrenInfo.id }}</span>
+              订单编号:<span>{{ !orderChildrenInfo.orderId ? "暂无数据" : orderChildrenInfo.id }}</span>
             </li>
             <li>
               子订单名称:<span>{{ !orderChildrenInfo.name ? "暂无数据" : orderChildrenInfo.name }}</span>
@@ -132,7 +132,7 @@
             <img v-lazy=item.image class="order_style">
             <ul>
               <li>
-                订单编号:<span>{{ !item.id ? "暂无数据" : item.id }}</span>
+                订单编号:<span>{{ !item.orderId ? "暂无数据" : item.id }}</span>
               </li>
               <li>
                 子订单名称:<span>{{ !item.name ? "暂无数据" : item.name }}</span>

@@ -42,17 +42,17 @@
         <span>第三方登录</span>
         <div class="third-party-login">
           <div class="third-party-item">
-            <img src="http://www.114cxy.com/app/images/PC/logo.png" alt="" @click="third1(source1)">
-            <span>陕科</span>
+            <img src="../assets/images/shanxi.png" alt="" @click="third1(source1)">
+            <span>陕西</span>
           </div>
           <div class="third-party-item">
-            <img src="http://www.114cxy.com/app/images/PC/logo.png" alt="" @click="third1(source2)">
+            <img  src="../assets/images/114.png" alt=""  style="background-color: #89b000" @click="third1(source2)">
             <span>114产学研</span>
           </div>
-          <div class="third-party-item">
-            <img src="http://www.114cxy.com/app/images/PC/logo.png" alt="">
-            <span>114产学研</span>
-          </div>
+<!--          <div class="third-party-item">-->
+<!--            <img src="http://www.114cxy.com/app/images/PC/logo.png" alt="">-->
+<!--            <span>114产学研</span>-->
+<!--          </div>-->
         </div>
       </div>
     </div>

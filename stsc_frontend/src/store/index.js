@@ -83,6 +83,10 @@ export default new Vuex.Store({
     },
     getVerTime(state){
       return state.verTime
+    },
+    //获取买家消息
+    getBuyerMessage(state){
+      return state.buyerMessage
     }
   },
   modules: {},

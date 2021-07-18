@@ -48,7 +48,7 @@
       <h4>需求概述</h4>
       <span class="demand_content">{{ this.info_all.content }}</span>
     </div>
-    <div class="technological_process" v-if="requireState>3">
+    <div class="technological_process" v-if="requireState>3&&arrangeInfo!==null">
       <div class="map">
         <graph :arrangeList="arrangeInfo"></graph>
       </div>
@@ -190,16 +190,14 @@ export default {
     this.grabOrder()
   },
   async mounted() {
-    this.getArrangeInfo()
+    await this.getArrangeInfo()
     await this.getBuyer()
     if(this.requireState===9){
       await this.getOrderInfo()
     }
   },
   watch:{
-    getArrangeInfo(){
-      this.getArrangeInfo()
-    }
+
   },
   methods: {
     //服务商抢单
@@ -446,6 +444,7 @@ export default {
       margin: 0 0 0 20px;
     }
     .map {
+      width: 780px;
       height: 400px;
     }
     .button_group1{
