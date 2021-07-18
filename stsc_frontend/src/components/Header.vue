@@ -59,8 +59,8 @@
             <el-col :span="4">
               <div class="header-main-logo">
                 <router-link to="/index">
-<!--                  <img src="../assets/Stsclogo.png" alt="">-->
-                  <h1>科技服务协同平台</h1>
+                  <img src="../assets/logo.png" alt="">
+<!--                  <h1>科技服务协同平台</h1>-->
                 </router-link>
               </div>
             </el-col>
@@ -311,18 +311,19 @@ export default {
       .header-main-logo {
         //margin-top: 10px;
         a {
+          display: block;
+          width:100%;
           height: 69px;
           line-height: 69px;
-          color: white;
           h1 {
             font-size:22px;
           }
-          display: block;
-          //img {
-          //  display: inline-block;
-          //  height: 50px;
-          //  width: auto;
-          //}
+          img {
+            transform:translate(-50px,10px);
+            display: inline-block;
+            height: 50px;
+            width: auto;
+          }
         }
       }
 
