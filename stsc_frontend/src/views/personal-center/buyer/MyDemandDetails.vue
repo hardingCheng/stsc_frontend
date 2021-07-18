@@ -232,9 +232,8 @@ export default {
       })
       //info_all存储需求详情
       this.info_all = results.data.requirement
-      console.log("xx", this.info_all)
       let regex="[^\\/\\_]+$"
-      if(results.data.requirement.attachments==null){
+      if(results.data.requirement.attachments==null||results.data.requirement.attachments==""){
         this.filename="无附件"
       }else {
         this.filename =results.data.requirement.attachments.match(regex)[0]
