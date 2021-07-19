@@ -202,15 +202,15 @@ export default {
        }else {
          if (this.filerReadyUploadList1.length!==0&&this.filerReadyUploadList.length!==0){
            if (newValue.image!==''&&newValue.attachments!==''){
-             await this.releaseRequire()
+             await this.updateRequire()
            }
          }else if (this.filerReadyUploadList.length!==0&&this.filerReadyUploadList1.length===0){
            if (newValue.attachments!==''){
-              await this.releaseRequire()
+              await this.updateRequire()
            }
          }else if(this.filerReadyUploadList.length===0&&this.filerReadyUploadList1.length!==0){
            if (newValue.image!==''){
-              await this.releaseRequire()
+              await this.updateRequire()
            }
          }
        }
@@ -285,17 +285,30 @@ export default {
       if (releaseResult.code === 20000){
         this.loading.close();
         this.disable = false
-        if (this.updateStatus) {
-          this.$message({
-            message: '修改需求成功,请前往个人中心查看！',
-            type: 'success'
-          });
-        }else {
-          this.$message({
-            message: '发布需求成功,请前往个人中心查看！',
-            type: 'success'
-          });
-        }
+        this.$message({
+          message: '发布需求成功,请前往个人中心查看！',
+          type: 'success'
+        });
+        await this.$router.push("/pc/buyer/mydemand")
+      }else {
+        this.loading.close();
+        this.disable = false
+        this.$message({
+          message: '发布需求失败！',
+          type: 'danger'
+        });
+      }
+    },
+    // 发布需求
+    async updateRequire(){
+      let updateResult =  await this.$axios.requirementControllerList.updateRequireById(this.form)
+      if (updateResult.code === 20000){
+        this.loading.close();
+        this.disable = false
+        this.$message({
+          message: '修改需求成功,请前往个人中心查看！',
+          type: 'success'
+        });
         await this.$router.push("/pc/buyer/mydemand")
       }
     },
@@ -356,6 +369,12 @@ export default {
             type: 'success'
           });
           await this.$router.push("/pc/buyer/mydemand")
+        }else {
+          this.loading.close()
+          this.$message({
+            message: '修改需求失败！重新修改！',
+            type: 'danger'
+          });
         }
       }
     },

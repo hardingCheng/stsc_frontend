@@ -49,7 +49,7 @@ const requirementControllerList = {
     // 修改需求
     updateRequireById: (data) => {
         return axios({
-            url: `/bh/stcsp/requirement/updateRequireById/`,
+            url: `/bh/stcsp/requirement/updateRequireById`,
             method: "post",
             data
         });
