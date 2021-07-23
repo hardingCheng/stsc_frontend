@@ -25,10 +25,11 @@
           <div class="info-menu">
             <ul>
               <li><a @click="getOrderDetail(item.id,item.orderType,item.orderStatus)">订单详情</a></li>
+              <li><a style="color:red;" @click="getCancelOrder(item.id,item.orderType)">撤销订单</a></li>
             </ul>
           </div>
           <div class="info-evaluate">
-           <span>评价</span>
+           <a @click="toOrderEvaluation(item.id,item.orderType,item.orderStatus)">评价</a>
           </div>
         </div>
       </div>
@@ -96,18 +97,63 @@ export default {
           this.$router.push(`/pc/buyerorderdetail/serviceevaluation/${id}/${orderType}`)
           break
       }
+    },
+    toOrderEvaluation(id, orderType,orderStatus){
+      if (orderStatus >=5){
+        this.$router.push(`/pc/buyerorderdetail/serviceevaluation/${id}/${orderType}`)
+      }else {
+        this.$message({
+          type:'danger',
+          message:"当前的订单还没有完成！"
+        })
+      }
+    },
+    getCancelOrder(id, orderType){
+      this.$prompt('订单撤销', '提示', {
+        type: 'warning',
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        inputType:'textarea',
+        inputPlaceholder:'请输入订单撤销原因',
+        inputValidator:(data) => {
+          if ( data !== null && data.trim().length >0){
+            return true
+          }else {
+            return "请输入订单撤销原因"
+          }
+        }
+      }).then((data) => {
+        // 买家
+        // 发起请求，然后重现获取订单列表
+        this.$message({
+          type: 'success',
+          message: '你输入的消息为: ' + data.value,
+          duration:500,
+          onClose: async () => {
+            await this.getOrderListForBuyer()
+          }
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消撤销订单'
+        });
+      });
+    },
+    async getOrderListForBuyer(){
+      let result = await this.$axios.orderControllerList.getOrderListForBuyer({
+        page:1
+      })
+      if (result.data?.total){
+        this.pageInfo.total = result.data?.total
+      }
+      if (result.data?.orderList){
+        this.orderList = result.data?.orderList
+      }
     }
   },
   async mounted() {
-    let result = await this.$axios.orderControllerList.getOrderListForBuyer({
-      page:1
-    })
-    if (result.data?.total){
-      this.pageInfo.total = result.data?.total
-    }
-    if (result.data?.orderList){
-      this.orderList = result.data?.orderList
-    }
+   await this.getOrderListForBuyer()
   },
   filters:{
     modStatus(value){
@@ -277,5 +323,8 @@ export default {
     left: 50%;
     transform: translate(-50%, -50%);
   }
+}
+a {
+  cursor: pointer !important;
 }
 </style>

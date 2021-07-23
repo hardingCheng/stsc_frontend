@@ -255,15 +255,15 @@ export default {
         });
         await this.$router.push("/pc/buyer/realauth")
       }else {
-        this.disable = true
-        this.loading = this.$loading.service({
-          lock: true,
-          text: '发布需求中...',
-          spinner: 'el-icon-loading',
-          background: 'rgba(0, 0, 0, 0.7)'
-        });
         await this.$refs['demandform'].validate(async (valid) => {
           if (valid) {
+            this.disable = true
+            this.loading = this.$loading.service({
+              lock: true,
+              text: '发布需求中...',
+              spinner: 'el-icon-loading',
+              background: 'rgba(0, 0, 0, 0.7)'
+            });
             // 根据文件信息提交
             if(this.filerReadyUploadList1.length !== 0){
               await this.$refs.uploadimage.submit();

@@ -365,7 +365,6 @@ export default {
   },
   filters: {
     modStatus(value) {
-      console.log(value)
       switch (value) {
         case 1:
           return '待沟通'

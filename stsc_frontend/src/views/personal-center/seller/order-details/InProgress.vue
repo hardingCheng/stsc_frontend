@@ -199,6 +199,9 @@ export default {
     OrderSteps,
   },
   methods: {
+    showFile(fileUrl) {
+      window.open('/pdf/web/viewer.html?file=' + fileUrl);
+    },
     mouseenter1(index){
       this.showConfirm = true
       this.showConfirmIndex = index
@@ -268,19 +271,26 @@ export default {
       this.fileList = fileList
     },
     handleChange(file, fileList) {
-      this.fileList = fileList
+      let options = {
+        fileType:['pdf'],
+        fileSize:10
+      }
+      let fileResult = this.fileLimit(file,options)
+      if(fileResult) {
+        this.fileList = fileList
+      }
     },
     handlePreview(file) {
-      console.log(file);
+      // console.log(file);
     },
     handleExceed(files, fileList) {
       this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
     },
     beforeRemove(file, fileList) {
-      console.log(fileList)
+      // console.log(fileList)
     },
     handleSuccess(response, file, fileList){
-      console.log(response)
+      // console.log(response)
       if (response.code === 20000){
         this.stepForm.curStepFileUrl = response.data.url
         if(this.type === '0'){
@@ -289,6 +299,33 @@ export default {
           this.type1Submit()
         }
       }
+    },
+    getFileType(name) {
+      let startIndex = name.lastIndexOf('.')
+      if (startIndex !== -1) {
+        return name.slice(startIndex + 1).toLowerCase()
+      } else {
+        return ''
+      }
+    },
+    // 文件信息判断
+    fileLimit(file,options){
+      let isFileSize = true,isFileType = true;
+      if (file.size / (1024 * 1024) > options.fileSize) {   // 限制文件大小
+        this.$message.warning(`当前限制文件大小不能大于${options.fileSize}M`)
+        isFileSize = false
+      }
+      let suffix = this.getFileType(file.name) //获取文件后缀名
+      let suffixArray = options.fileType  //限制的文件类型，根据情况自己定义
+      if (suffixArray.indexOf(suffix) === -1) {
+        this.$message({
+          message: '文件格式错误',
+          type: 'error',
+          duration: 2000
+        })
+        isFileType = false
+      }
+      return isFileSize && isFileType
     },
     stepDialog(formName, op) {
       if (op === 1) {
@@ -338,7 +375,6 @@ export default {
     fileList:{
       deep:true,
       handler(newValue,oldValue){
-        console.log(newValue)
         if (newValue.length >0){
           this.errors.uploadError = ""
         }
@@ -352,6 +388,7 @@ export default {
       })
       this.orderInfo = result.data
       this.type0OrderInfo = result.data
+      console.log(this.type0OrderInfo )
       this.active = (this.type0OrderInfo.order.sellerStep + 1)
       if (this.type0OrderInfo.order.sellerStep + 1 === this.type0OrderInfo.nodes.length) {
         this.completeCon = true

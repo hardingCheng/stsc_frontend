@@ -125,9 +125,10 @@ const element = {
 
     Vue.prototype.$message = Message;
     Vue.prototype.$loading = Loading;
-    // Vue.prototype.$confirm = MessageBox.confirm;
-    // Vue.prototype.$alert = MessageBox.alert;
-    // Vue.prototype.$notify = Notification;
+    Vue.prototype.$confirm = MessageBox.confirm;
+    Vue.prototype.$alert = MessageBox.alert;
+    Vue.prototype.$prompt = MessageBox.prompt;
+    Vue.prototype.$notify = Notification;
   },
 };
 

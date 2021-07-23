@@ -28,7 +28,7 @@
             </ul>
           </div>
           <div class="info-evaluate">
-            <span>评价</span>
+            <a style="color:red;" @click="getCancelOrder(item.id,item.orderType)">撤销订单</a>
           </div>
         </div>
       </div>
@@ -91,17 +91,52 @@ export default {
           break
       }
     },
+    getCancelOrder(id, orderType){
+      this.$prompt('订单撤销', '提示', {
+        type: 'warning',
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        inputType:'textarea',
+        inputPlaceholder:'请输入订单撤销原因',
+        inputValidator:(data) => {
+          if (data?.trim().length >=0){
+            return true
+          }else {
+            return "请输入订单撤销原因"
+          }
+        }
+      }).then((data) => {
+        // 卖家
+        // 发起请求，然后重现获取订单列表
+        this.$message({
+          type: 'success',
+          message: '你输入的消息为: ' + data.value,
+          duration:500,
+          onClose: async () => {
+            await this.getOrderListForSeller()
+          }
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消撤销订单'
+        });
+      });
+    },
+    async getOrderListForSeller(){
+      let result = await this.$axios.orderControllerList.getOrderListForSeller({
+        page: 1
+      })
+      if (result.data?.total) {
+        this.pageInfo.total = result.data?.total
+      }
+      if (result.data?.orderList) {
+        this.orderList = result.data?.orderList
+      }
+    }
   },
   async mounted() {
-    let result = await this.$axios.orderControllerList.getOrderListForSeller({
-      page: 1
-    })
-    if (result.data?.total) {
-      this.pageInfo.total = result.data?.total
-    }
-    if (result.data?.orderList) {
-      this.orderList = result.data?.orderList
-    }
+    await this.getOrderListForSeller()
   },
   filters: {
     modStatus(value) {
@@ -273,5 +308,8 @@ export default {
     left: 50%;
     transform: translate(-50%, -50%);
   }
+}
+a {
+  cursor: pointer !important;
 }
 </style>
