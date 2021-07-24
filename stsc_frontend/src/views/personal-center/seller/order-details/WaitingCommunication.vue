@@ -114,15 +114,18 @@
     </div>
     <el-dialog title="提示" :visible.sync="centerDialogVisible" width="30%" center>
       <el-form style="border:1px #DCDFE6 solid; padding:10px; border-radius:10px; position:relative;"  ref="dynamicValidateForm" label-position="left" label-width="90px">
+        <el-checkbox-group v-model="checkStepList">
         <el-form-item
             v-for="(step, index) in orderInfo.node"
             :label="'第' + (index+1)+'个节点'"
             :key="step.id"
         >
-          <el-input v-model="orderInfo.node[index]" style="width:90%"></el-input>
-          <el-button  type="text"  icon="el-icon-delete" circle title="删除"  @click.prevent="removeStep(index)" style="color:red"/>
+          <span style="margin-left: 30px;">orderInfo.node[index]</span>
+          <el-checkbox :label="orderInfo.node[index]"></el-checkbox>
+<!--          <el-button  type="text"  icon="el-icon-delete" circle title="删除"  @click.prevent="removeStep(index)" style="color:red"/>-->
         </el-form-item>
-        <span style="position: absolute;right:20px;bottom:0;font-size:30px;cursor: pointer;"  @click="addNode()">+</span>
+        </el-checkbox-group>
+<!--        <span style="position: absolute;right:20px;bottom:0;font-size:30px;cursor: pointer;"  @click="addNode()">+</span>-->
       </el-form>
       <span slot="footer" class="dialog-footer">
           <el-button @click="centerDialogVisible = false">取 消</el-button>
@@ -163,11 +166,8 @@ export default {
       category:[],
       options: [],
       centerDialogVisible: false,
-      steps: [{
-        id: 1,
-        value: '213'
-      }],
-      stepValueValid:true
+      stepValueValid:true,
+      checkStepList:[]
     }
   },
   watch:{
@@ -178,24 +178,12 @@ export default {
     }
   },
   methods: {
-    //移除流程节点
-    removeStep(index){
-      this.orderInfo.node.splice(index,1)
-    },//添加进程节点
-    addNode(item){
-      this.orderInfo.node.push("")
-    },
     //修改进程节点
     editNode(){
-      this.orderInfo.node.map((item,index) => {
-        if (item === null || item.trim().length === 0){
-          this.$message({
-            type:'error',
-            message:"当前流程有空结点请修改！"
-          })
-          this.stepValueValid = false
-        }
-      })
+      // this.$message({
+      //   type:'success',
+      //   message:"保存成功，请及时提交！"
+      // })
       this.centerDialogVisible = false
     },
     async getCategory(){
@@ -219,7 +207,7 @@ export default {
         let result = await this.$axios.orderControllerList.nextForUpload({
           contractUrl: response.data.url + ',',
           orderId: this.orderid,
-          nodes:this.orderInfo.node.toString()
+          nodes:this.checkStepList.toString()
         })
         if (result.code === 20000) {
           setTimeout(async () => {
@@ -246,7 +234,7 @@ export default {
         let result = await this.$axios.orderControllerList.setSubOrderUploadContract({
           contractUrl: response.data.url + ',',
           orderId: this.orderid,
-          nodes:this.orderInfo.node.toString()
+          nodes:this.checkStepList.toString()
         })
         if (result.code === 20000) {
           setTimeout(async () => {
@@ -261,7 +249,7 @@ export default {
       }
     },
     async submitOrderInfo() {
-      if (this.fileList.length !== 0 && this.stepValueValid) {
+      if (this.fileList.length !== 0) {
         await this.$refs.upload.submit();
       } else {
         this.$message({
