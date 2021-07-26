@@ -87,13 +87,20 @@ export default {
           break
         case 3:
           await this.getOrderInfo()
-          if (this.orderSplitInfo.status >=4 || this.orderInfo.status>=4) {
+          if ((this.orderSplitInfo.status >=4 || this.orderInfo.status>=4) && (this.orderSplitInfo.status !== 6 || this.orderInfo.status!== 6) ) {
             await this.$router.push(`/pc/buyerorderdetail/serviceevaluation/${this.orderid}/${this.type}`)
           }else{
-            this.$message({
-              message: '等待所有卖家服务验收完毕，即可进行服务评价。',
-              type: 'warning'
-            });
+            if (this.orderSplitInfo.status ===  6 || this.orderInfo.status === 6){
+              this.$message({
+                message: '订单验收失败！',
+                type: 'error'
+              });
+            }else {
+              this.$message({
+                message: '等待所有卖家服务验收完毕，即可进行服务评价。',
+                type: 'warning'
+              });
+            }
           }
           break
       }

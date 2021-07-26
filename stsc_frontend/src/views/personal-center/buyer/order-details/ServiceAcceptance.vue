@@ -17,8 +17,8 @@
 <!--    TODO 大订单的服务验收-->
    <div class="service-acceptance-operation" v-if="acceptIf">
      <el-button type="primary"   @click="setAcceptAttachment">确认验收</el-button>
+     <el-button type="danger"   @click="setFailAttachment">验收失败</el-button>
    </div>
-
   </div>
 </template>
 
@@ -100,6 +100,18 @@ export default {
           message:'此订单已经完成,进行服务评价！'
         })
         await this.$router.push(`/pc/buyerorderdetail/serviceevaluation/${this.orderid}/${this.type}`);
+      }
+    },
+    async setFailAttachment(){
+      let result = await this.$axios.orderControllerList.setCheckFailed({
+        orderId:this.orderid
+      })
+      if (result.code === 20000){
+        this.$message({
+          type:'error',
+          message:'此订单验收失败！'
+        })
+        await this.$router.push(`/pc/buyer/myorder`);
       }
     }
   },

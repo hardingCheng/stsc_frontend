@@ -24,11 +24,12 @@
           </div>
           <div class="info-menu">
             <ul>
-              <li><a @click="getOrderDetail(item.id,item.orderType,item.orderStatus)">订单详情</a></li>
+              <li v-if="item.orderStatus !== 7"><a @click="getOrderDetail(item.id,item.orderType,item.orderStatus)">订单详情</a></li>
             </ul>
           </div>
           <div class="info-evaluate">
-            <a style="color:red;" @click="getCancelOrder(item.id,item.orderType)">撤销订单</a>
+            <a v-if="item.orderStatus !== 7" style="color:red;" @click="getCancelOrder(item.id,item.orderType)">撤销订单</a>
+            <a v-else style="color:red;">订单已撤销</a>
           </div>
         </div>
       </div>
@@ -98,24 +99,38 @@ export default {
         cancelButtonText: '取消',
         inputType:'textarea',
         inputPlaceholder:'请输入订单撤销原因',
-        inputValidator:(data) => {
-          if (data?.trim().length >=0){
+        inputValidator:(messages) => {
+          if (messages !== null && messages.trim().length >0){
             return true
           }else {
             return "请输入订单撤销原因"
           }
         }
-      }).then((data) => {
-        // 卖家
-        // 发起请求，然后重现获取订单列表
-        this.$message({
-          type: 'success',
-          message: '你输入的消息为: ' + data.value,
-          duration:500,
-          onClose: async () => {
-            await this.getOrderListForSeller()
-          }
-        });
+      }).then(async (messages) => {
+        const cancelOrderResult =  await this.$axios.orderControllerList.setCancelOrderForSeller({
+          message:messages.value,
+          orderType:orderType,
+          orderId:id
+        })
+        if (cancelOrderResult.code === 20000){
+          this.$message({
+            type: 'success',
+            message: '撤销订单成功！',
+            duration:1000,
+            onClose: async () => {
+              await this.getOrderListForSeller()
+            }
+          });
+        } else {
+          this.$message({
+            type: 'error',
+            message: '撤销订单失败！',
+            duration:1000,
+            onClose: async () => {
+              await this.getOrderListForSeller()
+            }
+          });
+        }
       }).catch(() => {
         this.$message({
           type: 'info',
@@ -151,6 +166,10 @@ export default {
           return '已验收'
         case 5:
           return '已完成'
+        case 6:
+          return '验收失败'
+        case 7:
+          return '已撤销'
         default:
           return '待沟通'
       }

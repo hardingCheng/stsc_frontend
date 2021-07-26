@@ -208,5 +208,25 @@ const orderControllerList = {
             method: "post",
         });
     },
+    setCheckFailed:(params) => {
+        return axios({
+            url: `/ph/stcsp/order/checkFailed/${params.requireId}`,
+            method: "get",
+        });
+    },
+    setCancelOrderForSeller:(data) => {
+        return axios({
+            url: `/ph/stcsp/order/cancelOrderForSeller`,
+            method: "post",
+            data
+        });
+    },
+    setCancelOrderForBuyer:(data) => {
+        return axios({
+            url: `/ph/stcsp/order/cancelOrderForBuyer`,
+            method: "post",
+            data
+        });
+    },
 }
 export default orderControllerList

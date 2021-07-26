@@ -110,18 +110,18 @@
       </div>
     </div>
     <div class="service-operation" v-if="contractForSeller.length === 0">
-      <el-button @click="submitOrderInfo" type="primary">提交</el-button>
+      <el-button @click="submitOrderInfo"  :loading="waitSumitLoading"  type="primary">提交</el-button>
     </div>
     <el-dialog title="提示" :visible.sync="centerDialogVisible" width="30%" center>
-      <el-form style="border:1px #DCDFE6 solid; padding:10px; border-radius:10px; position:relative;"  ref="dynamicValidateForm" label-position="left" label-width="90px">
+      <el-form style="border:1px #DCDFE6 solid; padding:10px 100px; border-radius:10px; position:relative;box-sizing: border-box;"  ref="dynamicValidateForm" label-position="left" label-width="200px">
         <el-checkbox-group v-model="checkStepList">
         <el-form-item
             v-for="(step, index) in orderInfo.node"
-            :label="'第' + (index+1)+'个节点'"
+            :label="'第' + (index+1)+'个流程节点'"
             :key="step.id"
         >
-          <span style="margin-left: 30px;">orderInfo.node[index]</span>
-          <el-checkbox :label="orderInfo.node[index]"></el-checkbox>
+<!--          <span style="margin-left: 30px;">{{orderInfo.node[index]}}}</span>-->
+          <el-checkbox :label="orderInfo.node[index]"   @change="checkboxChange(orderInfo.node[index],index)"></el-checkbox>
 <!--          <el-button  type="text"  icon="el-icon-delete" circle title="删除"  @click.prevent="removeStep(index)" style="color:red"/>-->
         </el-form-item>
         </el-checkbox-group>
@@ -167,7 +167,9 @@ export default {
       options: [],
       centerDialogVisible: false,
       stepValueValid:true,
-      checkStepList:[]
+      checkStepList:[],
+      checkStepListSort:[],
+      waitSumitLoading:false,
     }
   },
   watch:{
@@ -178,12 +180,24 @@ export default {
     }
   },
   methods: {
+    checkboxChange(value,vindex){
+      const seletcDataIndexB = this.checkStepListSort.some((item,index) => {
+        if (item.vindex === vindex){
+          this.checkStepListSort.splice(index,1)
+          return true
+        }
+        return false
+      })
+      if (!seletcDataIndexB) {
+        this.checkStepListSort.push({
+          vindex,
+          value
+        })
+      }
+      this.checkStepListSort.sort(function(a,b){return a.vindex-b.vindex})
+    },
     //修改进程节点
     editNode(){
-      // this.$message({
-      //   type:'success',
-      //   message:"保存成功，请及时提交！"
-      // })
       this.centerDialogVisible = false
     },
     async getCategory(){
@@ -203,11 +217,20 @@ export default {
       }
     },
     async handleSuccess(response, file, fileList) {
+      let snodes = ""
       if (this.type === '0' && response.code === 20000) {
+        if (this.checkStepListSort.length > 0){
+          this.checkStepListSort.map((item) => {
+            snodes += item.value + ','
+          })
+          snodes = snodes.slice(0,-1)
+        }else {
+          snodes = this.orderInfo.node.toString()
+        }
         let result = await this.$axios.orderControllerList.nextForUpload({
           contractUrl: response.data.url + ',',
           orderId: this.orderid,
-          nodes:this.checkStepList.toString()
+          nodes:snodes
         })
         if (result.code === 20000) {
           setTimeout(async () => {
@@ -220,21 +243,31 @@ export default {
             let { status } =orderResult.data.orderInfo
             if(status >= 2){
               await this.$router.push(`/seller/orderdetail/inprogress/${this.orderid}/${this.type}`)
+              this.waitSumitLoading = false
             }else {
               this.$message({
                 message: '等待买家上传合同',
                 center: true,
                 type: 'warning'
               })
+              this.waitSumitLoading = false
             }
-          }, 1000)
+          }, 300)
         }
       }
       if (this.type === '1' && response.code === 20000) {
+        if (this.checkStepListSort.length > 0){
+          this.checkStepListSort.map((item) => {
+            snodes += item.value + ','
+          })
+          snodes = snodes.slice(0,-1)
+        }else {
+          snodes = this.orderInfo.node.toString()
+        }
         let result = await this.$axios.orderControllerList.setSubOrderUploadContract({
           contractUrl: response.data.url + ',',
           orderId: this.orderid,
-          nodes:this.checkStepList.toString()
+          nodes:snodes
         })
         if (result.code === 20000) {
           setTimeout(async () => {
@@ -244,16 +277,19 @@ export default {
               type: 'success'
             })
             await this.$router.push(`/pc/sellerorderdetail/inprogress/${this.orderid}/${this.type}`)
-          }, 1000)
+            this.waitSumitLoading = false
+          }, 300)
         }
       }
     },
     async submitOrderInfo() {
+      this.waitSumitLoading = true
       if (this.fileList.length !== 0) {
         await this.$refs.upload.submit();
       } else {
+        this.waitSumitLoading = false
         this.$message({
-          message: '请上传相应服务的合同或者当前服务流程有空节点',
+          message: '请上传相应服务的合同！',
           center: true,
           type: 'error'
         })
