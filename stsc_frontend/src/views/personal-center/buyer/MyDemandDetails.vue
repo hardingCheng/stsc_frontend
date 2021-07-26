@@ -43,7 +43,6 @@
 
     <!--      </el-tab-pane>-->
     <!--    </el-tabs>-->
-
     <div class="demand_overview container">
       <h4>需求概述</h4>
       <span class="demand_content">{{ this.info_all.content }}</span>
@@ -53,8 +52,8 @@
         <graph :arrangeList="arrangeInfo"></graph>
       </div>
       <div class="button_group1" v-if="lengthInfo&&requireState===4">
-        <el-button type="primary" @click="verify" :disabled="forbidden">确定</el-button>
-        <el-button type="primary" :disabled="reOpen" @click="resoution">重新拆分</el-button>
+        <el-button type="primary" class="button" @click="verify" :disabled="forbidden">确定</el-button>
+        <el-button type="primary" class="button":disabled="reOpen" @click="dialogVisible = true">重新拆分</el-button>
       </div>
       <div class="button_group" v-if="requireState===9" >
         <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
@@ -64,6 +63,23 @@
         </ul>
       </div>
     </div>
+<!--    重新拆分对话框-->
+    <el-dialog
+        title="请填写重新拆分的原因"
+        :visible.sync="dialogVisible"
+        width="30%"
+        >
+      <el-input
+          type="textarea"
+          :rows="2"
+          placeholder="请输入内容"
+          v-model="textarea">
+      </el-input>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false"><span>取 消</span></el-button>
+    <el-button type="primary" @click="resoution">确 定</el-button>
+  </span>
+    </el-dialog>
 
     <div class="indicators" v-if="requireState===8">
       <div class="recommend">
@@ -136,7 +152,6 @@
 <script>
 
 import graph from "../../../components/showGraph/ShowGraph";
-
 export default {
   props: ['id'],
   name: "MyDemandDetails",
@@ -162,6 +177,8 @@ export default {
       grabOrderInfo:{},//存放抢单的信息
       keyPlan:[],//存放索引
       keyPlanGrab:[],//存放抢单的索引
+      dialogVisible:false,//弹窗显示
+      textarea:"",//存储重新拆分的理由
       options: [{
         value: '选项1',
         label: '综合排序'
@@ -238,7 +255,6 @@ export default {
       }else {
         this.filename =results.data.requirement.attachments.match(regex)[0]
       }
-      console.log("xx",results.data.requirement.attachments)
       //moment时间格式化插件
       const moment = require('moment');
       this.date = moment(results.data.requirement.createTime).format(("YYYY-MM-DD"))
@@ -255,8 +271,12 @@ export default {
     },
     //对结果重新拆分
     async resoution() {
+      this.dialogVisible = false
+
       let result = await this.$axios.requirementControllerList.resoution({
         requirementId: this.$route.params.id
+      },{
+        rejectReason:this.textarea
       })
       if (result.code === 20000) {
         this.$message({
@@ -265,9 +285,11 @@ export default {
         });
         this.reOpen = true
         await this.getRequireState()
-        // 重新刷新页面，重新渲染数据
-        // this.$router.go(0)
+
+      //   // 重新刷新页面，重新渲染数据
+      //   // this.$router.go(0)
       }
+
     },
     downFile() {
     },
@@ -404,7 +426,14 @@ export default {
 <style scoped lang="scss">
 
 @import './src/styles/mixin';
-
+.button{
+  @include wh(140px, 50px);
+  margin: 20px 0px 20px 0px;
+  //background-color: #1794FF;
+  color: #FFFFFF;
+  font-size: 18px;
+  font-weight: 400;
+}
 .my_demand_details {
   font-family: PingFangSC-Regular, PingFang SC;
   position: relative;
@@ -714,12 +743,7 @@ export default {
 }
 
 /deep/ .el-button {
-  @include wh(140px, 50px);
-  margin: 20px 0px 20px 0px;
-  //background-color: #1794FF;
-  color: #FFFFFF;
-  font-size: 18px;
-  font-weight: 400;
+
 
 }
 

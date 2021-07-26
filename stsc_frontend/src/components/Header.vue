@@ -161,6 +161,8 @@ export default {
       })
       this.message_list_no = message_result.data.messageList.records
       this.message_list_no_total = message_result.data.messageList.total
+
+
     },
     //卖家
     async getMessageBuyerListNoRead() {
@@ -172,13 +174,16 @@ export default {
       })
       this.message_seller_list_no = message_result.data.messageList.records
       this.message_seller_list_no_total = message_result.data.messageList.total
+
     },
     //查询所有未读消息
     async getUserMessageNoAll() {
       const results = await this.$axios.requirementControllerList.getUserMessageNoAll({
         userId: this.$store.getters.getUserInfo.id
       })
-      this.message_No_All = results.data.total
+        this.message_No_All = results.data.total
+
+
     },
     handleClick(tab, event) {
     },
