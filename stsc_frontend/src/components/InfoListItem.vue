@@ -1,7 +1,7 @@
 <template>
   <div class="info-list-item" v-if="info !== null">
     <div class="enterprise-top">
-      <a href="#">
+      <a @click="goDetail(href)">
         <img v-lazy="info.image" alt="">
         <div class="enterprise-name">
           <h1>{{info.name}}</h1>
@@ -20,12 +20,19 @@
 
 <script>
 export default {
-  props:['info'],
+  props:['info','href'],
   name: "InfoListItem",
   data() {
     return {
-
     }
+  },
+  mounted() {
+
+  },
+  methods:{
+    goDetail(url){
+      this.$router.push(url)
+    },
   }
 }
 </script>

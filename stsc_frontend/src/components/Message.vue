@@ -80,6 +80,7 @@ export default {
       this.$parent.change_message_state(delete_val);
       //已读后折叠面板消息减一
       this.indexss_no_read.splice(val, 1)
+
     },
 
     handleClick(tab, event) {

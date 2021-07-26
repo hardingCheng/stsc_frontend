@@ -490,14 +490,12 @@ export default {
     color: #999999;
     line-height: 17px;
   }
-
   .evaluation {
     @include wh(480px, 29px);
     padding-top: 5px;
     border-top: 1px dashed #F3F3F3;
     border-bottom: 1px dashed #F3F3F3;
   }
-
   .cumulative-num {
     @include wh(26px, 20px);
     font-size: 14px;
@@ -505,7 +503,6 @@ export default {
     color: #1794FF;
     line-height: 20px;
   }
-
   .serve-evaluation {
     margin-left: 130px;
     padding-top: 5px;
@@ -515,11 +512,9 @@ export default {
     font-weight: 400;
     color: #999999;
   }
-
   .el-rate {
-    width: 120px;
+    width: 130px;
   }
-
   .see-and-see {
     width: 160px;
     float: right;

@@ -2,7 +2,7 @@
   <div class="dialog">
     <el-dialog
         :title=hint
-        :visible="dialogVisible"
+        :visible=dialogValue
         width="30%"
         :before-close="handleClose"
     >

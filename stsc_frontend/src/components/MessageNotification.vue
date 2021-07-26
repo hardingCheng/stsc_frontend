@@ -2,8 +2,8 @@
   <div class="message-notification">
     <div class="message-notification-tab">
       <ul class="message-notification-tab-ul">
-        <li @click="liswitch(1)" :class="[isTabActive === 1 ? 'active' :'']">买家({{this.$store.state.buyerMessage }})</li>
-        <li @click="liswitch(2)" :class="[isTabActive === 2 ? 'active' :'']">卖家({{ this.$store.state.sellerMessage }})</li>
+        <li @click="liswitch(1)" :class="[isTabActive === 1 ? 'active' :'']">买家({{this.messageObj.notice }})</li>
+        <li @click="liswitch(2)" :class="[isTabActive === 2 ? 'active' :'']">卖家({{ this.messageObj.handle }})</li>
         <!--        <li @click="liswitch(3)" :class="[isTabActive === 3 ? 'active' :'']">其他({{ messageObj.other}})</li>-->
       </ul>
     </div>
@@ -131,7 +131,7 @@ export default {
 
   },
   mounted() {
-    this.getVuexBuyerMessage()
+    // this.getVuexBuyerMessage()
   },
   computed: {
     noMore() {
@@ -160,12 +160,13 @@ export default {
     noticeReduce(val) {
     },
     inBuyerMessage(val) {
-      this.$store.commit('messageActive', 'second')
+
+      // this.$store.commit('messageActive', 'second')
       // this.messageObj.notice=this.notice_reduce-1
       // this.notice_reduce=this.notice_reduce-1
       if (this.message_text.splice(val, 1)) {
         this.messageObj.notice--
-        this.getVuexBuyerMessage()
+        // this.getVuexBuyerMessage()
       }
     //  this.$emit('noticeEvent', this.notice_reduce)
       this.$router.push(`/pc/buyer/mynews`)
@@ -179,7 +180,7 @@ export default {
       if (this.message_text_seller.splice(val, 1)) {
         this.messageObj.handle--
         this.notice_reduce--
-        this.getVuexSellerMessage()
+        // this.getVuexSellerMessage()
       }
       this.$router.push(`/pc/seller/mynews`)
     },

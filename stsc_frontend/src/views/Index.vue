@@ -140,14 +140,14 @@
         </div>
         <div class="info-list" ref="plist">
           <div class="container">
-            <div class="info-list-main" v-if="pindex === 1">
-              <info-list-item  v-for="(info,index) in commonSelectList"  :info="info"></info-list-item>
+            <div class="info-list-main" v-if="pindex === 1" >
+              <info-list-item  v-for="(info,index) in commonSelectList" :href="info.hasOwnProperty('flag')?'/ddetail/'+info.id+'/'+info.flag : '/sdetail/'+info.id" :info="info" ></info-list-item>
             </div>
             <div class="info-list-main" v-if="pindex === 2">
-              <info-list-item :info="info" v-for="(info,index) in demandSelectList"></info-list-item>
+              <info-list-item :info="info" :href="'/ddetail/'+info.id+'/'+info.flag" v-for="(info,index) in demandSelectList"></info-list-item>
             </div>
             <div class="info-list-main" v-if="pindex === 3">
-              <info-list-item :info="info" v-for="(info,index) in serviceSelectList"></info-list-item>
+              <info-list-item :info="info"  :href="'/sdetail/'+info.id" v-for="(info,index) in serviceSelectList"></info-list-item>
             </div>
           </div>
         </div>
@@ -565,6 +565,7 @@ export default {
       this.serviceSelectList= this.getRandomArrayElements(servciceBaseResultNotNull,5)
 
       this.commonSelectList = this.getRandomArrayElements([...servciceBaseResultNotNull,...demandBaseResultNotNull],5)
+
     },
     async getIndexData() {
       let result = await this.$axios.mainController.getIndexData()

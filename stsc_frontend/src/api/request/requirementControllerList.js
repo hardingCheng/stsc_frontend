@@ -130,10 +130,11 @@ const requirementControllerList = {
         });
     },
     //重新拆分接口
-    resoution: (params) => {
+    resoution: (params,data) => {
         return axios({
             url: `/bh/stcsp/requirement/rearrange/${params.requirementId}`,
-            method: "get",
+            method: "post",
+            data
         });
     },
     //确认编排结果

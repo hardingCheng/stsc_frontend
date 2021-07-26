@@ -115,6 +115,7 @@ export default {
           border-left:1px solid #F3F3F3 ;
           span{
             font-weight: bold;
+            color: #333333;
             display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
             -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
             -webkit-line-clamp: 1; /** 显示的行数 **/
@@ -123,6 +124,7 @@ export default {
           }
           p{
             height: 105px;
+            color: #333333;
             display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
             -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
             -webkit-line-clamp: 5; /** 显示的行数 **/
