@@ -26,7 +26,8 @@
             <ul>
               <li v-if="item.orderStatus  !== 7 "><a @click="getOrderDetail(item.id,item.orderType,item.orderStatus)">订单详情</a></li>
               <li v-if="item.orderStatus  !== 7 "><a style="color:red;" @click="getCancelOrder(item.id,item.orderType)">撤销订单</a></li>
-              <li v-if="item.orderStatus  === 7 "><a style="color:red;">已撤销，重新匹配</a></li>
+              <li v-if="item.orderStatus  === 7&&item.orderType===1 "><el-button type="primary" @click="toBreakUp(item.requirementId)">重新拆分</el-button></li>
+
             </ul>
           </div>
           <div class="info-evaluate" v-if="item.orderStatus !== 7">
@@ -67,6 +68,19 @@ export default {
     }
   },
   methods: {
+    //重新拆分
+    async toBreakUp(requirementId) {
+      let result = await this.$axios.requirementControllerList.buyerToBreakUp({
+        requirementId: requirementId
+      })
+      if(result.code===20000){
+        this.$message({
+          type: 'success',
+          message: '重新拆分请求已经发送！',}
+        )
+      }
+
+    },
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
     },

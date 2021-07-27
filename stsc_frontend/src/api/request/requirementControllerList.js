@@ -22,6 +22,14 @@ const requirementControllerList = {
             method: "get",
         });
     },
+    //买家中心重新拆分接口
+    buyerToBreakUp: (params) => {
+        return axios({
+            url: `/ph/stcsp/requirement/resplit/${params.requirementId}`,
+            method: "get",
+        });
+    },
+
 
     // 通过需求ID查看需求详情
     getRequireDetailById: (params) => {
