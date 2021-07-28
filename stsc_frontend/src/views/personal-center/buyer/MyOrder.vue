@@ -203,6 +203,8 @@ export default {
           return '验收失败'
         case 7:
           return '已撤销'
+        case 8:
+          return '订单异常'
         default:
           return '待沟通'
       }
