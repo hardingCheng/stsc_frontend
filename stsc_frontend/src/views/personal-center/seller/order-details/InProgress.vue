@@ -19,21 +19,27 @@
               <div>
                 <el-button size="small" style="margin-top: 12px;" type="danger">申请异常</el-button>
                 <el-button size="small" style="margin-top: 12px;" @click="next" type="primary" :disabled="completeCon"
-                           v-if="!completeCon">下一步
+                           v-if="!completeCon && type0OrderInfo.order.exceNode === null">下一步
                 </el-button>
-                <el-button size="small" style="margin-top: 12px;" type="primary" :disabled="completeCon" v-else>已完成
+                <el-button size="small" style="margin-top: 12px;" type="primary" :disabled="completeCon" v-if="completeCon && !type0OrderInfo.order.exceNode">已完成
                 </el-button>
               </div>
             </div>
             <div class="order-info-flow-right">
               <el-steps :active="active" finish-status="success" align-center>
-                <el-step :title="item" v-for="(item,index) in type0OrderInfo.nodes" :key="index" @mouseenter.native="mouseenter1(index)">
+                <el-step
+                    :title="item"
+                    v-for="(item,index) in type0OrderInfo.nodes"
+                    :key="index"
+                    @mouseenter.native="mouseenter1(index)"
+                    :status="type0OrderInfo.order.exceNode !== null ?  (index < type0OrderInfo.order.exceNode ? 'success' : 'error' ) : (index+1 <= type0OrderInfo.order.sellerStep+1 ? 'success' : 'wait' )"
+                >
                   <template v-slot:description v-if="index+1 <= type0OrderInfo.order.sellerStep+1" >
                     <el-popover
                         placement="bottom"
                         width="300"
                         trigger="hover"
-                        v-if="index <= type0OrderInfo.order.sellerStep && showConfirm && index === showConfirmIndex"
+                        v-if="type0OrderInfo.order.exceNode !== null ? (index < type0OrderInfo.order.exceNode && showConfirm && index === showConfirmIndex) : (index <= type0OrderInfo.order.sellerStep && showConfirm && index === showConfirmIndex)"
                     >
                       <div class="step-info-confirm">
                         <ul>
@@ -44,6 +50,22 @@
                         </ul>
                       </div>
                       <el-button type="text" slot="reference">节点信息</el-button>
+                    </el-popover>
+                    <el-popover
+                        placement="bottom"
+                        width="300"
+                        trigger="hover"
+                        v-if="type0OrderInfo.order.exceNode !== null && index === type0OrderInfo.order.exceNode"
+                    >
+                      <div class="step-info-confirm">
+                        <ul>
+                          <li ><b>流程异常信息：</b></li>
+                          <li style="margin-bottom: 10px; color: red;">{{ type0OrderInfo.order.exceNodeMsg}}</li>
+                          <li><b>异常处理：</b></li>
+                          <li style="margin-bottom: 10px; color: red;">等待卖家处理</li>
+                        </ul>
+                      </div>
+                      <el-button type="text" slot="reference" style="color:red;">异常信息</el-button>
                     </el-popover>
                   </template>
                 </el-step>
@@ -70,21 +92,27 @@
               <div>
                 <el-button size="small" style="margin-top: 12px;" type="danger">申请异常</el-button>
                 <el-button size="small" style="margin-top: 12px;" @click="next" type="primary" :disabled="completeCon"
-                           v-if="!completeCon">下一步
+                           v-if="!completeCon && orderInfo.exceNode === null">下一步
                 </el-button>
-                <el-button size="small" style="margin-top: 12px;" type="primary" :disabled="completeCon" v-else>已完成
+                <el-button size="small" style="margin-top: 12px;" type="primary" :disabled="completeCon" v-if="completeCon && !errorStepIndex">已完成
                 </el-button>
               </div>
             </div>
             <div class="order-info-flow-right">
               <el-steps :active="active" finish-status="success" align-center>
-                <el-step :title="item" v-for="(item,index) in orderInfo.nodes" :key="index" @mouseenter.native="mouseenter1(index)">
+                <el-step
+                    :title="item"
+                    v-for="(item,index) in orderInfo.nodes"
+                    :key="index"
+                    @mouseenter.native="mouseenter1(index)"
+                    :status="orderInfo.exceNode !== null ?  (index < orderInfo.exceNode ? 'success' : 'error' ) : (index+1 <= orderInfo.sellerStep+1 ? 'success' : 'wait' )"
+                >
                   <template v-slot:description v-if="index+1 <= orderInfo.sellerStep+1" >
                     <el-popover
                         placement="bottom"
                         width="300"
                         trigger="hover"
-                        v-if="index <= orderInfo.sellerStep && showConfirm && index === showConfirmIndex"
+                        v-if="orderInfo.exceNode !== null ? index < orderInfo.exceNode && showConfirm && index === showConfirmIndex : index <= orderInfo.sellerStep && showConfirm && index === showConfirmIndex"
                     >
                       <div class="step-info-confirm">
                         <ul>
@@ -95,6 +123,22 @@
                         </ul>
                       </div>
                       <el-button type="text" slot="reference">节点信息</el-button>
+                    </el-popover>
+                    <el-popover
+                        placement="bottom"
+                        width="300"
+                        trigger="hover"
+                        v-if="orderInfo.exceNode !== null && index === orderInfo.exceNode"
+                    >
+                      <div class="step-info-confirm">
+                        <ul>
+                          <li ><b>流程异常信息：</b></li>
+                          <li style="margin-bottom: 10px; color:red;">{{ orderInfo.exceNodeMsg}}</li>
+                          <li><b>异常处理：</b></li>
+                          <li style="text-align: right;"><el-button type="primary" >异常处理</el-button></li>
+                        </ul>
+                      </div>
+                      <el-button style="color:red;" type="text" slot="reference">异常信息</el-button>
                     </el-popover>
                   </template>
                 </el-step>
@@ -192,7 +236,8 @@ export default {
         uploadError:''
       },
       showConfirm:false,
-      showConfirmIndex:-1
+      showConfirmIndex:-1,
+      errorStepIndex:1
     }
   },
   components: {
@@ -203,6 +248,7 @@ export default {
       window.open('/pdf/web/viewer.html?file=' + fileUrl);
     },
     mouseenter1(index){
+      console.log(index)
       this.showConfirm = true
       this.showConfirmIndex = index
     },
@@ -388,7 +434,6 @@ export default {
       })
       this.orderInfo = result.data
       this.type0OrderInfo = result.data
-      console.log(this.type0OrderInfo )
       this.active = (this.type0OrderInfo.order.sellerStep + 1)
       if (this.type0OrderInfo.order.sellerStep + 1 === this.type0OrderInfo.nodes.length) {
         this.completeCon = true

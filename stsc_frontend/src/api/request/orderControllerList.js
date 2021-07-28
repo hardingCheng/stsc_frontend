@@ -228,5 +228,19 @@ const orderControllerList = {
             data
         });
     },
+    buyerHasExe:(data) => {
+        return axios({
+            url: `/ph/stcsp/order/buyerHasExe`,
+            method: "post",
+            data
+        });
+    },
+    buyerCancelExce:(data) => {
+        return axios({
+            url: `/ph/stcsp/order/cancelExce`,
+            method: "post",
+            data
+        });
+    }
 }
 export default orderControllerList

@@ -23,17 +23,20 @@
               </div>
             </div>
             <div class="order-info-flow-right">
-              <!--          TODO 立即下单  -->
               <el-steps :active="type0OrderInfo.order.sellerStep+1" finish-status="success" v-if="type0OrderInfo"
                         align-center>
-                <el-step v-for="(item,index) in type0OrderInfo.nodes ? type0OrderInfo.nodes :[]" :title="item"
-                         :key="index" @mouseenter.native="mouseenter1(index)">
+                <el-step
+                    v-for="(item,index) in type0OrderInfo.nodes ? type0OrderInfo.nodes :[]"
+                    :title="item" :key="index"
+                    @mouseenter.native="mouseenter1(index)"
+                    :status="type0OrderInfo.order.exceNode !== null ?  (index  < type0OrderInfo.exceNode ? 'success' : 'error' ) : (index+1 <= type0OrderInfo.order.sellerStep+1 ? 'success' : 'wait' )"
+                >
                   <template v-slot:description v-if="index+1 <= type0OrderInfo.order.sellerStep+1">
                     <el-popover
-                        placement="right"
+                        placement="bottom"
                         width="300"
                         trigger="hover"
-                        v-if="index+1 <= type0OrderInfo.order.sellerStep+1 && index>type0OrderInfo.order.buyerStep"
+                        v-if="type0OrderInfo.order.exceNode !== null? (index  <= type0OrderInfo.order.sellerStep+1 && index>type0OrderInfo.order.buyerStep && index <type0OrderInfo.exceNode): (index+1 <= type0OrderInfo.order.sellerStep+1 && index>type0OrderInfo.order.buyerStep)"
                     >
                       <div class="step-info-confirm">
                         <ul>
@@ -47,7 +50,7 @@
                           </li>
                           <li style="text-align: right;"
                               v-if="index+1 <= type0OrderInfo.order.sellerStep+1 && index>type0OrderInfo.order.buyerStep">
-                            <el-button size="small" type="danger">申请异常</el-button>
+                            <el-button size="small" type="danger" @click="stepAbnormal(index,type0OrderInfo.order.id)">申请异常</el-button>
                             <el-button size="small" type="primary" @click="stepSubmit(index,type0OrderInfo.order.id)">
                               确认
                             </el-button>
@@ -60,7 +63,7 @@
                         placement="right"
                         width="300"
                         trigger="hover"
-                        v-if="index <= type0OrderInfo.order.buyerStep && showConfirm && index === showConfirmIndex"
+                        v-if="type0OrderInfo.exceNode !== null ? (index <= type0OrderInfo.exceNode && showConfirm && index === showConfirmIndex  ):(index <= type0OrderInfo.order.buyerStep && showConfirm && index === showConfirmIndex)"
                     >
                       <div class="step-info-confirm">
                         <ul>
@@ -75,6 +78,24 @@
                         </ul>
                       </div>
                       <el-button type="text" slot="reference">节点信息</el-button>
+                    </el-popover>
+                    <el-popover
+                        placement="bottom"
+                        width="300"
+                        trigger="hover"
+                        v-if="type0OrderInfo.order.exceNode !== null && index === type0OrderInfo.order.exceNode"
+                    >
+                      <div class="step-info-confirm">
+                        <ul>
+                          <li><b>异常信息：</b></li>
+                          <li style="margin-bottom: 10px;color:red;">{{  type0OrderInfo.order.exceNodeMsg }}</li>
+                          <li><b>节点附加文件：</b></li>
+                          <li style="text-align: right;">
+                            <el-button type="primary" @click="cancelExce(index,type0OrderInfo.order.id)">异常处理</el-button>
+                          </li>
+                        </ul>
+                      </div>
+                      <el-button type="text" slot="reference" style="color:red;">异常信息</el-button>
                     </el-popover>
                   </template>
                 </el-step>
@@ -149,7 +170,8 @@
               align="center"
           >
             <template slot-scope="scope">
-              <el-tag type="success">{{ scope.row.status | modStatus }}</el-tag>
+              <el-tag v-if="scope.row.status < 5" type="success">{{ scope.row.status | modStatus }}</el-tag>
+              <el-tag v-else type="danger">{{ scope.row.status | modStatus }}</el-tag>
             </template>
           </el-table-column>
         </el-table>
@@ -158,23 +180,25 @@
         <div class="order-info-flow-left" v-if="subOrderDetailsInfo[0]">
           {{ subOrderDetailsInfo[0].orderName ? subOrderDetailsInfo[0].orderName : '' }}
           <div>
-            <el-button size="small" style="margin-top: 12px;" @click="next" type="danger">申请异常</el-button>
             <el-button size="small" style="margin-top: 12px;" :disabled="completeCon" v-if="completeCon" type="primary">
               已完成
             </el-button>
           </div>
         </div>
         <div class="order-info-flow-right">
-          <el-steps :active="subOrderDetailsInfo[0].sellerStep+1" finish-status="success" v-if="subOrderDetailsInfo[0]"
-                    align-center>
-            <el-step v-for="(item,index) in subOrderDetailsInfo[0].nodes ? subOrderDetailsInfo[0].nodes :[]"
-                     :title="item" :key="index" @mouseenter.native="mouseenter1(index)">
+          <el-steps :active="subOrderDetailsInfo[0].sellerStep+1"  v-if="subOrderDetailsInfo[0]" align-center>
+            <el-step
+                v-for="(item,index) in subOrderDetailsInfo[0].nodes ? subOrderDetailsInfo[0].nodes :[]"
+                :title="item" :key="index"
+                @mouseenter.native="mouseenter1(index)"
+                :status="subOrderDetailsInfo[0].exceNode !== null ?  (index < subOrderDetailsInfo[0].exceNode ? 'success' : 'error' ) : (index+1 <= subOrderDetailsInfo[0].sellerStep+1 ? 'success' : 'wait' )"
+            >
               <template v-slot:description v-if="index+1 <= subOrderDetailsInfo[0].sellerStep+1">
                 <el-popover
                     placement="bottom"
                     width="300"
                     trigger="hover"
-                    v-if="index+1 <= subOrderDetailsInfo[0].sellerStep+1 && index>subOrderDetailsInfo[0].buyerStep"
+                    v-if=" subOrderDetailsInfo[0].exceNode !== null ? (index+1 <= subOrderDetailsInfo[0].sellerStep+1 && index>subOrderDetailsInfo[0].buyerStep && index <subOrderDetailsInfo[0].exceNode)  :(index+1 <= subOrderDetailsInfo[0].sellerStep+1 && index>subOrderDetailsInfo[0].buyerStep)"
                 >
                   <div class="step-info-confirm">
                     <ul>
@@ -189,9 +213,8 @@
                       </li>
                       <li style="text-align: right;"
                           v-if="index+1 <= subOrderDetailsInfo[0].sellerStep+1 && index>subOrderDetailsInfo[0].buyerStep">
-                        <el-button size="small" type="danger">申请异常</el-button>
-                        <el-button size="small" type="primary" @click="stepSubmit(index,subOrderDetailsInfo[0].id)">确认
-                        </el-button>
+                        <el-button size="small" type="danger" @click="stepAbnormal(index,subOrderDetailsInfo[0].id)">申请异常</el-button>
+                        <el-button size="small" type="primary" @click="stepSubmit(index,subOrderDetailsInfo[0].id)">确认</el-button>
                       </li>
                     </ul>
                   </div>
@@ -201,7 +224,7 @@
                     placement="bottom"
                     width="300"
                     trigger="hover"
-                    v-if="(index <= subOrderDetailsInfo[0].buyerStep && showConfirm && index === showConfirmIndex)"
+                    v-if="subOrderDetailsInfo[0].exceNode !== null ? (index < subOrderDetailsInfo[0].exceNode && index <= subOrderDetailsInfo[0].buyerStep && showConfirm && index === showConfirmIndex) :(index <= subOrderDetailsInfo[0].buyerStep && showConfirm && index === showConfirmIndex)"
                 >
                   <div class="step-info-confirm">
                     <ul>
@@ -218,11 +241,41 @@
                   </div>
                   <el-button type="text" slot="reference">节点信息</el-button>
                 </el-popover>
+                <el-popover
+                    placement="bottom"
+                    width="300"
+                    trigger="hover"
+                    v-if="subOrderDetailsInfo[0].exceNode !== null && index === subOrderDetailsInfo[0].exceNode"
+                >
+                  <div class="step-info-confirm">
+                    <ul>
+                      <li><b>此节点异常信息：</b></li>
+                      <li style="margin-bottom: 10px; color: red;">{{ subOrderDetailsInfo[0].nodeInfoList[index].curStepInfo }}</li>
+                      <li style="text-align: right;">
+                        <el-button type="primary" @click="cancelExce(index,subOrderDetailsInfo[0].id)">异常处理</el-button>
+                      </li>
+                    </ul>
+                  </div>
+                  <el-button style="color:red;" type="text" slot="reference">异常信息</el-button>
+                </el-popover>
               </template>
             </el-step>
           </el-steps>
         </div>
       </div>
+    </div>
+    <div class="step-dialog">
+      <el-dialog title="当前异常流程信息" :visible.sync="dialogFormVisible" @close="stepDialog('',0)">
+        <el-form :model="abnormalStepInfo" :rules="rules" ref="stepAbnormalForm">
+          <el-form-item label="填写确认信息：" prop="messages">
+            <el-input type="textarea" :rows="5" v-model="abnormalStepInfo.messages" autocomplete="off"></el-input>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="stepDialog('stepAbnormalForm',0)">取 消</el-button>
+          <el-button type="primary" @click="stepDialog('stepAbnormalForm',1)">确 定</el-button>
+        </div>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -264,6 +317,18 @@ export default {
       showConfirm: false,
       showConfirmIndex: -1,
       visible: true,
+      errorStepIndex:null,
+      rules: {
+        messages: [
+          {required: true, message: '请输入相关异常信息', trigger: 'blur'},
+        ],
+      },
+      dialogFormVisible: false,
+      abnormalStepInfo:{
+        index:1,
+        orderId:'',
+        messages:''
+      }
     }
   },
   components: {
@@ -271,6 +336,77 @@ export default {
     BPaiFlow
   },
   methods: {
+    async cancelExce(index,orderId){
+      const cancelExceResult = await this.$axios.orderControllerList.buyerCancelExce({
+        orderId:orderId,
+        orderType:this.type
+      })
+      if (cancelExceResult.code === 20000) {
+        this.$message({
+          type: 'success',
+          message: "异常处理完毕！",
+          duration: 1000,
+          onClose: async () => {
+            if (this.orderid && this.type === '0') {
+              let result = await this.$axios.orderControllerList.stepDoing({
+                id: this.orderid
+              })
+              this.type0OrderInfo = result.data
+              this.completeCon = this.type0OrderInfo.order.sellerStep + 1 === this.type0OrderInfo.nodes.length;
+            }
+            if (this.orderid && this.type === '1') {
+              let result1 = await this.$axios.orderControllerList.getSplitDetailInfo({
+                id: this.orderid
+              })
+              this.type1OrderInfo = result1.data.subOrderInfo
+              this.subOrderInfoVoListLength = result1.data.subOrderInfo.subOrderInfoVoList.length
+              let arrangeResult = await this.$axios.layoutControllerList.getLayoutResult({
+                requirementId: this.type1OrderInfo.requirementId
+              })
+              this.arrangeList = JSON.parse(arrangeResult.data.layout)
+              await this.getNodeInfo(this.arrangeList.cells[0].id)
+            }
+          }
+        })
+      }else {
+        this.$message({
+          type: 'danger',
+          message: "异常处理失败！",
+          duration: 1000
+        })
+      }
+    },
+    stepDialog(formName, op) {
+      if (op === 1) {
+        this.$refs[formName].validate(async (valid) => {
+          if (valid) {
+              this.dialogFormVisible = false
+              const stepAbnormalResult = await this.$axios.orderControllerList.buyerHasExe({
+                  message:this.abnormalStepInfo.messages,
+                  orderId:this.abnormalStepInfo.orderId,
+                  orderType:this.type,
+                  step:this.abnormalStepInfo.index
+              })
+            if (stepAbnormalResult.code === 20000){
+              this.$message({
+                type:'success',
+                message:'申请异常成功！'
+              })
+            }else {
+              this.$message({
+                type:'error',
+                message:'申请异常失败！'
+              })
+            }
+          }
+        });
+      } else {
+        this.dialogFormVisible = false
+        this.abnormalStepInfo.index = 0
+        this.abnormalStepInfo.orderId = ''
+        this.abnormalStepInfo.messages = ''
+      }
+    },
     mouseenter1(index) {
       this.showConfirm = true
       this.showConfirmIndex = index
@@ -293,6 +429,30 @@ export default {
       this.currentSubRequirementId = nodeId
       this.subOrderDetailsInfo.push(result.data)
     },
+    async stepAbnormal(index,orderId) {
+      this.abnormalStepInfo.index = index
+      this.abnormalStepInfo.orderId = orderId
+      this.dialogFormVisible = true
+      if (this.orderid && this.type === '0') {
+        let result = await this.$axios.orderControllerList.stepDoing({
+          id: this.orderid
+        })
+        this.type0OrderInfo = result.data
+        this.completeCon = this.type0OrderInfo.order.sellerStep + 1 === this.type0OrderInfo.nodes.length;
+      }
+      if (this.orderid && this.type === '1') {
+        let result1 = await this.$axios.orderControllerList.getSplitDetailInfo({
+          id: this.orderid
+        })
+        this.type1OrderInfo = result1.data.subOrderInfo
+        this.subOrderInfoVoListLength = result1.data.subOrderInfo.subOrderInfoVoList.length
+        let arrangeResult = await this.$axios.layoutControllerList.getLayoutResult({
+          requirementId: this.type1OrderInfo.requirementId
+        })
+        this.arrangeList = JSON.parse(arrangeResult.data.layout)
+        await this.getNodeInfo(this.arrangeList.cells[0].id)
+      }
+    },
     async stepSubmit(index, orderId) {
       if (this.type === '0') {
         let result = await this.$axios.orderControllerList.setNextSmallOrderStepForBuyer({
@@ -314,6 +474,11 @@ export default {
           } else {
             this.completeCon = false
           }
+        } else {
+          this.$message({
+            type: 'error',
+            message: result.message
+          })
         }
       } else {
         let result = await this.$axios.orderControllerList.setNextStepForBuyer({
@@ -326,6 +491,11 @@ export default {
             nid: this.currentSubRequirementId
           })
           this.subOrderDetailsInfo.push(result.data)
+        } else {
+          this.$message({
+            type: 'error',
+            message: result.message
+          })
         }
       }
     }
@@ -360,7 +530,7 @@ export default {
         requirementId: this.type1OrderInfo.requirementId
       })
       this.arrangeList = JSON.parse(arrangeResult.data.layout)
-      await this.getNodeInfo(this.arrangeList.cells[1].id)
+      await this.getNodeInfo(this.arrangeList.cells[0].id)
     }
   },
   filters: {
@@ -376,6 +546,12 @@ export default {
           return '已评价'
         case 5:
           return '已完成'
+        case 6:
+          return '订单失败'
+        case 7:
+          return '订单撤销'
+        case 8:
+          return '订单异常'
       }
     },
     modPrice(value) {
