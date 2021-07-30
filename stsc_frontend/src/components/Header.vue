@@ -60,7 +60,6 @@
               <div class="header-main-logo">
                 <router-link to="/index">
                   <img src="../assets/logo.png" alt="">
-<!--                  <h1>科技服务协同平台</h1>-->
                 </router-link>
               </div>
             </el-col>
@@ -105,7 +104,6 @@
 </template>
 
 <script>
-import store from "../store";
 import MessageNotification from "./MessageNotification";
 
 export default {
@@ -161,8 +159,6 @@ export default {
       })
       this.message_list_no = message_result.data.messageList.records
       this.message_list_no_total = message_result.data.messageList.total
-
-
     },
     //卖家
     async getMessageBuyerListNoRead() {
@@ -174,19 +170,16 @@ export default {
       })
       this.message_seller_list_no = message_result.data.messageList.records
       this.message_seller_list_no_total = message_result.data.messageList.total
-
     },
     //查询所有未读消息
     async getUserMessageNoAll() {
       const results = await this.$axios.requirementControllerList.getUserMessageNoAll({
         userId: this.$store.getters.getUserInfo.id
       })
-        this.message_No_All = results.data.total
-
-
+      this.message_No_All = results.data.total
     },
-    handleClick(tab, event) {
-    },
+    handleClick(tab, event) {},
+    // 滚动监听事件
     handleScroll() {
       let scrollY = document.documentElement.scrollTop
       if (this.$router.history.current.name === 'index') {
@@ -207,17 +200,18 @@ export default {
       }
     },
     myPanel() {
+      // 检测点击事件，当前的页面点击哪里，点击了区域外关闭。
       document.addEventListener('click', (e) => {
         if (e.target.className === 'el-icon-bell header-login-nav-i' || e.target.className === 'el-badge__content el-badge__content--undefined is-fixed') {
           this.notificationShow = !this.notificationShow
         } else {
-          let arr = Array.from(e.path);
-          let result = arr.filter((item, index) => {
+          let arrPath = Array.from(e.path);
+          let result = arrPath.filter((item, index) => {
             if (item.classList) {
-              let arr1 = Array.from(item.classList)
-              if (arr1.length !== 0) {
-                arr1 = Array.from(arr1)
-                return arr1.indexOf("myPanel") === 1
+              let classListArr = Array.from(item.classList)
+              if (classListArr.length !== 0) {
+                classListArr = Array.from(classListArr)
+                return classListArr.indexOf("myPanel") === 1
               }
             }
           })
@@ -241,9 +235,11 @@ export default {
     }
   },
   computed: {
+    // 是否登录
     isLogin() {
       return this.$store.getters.getIsLogin
     },
+    // 获取用户信息
     userInfo() {
       return this.$store.getters.getUserInfo
     }

@@ -30,9 +30,7 @@ export default {
   props:['infoList','type'],
   name: "MyPublicInfoList",
   data(){
-    return {
-
-    }
+    return {}
   },
   filters:{
     modStatus(value){

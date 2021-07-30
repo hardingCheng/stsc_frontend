@@ -282,7 +282,6 @@
 
 <script>
 import BPaiFlow from '../../../../components/showGraph/ShowGraph'
-import OrderSteps from "../../../../components/OrderSteps";
 
 export default {
   props: ['orderid', 'type'],
@@ -332,7 +331,6 @@ export default {
     }
   },
   components: {
-    OrderSteps,
     BPaiFlow
   },
   methods: {

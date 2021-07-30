@@ -26,9 +26,7 @@ export default {
   props:['info','detailurl','listtype'],
   name: "InfoListItem",
   data() {
-    return {
-
-    }
+    return {}
   },
   methods: {
     goDetail(url){

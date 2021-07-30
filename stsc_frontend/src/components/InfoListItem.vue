@@ -23,16 +23,13 @@ export default {
   props:['info','href'],
   name: "InfoListItem",
   data() {
-    return {
-    }
+    return {}
   },
-  mounted() {
-
-  },
+  mounted() {},
   methods:{
     goDetail(url){
       this.$router.push(url)
-    },
+    }
   }
 }
 </script>

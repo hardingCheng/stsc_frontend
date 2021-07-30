@@ -192,8 +192,6 @@
 </template>
 
 <script>
-import OrderSteps from "../../../../components/OrderSteps";
-
 export default {
   props: ['orderid', 'type'],
   name: "InProgress",
@@ -240,9 +238,7 @@ export default {
       errorStepIndex:1
     }
   },
-  components: {
-    OrderSteps,
-  },
+  components: {},
   methods: {
     showFile(fileUrl) {
       window.open('/pdf/web/viewer.html?file=' + fileUrl);

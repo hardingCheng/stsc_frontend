@@ -152,64 +152,6 @@
           </div>
         </div>
       </div>
-      <!--      <div class="successful-cases">-->
-      <!--        <div class="public-switch">-->
-      <!--          <div class="container">-->
-      <!--            <div class="public-switch-title">成功案例</div>-->
-      <!--            <div class="public-switch-view-all">-->
-      <!--              <a href="#">查看全部案例<span>></span></a>-->
-      <!--            </div>-->
-      <!--&lt;!&ndash;            需要修改&ndash;&gt;-->
-      <!--            <div class="public-switch-tab">-->
-      <!--              <div class="public-switch-tab-item tab-active">-->
-      <!--                <a>研究开发</a>-->
-      <!--              </div>-->
-      <!--              <div class="public-switch-tab-item">-->
-      <!--                <a>技术转移</a>-->
-      <!--              </div>-->
-      <!--              <div class="public-switch-tab-item">-->
-      <!--                <a>知识产权</a>-->
-      <!--              </div>-->
-      <!--              <div class="public-switch-tab-item">-->
-      <!--                <a>检验检测</a>-->
-      <!--              </div>-->
-      <!--            </div>-->
-      <!--          </div>-->
-      <!--        </div>-->
-      <!--        <div class="successful-cases-main">-->
-      <!--          <div class="container">-->
-      <!--            <div class="successful-cases-main-left">-->
-      <!--              <div class="title">-->
-      <!--                <h1>企业名称企业名称企业名称企业名称企业名称企业名称企业名称企业名称企业名称企业名称企业名称企业名称</h1>-->
-      <!--              </div>-->
-      <!--              <span class="keywords">摩擦片、模具</span>-->
-      <!--              <div class="rate">-->
-      <!--                服务评分：-->
-      <!--                <el-rate-->
-      <!--                    v-model="value"-->
-      <!--                    disabled-->
-      <!--                    show-score-->
-      <!--                    text-color="#ff9900"-->
-      <!--                    score-template="{value}">-->
-      <!--                </el-rate>-->
-      <!--              </div>-->
-      <!--              <p class="introduce">-->
-      <!--                介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍-->
-      <!--              </p>-->
-      <!--            </div>-->
-      <!--            <div class="successful-cases-main-right">-->
-      <!--              <div class="successful-cases-main-right-swiper">-->
-      <!--                <swiper class="swiper" :options="swiperOption2">-->
-      <!--                  <swiper-slide><img src="../assets/images/500px1030823997.png" alt=""></swiper-slide>-->
-      <!--                  <swiper-slide><img src="../assets/images/500px1030823997.png" alt=""></swiper-slide>-->
-      <!--                  <swiper-slide><img src="../assets/images/500px1030823997.png" alt=""></swiper-slide>-->
-      <!--                  <div class="swiper-pagination" slot="pagination"></div>-->
-      <!--                </swiper>-->
-      <!--              </div>-->
-      <!--            </div>-->
-      <!--          </div>-->
-      <!--        </div>-->
-      <!--      </div>-->
       <div class="successful-cases">
         <div class="public-switch">
           <div class="container">
