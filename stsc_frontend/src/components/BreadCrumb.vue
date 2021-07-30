@@ -12,7 +12,11 @@
 </template>
 
 <script>
+/**
+ * 面包屑是和路由仅仅的绑在一起的，因路由设计混乱导致没发进行一些适配
+ */
 export default {
+  // 传递路由的match 来生成相应的配置
   props:{
     info:{
       type:Array

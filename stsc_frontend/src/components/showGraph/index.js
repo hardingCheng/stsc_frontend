@@ -1,10 +1,11 @@
-import { Graph, Shape } from '@antv/x6'
+import {Graph, Shape} from '@antv/x6'
 import "./shape"
+
 export default class ShowGraph {
-  static init (data) {
+  static init(data) {
     this.graph = new Graph({
       container: document.getElementById('showGraph'),
-      height:800,
+      height: 800,
       // 画布调整
       scroller: {
         enabled: true,
@@ -19,8 +20,8 @@ export default class ShowGraph {
         minScale: 0.5,
         maxScale: 2
       },
-      interacting:function(){ //使得节点和边固定
-        return {nodeMovable:false,edgeMovable:false,edgeLabelMovable:false}
+      interacting: function () { //使得节点和边固定
+        return {nodeMovable: false, edgeMovable: false, edgeLabelMovable: false}
       },
       connecting: {
         anchor: 'center',
@@ -28,7 +29,7 @@ export default class ShowGraph {
         allowBlank: false,
         highlight: true,
         snap: true,
-        createEdge () {
+        createEdge() {
           return new Shape.Edge({
             attrs: {
               line: {
@@ -46,12 +47,12 @@ export default class ShowGraph {
             zIndex: 0
           })
         },
-        validateConnection ({
-          sourceView,
-          targetView,
-          sourceMagnet,
-          targetMagnet
-        }) {
+        validateConnection({
+                             sourceView,
+                             targetView,
+                             sourceMagnet,
+                             targetMagnet
+                           }) {
           if (sourceView === targetView) {//设置自循环 节点可以自己连接自己
             return true
           }
@@ -66,7 +67,7 @@ export default class ShowGraph {
       },
       embedding: {
         enabled: true,
-        findParent ({ node }) {
+        findParent({node}) {
           const bbox = node.getBBox()
           return this.getNodes().filter((node) => {
             // 只有 data.parent 为 true 的节点才是父节点
@@ -84,7 +85,8 @@ export default class ShowGraph {
     this.initGraphShape(data)
     return this.graph
   }
-  static initGraphShape (data) {//初始化流程图数据
+
+  static initGraphShape(data) {//初始化流程图数据
     this.graph.fromJSON(data)
   }
 }

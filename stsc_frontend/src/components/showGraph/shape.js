@@ -1,4 +1,4 @@
-import { Graph, Dom} from '@antv/x6'
+import {Dom, Graph} from '@antv/x6'
 
 export const FlowChartRect = Graph.registerNode('flow-chart-rect', {
   inherit: 'rect',
@@ -37,7 +37,7 @@ export const FlowChartRect = Graph.registerNode('flow-chart-rect', {
     text: {
       fontSize: 12,
       fill: 'rgba(0,0,0,0.85)',
-      text:''
+      text: ''
     }
   },
   markup: [

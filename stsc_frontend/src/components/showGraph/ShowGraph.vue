@@ -4,55 +4,56 @@
 
 <script>
 import ShowGraph from './index'
+
 export default {
-  props:['arrangeList'],
+  props: ['arrangeList'],
   name: 'Index',
-  data(){
-    return{
-      id:''
+  data() {
+    return {
+      id: ''
     }
   },
-  mounted () {
+  mounted() {
 
   },
-  watch:{
-    arrangeList(newValue,oldValue){
+  watch: {
+    arrangeList(newValue, oldValue) {
       this.showDrawer()
-      this.$nextTick(()=>{
+      this.$nextTick(() => {
         this.boundEvent()
       })
     }
   },
   methods: {
     boundEvent() {
-      const { graph } = ShowGraph
+      const {graph} = ShowGraph
       graph.centerContent()
       graph.zoom(0)
-      graph.on('cell:click', ({ cell }) => {
+      graph.on('cell:click', ({cell}) => {
         let nodes = graph.getNodes()
         nodes.forEach((node) => {
-        node.attr('body/stroke', '#5F95FF')
-      })
+          node.attr('body/stroke', '#5F95FF')
+        })
         this.id = cell.id
-        this.$emit('getNodeInfo',this.id)
-        cell.attr('body/stroke','orange')
+        this.$emit('getNodeInfo', this.id)
+        cell.attr('body/stroke', 'orange')
       })
     },
-    showDrawer () {
+    showDrawer() {
       this.$nextTick(() => {
         this.initGraph(this.arrangeList.cells)
       })
     },
-    getContainerSize () {
+    getContainerSize() {
       return {
-        width:  '780px',
+        width: '780px',
         height: '85%'
       }
     },
-    initGraph (data) {
+    initGraph(data) {
       const graph = ShowGraph.init(data)
       const resizeFn = () => {
-        const { width, height } = this.getContainerSize()
+        const {width, height} = this.getContainerSize()
         graph.resize(width, height)
       }
       resizeFn()

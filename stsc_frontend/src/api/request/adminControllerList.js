@@ -30,7 +30,7 @@ const adminControllerList = {
         return axios({
             url: `/ph/stcsp/admin/update/${data.id}`,
             method: "post",
-            data:{}
+            data: {}
         });
     },
 };
