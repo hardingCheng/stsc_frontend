@@ -19,11 +19,9 @@
 </template>
 
 <script>
-import CustomStepDiagram from "../../../../components/CustomStepDiagram";
 
 export default {
   name: "Index",
-  components: {CustomStepDiagram},
   data() {
     return {
       orderid: '',

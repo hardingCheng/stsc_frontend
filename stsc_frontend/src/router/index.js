@@ -20,11 +20,11 @@ const routes = [
             name: "首页",
             title: "科技服务协同平台"
         },
-        redirect: "index",
+        redirect: "/login",
         children: [
             {
-                path: "index",
-                name: "index",
+                path: "index1",
+                name: "index1",
                 component: () => import("../views/Index.vue"),
                 meta: {
                     name: "首页",
