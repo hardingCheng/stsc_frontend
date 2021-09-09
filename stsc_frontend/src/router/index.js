@@ -23,8 +23,8 @@ const routes = [
         redirect: "/login",
         children: [
             {
-                path: "index1",
-                name: "index1",
+                path: "index",
+                name: "index",
                 component: () => import("../views/Index.vue"),
                 meta: {
                     name: "首页",
