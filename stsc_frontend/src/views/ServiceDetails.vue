@@ -27,8 +27,10 @@
         </div>
         <!--        <div class="text-title-title">单位所在地：<span class="text-service-text">{{ info.address }}</span></div>-->
         <div class="text-title-title">价&#12288格&#12288&#12288&#12288：<span class="text-service-text">{{ price }}</span></div>
-        <div class="text-title-title">联&emsp;系&emsp;人&emsp;：<span class="text-service-text">{{ info.contact }}</span></div>
-        <div class="text-title-title">手&emsp;机&emsp;号&emsp;：<span class="text-service-text">{{ info.telephone }}</span></div>
+<!--        <div class="text-title-title">联&emsp;系&emsp;人&emsp;：<span class="text-service-text">{{ info.contact }}</span></div>-->
+        <div class="text-title-title">联&emsp;系&emsp;人&emsp;：<span class="text-service-text">暂时不能查看</span></div>
+<!--        <div class="text-title-title">手&emsp;机&emsp;号&emsp;：<span class="text-service-text">{{ info.telephone }}</span></div>-->
+        <div class="text-title-title">手&emsp;机&emsp;号&emsp;：<span class="text-service-text">暂时不能查看</span></div>
         <div class="text-title-title">创建时间：<span class="text-service-text">{{ info.createTime }}</span></div>
 
 
@@ -201,6 +203,7 @@ export default {
       this.info.createTime = moment(this.info.createTime).format(("YYYY-MM-DD"))
       await this.getSeeAndSee()
     },
+    //侧边栏看了又看
     async getSeeAndSee(){
       let results =await this.$axios.serveControllerList.getServesByCondition({
         page: this.pageNum,
@@ -210,7 +213,6 @@ export default {
         status: 1
       })
       this.seeAndSeeList=results.data.serveList.records
-      //还没写完
       let topNum =results.data.serveList.total/4
     },
     // 立即下单产生订单
