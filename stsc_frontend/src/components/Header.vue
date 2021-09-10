@@ -42,7 +42,7 @@
           <div class="header-login-nav-right fr" v-else>
             <el-row :gutter="20">
               <el-col :span="12">
-                <router-link to="/login">暂停注册</router-link>
+                <router-link to="/signup">注册</router-link>
               </el-col>
               <el-col :span="12">
                 <router-link to="/login">登录</router-link>

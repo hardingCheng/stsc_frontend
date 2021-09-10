@@ -1,71 +1,82 @@
 <template>
   <div class="real-auth">
    <h3>资质证明</h3>
-    <div class="qualification-certificate-not-certified" v-if="isQualification === 0">
-      <p>填写相关资质信息！</p>
-      <div class="qualification-certificate-form">
-        <el-form   :rules="rules"  label-width="200px" :model="form" ref="certificateForm">
-          <el-form-item label="	企业名称:" prop="companyName">
-            <el-input v-model="form.companyName"></el-input>
-          </el-form-item>
-          <el-form-item label="企业地址:" prop="address">
-            <el-input v-model="form.address"></el-input>
-          </el-form-item>
-          <el-form-item label="营业范围:" prop="businessScope">
-            <el-input v-model="form.businessScope"></el-input>
-          </el-form-item>
-        </el-form>
+      <div class="certificate-info">
+        <h3> {{certificateIinfo}}</h3>
       </div>
-      <div class="qualification-certificate-upload">
-        <h3>上传相关资质图片！仅供审核！</h3>
-        <el-upload
-            action="/ph/stcsp/fileoss/upload"
-            ref="upload"
-            list-type="picture-card"
-            :on-preview="handlePictureCardPreview"
-            :on-remove="handleRemove"
-            :auto-upload="false"
-            :on-change="handleChange"
-            :on-success="handleSuccess"
-            :file-list="fileList"
-            multiple
-            :limit="1"
-            :on-exceed="handleExceed1"
+      <div class="qualification-certificate-not-certified" v-if="isQualification === 0 && qualificationStatus !== 0 ">
+        <p>填写相关资质信息！</p>
+        <div class="qualification-certificate-form">
+          <el-form   :rules="rules"  label-width="200px" :model="form" ref="certificateForm">
+            <el-form-item label="	企业名称:" prop="companyName">
+              <el-input v-model="form.companyName"></el-input>
+            </el-form-item>
+            <el-form-item label="企业地址:" prop="address">
+              <el-input v-model="form.address"></el-input>
+            </el-form-item>
+            <el-form-item label="营业范围:" prop="businessScope">
+              <el-input v-model="form.businessScope"></el-input>
+            </el-form-item>
+          </el-form>
+        </div>
+        <div class="qualification-certificate-upload" v-if="qualificationStatus === -1">
+          <h3>上传相关资质图片！仅供审核！</h3>
+          <el-upload
+              action="/ph/stcsp/fileoss/upload"
+              ref="upload"
+              list-type="picture-card"
+              :on-preview="handlePictureCardPreview"
+              :on-remove="handleRemove"
+              :auto-upload="false"
+              :on-change="handleChange"
+              :on-success="handleSuccess"
+              :file-list="fileList"
+              multiple
+              :limit="1"
+              :on-exceed="handleExceed1"
           >
-          <i class="el-icon-plus"></i>
-          <div slot="tip" class="el-upload__tip">只能上传jpg/jpeg/png文件，且不超过3M。</div>
-        </el-upload>
-        <el-dialog :visible.sync="dialogVisible">
-          <img width="100%" :src="dialogImageUrl" alt="">
-        </el-dialog>
-        <div class="certificate-info">
-          <h3> {{certificateIinfo}}</h3>
+            <i class="el-icon-plus"></i>
+            <div slot="tip" class="el-upload__tip">只能上传jpg/jpeg/png文件，且不超过3M。</div>
+          </el-upload>
+          <el-dialog :visible.sync="dialogVisible">
+            <img width="100%" :src="dialogImageUrl" alt="">
+          </el-dialog>
+        </div>
+        <div class="qualification-certificate-img" v-if="qualificationStatus === 2">
+          <h3>相关资质图片！</h3>
+          <div class="qualification-certificate-item-img">
+            <a @click="handlePictureCardPreview(qualificationInfo.qualificationUrl)">
+              <img :src="qualificationInfo.qualificationUrl" alt="" >
+            </a>
+          </div>
+          <el-dialog :visible.sync="dialogVisible">
+            <img width="100%" :src="dialogImageUrl || qualificationInfo.qualificationUrl" alt="">
+          </el-dialog>
         </div>
         <div class="authentication-operation">
           <el-button @click="submitCertificate('certificateForm')" type="primary">提交</el-button>
         </div>
       </div>
-    </div>
-    <div class="qualification-certificate-yes-certified" v-else>
-      <div class="qualification-certificate-info">
-        <ul>
-          <li>企业名称: <span>{{qualificationInfo.companyName}}</span></li>
-          <li>企业地址: <span>{{qualificationInfo.address}}</span></li>
-          <li>营业范围: <span>{{qualificationInfo.businessScope}}</span></li>
-        </ul>
-      </div>
-      <div class="qualification-certificate-img">
-        <h3>相关资质图片！</h3>
-        <div class="qualification-certificate-item-img">
-          <a @click="handlePictureCardPreview(qualificationInfo.qualificationUrl)">
-            <img :src="qualificationInfo.qualificationUrl" alt="" >
-          </a>
+      <div class="qualification-certificate-yes-certified" v-if="isQualification === 1 && qualificationStatus === 1">
+        <div class="qualification-certificate-info">
+          <ul>
+            <li>企业名称: <span>{{qualificationInfo.companyName}}</span></li>
+            <li>企业地址: <span>{{qualificationInfo.address}}</span></li>
+            <li>营业范围: <span>{{qualificationInfo.businessScope}}</span></li>
+          </ul>
         </div>
-        <el-dialog :visible.sync="dialogVisible">
-          <img width="100%" :src="dialogImageUrl || qualificationInfo.qualificationUrl" alt="">
-        </el-dialog>
+        <div class="qualification-certificate-img">
+          <h3>相关资质图片！</h3>
+          <div class="qualification-certificate-item-img">
+            <a @click="handlePictureCardPreview(qualificationInfo.qualificationUrl)">
+              <img :src="qualificationInfo.qualificationUrl" alt="" >
+            </a>
+          </div>
+          <el-dialog :visible.sync="dialogVisible">
+            <img width="100%" :src="dialogImageUrl || qualificationInfo.qualificationUrl" alt="">
+          </el-dialog>
+        </div>
       </div>
-    </div>
   </div>
 </template>
 
@@ -95,7 +106,8 @@ export default {
         businessScope: [
           { required: true, message: '请输入营业范围', trigger: 'blur'  }
         ],
-      }
+      },
+      qualificationStatus:-1
     }
   },
   watch:{
@@ -174,7 +186,7 @@ export default {
     async submitCertificate(formName) {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          if (this.fileList.length === 0){
+          if (this.qualificationStatus!==2 && this.fileList.length === 0){
             this.$message({
               type:'error',
               message:'请您上传资质认证相关证明图片！'
@@ -186,7 +198,12 @@ export default {
               spinner: 'el-icon-loading',
               background: 'rgba(0, 0, 0, 0.7)'
             });
-            await this.$refs.upload.submit()
+            if (this.qualificationStatus!==2){
+              await this.$refs.upload.submit()
+            }else {
+              console.log(222)
+              await this.submit()
+            }
           }
         } else {
           if (this.fileList.length === 0){
@@ -203,13 +220,12 @@ export default {
     async submit(){
       if (this.cerUrlNum === this.fileList.length){
         let result = await this.$axios.companyRealInfoController.enterpriseCertification({
-          cerUrl:this.cerUrl,
+          cerUrl:this.cerUrl ? this.cerUrl :this.form.qualificationUrl,
          ...this.form
         })
         if(result.code === 20000){
           this.loading.close();
           let result1 = await this.$axios.userControllerList.getAuthInfo()
-          this.certificateIinfo = "资质认证成功"
           this.cerUrl =result1.qualificationUrl
           await this.getAuthInfo()
         }
@@ -218,20 +234,40 @@ export default {
     async getAuthInfo(){
       let result = await this.$axios.userControllerList.getAuthInfo()
       if (result.code === 20000 && result.data){
-        this.$store.commit('modQualification',{
-          qualificationInfo:{
-            address:result.data.address,
-            businessScope:result.data.businessScope,
-            companyName:result.data.companyName,
-            qualificationUrl:result.data.qualificationUrl,
-          },
-          isQualification:1
-        })
+        if (result.data?.qualificationStatus === 0){
+          this.qualificationStatus = 0
+          this.certificateIinfo = "资质认证审核中...."
+        }else if(result.data?.authInfo.qualificationStatus === 1){
+          this.qualificationStatus = 1
+          this.certificateIinfo = "资质认证认证成功"
+          this.$store.commit('modQualification',{
+            qualificationInfo:{
+              address:result.data.authInfo.address,
+              businessScope:result.data.authInfo.businessScope,
+              companyName:result.data.authInfo.companyName,
+              qualificationUrl:result.data.authInfo.qualificationUrl,
+            },
+            isQualification:1
+          })
+        }else if(result.data?.authInfo.qualificationStatus === 2){
+          this.qualificationStatus = 2
+          this.form = {...result.data.authInfo}
+          this.$store.commit('modQualification',{
+            qualificationInfo:{
+              address:result.data.authInfo.address,
+              businessScope:result.data.authInfo.businessScope,
+              companyName:result.data.authInfo.companyName,
+              qualificationUrl:result.data.authInfo.qualificationUrl,
+            },
+            isQualification:0
+          })
+          this.certificateIinfo = "资质认证失败请修改！"
+        }
       }
     },
   },
   async mounted(){
-
+    await this.getAuthInfo()
   },
   computed:{
     isQualification(){
@@ -274,23 +310,23 @@ export default {
         }
       }
     }
-    .qualification-certificate-item-img {
-      display: flex;
-      justify-content: flex-start;
-      flex-width: wrap;
-      img {
-        background-color: #fbfdff;
-        border: 1px dashed #c0ccda;
-        border-radius: 6px;
-        box-sizing: border-box;
-        width: 148px;
-        height: 148px;
-        cursor: pointer;
-        line-height: 146px;
-        vertical-align: top;
-        margin-right: 10px;
-      }
-    }
+  }
+}
+.qualification-certificate-item-img {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  img {
+    background-color: #fbfdff;
+    border: 1px dashed #c0ccda;
+    border-radius: 6px;
+    box-sizing: border-box;
+    width: 148px;
+    height: 148px;
+    cursor: pointer;
+    line-height: 146px;
+    vertical-align: top;
+    margin-right: 10px;
   }
 }
 

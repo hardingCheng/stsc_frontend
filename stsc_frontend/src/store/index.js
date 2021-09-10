@@ -36,13 +36,13 @@ export default new Vuex.Store({
     },
     modRealNameCertification: (state,payload) => {
       state.realNameCertificationInfo = payload.realNameCertificationInfo
-      if(payload.isRealNameCertification){
+      if(payload.isRealNameCertification !== null || payload.isRealNameCertification !== undefined ){
         state.userInfo.isRealNameCertification = payload.isRealNameCertification
       }
     },
     modQualification: (state,payload) => {
       state.qualificationInfo = payload.qualificationInfo
-      if(payload.isQualification){
+      if(payload.isQualification !== null || payload.isQualification !== undefined ){
         state.userInfo.isQualification = payload.isQualification
       }
     },
