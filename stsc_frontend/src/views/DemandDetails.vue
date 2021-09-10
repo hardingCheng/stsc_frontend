@@ -10,12 +10,15 @@
           <div class="text-title-title">需求机构：<span class="text-service-text">{{isLogin ? info.company:"***" }}</span></div>
         </div>
         <div class="text-title-title">创建时间：<span class="text-service-text">{{ info.createTime }}</span></div>
-        <div class="text-title-title">联系人：<span class="text-service-text">{{ info.contact }}</span></div>
-        <div class="text-title-title">手机号：<span class="text-service-text">{{ info.telephone }}</span></div>
+<!--        <div class="text-title-title">联系人：<span class="text-service-text">{{ info.contact }}</span></div>-->
+        <div class="text-title-title">联系人：<span class="text-service-text">暂时不能查看</span></div>
+<!--        <div class="text-title-title">手机号：<span class="text-service-text">{{ info.telephone }}</span></div>-->
+        <div class="text-title-title">手机号：<span class="text-service-text">暂时不能查看</span></div>
         <div class="address">
           <div class="text-title-title ">联系地址：<span class="text-service-text ">{{ info.address }}</span></div>
         </div>
-        <div class="text-title-title ">电子邮箱：<span class="text-service-text">{{ info.email==null?"无": info.email }}</span></div>
+<!--        <div class="text-title-title ">电子邮箱：<span class="text-service-text">{{ info.email==null?"无": info.email }}</span></div>-->
+        <div class="text-title-title ">电子邮箱：<span class="text-service-text">暂时不能查看</span></div>
         <div class="text-title-title ">附件：
           <a class="text-service-text1" :href=info.attachments >{{ filename}}</a>
         </div>
