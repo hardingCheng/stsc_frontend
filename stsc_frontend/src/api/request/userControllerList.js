@@ -93,10 +93,17 @@ const userControllerList = {
             data,
         });
     },
-    // 是否认证
+    // 是否资质认证
     getAuthInfo(data){
         return axios({
             url: `/ph/stcsp/user/getAuthInfo`,
+            method: "get",
+        });
+    },
+    // 是否实名认证
+    getRealInfo(data){
+        return axios({
+            url: `/ph/stcsp/user/getRealInfo`,
             method: "get",
         });
     },

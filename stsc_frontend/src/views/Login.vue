@@ -177,11 +177,12 @@ export default {
       });
       // 设置实名认证信息
       let resultAuthInfo = await this.$axios.userControllerList.getAuthInfo()
-      if (user.idCard) {
-        let { realname,idCard } = user
+      let resultRealAuthInfo = await this.$axios.userControllerList.getRealInfo()
+      if (resultRealAuthInfo.data.realInfoVo.isRealNameCertification === 1) {
+        let { realName,idCard } = resultRealAuthInfo.data.realInfoVo
         this.$store.commit('modRealNameCertification', {
           realNameCertificationInfo: {
-            realname,
+            realName,
             idCard
           },
           isRealNameCertification:1
@@ -189,15 +190,15 @@ export default {
       }else {
         this.$store.commit('modRealNameCertification', {
           realNameCertificationInfo: {
-            realname:'',
+            realName:'',
             idCard:''
           },
           isRealNameCertification:0
         })
       }
       // 设置资质认证信息
-      if (resultAuthInfo.code === 20000 && resultAuthInfo.data.qualificationStatus === 1) {
-        let {address,businessScope,companyName,qualificationUrl} = resultAuthInfo.data
+      if (resultAuthInfo.code === 20000 && resultAuthInfo.data.authInfo.qualificationStatus === 1) {
+        let {address,businessScope,companyName,qualificationUrl} = resultAuthInfo.data.authInfo
         this.$store.commit('modQualification', {
           qualificationInfo: {
             address,

@@ -17,7 +17,7 @@
     <div class="real-auth-success" v-else>
       实名认证成功! 仅可实名认证一次！
       <ul>
-        <li>认证姓名：<span>{{realNameCertificationInfo.realname}}</span></li>
+        <li>认证姓名：<span>{{realNameCertificationInfo.realName}}</span></li>
         <li>身份证号：<span>{{realNameCertificationInfo.idCard}}</span></li>
       </ul>
     </div>
@@ -71,9 +71,17 @@ export default {
               isRealNameCertification:1
             })
           }else {
+            this.loading.close()
             this.$message({
               type:'error',
               message:'实名认证失败，请检查信息是否正确！'
+            })
+            this.$store.commit('modRealNameCertification',{
+              realNameCertificationInfo:{
+                realname:'',
+                idCard:''
+              },
+              isRealNameCertification:0
             })
           }
         } else {
@@ -84,15 +92,24 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-    // async getAuthInfo(){
-    //   let result = await this.$axios.userControllerList.getAuthInfo()
-    //   if (result.code === 20000 && result.data?.idCard){
-    //     this.realInfo = result.data
-    //   }
-    // }
+    async getAuthInfo(){
+      let resultRealAuthInfo = await this.$axios.userControllerList.getRealInfo()
+      if (resultRealAuthInfo.data.realInfoVo.isRealNameCertification === 1) {
+        let { realName,idCard } = resultRealAuthInfo.data.realInfoVo
+        this.$store.commit('modRealNameCertification', {
+          realNameCertificationInfo: {
+            realName,
+            idCard
+          },
+          isRealNameCertification:1
+        })
+      }
+    }
   },
   async mounted() {
-    // await this.getAuthInfo()
+    if(this.isRealNameCertification === 0){
+      await this.getAuthInfo()
+    }
   },
   async created(){
 

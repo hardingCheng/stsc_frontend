@@ -267,7 +267,9 @@ export default {
     },
   },
   async mounted(){
-    await this.getAuthInfo()
+    if(this.isQualification === 1){
+      await this.getAuthInfo()
+    }
   },
   computed:{
     isQualification(){
