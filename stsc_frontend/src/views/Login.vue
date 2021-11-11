@@ -49,6 +49,15 @@
             <img  src="../assets/images/114.png" alt=""  style="background-color: #89b000" @click="third1(source2)">
             <span>114产学研</span>
           </div>
+          <div class="third-party-item">
+            <img  src="../assets/images/hachang.png" alt=""  style="background-color: #89b000" @click="third1(source3)">
+            <span>哈长城市群</span>
+          </div>
+          <div class="third-party-item">
+            <img  src="../assets/images/jingjinji.png" alt=""  style="background-color: #89b000" @click="third1(source4)">
+            <span>京津冀</span>
+          </div>
+
 <!--          <div class="third-party-item">-->
 <!--            <img src="http://www.114cxy.com/app/images/PC/logo.png" alt="">-->
 <!--            <span>114产学研</span>-->
@@ -97,6 +106,8 @@ export default {
       jumpRouting: '',
       source1:"陕西中小企业科技服务平台",
       source2:"上海114产学研",
+      source3:"哈长城市群科技云平台",
+      source4:"京津冀综合科技服务平台",
       verificationCodeImage:""
     }
   },
