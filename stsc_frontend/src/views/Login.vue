@@ -34,7 +34,7 @@
           </el-form-item>
         </el-form>
         <div class="login-other-action">
-<!--          <span><router-link to="/signup">注册</router-link></span>-->
+          <span><router-link to="/signup">注册</router-link></span>
           <span><router-link to="/index">忘记密码？</router-link></span>
         </div>
       </div>
