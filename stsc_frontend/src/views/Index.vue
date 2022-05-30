@@ -748,7 +748,7 @@ export default {
               @include font-config(18px, 'PingFangSC-Medium, PingFang SC', 400, #333333)
             }
 
-            /deep/ .scrolling-numbers {
+            ::v-deep .scrolling-numbers {
               margin-top: 4px;
 
               span {
@@ -1030,7 +1030,7 @@ export default {
     //          font-weight: 400;
     //          color: #999999;
     //
-    //          /deep/ .el-rate {
+    //          ::v-deep .el-rate {
     //            display: inline-block;
     //          }
     //        }

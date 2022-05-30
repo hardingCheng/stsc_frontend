@@ -73,7 +73,7 @@ export default {
 
 <style lang="scss" scoped>
 .seller-index {
-  /deep/ .el-menu-item {
+  ::v-deep .el-menu-item {
     padding :0 !important;
     text-align: center;
   }

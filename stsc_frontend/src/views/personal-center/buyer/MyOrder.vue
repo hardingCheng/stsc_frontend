@@ -292,7 +292,7 @@ export default {
             -webkit-line-clamp: 2; /** 显示的行数 **/
             overflow: hidden;  /** 隐藏超出的内容 **/
           }
-          /deep/ .el-tag {
+          ::v-deep .el-tag {
             margin-right: 15px;
           }
         }

@@ -714,7 +714,7 @@ export default {
   }
 }
 
-/deep/ .el-steps {
+::v-deep .el-steps {
   height: 80px;
 }
 </style>

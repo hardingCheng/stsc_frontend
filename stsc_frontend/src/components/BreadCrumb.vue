@@ -40,7 +40,7 @@ export default {
 
 <style lang="scss" scoped>
 .breadcrumb {
-  /deep/ .el-breadcrumb {
+  ::v-deep .el-breadcrumb {
     height:57px;
     line-height:57px;
   }

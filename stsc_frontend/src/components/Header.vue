@@ -283,7 +283,7 @@ export default {
           .header-login-nav-avatar {
             padding-top: 5px;
 
-            /deep/ .el-dropdown {
+            ::v-deep .el-dropdown {
               height: 28px;
             }
 
@@ -379,7 +379,7 @@ export default {
   }
 }
 
-/deep/ .el-badge__content.is-fixed {
+::v-deep .el-badge__content.is-fixed {
   position: absolute;
   top: 8px;
   right: 15px;

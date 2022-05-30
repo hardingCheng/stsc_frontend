@@ -161,6 +161,14 @@ const requirementControllerList = {
         });
     },
 
+    //北大第三方需求引导
+    demandGuide: (data) => {
+        return axios({
+            url: `/ph/stcsp/requirement/getServicePlan`,
+            method: "get",
+            data
+        })
+    }
 }
 export default requirementControllerList
 

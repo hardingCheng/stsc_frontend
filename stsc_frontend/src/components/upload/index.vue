@@ -149,7 +149,7 @@ export default {
 </script>
 
 <style scoped>
-  /deep/ .el-upload-list--picture-card .el-upload-list__item-thumbnail {
+  ::v-deep .el-upload-list--picture-card .el-upload-list__item-thumbnail {
     width: 100%;
     height: 100%;
   }

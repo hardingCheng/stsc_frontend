@@ -469,7 +469,7 @@ export default {
       color: #909399;
     }
 
-    /deep/ .el-button {
+    ::v-deep .el-button {
       margin: 0 0 0 20px;
     }
     .map {
@@ -544,11 +544,11 @@ export default {
           flex-wrap: wrap;
           align-items: center;
           justify-items: center;
-          /deep/ .el-radio-group {
+          ::v-deep .el-radio-group {
             margin-right: 20px;
             height: 24px;
           }
-          /deep/ .el-radio {
+          ::v-deep .el-radio {
             margin-bottom: 5px !important;
           }
           img {
@@ -735,33 +735,33 @@ export default {
   }
 }
 
-/deep/ .el-tabs__item {
+::v-deep .el-tabs__item {
   @include wh(130px, 52px);
   text-align: center;
   font-size: 16px;
   line-height: 52px;
 }
 
-/deep/ .el-button {
+::v-deep .el-button {
 
 
 }
 
-/deep/ .el-rate__icon {
+::v-deep .el-rate__icon {
   font-size: 16px;
 }
 
-/deep/ .el-rate {
+::v-deep .el-rate {
   @include wh(500px, 20px);
   float: right;
   line-height: 20px;
 }
 
-/deep/ .el-rate__item {
+::v-deep .el-rate__item {
   height: 16px;
 }
 
-/deep/ .el-tab-pane {
+::v-deep .el-tab-pane {
   margin: 10px;
 }
 
@@ -791,10 +791,10 @@ export default {
   }
 }
 
-/deep/ .el-tabs__header {
+::v-deep .el-tabs__header {
   margin: 0;
 }
-/deep/ .el-radio{
+::v-deep .el-radio{
   margin-right: 10px;
 }
 </style>

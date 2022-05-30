@@ -526,13 +526,13 @@ export default {
     margin-bottom: 10px;
   }
 }
-///deep/ .el-input__inner {
+//::v-deep .el-input__inner {
 //  width: 350px;
 //}
-/deep/ .el-cascader {
+::v-deep .el-cascader {
   margin: 20px 0;
 }
-/deep/ .el-steps {
+::v-deep .el-steps {
   width: 100%;
 }
 </style>

@@ -1,4 +1,4 @@
-s<template>
+<template>
   <div class="basic-information">
     <div class="basic-information-main">
       <div class="basic-information-main-top">
@@ -419,14 +419,14 @@ export default {
       }
     }
     .basic-information-dialog {
-      /deep/ .avatar-uploader .el-upload {
+      ::v-deep .avatar-uploader .el-upload {
         border: 1px dashed #d9d9d9;
         border-radius: 100%;
         cursor: pointer;
         position: relative;
         overflow: hidden;
       }
-      /deep/ .avatar-uploader .el-upload:hover {
+      ::v-deep .avatar-uploader .el-upload:hover {
         border-color: #409EFF;
       }
       .avatar-uploader-icon {

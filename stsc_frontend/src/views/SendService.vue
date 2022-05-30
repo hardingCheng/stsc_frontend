@@ -624,17 +624,17 @@ export default {
         .line {
           margin-left:10px;
         }
-        /deep/ .el-textarea .el-textarea__inner {
+        ::v-deep .el-textarea .el-textarea__inner {
           height:127px;
         }
-        /deep/ .el-cascader {
+        ::v-deep .el-cascader {
           width:200px;
         }
       }
     }
   }
 }
-///deep/ .el-tag {
+//::v-deep .el-tag {
 //  margin-bottom: 0;
 //}
 .el-tag + .el-tag {

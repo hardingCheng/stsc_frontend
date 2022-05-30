@@ -78,7 +78,7 @@ const routes = [
             {
                 path: "sc",
                 name: "sc",
-                component: () => import("../views/ScienceConsulting.vue"),
+                component: () => import("../views/chat/Index"),
                 meta: {
                     requiresAuth: true,
                     name: "科技咨询沟通",
@@ -96,6 +96,73 @@ const routes = [
                 },
                 redirect: "pc/basicinfo",
                 children: [{
+                    path: "virtuallaboratory",
+                    name: "virtuallaboratory",
+                    component: () => import("../views/personal-center/virtual-laboratory/Index"),
+                    meta: {
+                        requiresAuth: true,
+                        name: "虚拟实验室",
+                        title: "科技服务协同平台|虚拟实验室"
+                    },
+                    redirect: "virtuallaboratory/createlab",
+                    children: [{
+                        path: "createlab",
+                        name: "vlcreatelab",
+                        component: () => import("../views/personal-center/virtual-laboratory/CreateLab"),
+                        meta: {
+                            requiresAuth: true,
+                            name: "创建虚拟实验室",
+                            title: "科技服务协同平台|虚拟实验室创建虚拟实验室"
+                        },
+                    }, {
+                        path: "mycreatelabs",
+                        name: "vlmycreatelabs",
+                        component: () => import("../views/personal-center/virtual-laboratory/MyCreateLabs"),
+                        meta: {
+                            requiresAuth: true,
+                            name: "我创建的虚拟实验室",
+                            title: "科技服务协同平台|虚拟实验室我创建虚拟实验室"
+                        },
+                    }, {
+                        path: "myjoinlabs",
+                        name: "vlmyjoinlabs",
+                        component: () => import("../views/personal-center/virtual-laboratory/MyJoinLabs"),
+                        meta: {
+                            requiresAuth: true,
+                            name: "我加入的虚拟实验室",
+                            title: "科技服务协同平台|虚拟实验室我加入虚拟实验室"
+                        },
+                    }, {
+                        path: "mymessages",
+                        name: "vlmymessages",
+                        component: () => import("../views/personal-center/virtual-laboratory/MyMessages"),
+                        meta: {
+                            requiresAuth: true,
+                            name: "我的消息",
+                            title: "科技服务协同平台|虚拟实验室我的消息"
+                        },
+                    },
+                        {
+                            path: "mycreatelabs/:virtualLabName",
+                            name: "mycreatelabs",
+                            component: () => import("../views/personal-center/virtual-laboratory/LabDetail"),
+                            meta: {
+                                requiresAuth: true,
+                                name: "实验室详情"
+                            },
+                            props: true,
+                        },
+                        {
+                            path: "myjoinlabs/:virtualLabName",
+                            name: "myjoinlabs",
+                            component: () => import("../views/personal-center/virtual-laboratory/LabDetail"),
+                            meta: {
+                                requiresAuth: true,
+                                name: "实验室详情"
+                            },
+                            props: true,
+                        }],
+                },{
                     path: "basicinfo",
                     name: "basicinfo",
                     component: () => import("../views/personal-center/basic-information/Index"),

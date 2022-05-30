@@ -66,6 +66,7 @@
 <!--          </el-form-item>-->
           <el-form-item label="需求概述：" prop="content">
             <el-input type="textarea" v-model="form.content" placeholder="叙述项目背景、需求内容、需要达到的效果、技术指标"></el-input>
+            <el-button type="primary" style="float: right; margin-top: 10px;" @click="demandGuide(form.content)">需求引导</el-button>
           </el-form-item>
 
           <el-form-item label="需求时间：" prop="deadline">
@@ -458,6 +459,13 @@ export default {
           url:image
         })
       }
+    },
+    //需求引导
+    demandGuide(text) {
+      //window.location.assign('http://www.baidu.com');
+      //window.location.href = "http://www.baidu.com"
+      let mywindow = window.open("http://www.baidu.com",'new','height=100')
+      //mywindow.close()
     }
   },
   async mounted(){
@@ -513,10 +521,10 @@ export default {
         .line {
           margin-left:10px;
         }
-        /deep/ .el-date-editor--daterange.el-input__inner{
+        ::v-deep .el-date-editor--daterange.el-input__inner{
           width:480px;
         }
-        /deep/ .el-textarea .el-textarea__inner {
+        ::v-deep .el-textarea .el-textarea__inner {
           height:127px;
         }
       }
