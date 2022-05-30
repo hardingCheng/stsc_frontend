@@ -49,7 +49,7 @@
         <div class="service-snapshot-main">
           <div class="service-snapshot-item" v-if="orderInfo">
             <span>{{ orderInfo.name }}:</span>
-            <img v-if="orderInfo.serviceSnapshot" :src="orderInfo.serviceSnapshot[0].serviceSnapshot"
+            <img v-if="orderInfo.snapshot" :src="orderInfo.snapshot"
                  alt="">
           </div>
         </div>
