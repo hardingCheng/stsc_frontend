@@ -141,13 +141,13 @@
         <div class="info-list" ref="plist">
           <div class="container">
             <div class="info-list-main" v-if="pindex === 1" >
-              <info-list-item  v-for="(info,index) in commonSelectList" :href="info.hasOwnProperty('flag')?'/ddetail/'+info.id+'/'+info.flag : '/sdetail/'+info.id" :info="info" ></info-list-item>
+              <info-list-item  v-for="(info,index) in commonSelectList" :key="index" :href="info.hasOwnProperty('flag')?'/ddetail/'+info.id+'/'+info.flag : '/sdetail/'+info.id" :info="info" ></info-list-item>
             </div>
             <div class="info-list-main" v-if="pindex === 2">
-              <info-list-item :info="info" :href="'/ddetail/'+info.id+'/'+info.flag" v-for="(info,index) in demandSelectList"></info-list-item>
+              <info-list-item :info="info" :href="'/ddetail/'+info.id+'/'+info.flag" v-for="(info,index) in demandSelectList" :key="index"></info-list-item>
             </div>
             <div class="info-list-main" v-if="pindex === 3">
-              <info-list-item :info="info"  :href="'/sdetail/'+info.id" v-for="(info,index) in serviceSelectList"></info-list-item>
+              <info-list-item :info="info"  :href="'/sdetail/'+info.id" v-for="(info,index) in serviceSelectList" :key="index"></info-list-item>
             </div>
           </div>
         </div>

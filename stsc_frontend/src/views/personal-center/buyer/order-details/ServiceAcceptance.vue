@@ -3,8 +3,8 @@
     <h3>服务验收</h3>
     <div class="service-acceptance-info">
       <ul>
-        <li>监理人：<span>杜先生</span></li>
-        <li>项目起止时间：<span>2021年03月18日 — 2021年04月08日</span></li>
+        <li>监理人：<span>{{name ? name : '杜先生'}}</span></li>
+        <li>项目起止时间：<span>{{order.createTime}} — {{order.updateTime}}</span></li>
         <li>监理人意见：<span>验收合格</span></li>
       </ul>
     </div>
@@ -29,7 +29,9 @@ export default {
   data(){
     return {
       acceptanceUploadFleList:[],
-      acceptIf:true
+      acceptIf:true,
+      order: '',//存放订单信息
+      name: '',//监理人
     }
   },
   methods:{
@@ -71,6 +73,8 @@ export default {
         if (result.data.orderInfo.status >= 4) {
           this.acceptIf = false
         }
+        this.order = result.data.orderInfo
+        this.name = result.data.orderInfo.buyerName
       }else {
         let result = await this.$axios.orderControllerList.getSplitDetailInfo({
           id:this.orderid
@@ -78,6 +82,8 @@ export default {
         if (result.data.subOrderInfo.status >= 4) {
           this.acceptIf = false
         }
+        this.order = result.data.subOrderInfo.subOrderInfoVoList[0]
+        this.name = result.data.subOrderInfo.buyerName
       }
 
     },

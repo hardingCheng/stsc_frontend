@@ -29,6 +29,7 @@ export default {
   async mounted() {
     this.orderid = this.$route.params.orderid
     this.type = this.$route.params.type
+    console.log(this.$route)
     await this.getOrderInfo()
   },
   watch: {

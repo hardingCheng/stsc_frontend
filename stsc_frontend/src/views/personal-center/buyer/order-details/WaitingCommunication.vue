@@ -79,7 +79,7 @@
                   :on-remove="handleSplitRemove"
                   :file-list="fileSplitList"
                   :on-change="changeSplitUpload"
-                  :on-success="(response, file)=>{return handleSplitSuccess(response, file,item.subOrderId,index)}"
+                  :on-success="(response, file)=>{return handleSplitSuccess(response, file,item.id,index)}"
                   :auto-upload="false"
                   :before-upload="handleSplitBeforeUpload"
                   ref="uploadSplit"

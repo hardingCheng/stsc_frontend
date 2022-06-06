@@ -72,7 +72,7 @@ const orderControllerList = {
     //提交评论
     submitComment(params){
         return axios({
-            url: `/bh/stcsp/evaluation/releaseEvaluation`,
+            url: `/ph/stcsp/evaluation/releaseEvaluation`,
             method: "post",
             data:params
         });

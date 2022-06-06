@@ -66,7 +66,7 @@
 <!--          </el-form-item>-->
           <el-form-item label="需求概述：" prop="content">
             <el-input type="textarea" v-model="form.content" placeholder="叙述项目背景、需求内容、需要达到的效果、技术指标"></el-input>
-            <el-button type="primary" style="float: right; margin-top: 10px;" @click="demandGuide(form.content)">需求引导</el-button>
+            <el-button type="primary" style="float: right; margin-top: 10px;" @click="demandGuide()">需求引导</el-button>
           </el-form-item>
 
           <el-form-item label="需求时间：" prop="deadline">
@@ -461,11 +461,8 @@ export default {
       }
     },
     //需求引导
-    demandGuide(text) {
-      //window.location.assign('http://www.baidu.com');
-      //window.location.href = "http://www.baidu.com"
-      let mywindow = window.open("http://www.baidu.com",'new','height=100')
-      //mywindow.close()
+    demandGuide() {
+      window.open("http://182.92.68.215:8000/tech_gather")
     }
   },
   async mounted(){
