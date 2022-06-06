@@ -171,14 +171,14 @@ export default {
         }
     }
   }
-  /deep/ .el-tabs__item {
+  ::v-deep .el-tabs__item {
     @include wh(130px, 52px);
     text-align: center;
     font-size: 16px;
     line-height: 52px;
   }
 
-  /deep/ .el-button {
+  ::v-deep .el-button {
     @include wh(140px, 50px);
     margin: 20px 0px 20px 0px;
     background-color: #1794FF;
@@ -188,24 +188,24 @@ export default {
 
   }
 
-  /deep/ .el-rate__icon {
+  ::v-deep .el-rate__icon {
     font-size: 16px;
   }
 
-  /deep/ .el-rate {
+  ::v-deep .el-rate {
     @include wh(500px, 20px);
     float: right;
     line-height: 20px;
   }
 
-  /deep/ .el-rate__item {
+  ::v-deep .el-rate__item {
     height: 16px;
   }
 
-  /deep/ .el-tab-pane {
+  ::v-deep .el-tab-pane {
    margin: 10px;
   }
-  /deep/ .el-tabs__header{
+  ::v-deep .el-tabs__header{
     margin: 0px;
   }
 }

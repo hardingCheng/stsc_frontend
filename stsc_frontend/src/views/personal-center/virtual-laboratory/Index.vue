@@ -1,5 +1,5 @@
 <template>
-  <div class="buyer-index">
+  <div class="seller-index">
     <el-row :gutter="20">
       <el-col :span="4">
         <el-menu
@@ -8,19 +8,19 @@
             @open="handleOpen"
             @close="handleClose"
             router>
-          <el-menu-item index="1" route="realauth">
+          <el-menu-item index="1" route="createlab">
             <i class="el-icon-location"></i>
-            <span>实名认证</span>
+            <span>创建虚拟实验室</span>
           </el-menu-item>
-          <el-menu-item index="2" route="mydemand">
+          <el-menu-item index="2" route="mycreatelabs">
             <i class="el-icon-menu"></i>
-            <span slot="title">我的需求</span>
+            <span slot="title">我创建的虚拟实验室</span>
           </el-menu-item>
-          <el-menu-item index="3" route="myorder">
+          <el-menu-item index="3" route="myjoinlabs">
             <i class="el-icon-document"></i>
-            <span slot="title">我的订单</span>
+            <span slot="title">我加入的虚拟实验室</span>
           </el-menu-item>
-          <el-menu-item index="4" route="mynews">
+          <el-menu-item index="4" route="mymessages">
             <i class="el-icon-setting"></i>
             <span slot="title">我的消息</span>
           </el-menu-item>
@@ -41,39 +41,18 @@ export default {
       activeIndex:'1'
     }
   },
-  watch: {
-    $route(to,from){
-      switch(to.path){
-        case '/pc/buyer/realauth':
-          this.activeIndex = '1'
-          break
-        case '/pc/buyer/mydemand':
-          this.activeIndex = '2'
-          break
-        case '/pc/buyer/myorder':
-          this.activeIndex = '3'
-          break
-        case '/pc/buyer/mynews':
-          this.activeIndex = '4'
-          break
-        default:
-          this.activeIndex = '1'
-          break
-      }
-    }
-  },
   mounted() {
     switch(this.$route.path){
-      case '/pc/buyer/realauth':
+      case '/pc/virtual-laboratory/createlab':
         this.activeIndex = '1'
         break
-      case '/pc/buyer/mydemand':
+      case '/pc/virtual-laboratory/mycreatelabs':
         this.activeIndex = '2'
         break
-      case '/pc/buyer/myorder':
+      case '/pc/virtual-laboratory/myjoinlabs':
         this.activeIndex = '3'
         break
-      case '/pc/buyer/mynews':
+      case '/pc/virtual-laboratory/mymessages':
         this.activeIndex = '4'
         break
       default:
@@ -92,12 +71,6 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.buyer-index {
-  ::v-deep .el-menu-item {
-    padding :0 !important;
-    text-align: center;
-  }
-}
-
+<style>
+.message-button{display:flex;flex-direction: row;justify-content: space-between}
 </style>

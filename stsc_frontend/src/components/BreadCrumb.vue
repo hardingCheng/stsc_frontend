@@ -2,7 +2,7 @@
   <div class="breadcrumb">
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item v-for="(item, index) in breadList" :key="item.path">
-        <router-link to="/" v-if="index === 0">{{
+        <router-link to="/index" v-if="index === 0">{{
             item.meta.name
           }}</router-link>
         <span v-else>{{ item.meta.name }}</span>
@@ -40,7 +40,7 @@ export default {
 
 <style lang="scss" scoped>
 .breadcrumb {
-  /deep/ .el-breadcrumb {
+  ::v-deep .el-breadcrumb {
     height:57px;
     line-height:57px;
   }

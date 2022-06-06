@@ -49,7 +49,7 @@
         <div class="service-snapshot-main">
           <div class="service-snapshot-item" v-if="orderInfo">
             <span>{{ orderInfo.name }}:</span>
-            <img v-if="orderInfo.serviceSnapshot" :src="orderInfo.serviceSnapshot[0].serviceSnapshot"
+            <img v-if="orderInfo.snapshot" :src="orderInfo.snapshot"
                  alt="">
           </div>
         </div>
@@ -526,13 +526,13 @@ export default {
     margin-bottom: 10px;
   }
 }
-///deep/ .el-input__inner {
+//::v-deep .el-input__inner {
 //  width: 350px;
 //}
-/deep/ .el-cascader {
+::v-deep .el-cascader {
   margin: 20px 0;
 }
-/deep/ .el-steps {
+::v-deep .el-steps {
   width: 100%;
 }
 </style>

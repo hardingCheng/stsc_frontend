@@ -117,7 +117,7 @@
           </ul>
           <h6>子订单数量：<span>{{ subOrderInfoVoListLength }}</span></h6>
           <ul class="suborder-info-list">
-            <li v-for="(item,index) in  type1OrderInfo.subOrderInfoVoList" :key="index">
+            <li v-for="(item,index) in  type1OrderInfo.subOrderInfoVoList2" :key="index">
               服务{{ index + 1 }}：<span>{{ item.subOrderName }}</span>服务商{{ index + 1 }}：<span>{{
                 item.sellerName
               }}</span>
@@ -421,6 +421,7 @@ export default {
     },
     async getNodeInfo(nodeId) {
       this.subOrderDetailsInfo.length = 0
+      console.log(nodeId)
       let result = await this.$axios.orderControllerList.getSubOrderDetailsInfo({
         nid: nodeId
       })
@@ -511,6 +512,7 @@ export default {
     // this.$once('hook:beforeDestroy', () => {
     //   clearInterval(timer);
     // })
+    console.log(this.type)
     if (this.orderid && this.type === '0') {
       let result = await this.$axios.orderControllerList.stepDoing({
         id: this.orderid
@@ -714,7 +716,7 @@ export default {
   }
 }
 
-/deep/ .el-steps {
+::v-deep .el-steps {
   height: 80px;
 }
 </style>

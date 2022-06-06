@@ -67,10 +67,9 @@
         </div>
       </div>
     </div>
-
     <div v-if="type === '1'">
       <div class="serve_company" v-if="status===4">
-        <img :src=orderBuyInfo.avatar class="img_style">
+        <img :src=orderBuyInfo.qualificationUrl class="img_style">
         <div class="company_detail">
           <ul>
             <li>
@@ -102,9 +101,9 @@
             <li>
               子订单名称:<span>{{ !orderChildrenInfo.name ? "暂无数据" : orderChildrenInfo.name }}</span>
             </li>
-<!--            <li>-->
-<!--              价格:<span>{{ price}}</span>-->
-<!--            </li>-->
+            <li>
+              价格:<span>{{ price}}</span>
+            </li>
             <li>
               开始时间:<span>{{ !orderChildrenInfo.createTime ? "暂无数据" : orderChildrenInfo.createTime }}</span>
             </li>
@@ -205,6 +204,7 @@ export default {
     //获取订单的买家信
     await this.getSellerInfo(this.order.sellerId, this.num)
     //如果订单状态为无代表已经评价，获取评论，以及订单信息
+    console.log(this.type + ',' + this.status)
     let i=0;
     if (this.type == 1&&this.status=== 4) {
         await this.getSubInfo(this.subOrderId[this.num], this.num)
@@ -258,17 +258,20 @@ export default {
     },
     //获取订单的买家信息
     async getSellerInfo(val, i) {
+      console.log(val)
       let result = await this.$axios.orderControllerList.getOrderBuyerInfo({
         id: val
       })
       this.orderBuyInfo = result.data.user
-
+      // console.log(this.orderBuyInfo)
     },
     //获取订单信息
     async getOrderInfo() {
+      console.log("getorderinfo")
       let result = await this.$axios.orderControllerList.getOrderInfo({
         orderId: this.orderid
       })
+
       if (this.type == 0) {
         this.sum = result.data.orderInfo.length
         this.order = result.data.orderInfo
@@ -280,7 +283,6 @@ export default {
             this.price=result.data.orderInfo.price+'万'
           }
         }
-
         this.serveId = result.data.orderInfo.serveId
         //存放小订单状态
         this.status = result.data.orderInfo.status
@@ -288,9 +290,10 @@ export default {
         let result1 = await this.$axios.orderControllerList.getSplitDetailInfo({
           id: this.orderid
         })
+        console.log(result1)
         this.sum = result1.data.subOrderInfo.subOrderInfoVoList.length//子订单的数目
+        // console.log(this.sum)
         this.order = result1.data.subOrderInfo.subOrderInfoVoList[this.num]//子订单信息，默认是第一个订单的数据
-
         // if(this.order.price!=="面议"&&this.order.price!=="保密"){
         //   if(this.order.price.includes(',')){
         //     this.price=this.order.price.replace(',','~')+'万'
@@ -304,7 +307,7 @@ export default {
         for (let i = 0; i < this.sum; i++) {
           let order = result1.data.subOrderInfo.subOrderInfoVoList[i]
           //订单id列表
-          this.subOrderId[i] = order.subOrderId
+          this.subOrderId[i] = order.id
         }
       }
     },
@@ -313,6 +316,7 @@ export default {
       let results = await this.$axios.orderControllerList.getSubOrderDetailById({
         subOrderId: val
       })
+      // console.log(results.data)
       this.subOrderInfo.push(results.data.orderInfo)//子订单的信息
       this.orderChildrenInfo = results.data.orderInfo//子订单的信息
       if(results.data.orderInfo.price!=="面议"&&results.data.orderInfo.price!=="保密"){
@@ -321,9 +325,10 @@ export default {
         }else {
           this.price=results.data.orderInfo.price+'万'
         }
+      } else {
+        this.price=results.data.orderInfo.price
       }
       this.serveId = results.data.orderInfo.serveId//服务id
-
     },
 
     //发布评论
@@ -343,24 +348,26 @@ export default {
           serveId: this.serveId,
           content: this.textarea2,
           star: this.value,
-          orderId: this.order.subOrderId,
+          orderId: this.order.id,
         })
-            //清空评论框里的数据
-            this.value = null,
-            this.textarea2 = ''
+        //清空评论框里的数据
+        this.value = null,
+        this.textarea2 = ''
       }
       if (this.type == 1) {
         this.$message.success("评论成功！");
         await this.getOrderInfo()
-      } else {
-      }
+      } else {}
+
+      console.log("num:"+this.num)
       //如果当前订单的索引小于订单的总数,调用方法
       if (this.num < this.sum - 1) {
         //每调用一次num+1
         this.num = this.num + 1
         await this.getOrderInfo()
+        console.log("sellerId"+this.order.sellerId)
         await this.getSellerInfo(this.order.sellerId, this.num)
-        await this.getSubInfo(this.order.subOrderId, this.num)
+        await this.getSubInfo(this.order.id, this.num)
       } else {
         this.$message.success("全部评论成功！");
         await this.$router.push({

@@ -13,6 +13,9 @@
          <div class="common-head-classification-tab fl">
            <a @click="selecttab(3)" :class="[tabIndex === 3 ?'is_active':'']">基本信息</a>
          </div>
+         <div class="common-head-classification-tab fl">
+           <a @click="selecttab(4)" :class="[tabIndex === 4 ?'is_active':'']">虚拟实验室</a>
+         </div>
        </div>
      </div>
      <router-view/>
@@ -41,6 +44,9 @@ export default {
       case 'basicinfo':
         this.tabIndex = 3
         break;
+      case 'virtuallaboratory':
+        this.tabIndex = 4
+        break;
     }
   },
   watch: {
@@ -55,6 +61,9 @@ export default {
             break;
           case 'basicinfo':
             this.tabIndex = 3
+            break;
+          case 'virtuallaboratory':
+            this.tabIndex = 4
             break;
         }
       },
@@ -76,6 +85,10 @@ export default {
         case 3:
           this.tabIndex=index
           this.$router.push("/pc/basicinfo")
+          break
+        case 4:
+          this.tabIndex=index
+          this.$router.push("/pc/virtuallaboratory")
           break
         default:
           this.$router.push("/pc/basicinfo")

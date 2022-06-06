@@ -109,7 +109,7 @@ export default {
     font-size: 12px;
     margin-top: 20px;
   }
-/deep/.el-collapse{
+::v-deep.el-collapse{
   min-height: 500px;
   height: auto;
 }

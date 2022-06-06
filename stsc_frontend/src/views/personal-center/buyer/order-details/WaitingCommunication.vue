@@ -60,9 +60,10 @@
         <h3>服务快照</h3>
         <div class="service-snapshot-main">
           <div class="service-snapshot-item" v-for="(item,index) in  orderSplitInfo.subOrderInfoVoList" :key="index">
-            <span>{{item.subOrderName}}</span>
+<!--            <span>{{item}}</span>-->
+            <span>{{item.name}}</span>
 <!--            <img src="https://stsc-fwkj.oss-cn-beijing.aliyuncs.com/9f36309266a1497e_机器人技术专利信息检索服务快照.jpg"  alt="">-->
-            <img v-if="item.serviceSnapshot" :src="item.serviceSnapshot[0].serviceSnapshot"/>
+            <img v-if="item.snapshot" :src="item.snapshot"/>
           </div>
         </div>
       </div>
@@ -78,12 +79,12 @@
                   :on-remove="handleSplitRemove"
                   :file-list="fileSplitList"
                   :on-change="changeSplitUpload"
-                  :on-success="(response, file)=>{return handleSplitSuccess(response, file,item.subOrderId,index)}"
+                  :on-success="(response, file)=>{return handleSplitSuccess(response, file,item.id,index)}"
                   :auto-upload="false"
                   :before-upload="handleSplitBeforeUpload"
                   ref="uploadSplit"
               >
-                <span style="margin-right: 15px">{{item.subOrderName}}:</span>
+                <span style="margin-right: 15px">{{item.name}}:</span>
                 <el-button size="small" type="primary">点击上传</el-button>
               </el-upload>
 
@@ -100,7 +101,7 @@
               </el-form>
             </div>
             <div class="service-contract-item"   v-if="contractForBuyer.length > 0" v-for="(item,index) in orderSplitInfo.subOrderInfoVoList" :key="index">
-              <span >{{item.subOrderName}}: <a @click="pdfShow(contractForBuyer[index].fileUrl)">{{contractForBuyer[index].fileName}}</a></span>
+              <span >{{item.name}}: <a @click="pdfShow(contractForBuyer[index].fileUrl)">{{contractForBuyer[index].fileName}}</a></span>
             </div>
           </div>
         </div>
@@ -216,6 +217,7 @@ export default {
         })
         if (result1.code === 20000){
           this.orderSplitInfo =result1.data.subOrderInfo
+          // console.log("this.orderSplitInfo: "+this.orderSplitInfo)
           for (let i = 0; i <this.orderSplitInfo.subOrderInfoVoList.length;i++){
             this.orderSplitInfo.subOrderInfoVoList[i].serviceSnapshot = this.serviceSnapshot.filter((item) => item.sellerId === this.orderSplitInfo.subOrderInfoVoList[i].sellerId)
             this.formBigOrder.push({

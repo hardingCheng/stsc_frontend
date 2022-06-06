@@ -60,6 +60,12 @@ import {
   Popover,
   Ul,
   InfiniteScroll,
+  Drawer,
+  Main,
+  Container,
+  Header,
+  Image,
+  Divider
 } from "element-ui";
 
 const element = {
@@ -122,7 +128,12 @@ const element = {
     Vue.use(Step)
     Vue.use(Popover)
     Vue.use(InfiniteScroll)
-
+    Vue.use(Drawer)
+    Vue.use(Main)
+    Vue.use(Container)
+    Vue.use(Header)
+    Vue.use(Image)
+    Vue.use(Divider)
     Vue.prototype.$message = Message;
     Vue.prototype.$loading = Loading;
     Vue.prototype.$confirm = MessageBox.confirm;

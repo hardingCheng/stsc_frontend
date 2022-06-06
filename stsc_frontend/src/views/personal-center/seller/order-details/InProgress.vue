@@ -576,15 +576,15 @@ export default {
   }
 }
 
-/deep/ .el-dialog {
+::v-deep .el-dialog {
   width: 25%;
 }
 
-/deep/ .el-dialog__body {
+::v-deep .el-dialog__body {
   padding: 0 20px;
 }
 
-/deep/ .el-steps {
+::v-deep .el-steps {
   height:80px;
 }
 </style>
