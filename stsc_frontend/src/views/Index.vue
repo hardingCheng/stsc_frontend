@@ -67,11 +67,13 @@
             <div class="data-presentation-item-right">
               <div class="data-presentation-item-title">数据数量</div>
               <scrolling-numbers class="scrolling-numbers" startVal="0" :endVal="indexData.dataTotal"
-                                 suffix="千万"></scrolling-numbers>
+                                 suffix=""></scrolling-numbers>
             </div>
           </div>
+
         </div>
       </div>
+
       <div class="service-category">
         <div class="service-category-top">
           <div class="container">
@@ -249,6 +251,33 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div class="resource-space">
+        <div style="height: 30px;text-align: center;margin-top: 50px;">
+          <div class="container">
+            <div style="font-size: 30px;margin: 0 0 20px 0;font-weight: 500;color: #333333;">
+              中国知网
+              <img src="../assets/images/icon_search.png" style="width: 30px;" @click="howNetSearch()">
+              <img src="../assets/images/icon_knowledgeMap.png" style="width: 30px;" @click="knowledgeMap()">
+            </div>
+          </div>
+        </div>
+        <div class="container" style="text-align: center">
+          <div class="zhiwang-main" id="zhiwang-main"></div>
+        </div>
+      </div>
+      <div class="resource-space">
+        <div style="height: 30px;text-align: center;margin-top: 50px;">
+          <div class="container">
+            <div style="font-size: 30px;margin: 0 0 20px 0;font-weight: 500;color: #333333;">
+              第三方平台
+            </div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="platforms-main" id="platforms-main"></div>
         </div>
       </div>
       <div class="resource-space">
@@ -440,7 +469,19 @@ export default {
       categoryList: [],
       chartDataList: [],
       successfulCaseList: [],
-      indexData: {},
+      indexData: {
+        companyCount:0,
+        reqCount:0,
+        serviceCount:0,
+        orderCount:0,
+        dataTotal:0
+      },
+      zhiwang_data :[{
+        name:'中国知网',
+        children:[]
+      }],
+      zhiwang_total:{},
+      platform_data:[],
       demandSelectList:[],
       serviceSelectList:[],
       commonSelectList:[],
@@ -460,8 +501,10 @@ export default {
     this.getxxxx()
     await this.getIndexData()
     await this.drawInit()
-    await this.getHotData()
+
     await this.getSuccessfulCase()
+    await this.getHotData()
+
   },
   methods: {
     getxxxx(){
@@ -510,9 +553,119 @@ export default {
 
     },
     async getIndexData() {
-      let result = await this.$axios.mainController.getIndexData()
-      this.indexData = result.data.data
-      this.indexData.dataTotal /= 10000000
+      let result1 = await this.$axios.mainController.getZhiWangTotalCount()
+      this.zhiwang_total.value = result1.data.resourcesCountList[0].totalNumber;
+
+      var platforms_data = await this.$axios.mainController.getPlatformsDataCount()
+
+      var hachang_obj = eval("("+platforms_data.data.hachang+")")
+
+      var yaoyaosi_obj = eval("("+platforms_data.data.yaoyaosi+")")
+
+      var shanxi_obj = eval("("+platforms_data.data.shanxi+")")
+
+
+      var jjj_str = platforms_data.data.jjj.substring(0, platforms_data.data.jjj.length - 1);
+      var jjj_obj = eval("("+jjj_str+")")
+      this.indexData.companyCount= (hachang_obj.data.toThirdResourceCountVo.jg);
+      this.indexData.reqCount = (yaoyaosi_obj.data.countVo.requireCount + shanxi_obj.data.countVo.requireCount);
+      this.indexData.serviceCount = (yaoyaosi_obj.data.countVo.serviceCount+shanxi_obj.data.countVo.serviceCount+jjj_obj.data.service_count);
+      this.indexData.orderCount = (shanxi_obj.data.countVo.orderCount + yaoyaosi_obj.data.countVo.orderCount);
+      this.indexData.dataTotal = (parseInt(this.zhiwang_total.value)+yaoyaosi_obj.data.countVo.requireCount + shanxi_obj.data.countVo.requireCount+hachang_obj.data.toThirdResourceCountVo.jg+yaoyaosi_obj.data.countVo.serviceCount+shanxi_obj.data.countVo.serviceCount+jjj_obj.data.service_count+shanxi_obj.data.countVo.orderCount + yaoyaosi_obj.data.countVo.orderCount);
+
+      console.log(this.indexData)
+      this.platform_data=[
+        {
+          name:yaoyaosi_obj.data.countVo.platFormName,
+          children:
+            [
+              {
+                name:'需求数量',
+                value:yaoyaosi_obj.data.countVo.requireCount
+              },
+              {
+                name:'服务数量',
+                value:yaoyaosi_obj.data.countVo.serviceCount
+
+              },
+              {
+                name:'用户数量',
+                value:yaoyaosi_obj.data.countVo.userCount
+              },
+              {
+                name:'订单数量',
+                value:yaoyaosi_obj.data.countVo.orderCount
+              }
+            ]
+        },
+        {
+          name:"哈长城市群",
+          children:
+            [
+              {
+                name:'专家数量',
+                value:hachang_obj.data.toThirdResourceCountVo.zj
+              },
+              // {
+              //   name:'成功案例',
+              //   value:hachang_obj.data.toThirdResourceCountVo.cg
+              // },
+              {
+                name:'仪器数量',
+                value:hachang_obj.data.toThirdResourceCountVo.yq
+              },
+              {
+                name:'检测数量',
+                value:hachang_obj.data.toThirdResourceCountVo.jc
+              },
+              {
+                name:'机构数量',
+                value:hachang_obj.data.toThirdResourceCountVo.jg
+              }
+            ]
+        },
+        {
+          name:'陕西中小企业平台',
+          children:
+            [
+              {
+                name:'需求数量',
+                value:shanxi_obj.data.countVo.requireCount
+              },
+              {
+                name:'服务数量',
+                value:shanxi_obj.data.countVo.serviceCount
+              },
+              {
+                name:'用户数量',
+                value:shanxi_obj.data.countVo.userCount
+              },
+              {
+                name:'订单数量',
+                value:shanxi_obj.data.countVo.orderCount
+              }
+            ]
+        },
+        {
+          name:'京津冀综合科技服务平台',
+          children:
+            [
+              {
+                name:'专家数量',
+                value:jjj_obj.data.expert_count
+              },
+              {
+                name:'服务数量',
+                value:jjj_obj.data.service_count
+              },
+              {
+                name:'仪器数量',
+                value:jjj_obj.data.instrument_count
+              }
+            ]
+        }
+      ]
+
     },
     async getSuccessfulCase() {
       let result = await this.$axios.mainController.getSuccessfulCase()
@@ -534,7 +687,146 @@ export default {
       }
     },
     async drawInit() {
+      var zhiwang = await this.$axios.mainController.getZhiWangCount()
+      for (var i=0;i<zhiwang.data.classificationResourcesList.length;++i)
+      {
+        var tem_obj = {
+          name:zhiwang.data.classificationResourcesList[i].category,
+          value:parseInt(zhiwang.data.classificationResourcesList[i].total)
+        };
+        if(tem_obj.value != 0) {
+          this.zhiwang_data[0].children.push(tem_obj);
+        }
+      }
+      let mychart_zhiwang=this.$echarts.init(document.getElementById('zhiwang-main'));
+      let option_zhiwang = {
+        // title: {
+        //   text: '中国知网',
+        //   left: 'center',
+        //   textStyle: {
+        //     color: '#000000',
+        //     fontWeight: 'normal',
+        //     fontSize: 28
+        //   }
+        // },
+        series: [this.zhiwang_data[0].children].map(function (data, idx) {
+          // console.log(data,idx)
+          var top = idx;
+          return {
+            type: 'pie',
+            radius: [20, 250],
+            top: top,
+            height: '100%',
+            left: 'center',
+            width: '800px',
+            itemStyle: {
+              borderColor: '#fff',
+              borderWidth: 1
+            },
+            label: {
+              alignTo: 'edge',
+              formatter: '{name|{b}}\n{value|{c} 条}',
+              minMargin: 5,
+              edgeDistance: 15,
+              lineHeight: 20,
+              fontSize:15,
+              rich: {
+                value: {
+                  fontSize: 15,
+                  color: '#999',
+                }
+              }
+            },
+            labelLine: {
+              length: 15,
+              length2: 0,
+              maxSurfaceAngle: 80
+            },
+            labelLayout: function (params) {
+              const isLeft = params.labelRect.x < mychart_zhiwang.getWidth() / 2;
+              const points = params.labelLinePoints;
+              // Update the end point.
+              points[2][0] = isLeft
+                ? params.labelRect.x
+                : params.labelRect.x + params.labelRect.width;
+              return {
+                labelLinePoints: points
+              };
+            },
+            data: data
+          };
+        })
+      };
+      mychart_zhiwang.setOption(option_zhiwang);
+      // mychart_zhiwang.on('click',function(params){
+      //   window.open('http://8.131.231.41:8080/patent-admin', '_blank')
+      // })
+      let mychart_platforms=this.$echarts.init(document.getElementById('platforms-main'));
+      let option_platforms = {
+        title: {
+          // text: '第三方平台',
+          // left:'center',
+          // top:'5%',
+          // subtext: '',
+          radius:[20,'200%'],
+          textStyle: {
+            fontSize: 28,
+            align: 'center'
+          },
+          subtextStyle: {
+            align: 'center'
+          }
+        },
+        series: {
+          type: 'sunburst',
+          data: this.platform_data,
+          radius: [0, '50%'],
+
+          sort: undefined,
+
+          emphasis: {
+            focus: 'ancestor'
+          },
+          levels: [
+            {},
+            {
+              r0: '15%',
+              r: '35%',
+              itemStyle: {
+                borderWidth: 2
+              },
+              label: {
+                rotate: 'tangential'
+              }
+            },
+            {
+              r0: '35%',
+              r: '70%',
+              label: {
+                align: 'center',
+                formatter:'{b}\n{c}条',
+              }
+            },
+            {
+              r0: '70%',
+              r: '72%',
+              label: {
+                position: 'outside',
+                padding: 3,
+                silent: false,
+
+              },
+              itemStyle: {
+                borderWidth: 3
+              }
+            }
+          ]
+        }
+      };
+      mychart_platforms.setOption(option_platforms);
+
       let chartData = await this.$axios.mainController.getChartData()
+      // console.log(chartData)
       if (chartData.code === 20000) {
         this.chartDataList = chartData.data.platForms
       }
@@ -655,6 +947,14 @@ export default {
       }
       // 使用刚指定的配置项和数据显示图表。
       myChart.setOption(option);
+    },
+    // 知网知识图谱
+    knowledgeMap() {
+      window.open("http://8.131.231.41:8080/patent-admin")
+    },
+    // 知网搜索
+    howNetSearch() {
+      window.open('http://8.131.231.41:8080/patent-admin')
     }
   },
   computed:{
@@ -1211,7 +1511,6 @@ export default {
         }
       }
     }
-
     .resource-space {
       .public-switch {
         height: 100px !important;
@@ -1221,6 +1520,15 @@ export default {
         height: 300px;
         width: 100%;
       }
+      .platforms-main {
+        height: 650px;
+        width: 100%;
+      }
+      .zhiwang-main {
+        height: 650px;
+        width: 100%;
+      }
+
     }
   }
 }

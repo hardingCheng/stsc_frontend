@@ -13,6 +13,7 @@ import companyRealInfoController from "./companyRealInfoController";
 import arrangeController from "./arrangeController";
 import mainController from "./mainController";
 import layoutControllerList from "./layoutControllerList";
+import BiddingController from "./jingjiaController";
 
 export default {
     adminControllerList,
@@ -25,5 +26,6 @@ export default {
     companyRealInfoController,
     arrangeController,
     mainController,
-    layoutControllerList
+    layoutControllerList,
+    BiddingController
 }

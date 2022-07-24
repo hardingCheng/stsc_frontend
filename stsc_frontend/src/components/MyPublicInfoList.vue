@@ -18,6 +18,7 @@
         <el-button type="primary" size="small"  plain @click="infoDetail(item.id)">详细信息</el-button>
       </div>
       <div class="info-operation">
+        <el-button type="primary" v-if="item.biddingStatus" @click="deleteBidding(item.id)">撤销竞价</el-button>
         <el-button type="primary" v-if="item.status < 9" @click="modInfo(item.id)">修改</el-button>
         <el-button type="primary" @click="deleteInfo(item.id)">撤销</el-button>
       </div>
@@ -26,11 +27,16 @@
 </template>
 
 <script>
+import axios from "../api/api"
+import Axios from "axios";
+import store from "@/store";
 export default {
   props:['infoList','type'],
   name: "MyPublicInfoList",
   data(){
-    return {}
+    return {
+
+    }
   },
   filters:{
     modStatus(value){
@@ -62,7 +68,10 @@ export default {
       this.$emit('deleteInfo',id);
     },
     async infoDetail(id){
-      this.$emit('infoDetail',id);
+      this.$emit('infoDetail', id);
+    },
+    async deleteBidding(requirementId) {
+      this.$emit('deleteBidding',requirementId);
     },
   }
 }

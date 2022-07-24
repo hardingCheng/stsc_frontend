@@ -29,7 +29,10 @@ export default {
       };
     },
 
-    methods: {
+  mounted(){
+      this.getInvitedMessage();
+    },
+  methods: {
       resetForm()
       {
         this.virtualLabList=[];
@@ -63,8 +66,7 @@ export default {
         this.acceptOrRejectInvited(row['labId'],'1').then((response)=>{
           console.log(response)
         });
-      }
-      ,
+      },
       rejectInvited(index,row)
       {
         console.log(index,row);

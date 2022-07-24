@@ -52,23 +52,10 @@
               <div slot="tip" class="el-upload__tip">只能上传jpg/jpeg/png文件，且不超过10M。</div>
             </el-upload>
           </el-form-item>
-<!--          <el-form-item label="预算价格：" prop="budget">-->
-<!--            <el-input-number v-model="form.budget" :precision="2" :step="0.1" :max="1000"></el-input-number>  万-->
-<!--          </el-form-item>-->
-<!--          <el-form-item label="项目背景：" prop="projectBackground">-->
-<!--            <el-input type="textarea" v-model="form.projectBackground" placeholder="请填写项目背景"></el-input>-->
-<!--          </el-form-item>-->
-<!--          <el-form-item label="需求内容：" prop="content">-->
-<!--            <el-input type="textarea" v-model="form.content" placeholder="请填写需求内容"></el-input>-->
-<!--          </el-form-item>-->
-<!--          <el-form-item label="验收指标：" prop="standard">-->
-<!--            <el-input type="textarea" v-model="form.standard" placeholder="请填写验收指标"></el-input>-->
-<!--          </el-form-item>-->
           <el-form-item label="需求概述：" prop="content">
             <el-input type="textarea" v-model="form.content" placeholder="叙述项目背景、需求内容、需要达到的效果、技术指标"></el-input>
             <el-button type="primary" style="float: right; margin-top: 10px;" @click="demandGuide()">需求引导</el-button>
           </el-form-item>
-
           <el-form-item label="需求时间：" prop="deadline">
             <el-date-picker
                 v-model="form.deadline"
@@ -93,6 +80,16 @@
               <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
               <div slot="tip" class="el-upload__tip">只能上传pdf文件，且不超过10M。</div>
             </el-upload>
+          </el-form-item>
+          <span class="form-group-title">价格信息</span>
+          <el-form-item label="需求价格：" prop="price">
+            <el-input v-model="form.price" style="width: 200px" placeholder="请填写价格">
+              <template slot="append">万元</template>
+            </el-input>
+          </el-form-item>
+          <el-form-item label="是否展示价格：" label-width="auto" prop="isShowPrice">
+            <el-radio v-model="form.isShowPrice" label='1'>是</el-radio>
+            <el-radio v-model="form.isShowPrice" label='0'>否</el-radio>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" :disabled="disabled" @click="onSubmit" v-if="!id">立即发布</el-button>
@@ -128,7 +125,9 @@ export default {
         deadline: '',
         attachments: '',
         image: '',
-        email:''
+        email:'',
+        price: '',
+        isShowPrice: '1'
       },
       deadlinetiem:'',
       disabled:false,
@@ -166,6 +165,12 @@ export default {
         ],
         deadline: [
           {required: true, message: '请输入需求期限', trigger: 'blur'}
+        ],
+        price: [
+          {required: true, message: '请输入需求价格', trigger: 'blur'}
+        ],
+        isShowPrice: [
+          {required: true, message: '请选择是否展示需求价格', trigger: 'blur'}
         ],
       },
       fileList: [],
@@ -460,7 +465,7 @@ export default {
         })
       }
     },
-    //需求引导
+    // 北大需求引导
     demandGuide() {
       window.open("http://182.92.68.215:8000/tech_gather")
     }

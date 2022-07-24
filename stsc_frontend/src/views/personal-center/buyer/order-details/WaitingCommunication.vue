@@ -49,10 +49,10 @@
               </li>
             </ul>
           </div>
+          <div class="service-operation" v-if="contractForBuyer.length === 0">
+            <el-button @click="submitOrderInfo" type="primary">提交</el-button>
+          </div>
         </div>
-      </div>
-      <div class="service-operation" v-if="contractForBuyer.length === 0">
-        <el-button @click="submitOrderInfo" type="primary">提交</el-button>
       </div>
     </div>
     <div class="service-snapshot-split" v-else>
@@ -103,11 +103,27 @@
             <div class="service-contract-item"   v-if="contractForBuyer.length > 0" v-for="(item,index) in orderSplitInfo.subOrderInfoVoList" :key="index">
               <span >{{item.name}}: <a @click="pdfShow(contractForBuyer[index].fileUrl)">{{contractForBuyer[index].fileName}}</a></span>
             </div>
+            <div class="service-operation">
+              <el-button @click="submitSplitOrderInfo" v-if="contractForBuyer.length === 0" type="primary">提交</el-button>
+            </div>
           </div>
         </div>
       </div>
-      <div class="service-operation">
-        <el-button @click="submitSplitOrderInfo" v-if="contractForBuyer.length === 0" type="primary">提交</el-button>
+
+    </div>
+    <div class="service-snapshot-split">
+      <div class="service-contract">
+        <h3>服务方相关合同</h3>
+        <div class="service-contract-split" >
+          <div class="service-contract-main">
+            <div class="service-contract-item" v-if="contractForSeller.length > 0" v-for="(item,index) in orderSplitInfo.subOrderInfoVoList" :key="index">
+              <span >{{item.name}}: <a v-if="contractForSeller[index]" @click="pdfShow(contractForSeller[index].fileUrl)">{{contractForSeller[index].fileName}}</a></span>
+            </div>
+            <div class="service-contract-item" v-if="contractForSeller.length === 0">
+              <span >服务方合同尚未上传！</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -123,6 +139,7 @@ export default {
       fileTempSplitList:[],
       fileSplitList:[],
       contractForBuyer:[],
+      contractForSeller:[],
       orderInfo:{},
       orderSplitInfo:{},
       contractSplitInfo:[],
@@ -201,11 +218,21 @@ export default {
         if (result.code === 20000){
           // TODO 立即下单服务快照
           this.orderInfo = result.data.orderInfo
+          // 获取甲方服务合同
           if (result.data.orderInfo.contractForBuyer !== "" && result.data.orderInfo.contractForBuyer !==null){
             result.data.orderInfo.contractForBuyer.split(',').slice(0,-1).map((item)=>{
               this.contractForBuyer.push({
                 fileName:item.split('/').slice(-1)[0].split('_')[1],
                 fileUrl:item
+              })
+            })
+          }
+          // 获取乙方服务合同
+          if (result.data.orderInfo.contractForSeller !== "" && result.data.orderInfo.contractForSeller !== null) {
+            result.data.orderInfo.contractForSeller.split(',').slice(0,-1).map((item) => {
+              this.contractForSeller.push({
+                fileName: item.split('/').slice(-1)[0].split('_')[1],
+                fileUrl: item
               })
             })
           }
@@ -226,8 +253,19 @@ export default {
               contractUrl:'',
               orderId:''
             })
+            // 获取乙方服务合同
+            if (this.orderSplitInfo.subOrderInfoVoList[i].contractForSeller !== null) {
+              this.orderSplitInfo.subOrderInfoVoList[i].contractForSeller.split(',').slice(0,-1).map((item) => {
+                this.contractForSeller.push({
+                  fileName: item.split('/').slice(-1)[0].split('_')[1],
+                  fileUrl: item
+                })
+              })
+            }
           }
+          console.log(this.contractForSeller)
           console.log(this.orderSplitInfo)
+          // 获取甲方服务合同
           let result2 = await this.$axios.orderControllerList.getContractsForBuyer({
             orderId:this.orderid
           })
@@ -239,6 +277,7 @@ export default {
               })
             })
           }
+          console.log(this.contractForBuyer)
         }
       }
     },
@@ -405,7 +444,7 @@ export default {
     .service-operation {
       width: 100%;
       text-align: center;
-      margin-bottom:10px;
+     /* margin-bottom:10px;*/
     }
   }
   .service-snapshot-split {
