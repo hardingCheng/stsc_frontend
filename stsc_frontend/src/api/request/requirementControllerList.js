@@ -30,7 +30,6 @@ const requirementControllerList = {
         });
     },
 
-
     // 通过需求ID查看需求详情
     getRequireDetailById: (params) => {
         return axios({
@@ -41,7 +40,7 @@ const requirementControllerList = {
     // 根据条件查找需求
     getRequireSubRequire: (params,data) => {
         return axios({
-            url: `/bh/stcsp/requirement/getRequireSubRequire/${params.page}/${params.limit}`,
+            url: `/ph/stcsp/requirement/getRequireSubRequire/${params.page}/${params.limit}`,
             method: "post",
             data
         });
@@ -162,13 +161,21 @@ const requirementControllerList = {
     },
 
     //北大第三方需求引导
-    demandGuide: (data) => {
+    // demandGuide: (data) => {
+    //     return axios({
+    //         url: `/ph/stcsp/requirement/getServicePlan`,
+    //         method: "get",
+    //         data
+    //     })
+    // },
+
+    demandGuide: (params) => {
         return axios({
-            url: `/ph/stcsp/requirement/getServicePlan`,
+            url: `http://182.92.68.215:8000/Tech_gather`,
             method: "get",
-            data
+            params
         })
-    }
+    },
 }
 export default requirementControllerList
 

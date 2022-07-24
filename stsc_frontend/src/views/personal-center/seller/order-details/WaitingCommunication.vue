@@ -1,48 +1,5 @@
 <template>
   <div class="waiting-communication">
-    <!--    <div class="service-snapshot">-->
-    <!--      <div class="service-snapshot">-->
-    <!--        <h3>服务快照</h3>-->
-    <!--        <div class="service-snapshot-split" >-->
-    <!--          <div class="service-snapshot-main">-->
-    <!--            <div class="service-snapshot-item" v-if="orderInfo">-->
-    <!--              <span>{{orderInfo.name}}:</span>-->
-    <!--              <img src="http://n.sinaimg.cn/sports/2_img/upload/127d0b3e/107/w1024h683/20210519/0ee5-kqhwhrk1641934.jpg" alt="">-->
-    <!--            </div>-->
-    <!--          </div>-->
-    <!--        </div>-->
-    <!--      </div>-->
-    <!--      <div class="service-contract">-->
-    <!--        <h3>服务方服务合同</h3>-->
-    <!--        <div class="service-contract-split" >-->
-    <!--          <div class="service-contract-main">-->
-    <!--            <div class="service-contract-item" v-if="orderInfo">-->
-    <!--              <span>{{orderInfo.name}}:</span>-->
-    <!--              <el-upload-->
-    <!--                  class="upload-demo"-->
-    <!--                  action="/ph/stcsp/fileoss/upload/"-->
-    <!--                  :on-preview="handlePreview"-->
-    <!--                  :on-remove="handleRemove"-->
-    <!--                  :file-list="fileList"-->
-    <!--                  :on-change="changeUpload"-->
-    <!--                  :auto-upload="false"-->
-    <!--                  ref=""-->
-    <!--              >-->
-    <!--                <el-button size="small" type="primary">点击上传</el-button>-->
-    <!--              </el-upload>-->
-    <!--&lt;!&ndash;              <ul>&ndash;&gt;-->
-    <!--&lt;!&ndash;                 <li v-for="(item,index) in contractForSeller" :key="index">&ndash;&gt;&ndash;&gt;-->
-    <!--&lt;!&ndash;                  <a @click="pdfShow(item.fileUrl)">{{item.fileName}}</a>&ndash;&gt;&ndash;&gt;-->
-    <!--&lt;!&ndash;                </li>&ndash;&gt;&ndash;&gt;-->
-    <!--&lt;!&ndash;              </ul>&ndash;&gt;-->
-    <!--            </div>-->
-    <!--          </div>-->
-    <!--        </div>-->
-    <!--      </div>-->
-    <!--      <div class="service-operation">-->
-    <!--        <el-button @click="submitOrderInfo" type="primary">提交</el-button>-->
-    <!--      </div>-->
-    <!--    </div>-->
     <div class="service-snapshot">
       <h3>服务快照</h3>
       <div class="service-snapshot-immediately">
@@ -86,7 +43,7 @@
               <el-row style="margin-top: 30px;" >
                 <el-col :span="20">
                   <el-steps :space="200" :active="-1" finish-status="success" align-center>
-                    <el-step :title="item" status="process" v-for="(item,index) in orderInfo.node"></el-step>
+                    <el-step :title="item" status="process" v-for="(item,index) in orderInfo.node" :key="index"></el-step>
                   </el-steps>
                 </el-col>
                 <el-col :span="4">
@@ -100,17 +57,35 @@
               <el-row style="margin-top: 30px;" >
                 <el-col :span="20">
                   <el-steps :space="200" :active="-1" finish-status="success" align-center>
-                    <el-step :title="item" status="process" v-for="(item,index) in orderInfo.nodes.split(',')"></el-step>
+                    <el-step :title="item" status="process" v-for="(item,index) in orderInfo.nodes.split(',')" :key="index"></el-step>
                   </el-steps>
                 </el-col>
               </el-row>
             </div>
           </div>
+          <div class="service-operation" v-if="contractForSeller.length === 0">
+            <el-button @click="submitOrderInfo"  :loading="waitSumitLoading"  type="primary">提交</el-button>
+          </div>
         </div>
       </div>
     </div>
-    <div class="service-operation" v-if="contractForSeller.length === 0">
-      <el-button @click="submitOrderInfo"  :loading="waitSumitLoading"  type="primary">提交</el-button>
+    <div class="service-contract">
+      <h3>需求方服务合同</h3>
+      <div class="service-contract-split" v-if="orderInfo">
+        <div class="service-contract-main">
+          <div class="service-contract-item"   v-if="contractForBuyer.length > 0">
+            <span>
+              {{orderInfo.name}}:
+              <a style="color: #2d8cf0" @click="pdfShow(contractForBuyer[0].fileUrl)">
+                {{contractForBuyer[0].fileName}}
+              </a>
+            </span>
+          </div>
+          <div class="service-contract-item" v-if="contractForBuyer.length === 0">
+            <span >服务方合同尚未上传！</span>
+          </div>
+        </div>
+      </div>
     </div>
     <el-dialog title="提示" :visible.sync="centerDialogVisible" width="30%" center>
       <el-form style="border:1px #DCDFE6 solid; padding:10px 100px; border-radius:10px; position:relative;box-sizing: border-box;"  ref="dynamicValidateForm" label-position="left" label-width="200px">
@@ -128,9 +103,9 @@
 <!--        <span style="position: absolute;right:20px;bottom:0;font-size:30px;cursor: pointer;"  @click="addNode()">+</span>-->
       </el-form>
       <span slot="footer" class="dialog-footer">
-          <el-button @click="centerDialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="editNode()">确 定</el-button>
-        </span>
+        <el-button @click="centerDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="editNode()">确 定</el-button>
+      </span>
     </el-dialog>
   </div>
 </template>
@@ -143,6 +118,7 @@ export default {
     return {
       fileList: [],
       contractForSeller: [],
+      contractForBuyer:[],
       orderInfo: {},
       serviceSnapshot: [{
         sellerId: '1407977331605364738',
@@ -240,7 +216,7 @@ export default {
               type: 'success'
             })
             let orderResult = await this.getOrderInfo()
-            let { status } =orderResult.data.orderInfo
+            let { status } = orderResult.data.orderInfo
             if(status >= 2){
               await this.$router.push(`/seller/orderdetail/inprogress/${this.orderid}/${this.type}`)
               this.waitSumitLoading = false
@@ -311,6 +287,15 @@ export default {
               })
             })
           }
+          // 获取甲方服务合同
+          if (result.data.orderInfo.contractForBuyer !== "" && result.data.orderInfo.contractForBuyer !==null){
+            result.data.orderInfo.contractForBuyer.split(',').slice(0,-1).map((item)=>{
+              this.contractForBuyer.push({
+                fileName:item.split('/').slice(-1)[0].split('_')[1],
+                fileUrl:item
+              })
+            })
+          }
         }
       } else if (this.type === '1') {
         let result = await this.$axios.orderControllerList.getSubOrderInfo({
@@ -325,6 +310,16 @@ export default {
                 fileName: item.split('/').slice(-1)[0].split('_')[1],
                 fileUrl: item
               })
+            })
+          }
+          console.log(this.contractForSeller)
+          // 获取甲方服务合同
+          let cfb = result.data.orderInfo.contractForBuyer
+          if (cfb !== null) {
+            let item = cfb.slice(cfb.indexOf("_")+1)
+            this.contractForBuyer.push({
+              fileName: item.slice(0, item.indexOf(".")),
+              fileUrl: cfb
             })
           }
         }

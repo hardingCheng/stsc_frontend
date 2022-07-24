@@ -5,13 +5,17 @@
         <template slot="label">全部({{ total }})</template>
         <!--      折叠面板-->
         <el-collapse v-model="activeNames" @change="handleChange">
-          <el-collapse-item :name="index" v-for="(item,index) in indexss_inform" v-bind:key="index">
+          <el-collapse-item :name="index" v-for="(item,index) in tem_indexss_inform" v-bind:key="index">
             <template slot="title">
               <span style="width: 500px"> {{ item.title }}</span><span
                 style="margin-left: 250px">{{ item.createTime }}</span>
             </template>
             <p>{{ item.content }}</p>
-            <el-button class="delete" type="primary" @click="delete_inform1(index,item.id)">删除</el-button>
+            <div v-if="(item.title==messageType1 || item.title == messageType2) && item.isJingjia == true">
+              <el-button class = "delete" type="primary" @click="acceptBidding(index,item.id)">接受竞价</el-button>
+              <el-button class = "delete" type="primary" @click="refuseBidding(index,item.id)">拒绝竞价</el-button>
+            </div>
+              <el-button class="delete" type="primary" @click="delete_inform1(index,item.id)">删除</el-button>
           </el-collapse-item>
         </el-collapse>
         <slot name="page_1"></slot>
@@ -28,7 +32,11 @@
               <slot name="no_manage_title"></slot>
             </template>
             <p>{{ item.content }}</p>
-            <el-button class="delete" type="primary" @click="have_manage(index,item.id)">标记已读</el-button>
+            <div v-if="(item.title==messageType1 || item.title == messageType2)">
+              <el-button class = "delete" type="primary" @click="acceptBidding(index,item.id)">接受竞价</el-button>
+              <el-button class = "delete" type="primary" @click="refuseBidding(index,item.id)">拒绝竞价</el-button>
+            </div>
+              <el-button class="delete" type="primary" @click="have_manage(index,item.id)">标记已读</el-button>
           </el-collapse-item>
         </el-collapse>
         <slot name="page_2"></slot>
@@ -39,7 +47,7 @@
 </template>
 <script>
 import store from '../store/index.js';
-
+import Axios from "axios";
 export default {
   // indexss_inform：通知内容
   //indexss_no_read：未读消息的内容
@@ -49,7 +57,11 @@ export default {
   data() {
     return {
       activeName: 'first',
-      activeNames: ''
+      activeNames: '',
+      messageType1:'消息提醒：竞价进展',
+      messageType2:'竞价消息提醒：有甲方选择了您的服务',
+      tem_indexss_inform:this.indexss_inform,
+      // tem_indexss_no_read:this.indexss_no_read
     };
   },
   created() {
@@ -60,6 +72,7 @@ export default {
     }else {
       this.activeName='second'
     }
+    this.searchBiddingStatus()
     },
   methods: {
     delete_message(val) {
@@ -74,21 +87,85 @@ export default {
       this.indexss_inform.splice(val, 1)
       this.indexss_no_read.splice(val, 1)
     },
+    async acceptBidding(val,delete_val)//接受竞价
+    {
+      this.$parent.acceptBidding(val);
+      this.have_manage(val,delete_val);
+    },
+    async refuseBidding(val,delete_val)//拒绝竞价
+    {
+      this.$parent.refuseBidding(val);
+      this.have_manage(val,delete_val);
+    },
+
+    async searchBiddingStatus()//查询竞价状态
+    {
+
+      console.log(this.tem_indexss_inform)
+      for(var i=0;i<this.tem_indexss_inform.length;++i)
+      {
+        let arrKey = Object.keys(this.tem_indexss_inform[i])
+        // console.log(arrKey)
+        if(arrKey.includes("isJingjia")==false)
+          this.tem_indexss_inform[i]["isJingjia"]=false
+
+        // console.log(this.tem_indexss_inform)
+        let tem_status=false;
+        let data = "requirementId="+this.tem_indexss_inform[i].id;
+        Axios({
+          url:`/ph/stcsp/Jingjia/isJingjia`,
+          method:'post',
+          data,
+          headers:{token:store.state.token}
+        }).then(response => {
+          console.log(response)
+          if(response.data.code == 20000)
+            tem_status = response.data.data.isJingjia;
+          else
+            tem_status = false;
+        });
+        this.tem_indexss_inform[i].isJingjia = tem_status;
+
+
+        // var result = await this.$axios.BiddingController.searchBiddingStatus({
+        //   requirmentId:this.tem_indexss_inform[i].id
+        // })
+        // console.log(result)
+
+      }
+      console.log(this.tem_indexss_inform)
+      //
+      // for(var i=0;i<this.tem_indexss_no_read.length;++i)
+      // {
+      //   // console.log(i)
+      //   // var tem_status = false;
+      //   console.log(this.tem_indexss_no_read)
+      //   var result = await this.$axios.BiddingController.searchBiddingStatus({
+      //     requirmentId:this.tem_indexss_no_read[i].id
+      //   });
+      //   console.log("result:",result);
+      //   if(result.code == 20000)
+      //     this.tem_indexss_no_read[i].isJingjia = result.data.isJingjia;
+      //     // this.tem_indexss_no_read[i].isJingjia = 1;
+      //   else
+      //     this.tem_indexss_no_read[i].isJingjia = false;
+      // }
+      // console.log(this.tem_indexss_no_read);
+    },
+
     //改变消息状态，未读变已读
     async have_manage(val, delete_val) {
       //调用父组件改变消息的方法
       this.$parent.change_message_state(delete_val);
       //已读后折叠面板消息减一
       this.indexss_no_read.splice(val, 1)
-
     },
+
 
     handleClick(tab, event) {
     },
     async handleChange(val) {
       console.log('点击的第几个折叠面板 ', val);
-
-
     }
   }
 }

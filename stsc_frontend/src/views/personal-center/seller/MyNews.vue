@@ -41,6 +41,7 @@
 
 <script>
 import Message from "../../../components/Message";
+import serveControllerList from "@/api/request/serveControllerList";
 export default {
   name: "MyNews",
   components:{Message},
@@ -72,6 +73,7 @@ export default {
       this.message_total = message_result.data.messageList.total//获取全部消息总数
       this.message_list = message_result.data.messageList.records//获取消息列表
       this.is_read = message_result.data.messageList.records.isRead//消息状态
+      console.log(this.message_list)
     },
     //获取消息未读列表
     async getMessageListNoRead(){
@@ -85,6 +87,46 @@ export default {
       this.message_list_no_total=message_result.data.messageList.total//未读消息总数
     },
 
+    async acceptBidding(id)
+    {
+      console.log("seller accept",id);
+      console.log(this.message_list[id].userId)
+      var serveList = await this.$axios.serveControllerList.getAllServesByUserId({
+        sellerId:this.message_list[id].userId,
+        page:1,
+        limit:1
+      });
+      console.log(serveList)
+
+      var JingjiaId = this.message_list[id].content.split(';')[1];
+      console.log(JingjiaId);
+      var result = await this.$axios.BiddingController.yitongyi({
+        ServeId:serveList.data.serveList.records[0].id,
+        JingjiaId: JingjiaId
+      });
+      console.log(result)
+
+    },
+
+    async refuseBidding(id)
+    {
+      console.log("seller refuse",id);
+      var serveList = await this.$axios.serveControllerList.getAllServesByUserId({
+        sellerId:this.message_list[id].userId,
+        page:1,
+        limit:1
+      });
+      console.log(serveList)
+      var JingjiaId = this.message_list[id].content.split(';')[1];
+      console.log(JingjiaId)
+      console.log(serveList.data.serveList.records[0])
+      var result = await this.$axios.BiddingController.yijujue({
+        ServeId:serveList.data.serveList.records[0].id,
+        JingjiaId: JingjiaId
+      });
+      console.log(result)
+    },
+
     //删除消息
     async delete_inform1(delete_val){
       await this.$axios.requirementControllerList.deleteMessageById({
@@ -92,6 +134,7 @@ export default {
       })
       await this.getMessageList()
     },
+
     //改变消息状态已读到全部
     async change_message_state(val){
       await this.$axios.requirementControllerList.changeMessageState({

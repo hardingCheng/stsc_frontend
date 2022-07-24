@@ -1,24 +1,8 @@
 <template>
   <div class="my-demand" >
     <div class="public-info-list" v-if="infoList.records.length !== 0" :class="[infoList.records.length<3 ?'public-info-list-null':'']">
-<!--      <div class="public-info-list-item" v-for="(item) in infoList.records" :key="item.id">-->
-<!--        <div class="info-img fl">-->
-<!--          <img src="http://n.sinaimg.cn/news/crawl/117/w550h367/20210311/8edb-kmeeius6993674.jpg" alt="">-->
-<!--        </div>-->
-<!--        <div class="info-details fl">-->
-<!--          <ul class="details">-->
-<!--            <li>需求名称：<span>{{item.name}}</span></li>-->
-<!--            <li>截止时间：<span>{{item.deadline}}</span></li>-->
-<!--            <li>需求状态：<span class="audit-status">{{ item.releaseStatus | modStatus }}</span></li>-->
-<!--          </ul>-->
-<!--          <el-button type="primary" size="small"  plain @click="infoDetail(item.id)">详细信息</el-button>-->
-<!--        </div>-->
-<!--        <div class="info-operation">-->
-<!--          <el-button type="primary" @click="modDemandInfo(item.id)">修改</el-button>-->
-<!--          <el-button type="primary" @click="deleteDemandInfo(item.id)">撤销</el-button>-->
-<!--        </div>-->
-<!--      </div>-->
-      <my-public-info-list :infoList="infoList.records" @modInfo="modInfo" @deleteInfo="deleteInfo" @infoDetail="infoDetail" :type="1">
+      <my-public-info-list :infoList="infoList.records" @modInfo="modInfo" @deleteInfo="deleteInfo"
+                           @infoDetail="infoDetail" @deleteBidding="deleteBidding" :type="1">
       </my-public-info-list>
     </div>
     <div class="public-info-list-null" v-else>
@@ -43,6 +27,7 @@
 
 <script>
 import MyPublicInfoList from "../../../components/MyPublicInfoList";
+import store from "@/store";
 export default {
   name: "MyDemand",
   components: {MyPublicInfoList},
@@ -61,7 +46,8 @@ export default {
       page:1,
       limit:4
     })
-    this.infoList = result.data.requireList
+    let infoList = result.data.requireList
+    this.expendBiddingStatus(infoList)
   },
   methods: {
     handleSizeChange(val) {
@@ -74,7 +60,8 @@ export default {
         page:val,
         limit:4
       })
-      this.infoList = result.data.requireList
+      let infoList = result.data.requireList
+      this.expendBiddingStatus(infoList)
     },
     async infoDetail(id){
       await this.$router.push(`/pc/mydemand/${id}`)
@@ -97,9 +84,41 @@ export default {
           page:1,
           limit:15
         })
-        this.infoList = result.data.requireList
+        let infoList = result.data.requireList
+        this.expendBiddingStatus(infoList)
       }
     },
+    // 查询需求对应的竞价状态并补充到this.infoList
+    expendBiddingStatus(list) {
+      if (list) {
+        let infoList = list.records
+        for (let i in infoList) {
+          let arrKey = Object.keys(infoList[i])
+          if (arrKey.includes("biddingStatus") == false) {
+            infoList[i]["biddingStatus"] = false
+          }
+          // 查询竞价状态
+          this.$axios.BiddingController.queryBiddingStatus(infoList[i].id).then(response => {
+            if (response.data.code == 20000) {
+              infoList[i].biddingStatus = response.data.data.isJingjia
+            }
+          })
+        }
+        this.infoList.records = infoList
+      }
+    },
+    // 撤销竞价
+    async deleteBidding(requirementId) {
+      this.$axios.BiddingController.deleteBidding(requirementId).then(response => {
+        if (response.data.success) {
+          this.$message({
+            message: '撤销成功！',
+            type: 'success'
+          })
+          location.reload()
+        }
+      })
+    }
   },
 }
 </script>

@@ -23,9 +23,8 @@
 .chat-main {
   position: fixed;
   display: inline-block;
-  right: 100px;
-  bottom: 206px;
-  width: 650px;
+  right: 30%;
+  width: 40%;
   border-radius: 4px;
   animation:showChat 1s 1;
   -webkit-animation:showChat 2s 1;
@@ -261,19 +260,19 @@
 
 .chat-input-tools {
   position:absolute;
-  left: 575px;
+  left: 85%;
   bottom: 0px;
   width: 100%;
   height:30px;
   vertical-align: middle;
 }
 .chat-input-button{
-  width:62px;
+  width:10%;
   height:28px;
   border-radius:4px;
   background-color: #007aff;
   color: #fff;
-  margin:5px 0;
+  margin:5px;
   border: 0;
   outline: 0;
 }

@@ -44,6 +44,7 @@
 import { mapState, mapActions } from "vuex";
 import Message from "../../../components/Message";
 import MessageNotification from "../../../components/MessageNotification";
+import axios from "@/api/api";
 export default {
 props:['id'],
   name: "MyNews",
@@ -58,6 +59,7 @@ props:['id'],
       message_list_no:[],//存放未读消息
       message_list_no_total:0,//存放未读消息总数
       is_read:1,//消息已读未读
+      isAccept:0,//是否接受竞价
       activeName: 'first',
       activeNames: ['']
     };
@@ -72,6 +74,7 @@ props:['id'],
   methods: {
         //获取全部消息的方法
       async getMessageList() {
+
       const message_result =  await  this.$axios.requirementControllerList.getMessage({
         userId: this.$store.getters .getUserInfo.id,
         page: this.currentPage1,
@@ -80,6 +83,8 @@ props:['id'],
       this.message_total = message_result.data.messageList.total//获取全部消息总数
       this.message_list = message_result.data.messageList.records//获取消息列表
       this.is_read = message_result.data.messageList.records.isRead//获取消息的状态，已读或者未读
+        console.log(message_result.data)
+        console.log(this.$store.getters .getUserInfo)
     },
     //获取未读消息的方法
     async getMessageListNoRead(){
@@ -99,13 +104,37 @@ props:['id'],
       })
       await this.getMessageList()
     },
+    async acceptBidding(id)
+    {
+      console.log("buyer accept",id);
+      var JingjiaId = this.message_list[id].content.split(';')[1];
+      // console.log(JingjiaId);
+      var result = await this.$axios.BiddingController.jiatongyi({
+        JingjiaId: JingjiaId
+      });
+      // console.log(result)
 
+    },
+
+    async refuseBidding(id)
+    {
+      console.log("buyer refuse",id);
+      var JingjiaId = this.message_list[id].content.split(';')[1];
+      // console.log(JingjiaId)
+      var result = await this.$axios.BiddingController.jiajujue({
+        JingjiaId: JingjiaId
+      });
+      // console.log(result)
+
+    },
 
     //改变消息状态已读到全部
     async change_message_state(val){
-      await this.$axios.requirementControllerList.changeMessageState({
+
+      var result = await this.$axios.requirementControllerList.changeMessageState({
         messageId:val
       })
+      console.log(result)
       await this.getMessageListNoRead()
       await this.getVuexBuyerMessage()
     },

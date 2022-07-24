@@ -2,6 +2,24 @@
 import axios from "../api";
 
 const mainController = {
+    getZhiWangTotalCount:(data)=>{
+        return axios({
+            url:`ph/stcsp/cnki/getResourcesCount`,
+            method:"get"
+        })
+    },
+    getZhiWangCount:(data)=>{
+        return axios({
+            url:`/ph/stcsp/cnki/getClassificationResourcesCount`,
+            method:"get"
+        })
+    },
+    getPlatformsDataCount:(data)=>{
+        return axios({
+            url:`/ph/stcsp/front/ziyuanInfo`,
+            method:"get"
+        })
+    },
     getChartData: (data) => {
         return axios({
             url: `/ph/stcsp/front/dataForPlugin`,

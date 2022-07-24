@@ -33,6 +33,7 @@
                   autofocus placeholder="请输入您想对我说的话，按Enter键发送（shift+Enter换行）。">
         </textarea>
         <div class="chat-input-tools">
+<!--          <button class="chat-input-button" @click="findExpert">找专家</button>-->
           <button class="chat-input-button" @click="sendByButton">发送</button>
         </div>
       </div>
@@ -46,7 +47,7 @@
     name: 'Chat',
     data() {
       return {
-        isShowChat:true,
+        isShowChat:false,
         chatArr:[],
         chatContent:'',
         showChatHint: false,
@@ -79,7 +80,8 @@
             }
           }else{
             content=value.replace(/(((ht|f)tps?):\/\/)?([A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\':+!]*([^<>\"\"])*)/g,function(content) {
-              return "<a href='http://"+content+"' class='chat-address' target='view_window' style='color:#6666cc '>"+content+'</a>'
+              // return "<a href='http://"+content+"' class='chat-address' target='view_window' style='color:#6666cc '>"+content+'</a>'
+              return content
             })
           }
         let node = {
@@ -123,9 +125,15 @@
           }
         }
       },
+      // 按下回车键发送消息
       sendByEnter() {
         this.isEnter(this.chatContent,this.chatHintNull,'you',window.event);
       },
+      // 找专家
+      findExpert() {
+        window.open("http://123.56.173.156:3030/main.html")
+      },
+      // 点发送按钮发送消息
       sendByButton() {
         if(this.chatContent!='') {
           this.createInfo('you',this.chatContent);
